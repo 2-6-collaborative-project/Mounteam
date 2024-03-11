@@ -1,5 +1,9 @@
-import React from 'react';
+import { SearchContainer } from './styled';
 
 export default function FeedSearch() {
-  return <div>FeedSearch</div>;
+  return (
+    <div>
+      <SearchContainer />
+    </div>
+  );
 }
