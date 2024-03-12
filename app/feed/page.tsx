@@ -2,12 +2,13 @@
 
 import FeedPage from '@/src/components/feed/FeedPage';
 import FeedSearch from '@/src/components/feed/FeedSearch';
+import { FeedLayer } from '@/src/components/feed/styled';
 
 export default function FeedHome() {
   return (
-    <div>
+    <FeedLayer>
       <FeedSearch />
       <FeedPage />
-    </div>
+    </FeedLayer>
   );
 }
