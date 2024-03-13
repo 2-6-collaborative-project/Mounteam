@@ -48,6 +48,35 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     color: inherit;
   }
+
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/Pretendard/Pretendard-Regular.woff") format("font-woff");
+  }
+
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 500;
+    font-display: swap;
+    src: url("/fonts/Pretendard/Pretendard-Medium.woff") format("font-woff");
+  }
+
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 600;
+    font-display: swap;
+    src: url("/fonts/Pretendard/Pretendard-SemiBold.woff") format("font-woff");
+  }
+
+  @font-face {
+    font-family: Pretendard;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/Pretendard/Pretendard-Bold.woff") format("font-woff");
+  }
+
 `;
 
 export default GlobalStyle;
