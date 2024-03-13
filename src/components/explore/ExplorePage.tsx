@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
+import Tabs from '../shared/Tabs';
 
 const Container = styled.div`
   width: 1200px;
@@ -13,22 +14,7 @@ export default function ExplorePage() {
       <GlobalStyle />
       <Container>
         <div>헤더가 들어갈 자리입니다.</div>
-        <div className="Tabs">
-          <ul>
-            <li>
-              <a href="">추천</a>
-            </li>
-            <li>
-              <a href="">탐험</a>
-            </li>
-            <li>
-              <a href="">피드</a>
-            </li>
-            <li>
-              <a href="">내모임</a>
-            </li>
-          </ul>
-        </div>
+        <Tabs />
 
         <div className="searchMountainArea">
           <h2>대한민국 산 탐험하기</h2>
@@ -55,7 +41,7 @@ export default function ExplorePage() {
             <div className="mountainInfo">
               <img src="#" alt="산 이미지" />
               <span>산 위치 정보</span>
-              <div className="mountainDetail">
+              <div className="detail">
                 <span>높이: 632m</span>
                 <span>코스 개수: 15개</span>
               </div>

@@ -1,5 +1,5 @@
-import React from 'react';
+import CourseDetail from '@/src/components/explore/CourseDetail';
 
 export default function course() {
-  return <div>course</div>;
+  return <CourseDetail />;
 }
