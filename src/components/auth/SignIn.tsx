@@ -53,8 +53,7 @@ const NaverLogin = styled(Button)`
 `;
 
 const Container = styled.div`
-  margin: 5rem auto;
-  width: 40rem;
+  margin: 5rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
