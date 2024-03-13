@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './styles/globals';
-
-// const inter = Inter({ subsets: ['latin'] });
+import GlobalStyle from './styles/globals';
 
 export const metadata: Metadata = {
   title: 'Mounteam',
@@ -16,12 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body
-      // className={inter.className}
-      >
-        {children}
-      </body>
+    <html lang="en">
+      <GlobalStyle />
+      <body>{children}</body>
     </html>
   );
 }
