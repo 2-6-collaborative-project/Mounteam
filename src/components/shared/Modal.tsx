@@ -11,9 +11,7 @@ export const ReviewSelectPopover = ({
   return (
     <>
       <Popover placement="bottomRight" title={text} content={content}>
-        <div style={{ width: '1rem', height: '1rem' }}>
-          <Image src={'@/public/fillout.svg'} alt="fillout" layout="fill" />
-        </div>
+        예시
       </Popover>
     </>
   );
