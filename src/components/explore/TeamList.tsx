@@ -2,7 +2,6 @@
 
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
-import Tabs from '../shared/Tabs';
 
 const Container = styled.div`
   width: 1200px;
@@ -14,7 +13,8 @@ export default function TeamList() {
       <GlobalStyle />
       <Container>
         <div>헤더가 들어갈 자리입니다.</div>
-        <Tabs />
+        <div>탭이 들어갈 자리입니다.</div>
+
         <div className="mountainDetail">
           <nav className="breadCrumb">
             <ul>
