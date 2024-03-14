@@ -33,18 +33,11 @@ const GlobalStyle = createGlobalStyle`
   border:none;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: Pretendard;
   }
 
-  html {
+  html, body {
     font-size: 62.5%;
   }
-
-// 글씨 크기 맞춤을 위해 수정
-  body {
-    font-size: 1.6rem;
-  }
-
 
   ul, ol {
     list-style: none;
@@ -54,7 +47,6 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     color: inherit;
   }
-
 `;
 
 export default GlobalStyle;
