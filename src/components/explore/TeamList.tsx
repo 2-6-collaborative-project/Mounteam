@@ -4,7 +4,40 @@ import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
 
 const Container = styled.div`
-  width: 1200px;
+  margin: 3.2rem 10.4rem;
+`;
+
+const MainTitle = styled.h2`
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 4.2rem;
+`;
+
+const MountainMap = styled.div`
+  height: 40rem;
+  background: #d9d9d9;
+`;
+
+const TeamTotalCount = styled.p`
+  margin-top: 5.5rem;
+  margin-bottom: 2.8rem;
+  color: var(--xn-hu-5-b-2-ji-36-aba-com-ship-gray, #3f3f46);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+`;
+
+const TeamContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(0, 26.25rem));
+  column-gap: 2rem;
+  row-gap: 3rem;
+`;
+const TeamItem = styled.div`
+  width: 26.25rem;
+  height: 33.58333rem;
+  background-color: #d9d9d9;
 `;
 
 export default function TeamList() {
@@ -12,48 +45,51 @@ export default function TeamList() {
     <>
       <GlobalStyle />
       <Container>
-        <div>헤더가 들어갈 자리입니다.</div>
-        <div>탭이 들어갈 자리입니다.</div>
-
-        <div className="mountainDetail">
-          <nav className="breadCrumb">
-            <ul>
-              <li>
-                <a href="#">추천</a>
-              </li>
-              <li>
-                <a href="#">관악산</a>
-              </li>
-              <li>
-                <a href="#">관악산 상세</a>
-              </li>
-            </ul>
-          </nav>
-          <h2>산 이름</h2>
-          <div className="map">지도가 들어갈 자리입니다.</div>
+        <div
+          style={{
+            height: '5.7rem',
+            backgroundColor: '#ddd',
+            marginBottom: '0.4rem',
+          }}
+        >
+          헤더가 들어갈 자리입니다.
+        </div>
+        <div
+          style={{
+            height: '4.6rem',
+            backgroundColor: '#ddd',
+          }}
+        >
+          탭이 들어갈 자리입니다.
         </div>
 
-        <div className="mountainTeamList">
-          <p className="totalCount">관악산 등산모임: 4개</p>
-          <div className="teamList">
-            <ul>
-              <li>
-                <a href="#">
-                  <img src="" alt="모임 대표 이미지" />
-                  <h3 className="title">모임 제목</h3>
-                  <div className="meetingInfo">
-                    <span>관악산 입구</span>
-                    <span>3.27(수)</span>
-                    <span>오후 2시</span>
-                  </div>
-                  <div className="totalMember">
-                    <img src="/members" alt="멤버" />
-                    <span>3/10</span>
-                  </div>
-                </a>
-              </li>
-            </ul>
+        <div>
+          <div
+            style={{
+              height: '5.7rem',
+              backgroundColor: '#ddd',
+              marginTop: '0.4rem',
+            }}
+          >
+            브레드 크럼블이 들어갈 자리입니다.
           </div>
+          <MainTitle>산 이름</MainTitle>
+        </div>
+        <MountainMap>지도가 들어갈 자리입니다.</MountainMap>
+
+        <div className="mountainTeamList">
+          <TeamTotalCount>관악산 등산모임: 4개</TeamTotalCount>
+          <TeamContainer>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
+          </TeamContainer>
         </div>
       </Container>
     </>

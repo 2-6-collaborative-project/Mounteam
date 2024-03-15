@@ -36,6 +36,7 @@ const MountainMap = styled.div`
 
 const SearchResultArea = styled.div`
   display: flex;
+  margin-top: 6rem;
 `;
 
 const Filterling = styled.div`
@@ -65,8 +66,9 @@ const FilterOption = styled.div`
 `;
 
 const MountainList = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(0, 30rem));
   column-gap: 2rem;
   row-gap: 4rem;
 `;
@@ -285,6 +287,101 @@ export default function ExplorePage() {
             </div>
           </Filterling>
           <MountainList>
+            <MountainItem>
+              <div
+                style={{
+                  width: '30rem',
+                  height: '30rem',
+                  backgroundColor: '#d9d9d9',
+                }}
+              >
+                산 이미지
+              </div>
+              <div>
+                <MountainName>관악산</MountainName>
+                <MountainLocation>산 위치 정보</MountainLocation>
+                <MountainDetail>
+                  <MountainHeight>높이: 632m</MountainHeight>
+                  <MountainStatus>코스 개수: 15개</MountainStatus>
+                </MountainDetail>
+              </div>
+            </MountainItem>
+            <MountainItem>
+              <div
+                style={{
+                  width: '30rem',
+                  height: '30rem',
+                  backgroundColor: '#d9d9d9',
+                }}
+              >
+                산 이미지
+              </div>
+              <div>
+                <MountainName>관악산</MountainName>
+                <MountainLocation>산 위치 정보</MountainLocation>
+                <MountainDetail>
+                  <MountainHeight>높이: 632m</MountainHeight>
+                  <MountainStatus>코스 개수: 15개</MountainStatus>
+                </MountainDetail>
+              </div>
+            </MountainItem>
+            <MountainItem>
+              <div
+                style={{
+                  width: '30rem',
+                  height: '30rem',
+                  backgroundColor: '#d9d9d9',
+                }}
+              >
+                산 이미지
+              </div>
+              <div>
+                <MountainName>관악산</MountainName>
+                <MountainLocation>산 위치 정보</MountainLocation>
+                <MountainDetail>
+                  <MountainHeight>높이: 632m</MountainHeight>
+                  <MountainStatus>코스 개수: 15개</MountainStatus>
+                </MountainDetail>
+              </div>
+            </MountainItem>
+            <MountainItem>
+              <div
+                style={{
+                  width: '30rem',
+                  height: '30rem',
+                  backgroundColor: '#d9d9d9',
+                }}
+              >
+                산 이미지
+              </div>
+              <div>
+                <MountainName>관악산</MountainName>
+                <MountainLocation>산 위치 정보</MountainLocation>
+                <MountainDetail>
+                  <MountainHeight>높이: 632m</MountainHeight>
+                  <MountainStatus>코스 개수: 15개</MountainStatus>
+                </MountainDetail>
+              </div>
+            </MountainItem>
+            <MountainItem>
+              <div
+                style={{
+                  width: '30rem',
+                  height: '30rem',
+                  backgroundColor: '#d9d9d9',
+                }}
+              >
+                산 이미지
+              </div>
+              <div>
+                <MountainName>관악산</MountainName>
+                <MountainLocation>산 위치 정보</MountainLocation>
+                <MountainDetail>
+                  <MountainHeight>높이: 632m</MountainHeight>
+                  <MountainStatus>코스 개수: 15개</MountainStatus>
+                </MountainDetail>
+              </div>
+            </MountainItem>
             <MountainItem>
               <div
                 style={{
