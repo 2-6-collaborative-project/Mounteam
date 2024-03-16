@@ -12,6 +12,11 @@ const Body = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0 17.06rem 0 17.06rem;
+  margin-bottom: 10rem;
+
+  @media (max-width: 768px) {
+    padding: 0 7.44rem;
+  }
 
   @media (max-width: 480px) {
     padding: 0 2rem;
@@ -19,7 +24,8 @@ const Body = styled.div`
 `;
 
 const Logo = styled.div`
-  padding: 4.81rem 0 6.3rem;
+  display: flex;
+  justify-content: center;
   margin: auto;
 `;
 
@@ -55,6 +61,12 @@ const CheckboxCol = styled.div`
   padding: 4.06rem 0 5.81rem;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 // Button은 조건부 스타일링을 위해 아래에 있습니다.
 
 export default function Preference() {
@@ -87,6 +99,7 @@ export default function Preference() {
   const isButtonActive =
     gender && age && region && locationConsent && personalInfoConsent;
 
+  // antd button or 버튼 컴포넌트로 변경하기
   const Button = styled.div`
     display: flex;
     width: 30.25rem;
@@ -186,7 +199,9 @@ export default function Preference() {
           </Checkbox>
         </div>
       </CheckboxCol>
-      <Button>시작하기</Button>
+      <ButtonContainer>
+        <Button>시작하기</Button>
+      </ButtonContainer>
     </Body>
   );
 }
