@@ -9,7 +9,6 @@ const Container = styled.div`
 
 const MainTitle = styled.h2`
   font-size: 3rem;
-  font-style: normal;
   font-weight: 600;
   line-height: 4.2rem;
 `;
