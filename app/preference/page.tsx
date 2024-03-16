@@ -7,6 +7,10 @@ import { Radio, Checkbox } from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
+interface ButtonProps {
+  $isActive: boolean;
+}
+
 const Body = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,6 +30,7 @@ const Body = styled.div`
 const Logo = styled.div`
   display: flex;
   justify-content: center;
+  padding: 4.81rem 0 6.3rem;
   margin: auto;
 `;
 
@@ -67,12 +72,38 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-// Button은 조건부 스타일링을 위해 아래에 있습니다.
+// antd button or 버튼 컴포넌트로 변경하기
+const Button = styled.div<ButtonProps>`
+  display: flex;
+  width: 30.25rem;
+  height: 4.125rem;
+  padding: 0.625rem;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 0.1875rem;
+  background: ${({ $isActive }) =>
+    $isActive
+      ? 'var(--MDS-Primary-500, #0331d1)'
+      : 'var(--MDS-GrayScale-4, #F0F0F0)'};
+  color: ${({ $isActive }) =>
+    $isActive ? 'white' : 'var(MDS GrayScale-6, #BFBFBF)'};
+  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'not-allowed')};
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+  margin: auto;
+  @media (max-width: 480px) {
+    width: 26rem;
+    height: 4.125rem;
+  }
+`;
 
 export default function Preference() {
-  const [gender, setGender] = useState(null);
-  const [age, setAge] = useState(null);
-  const [region, setRegion] = useState(null);
+  const [gender, setGender] = useState(false);
+  const [age, setAge] = useState(false);
+  const [region, setRegion] = useState(false);
   const [locationConsent, setLocationConsent] = useState(false);
   const [personalInfoConsent, setPersonalInfoConsent] = useState(false);
 
@@ -98,32 +129,6 @@ export default function Preference() {
 
   const isButtonActive =
     gender && age && region && locationConsent && personalInfoConsent;
-
-  // antd button or 버튼 컴포넌트로 변경하기
-  const Button = styled.div`
-    display: flex;
-    width: 30.25rem;
-    height: 4.125rem;
-    padding: 0.625rem;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    border-radius: 0.1875rem;
-    background: ${isButtonActive
-      ? 'var(--MDS-Primary-500, #0331d1)'
-      : 'var(--MDS-GrayScale-4, #F0F0F0)'};
-    color: ${isButtonActive ? 'white' : 'var(MDS GrayScale-6, #BFBFBF)'};
-    cursor: ${isButtonActive ? 'pointer' : 'not-allowed'};
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 2rem;
-    margin: auto;
-    @media (max-width: 480px) {
-      width: 26rem;
-      height: 4.125rem;
-    }
-  `;
 
   return (
     <Body>
@@ -200,7 +205,7 @@ export default function Preference() {
         </div>
       </CheckboxCol>
       <ButtonContainer>
-        <Button>시작하기</Button>
+        <Button $isActive={isButtonActive}>시작하기</Button>
       </ButtonContainer>
     </Body>
   );
