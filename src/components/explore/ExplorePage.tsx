@@ -160,20 +160,34 @@ export default function ExplorePage() {
               <SubTitle>관심지역</SubTitle>
 
               <FilterOption>
-                <input type="radio" name="region" id="서울" value="서울" />
+                <input type="checkbox" name="region" id="전체" value="전체" />
+                <label htmlFor="전체">전체</label>
+              </FilterOption>
+              <FilterOption>
+                <input type="checkbox" name="region" id="서울" value="서울" />
                 <label htmlFor="서울">서울</label>
               </FilterOption>
               <FilterOption>
-                <input type="radio" name="region" id="경기도" value="경기도" />
+                <input
+                  type="checkbox"
+                  name="region"
+                  id="경기도"
+                  value="경기도"
+                />
                 <label htmlFor="경기도">경기도</label>
               </FilterOption>
               <FilterOption>
-                <input type="radio" name="region" id="강원도" value="강원도" />
+                <input
+                  type="checkbox"
+                  name="region"
+                  id="강원도"
+                  value="강원도"
+                />
                 <label htmlFor="강원도">강원도</label>
               </FilterOption>
               <FilterOption>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="region"
                   id="충청북도"
                   value="충청북도"
@@ -182,7 +196,7 @@ export default function ExplorePage() {
               </FilterOption>
               <FilterOption>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="region"
                   id="충청남도"
                   value="충청남도"
@@ -191,7 +205,7 @@ export default function ExplorePage() {
               </FilterOption>
               <FilterOption>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="region"
                   id="전라북도"
                   value="전라북도"
@@ -200,7 +214,7 @@ export default function ExplorePage() {
               </FilterOption>
               <FilterOption>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="region"
                   id="전라남도"
                   value="전라남도"
@@ -209,7 +223,7 @@ export default function ExplorePage() {
               </FilterOption>
               <FilterOption>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="region"
                   id="경상북도"
                   value="경상북도"
@@ -218,7 +232,7 @@ export default function ExplorePage() {
               </FilterOption>
               <FilterOption>
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="region"
                   id="경상남도"
                   value="경상남도"
@@ -226,7 +240,12 @@ export default function ExplorePage() {
                 <label htmlFor="경상남도">경상남도</label>
               </FilterOption>
               <FilterOption>
-                <input type="radio" name="region" id="제주도" value="제주도" />
+                <input
+                  type="checkbox"
+                  name="region"
+                  id="제주도"
+                  value="제주도"
+                />
                 <label htmlFor="제주도">제주도</label>
               </FilterOption>
             </FavoriateRegion>
