@@ -4,7 +4,8 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Radio, Checkbox } from 'antd';
-import type { RadioChangeEvent, CheckboxProps } from 'antd';
+import type { RadioChangeEvent } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 const Body = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ const Logo = styled.div`
 
 const Notification = styled.div`
   margin: auto;
+  /* 추후 디자인 수정 반영 */
 `;
 
 const RadioLabel = styled.div`
@@ -46,36 +48,21 @@ const RegionCol = styled.div`
   gap: 0.44rem;
 `;
 
-const Button = styled.div`
-  display: flex;
-  width: 30.25rem;
-  height: 4.125rem;
-  padding: 0.625rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.625rem;
-  flex-shrink: 0;
-  border-radius: 0.1875rem;
-  background: var(--MDS-Primary-500, #0331d1);
-  color: white;
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 2rem;
-  margin: auto;
-`;
-
-const Checkboxes = styled.div`
+const CheckboxCol = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
   padding: 4.06rem 0 5.81rem;
 `;
 
+// Button은 조건부 스타일링을 위해 아래에 있습니다.
+
 export default function Preference() {
-  const [gender, setGender] = useState(1);
-  const [age, setAge] = useState(1);
-  const [region, setRegion] = useState(1);
+  const [gender, setGender] = useState(null);
+  const [age, setAge] = useState(null);
+  const [region, setRegion] = useState(null);
+  const [locationConsent, setLocationConsent] = useState(false);
+  const [personalInfoConsent, setPersonalInfoConsent] = useState(false);
 
   const onGenderChange = (e: RadioChangeEvent) => {
     setGender(e.target.value);
@@ -89,9 +76,41 @@ export default function Preference() {
     setRegion(e.target.value);
   };
 
-  const onChange: CheckboxProps['onChange'] = (e) => {
-    console.log(`checked = ${e.target.checked}`);
+  const onLocationConsentChange = (e: CheckboxChangeEvent) => {
+    setLocationConsent(e.target.checked);
   };
+
+  const onPersonalInfoConsentChange = (e: CheckboxChangeEvent) => {
+    setPersonalInfoConsent(e.target.checked);
+  };
+
+  const isButtonActive =
+    gender && age && region && locationConsent && personalInfoConsent;
+
+  const Button = styled.div`
+    display: flex;
+    width: 30.25rem;
+    height: 4.125rem;
+    padding: 0.625rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 0.1875rem;
+    background: ${isButtonActive
+      ? 'var(--MDS-Primary-500, #0331d1)'
+      : 'var(--MDS-GrayScale-4, #F0F0F0)'};
+    color: ${isButtonActive ? 'white' : 'var(MDS GrayScale-6, #BFBFBF)'};
+    cursor: ${isButtonActive ? 'pointer' : 'not-allowed'};
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 2rem;
+    margin: auto;
+    @media (max-width: 480px) {
+      width: 26rem;
+      height: 4.125rem;
+    }
+  `;
 
   return (
     <Body>
@@ -155,14 +174,18 @@ export default function Preference() {
         </RegionCol>
       </RadioCol>
 
-      <Checkboxes>
+      <CheckboxCol>
         <div>
-          <Checkbox onChange={onChange}>위치 기능 동의 여부</Checkbox>
+          <Checkbox onChange={onLocationConsentChange}>
+            위치 기능 동의 여부
+          </Checkbox>
         </div>
         <div>
-          <Checkbox onChange={onChange}>개인 정보 사용 동의 여부</Checkbox>
+          <Checkbox onChange={onPersonalInfoConsentChange}>
+            개인 정보 사용 동의 여부
+          </Checkbox>
         </div>
-      </Checkboxes>
+      </CheckboxCol>
       <Button>시작하기</Button>
     </Body>
   );
