@@ -125,7 +125,7 @@ const Button = styled.div<ButtonProps>`
   line-height: 2rem;
   margin: auto;
   @media (max-width: 480px) {
-    width: 26rem;
+    width: calc(100% - 2rem);
     height: 4.125rem;
   }
 `;
