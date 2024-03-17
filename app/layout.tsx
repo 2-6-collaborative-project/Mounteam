@@ -7,6 +7,7 @@ import { ConfigProvider } from 'antd';
 const myFont = localFont({
   src: './styles/PretendardVariable.woff2',
   display: 'swap',
+  weight: '45 920',
 });
 
 export const metadata: Metadata = {

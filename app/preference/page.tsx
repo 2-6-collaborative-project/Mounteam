@@ -16,7 +16,9 @@ const Body = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0 17.06rem 0 17.06rem;
+  margin: 0 auto;
   margin-bottom: 10rem;
+  max-width: 1200px;
 
   @media (max-width: 768px) {
     padding: 0 7.44rem;
@@ -30,29 +32,57 @@ const Body = styled.div`
 const Logo = styled.div`
   display: flex;
   justify-content: center;
-  padding: 4.81rem 0 6.3rem;
+  padding: 4.81rem 0 3.68rem;
   margin: auto;
 `;
 
 const Notification = styled.div`
+  padding: 0.625rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
   margin: auto;
-  /* 추후 디자인 수정 반영 */
-`;
-
-const RadioLabel = styled.div`
-  font-size: 1.25rem;
+  border-radius: 0.1875rem;
+  background: var(--MDS-Primary-50, #d3dcfd);
+  color: var(--MDS-GrayScale-13, #000);
+  /* Footnote/16 */
+  font-size: 1rem;
   font-style: normal;
-  font-weight: 600;
-  line-height: 1.75rem;
+  font-weight: 700;
+  @media (max-width: 480px) {
+    p {
+      display: inline;
+      margin-right: 0.5rem;
+    }
+  }
 `;
 
 const RadioCol = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 2.88rem;
   gap: 2.75rem;
+  color: var(--MDS-GrayScale-13, #000);
+  /* Heading/16 */
+  /* font-family: Pretendard; */
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem; /* 150% */
+
   @media (max-width: 480px) {
     padding: 0 10rem 0 0;
   }
+`;
+
+const RadioLabel = styled.div`
+  color: var(--MDS-GrayScale-13, #000);
+  /* Heading/20 */
+  /* font-family: Pretendard; */
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.75rem; /* 140% */
 `;
 
 const RegionCol = styled.div`

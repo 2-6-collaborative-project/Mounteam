@@ -6,13 +6,6 @@ import normalize from 'styled-normalize';
 const GlobalStyle = createGlobalStyle`
   ${normalize}
 
-  /* @font-face {
-    font-family: 'Pretendard Variable';
-    src: url('./PretendardVariable.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-  } */
-
   :root {
     --black-000000: #000000;
     --black-171717: #171717;
@@ -40,7 +33,6 @@ const GlobalStyle = createGlobalStyle`
   border:none;
   box-sizing: border-box;
   text-decoration: none;
-  /* font-family: 'Pretendard Variable'; */
   }
 
   html, body {
