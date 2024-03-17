@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
+import KakaoMap from './KakaoMap';
 
 const Container = styled.div`
   margin: 3.2rem 10.4rem;
@@ -11,11 +12,6 @@ const MainTitle = styled.h2`
   font-size: 3rem;
   font-weight: 600;
   line-height: 4.2rem;
-`;
-
-const MountainMap = styled.div`
-  height: 40rem;
-  background: #d9d9d9;
 `;
 
 const ActivityTabs = styled.div`
@@ -98,7 +94,7 @@ export default function CourseDetail() {
             브레드 크럼블이 들어갈 자리입니다.
           </div>
           <MainTitle>산 이름</MainTitle>
-          <MountainMap>지도가 들어갈 자리입니다.</MountainMap>
+          <KakaoMap />
         </div>
         <ActivityTabs>
           <ActivityTab>등산 모임 n개</ActivityTab>

@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
+import KakaoMap from './KakaoMap';
 
 const Container = styled.div`
   margin: 3.2rem 10.4rem;
@@ -11,11 +12,6 @@ const MainTitle = styled.h2`
   font-size: 3rem;
   font-weight: 600;
   line-height: 4.2rem;
-`;
-
-const MountainMap = styled.div`
-  height: 40rem;
-  background: #d9d9d9;
 `;
 
 const TeamTotalCount = styled.p`
@@ -74,7 +70,7 @@ export default function TeamList() {
           </div>
           <MainTitle>산 이름</MainTitle>
         </div>
-        <MountainMap>지도가 들어갈 자리입니다.</MountainMap>
+        <KakaoMap />
 
         <div className="mountainTeamList">
           <TeamTotalCount>관악산 등산모임: 4개</TeamTotalCount>
