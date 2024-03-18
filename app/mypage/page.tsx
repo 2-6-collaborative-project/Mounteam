@@ -1,8 +1,11 @@
 'use client';
 
 import Profile from '@/src/components/mypage/Profile';
+import Review from '@/src/components/review/Review';
+import Avatar from '@/src/components/shared/Avatar';
 import React from 'react';
 import styled from 'styled-components';
+
 const Test = styled.div`
   width: 100%;
   height: 100%;
@@ -28,6 +31,7 @@ export default function Mypage() {
         </Test>
         <Menus />
       </ContentsContainer>
+      <Review />
       <Footer />
     </>
   );
