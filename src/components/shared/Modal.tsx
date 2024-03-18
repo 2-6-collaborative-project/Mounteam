@@ -1,18 +1,23 @@
 import { Popover } from 'antd';
 import Image from 'next/image';
+import React, { useRef } from 'react';
 
-export const ReviewSelectPopover = ({
+export const SelectPopover = ({
   text,
   content,
 }: {
-  text: string;
+  text?: string;
   content: JSX.Element;
 }) => {
+  const popoverRef = useRef<HTMLDivElement>(null);
   return (
     <>
-      <Popover placement="bottomRight" title={text} content={content}>
-        예시
-      </Popover>
+      <Popover
+        ref={popoverRef}
+        placement="bottomRight"
+        title={text}
+        content={content}
+      />
     </>
   );
 };

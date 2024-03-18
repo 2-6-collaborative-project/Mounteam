@@ -7,8 +7,8 @@ import { FeedHomeInner, FeedHomeLayer } from '@/src/components/feed/styled';
 export default function FeedHome() {
   return (
     <FeedHomeLayer>
+      <FeedSearch />
       <FeedHomeInner>
-        <FeedSearch />
         <FeedPage />
       </FeedHomeInner>
     </FeedHomeLayer>
