@@ -1,111 +1,54 @@
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
-interface styledSize {
-  size: 'small' | 'medium' | 'large' | 'huge' | undefined;
-}
-
-interface AvatarProps extends styledSize {
-  img: string | any;
-  level: string | undefined;
-  name: string | undefined;
-}
-const AvatarContainer = styled.div<styledSize>`
+const AvatarContainer = styled.div<Type>`
   display: flex;
   align-items: center;
-  gap: ${(props) =>
-    props.size === 'small'
-      ? '1.2rem'
-      : props.size === 'medium'
-        ? '0.8rem'
-        : props.size === 'large'
-          ? '1.1rem'
-          : props.size === 'huge'
-            ? '0.7rem'
-            : '0.8rem'};
+  gap: ${(props) => (props.type === 'comment' ? '0.9rem' : '0')};
 `;
 
-const ImgContainer = styled.div<styledSize>`
-  width: ${(props) =>
-    props.size === 'small'
-      ? '24px'
-      : props.size === 'medium'
-        ? '32px'
-        : props.size === 'large'
-          ? '40px'
-          : props.size === 'huge'
-            ? '64px'
-            : '32px'};
-  aspect-ratio: 1;
-  position: relative;
-  border-radius: 50%;
-`;
-
-const NameContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-`;
-
-const Level = styled.p<styledSize>`
+const Name = styled.p<Type>`
   color: var(--black-000000);
-  font-weight: ${(props) =>
-    props.size === 'small'
-      ? '400'
-      : props.size === 'medium'
-        ? '400'
-        : props.size === 'large'
-          ? '600'
-          : props.size === 'huge'
-            ? '700'
-            : '400'};
-  font-size: ${(props) =>
-    props.size === 'small'
-      ? '12px'
-      : props.size === 'medium'
-        ? '12px'
-        : props.size === 'large'
-          ? '14px'
-          : props.size === 'huge'
-            ? '16px'
-            : '12px'};
+  font-weight: ${(props) => (props.type === 'comment' ? '500' : '600')};
+  font-size: ${(props) => (props.type === 'comment' ? '1.2rem' : '2.4rem')};
 `;
 
-const Name = styled.p<styledSize>`
-  color: var(--black-000000);
-  font-weight: ${(props) =>
-    props.size === 'small'
-      ? '400'
-      : props.size === 'medium'
-        ? '400'
-        : props.size === 'large'
-          ? '600'
-          : props.size === 'huge'
-            ? '700'
-            : '400'};
-  font-size: ${(props) =>
-    props.size === 'small'
-      ? '12px'
-      : props.size === 'medium'
-        ? '12px'
-        : props.size === 'large'
-          ? '14px'
-          : props.size === 'huge'
-            ? '16px'
-            : '12px'};
-`;
+interface Type {
+  type: 'comment' | 'profile';
+}
 
-export default function Avatar({ size, img, level, name }: AvatarProps) {
-  // size 프롭으로'small' | 'medium' | 'large' | 'huge' 내려주면 크기지정가능 기본값으로 medium
+interface AvatarProps extends Type {
+  img?: string | any;
+  level?: string | undefined;
+  name?: string | undefined;
+}
+
+export default function Avatars({ type, img, name }: AvatarProps) {
+  const [imgSize, setImgSize] = useState(27);
+  useEffect(() => {
+    switch (type) {
+      case 'comment':
+        setImgSize(27);
+        break;
+      case 'profile':
+        setImgSize(128);
+        break;
+      default:
+        setImgSize(27);
+    }
+    console.log(imgSize);
+  }, []);
+
   return (
-    <AvatarContainer size={size}>
-      <ImgContainer size={size}>
-        <Image src={img} alt="프로필이미지" layout="fill" loading="eager" />
-      </ImgContainer>
-      <NameContainer>
-        <Level size={size}>{'Lv.' + level}</Level>
-        <Name size={size}>{name}</Name>
-      </NameContainer>
+    <AvatarContainer type={type}>
+      {img ? (
+        <Avatar size={imgSize} src={img} />
+      ) : (
+        <Avatar size={imgSize} icon={img ? img : <UserOutlined />} />
+      )}
+      {type === 'comment' ? <Name type={type}>{name}</Name> : ''}
     </AvatarContainer>
   );
 }
