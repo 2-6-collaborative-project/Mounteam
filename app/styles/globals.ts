@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     --gray-9FA6B2: #9FA6B2;
     --gray-D9D9D9: #D9D9D9;
     --gray-EEEEEE: #EEEEEE;
-    --gray-FAFAFA: #FAFAFA;
+    --gray-FAFAFA: #FAFAFA; 
     --white-FFFFFF: #FFFFFF;
     --violet-5534DA: #5534DA;
     --violet-8-percent: #F1EFFD;
