@@ -1,7 +1,6 @@
 'use client';
 
 import styled from 'styled-components';
-import GlobalStyle from '@/app/styles/globals';
 import KakaoMap from './KakaoMap';
 
 const Container = styled.div`
@@ -38,7 +37,6 @@ const TeamItem = styled.div`
 export default function TeamList() {
   return (
     <>
-      <GlobalStyle />
       <Container>
         <div
           style={{

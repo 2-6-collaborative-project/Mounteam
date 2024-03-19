@@ -1,15 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import styled from 'styled-components';
-import GlobalStyle from '@/app/styles/globals';
 import KakaoMap from './KakaoMap';
 import MountainInfo from '../shared/MountainInfo';
+import { Checkbox, Divider } from 'antd';
+import type { CheckboxProps, GetProp } from 'antd';
 
 const Container = styled.div`
   margin: 3.2rem 10.4rem;
 `;
 
-const SearchMountainArea = styled.div``;
+const SearchMountainArea = styled.div`
+  margin-top: 7rem;
+`;
 const MainTitle = styled.h2`
   font-size: 3rem;
   font-weight: 600;
@@ -20,7 +24,7 @@ const SearchTagContainer = styled.div`
   display: inline-flex;
   align-items: flex-start;
   gap: 0.8rem;
-  margin: 2.5rem 0 4.2rem 0;
+  margin: 2rem 0 4rem 0;
 `;
 
 const SearchTag = styled.span`
@@ -32,13 +36,43 @@ const SearchTag = styled.span`
 
 const SearchResultArea = styled.div`
   display: flex;
+  gap: 9rem;
   margin-top: 6rem;
 `;
 
-const Filterling = styled.div`
-  margin-right: 10rem;
+const FilterContainer = styled.div`
+  border-bottom: 1px solid var(--MDS-GrayScale-5, #d9d9d9);
 `;
 
+const FilterHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--MDS-GrayScale-5, #d9d9d9);
+`;
+
+const FilterTitle = styled.p`
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+`;
+
+const FilterReset = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+`;
+
+const ResetImage = styled.button`
+  width: 1.6rem;
+  height: 1.6rem;
+  background: url('./filterReset.svg') no-repeat center center;
+  background-size: cover;
+`;
+
+const ResetTitle = styled(FilterTitle)`
+  color: var(--MDS-GrayScale-7, #8c8c8c);
+`;
 const FavoriateRegion = styled.div``;
 
 const SubTitle = styled.h3`
@@ -50,6 +84,8 @@ const SubTitle = styled.h3`
 `;
 
 const FilterOption = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 0.8rem;
 
   & > label {
@@ -62,17 +98,61 @@ const FilterOption = styled.div`
 `;
 
 const MountainList = styled.div`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(0, 30rem));
   column-gap: 2rem;
   row-gap: 4rem;
+  width: 100rem;
 `;
 
+const CheckboxGroupContainer = styled.div`
+  .ant-checkbox-group {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+type CheckboxValueType = GetProp<typeof Checkbox.Group, 'value'>[number];
+
+const CheckboxGroup = Checkbox.Group;
+
+const regionOptions = [
+  '서울',
+  '경기도',
+  '강원도',
+  '충청북도',
+  '충청남도',
+  '전라북도',
+  '전라남도',
+  '경상북도',
+  '경상남도',
+  '제주도',
+];
+const defaultCheckedList = ['전체 선택'];
+
+const heightOptions = [
+  '500m 미만',
+  '500 ~ 1000m',
+  '1000 ~ 1500m',
+  '1500m 이상',
+];
+
 export default function ExplorePage() {
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
+  const [checkAll, setCheckAll] = useState<boolean>(false);
+
+  const onChange = (list: CheckboxValueType[], setCheckAllState: Function) => {
+    setCheckedList(list);
+    setCheckAllState(list.length === regionOptions.length);
+  };
+
+  const onCheckAllChange: CheckboxProps['onChange'] = (e) => {
+    setCheckedList(e.target.checked ? regionOptions : []);
+    setCheckAll(e.target.checked);
+  };
+
   return (
     <>
-      <GlobalStyle />
       <Container>
         <div
           style={{
@@ -100,7 +180,7 @@ export default function ExplorePage() {
               backgroundColor: '#ddd',
             }}
           >
-            인풋이 들어갈 자리입니다.
+            검색창이 들어갈 자리입니다.
           </div>
           <SearchTagContainer>
             <SearchTag>Tag1</SearchTag>
@@ -111,139 +191,38 @@ export default function ExplorePage() {
         </SearchMountainArea>
 
         <SearchResultArea>
-          <Filterling>
+          <FilterContainer>
+            <FilterHeader>
+              <FilterTitle>필터</FilterTitle>
+              <FilterReset>
+                <ResetImage />
+                <ResetTitle>초기화</ResetTitle>
+              </FilterReset>
+            </FilterHeader>
             <FavoriateRegion>
-              <SubTitle>관심지역</SubTitle>
+              <FilterTitle>관심지역</FilterTitle>
 
-              <FilterOption>
-                <input type="checkbox" name="region" id="전체" value="전체" />
-                <label htmlFor="전체">전체</label>
-              </FilterOption>
-              <FilterOption>
-                <input type="checkbox" name="region" id="서울" value="서울" />
-                <label htmlFor="서울">서울</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="경기도"
-                  value="경기도"
+              <CheckboxGroupContainer>
+                <Checkbox onChange={onCheckAllChange} checked={checkAll}>
+                  전체 선택
+                </Checkbox>
+
+                <CheckboxGroup
+                  options={regionOptions}
+                  value={checkedList}
+                  onChange={(list) => onChange(list, setCheckAll)}
                 />
-                <label htmlFor="경기도">경기도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="강원도"
-                  value="강원도"
-                />
-                <label htmlFor="강원도">강원도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="충청북도"
-                  value="충청북도"
-                />
-                <label htmlFor="충청북도">충청북도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="충청남도"
-                  value="충청남도"
-                />
-                <label htmlFor="충청남도">충청남도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="전라북도"
-                  value="전라북도"
-                />
-                <label htmlFor="전라북도">전라북도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="전라남도"
-                  value="전라남도"
-                />
-                <label htmlFor="전라남도">전라남도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="경상북도"
-                  value="경상북도"
-                />
-                <label htmlFor="경상북도">경상북도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="경상남도"
-                  value="경상남도"
-                />
-                <label htmlFor="경상남도">경상남도</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="checkbox"
-                  name="region"
-                  id="제주도"
-                  value="제주도"
-                />
-                <label htmlFor="제주도">제주도</label>
-              </FilterOption>
+              </CheckboxGroupContainer>
             </FavoriateRegion>
             <div>
-              <SubTitle>높이</SubTitle>
+              <FilterTitle>높이</FilterTitle>
+              <CheckboxGroupContainer>
+                <Checkbox onChange={onCheckAllChange} checked={checkAll}>
+                  전체 선택
+                </Checkbox>
 
-              <FilterOption>
-                <input
-                  type="radio"
-                  name="mountainHeight"
-                  id="height_under_500"
-                  value="height_under_500"
-                />
-                <label htmlFor="height_under_500">500m 미만</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="radio"
-                  name="mountainHeight"
-                  id="height_500_to_1000"
-                  value="height_500_to_1000"
-                />
-                <label htmlFor="height_500_to_1000">500m ~ 1000m</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="radio"
-                  name="mountainHeight"
-                  id="height_1000_to_1500"
-                  value="height_1000_to_1500"
-                />
-                <label htmlFor="height_1000_to_1500">1000 ~ 1500m</label>
-              </FilterOption>
-              <FilterOption>
-                <input
-                  type="radio"
-                  name="mountainHeight"
-                  id="height_over_1500"
-                  value="height_over_1500"
-                />
-                <label htmlFor="height_over_1500">1500m 이상</label>
-              </FilterOption>
+                <CheckboxGroup options={heightOptions} value={checkedList} />
+              </CheckboxGroupContainer>
             </div>
             <div>
               <SubTitle>가나다순 정렬</SubTitle>
@@ -259,8 +238,13 @@ export default function ExplorePage() {
                 <label htmlFor="hasTeam">모임이 있는 산</label>
               </FilterOption>
             </div>
-          </Filterling>
+          </FilterContainer>
           <MountainList>
+            <MountainInfo />
+            <MountainInfo />
+            <MountainInfo />
+            <MountainInfo />
+            <MountainInfo />
             <MountainInfo />
           </MountainList>
         </SearchResultArea>

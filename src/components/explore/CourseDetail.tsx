@@ -1,7 +1,6 @@
 'use client';
 
 import styled from 'styled-components';
-import GlobalStyle from '@/app/styles/globals';
 import KakaoMap from './KakaoMap';
 
 const Container = styled.div`
@@ -63,7 +62,6 @@ const CourseContent = styled(CourseTitle)`
 export default function CourseDetail() {
   return (
     <>
-      <GlobalStyle />
       <Container>
         <div
           style={{
