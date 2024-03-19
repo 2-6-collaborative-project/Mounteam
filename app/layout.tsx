@@ -5,6 +5,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import StyledComponentsRegistry from '../src/lib/registry';
 import { ConfigProvider } from 'antd';
 import GlobalStyle from '@/app/styles/globals';
+
 const myFont = localFont({
   src: './styles/PretendardVariable.woff2',
   display: 'swap',

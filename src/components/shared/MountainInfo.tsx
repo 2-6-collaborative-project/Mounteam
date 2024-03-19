@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styled from 'styled-components';
 
 const MountainItem = styled.div`
@@ -45,15 +46,14 @@ const MountainHeight = styled(MountainStatus)`
 export default function MountainInfo() {
   return (
     <MountainItem>
-      <div
-        style={{
-          width: '30rem',
-          height: '30rem',
-          backgroundColor: '#d9d9d9',
-        }}
-      >
-        산 이미지
-      </div>
+      <Image
+        layout="responsive"
+        width={260}
+        height={260}
+        objectFit="contain"
+        src="/sample.jpg"
+        alt="산 이미지"
+      />
       <div>
         <MountainName>관악산</MountainName>
         <MountainLocation>산 위치 정보</MountainLocation>

@@ -4,12 +4,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import KakaoMap from './KakaoMap';
 import MountainInfo from '../shared/MountainInfo';
-import { Checkbox, Divider } from 'antd';
+import { Checkbox } from 'antd';
 import type { CheckboxProps, GetProp } from 'antd';
-
-const Container = styled.div`
-  margin: 3.2rem 10.4rem;
-`;
 
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -41,14 +37,22 @@ const SearchResultArea = styled.div`
 `;
 
 const FilterContainer = styled.div`
-  border-bottom: 1px solid var(--MDS-GrayScale-5, #d9d9d9);
+  width: 20rem;
 `;
 
-const FilterHeader = styled.div`
+interface type {
+  type: 'main' | 'sub';
+}
+
+const FilterHeader = styled.div<type>`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--MDS-GrayScale-5, #d9d9d9);
+  border-bottom: ${(props) =>
+    props.type === 'main'
+      ? '1px solid var(--MDS-GrayScale-5, #d9d9d9)'
+      : 'none'};
 `;
 
 const FilterTitle = styled.p`
@@ -73,42 +77,99 @@ const ResetImage = styled.button`
 const ResetTitle = styled(FilterTitle)`
   color: var(--MDS-GrayScale-7, #8c8c8c);
 `;
-const FavoriateRegion = styled.div``;
-
-const SubTitle = styled.h3`
-  margin-top: 4rem;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 2.8rem;
+const FilterContents = styled.div`
+  margin-top: 3.3rem;
+  border-bottom: 1px solid var(--MDS-GrayScale-5, #d9d9d9);
 `;
 
-const FilterOption = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 0.8rem;
+const CollapseButton = styled.button`
+  width: 1rem;
+  height: 1rem;
+  background: url('./arrowUp.svg') no-repeat center center;
+  background-size: cover;
+`;
+const MountainListContainer = styled.div``;
 
-  & > label {
-    margin-left: 0.8rem;
-    color: var(--character-title-85, rgba(0, 0, 0, 0.85));
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 2.4rem;
+const MountainListHeader = styled.div`
+  position: relative;
+  margin-bottom: 2rem;
+  text-align: right;
+  color: var(--MDS-GrayScale-13, #000);
+  font-size: 1.16667rem;
+  font-weight: 600;
+  line-height: 1.66667rem;
+
+  span:first-child {
+    padding-right: 1.75rem;
+  }
+  &:before {
+    content: '';
+    width: 0.1rem;
+    height: 1.5rem;
+    background-color: var(--MDS-GrayScale-5, #d9d9d9);
+    position: absolute;
+    top: 0.1rem;
+    right: 4.5rem;
   }
 `;
-
 const MountainList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(0, 30rem));
+  grid-template-columns: repeat(2, minmax(0, 40rem));
   column-gap: 2rem;
   row-gap: 4rem;
-  width: 100rem;
 `;
 
 const CheckboxGroupContainer = styled.div`
   .ant-checkbox-group {
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  span {
+    font-size: 1.16667rem;
+    font-weight: 600;
+    line-height: 1.66667rem;
+  }
+`;
+
+const Container = styled.div`
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    max-width: 64rem;
+
+    ${MainTitle} {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+
+    ${SearchResultArea} {
+      flex-direction: column;
+    }
+
+    ${FilterContainer} {
+      width: 100%;
+    }
+
+    ${CheckboxGroupContainer} {
+      .ant-checkbox-group {
+        flex-direction: row;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    max-width: 40rem;
+
+    ${MountainList} {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 40rem));
+
   }
 `;
 
@@ -128,7 +189,6 @@ const regionOptions = [
   '경상남도',
   '제주도',
 ];
-const defaultCheckedList = ['전체 선택'];
 
 const heightOptions = [
   '500m 미만',
@@ -138,17 +198,39 @@ const heightOptions = [
 ];
 
 export default function ExplorePage() {
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
-  const [checkAll, setCheckAll] = useState<boolean>(false);
+  const [regionCheckedList, setRegionCheckedList] =
+    useState<CheckboxValueType[]>();
+  const [regionCheckAll, setRegionCheckAll] = useState<boolean>(true);
 
-  const onChange = (list: CheckboxValueType[], setCheckAllState: Function) => {
-    setCheckedList(list);
+  const [heightCheckedList, setHeightCheckedList] = useState<
+    CheckboxValueType[]
+  >([]);
+  const [heightCheckAll, setHeightCheckAll] = useState<boolean>(false);
+
+  const onRegionChange = (
+    list: CheckboxValueType[],
+    setCheckAllState: Function,
+  ) => {
+    setRegionCheckedList(list);
     setCheckAllState(list.length === regionOptions.length);
   };
 
-  const onCheckAllChange: CheckboxProps['onChange'] = (e) => {
-    setCheckedList(e.target.checked ? regionOptions : []);
-    setCheckAll(e.target.checked);
+  const onRegionCheckAllChange: CheckboxProps['onChange'] = (e) => {
+    setRegionCheckedList(e.target.checked ? regionOptions : []);
+    setRegionCheckAll(e.target.checked);
+  };
+
+  const onHeightChange = (
+    list: CheckboxValueType[],
+    setCheckAllState: Function,
+  ) => {
+    setHeightCheckedList(list);
+    setCheckAllState(list.length === heightOptions.length);
+  };
+
+  const onHeightCheckAllChange: CheckboxProps['onChange'] = (e) => {
+    setHeightCheckedList(e.target.checked ? heightOptions : []);
+    setHeightCheckAll(e.target.checked);
   };
 
   return (
@@ -192,64 +274,69 @@ export default function ExplorePage() {
 
         <SearchResultArea>
           <FilterContainer>
-            <FilterHeader>
+            <FilterHeader type={'main'}>
               <FilterTitle>필터</FilterTitle>
               <FilterReset>
                 <ResetImage />
                 <ResetTitle>초기화</ResetTitle>
               </FilterReset>
             </FilterHeader>
-            <FavoriateRegion>
-              <FilterTitle>관심지역</FilterTitle>
+            <FilterContents>
+              <FilterHeader type={'sub'}>
+                <FilterTitle>관심지역</FilterTitle>
+                <CollapseButton />
+              </FilterHeader>
 
               <CheckboxGroupContainer>
-                <Checkbox onChange={onCheckAllChange} checked={checkAll}>
+                <Checkbox
+                  onChange={onRegionCheckAllChange}
+                  checked={regionCheckAll}
+                >
                   전체 선택
                 </Checkbox>
 
                 <CheckboxGroup
                   options={regionOptions}
-                  value={checkedList}
-                  onChange={(list) => onChange(list, setCheckAll)}
+                  value={regionCheckedList}
+                  onChange={(list) => onRegionChange(list, setRegionCheckAll)}
                 />
               </CheckboxGroupContainer>
-            </FavoriateRegion>
-            <div>
-              <FilterTitle>높이</FilterTitle>
+            </FilterContents>
+            <FilterContents>
+              <FilterHeader type="sub">
+                <FilterTitle>높이</FilterTitle>
+                <CollapseButton />
+              </FilterHeader>
               <CheckboxGroupContainer>
-                <Checkbox onChange={onCheckAllChange} checked={checkAll}>
+                <Checkbox
+                  onChange={onHeightCheckAllChange}
+                  checked={heightCheckAll}
+                >
                   전체 선택
                 </Checkbox>
-
-                <CheckboxGroup options={heightOptions} value={checkedList} />
+                <CheckboxGroup
+                  options={heightOptions}
+                  value={heightCheckedList}
+                  onChange={(list) => onHeightChange(list, setHeightCheckAll)}
+                ></CheckboxGroup>
               </CheckboxGroupContainer>
-            </div>
-            <div>
-              <SubTitle>가나다순 정렬</SubTitle>
-              <FilterOption>
-                <input type="checkbox" name="sort" id="sort" />
-                <label htmlFor="sort0">가나다순 정렬</label>
-              </FilterOption>
-            </div>
-            <div>
-              <SubTitle>모임이 있는 산</SubTitle>
-              <FilterOption>
-                <input type="checkbox" name="hasTeam" id="sort" />
-                <label htmlFor="hasTeam">모임이 있는 산</label>
-              </FilterOption>
-            </div>
+            </FilterContents>
           </FilterContainer>
-          <MountainList>
-            <MountainInfo />
-            <MountainInfo />
-            <MountainInfo />
-            <MountainInfo />
-            <MountainInfo />
-            <MountainInfo />
-          </MountainList>
-        </SearchResultArea>
 
-        <footer>푸터가 들어갈 자리입니다.</footer>
+          <MountainListContainer>
+            <MountainListHeader>
+              <span>가나다순</span> <span>인기순</span>
+            </MountainListHeader>
+            <MountainList>
+              <MountainInfo />
+              <MountainInfo />
+              <MountainInfo />
+              <MountainInfo />
+              <MountainInfo />
+              <MountainInfo />
+            </MountainList>
+          </MountainListContainer>
+        </SearchResultArea>
       </Container>
     </>
   );
