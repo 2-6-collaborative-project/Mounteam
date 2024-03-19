@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <Body>
       <Header />
-      <Tab />
+      <Tab variant="main" />
       <div>{/* 검색바 */}</div>
       <div>{/* 이미지 넘기는 섹션 */}</div>
       {/* 내비게이션 바 */}

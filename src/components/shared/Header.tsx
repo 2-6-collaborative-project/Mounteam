@@ -12,6 +12,10 @@ const HeaderBox = styled.div`
   align-items: center;
 `;
 
+const LogoContainer = styled.div`
+  display: flex;
+`;
+
 const IconGap = styled.div`
   display: flex;
   gap: 1.25rem;
@@ -21,8 +25,8 @@ const IconGap = styled.div`
 
 export default function Header() {
   return (
-    <div>
-      <HeaderBox>
+    <HeaderBox>
+      <LogoContainer>
         <Image
           src="/logo.svg"
           alt="logo icon"
@@ -30,32 +34,32 @@ export default function Header() {
           height={35.505}
           priority
         />
-        <IconGap>
+      </LogoContainer>
+      <IconGap>
+        <Image
+          src="/edit.svg"
+          alt="edit icon"
+          width={24}
+          height={24}
+          priority
+        />
+        <Image
+          src="/bell.svg"
+          alt="bell icon"
+          width={24}
+          height={24}
+          priority
+        />
+        <Link href="/mypage">
           <Image
-            src="/edit.svg"
-            alt="edit icon"
+            src="/user.svg"
+            alt="user icon"
             width={24}
             height={24}
             priority
           />
-          <Image
-            src="/bell.svg"
-            alt="bell icon"
-            width={24}
-            height={24}
-            priority
-          />
-          <Link href="/mypage">
-            <Image
-              src="/user.svg"
-              alt="user icon"
-              width={24}
-              height={24}
-              priority
-            />
-          </Link>
-        </IconGap>
-      </HeaderBox>
-    </div>
+        </Link>
+      </IconGap>
+    </HeaderBox>
   );
 }
