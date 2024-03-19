@@ -1,13 +1,35 @@
-import Image from 'next/image';
+import React from 'react';
 import styled from 'styled-components';
+import Image from 'next/image';
 import Avatars from '../shared/Avatar';
 
+const FlexContainer = styled.div`
+  width: 100%;
+  max-width: 99rem;
+  min-width: 63.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+
+  @media (max-width: 480px) {
+    max-width: none;
+    min-width: 0;
+  }
+`;
 const ProfileContainer = styled.div`
-  max-width: 98.8rem;
   height: 12.8rem;
   display: flex;
   justify-content: space-between;
   align-items: end;
+  gap: 3rem;
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
 `;
 
 const AvatarContainer = styled.div`
@@ -71,10 +93,20 @@ const Nickname = styled.p`
 `;
 
 const Description = styled.p`
+  width: 100%;
+  max-width: 65.3rem;
+  min-width: 36.2rem;
+
   color: var(--black-000000);
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 3.2rem;
+  word-wrap: break-word;
+
+  @media (max-width: 480px) {
+    max-width: none;
+    min-width: 0;
+  }
 `;
 
 const BadgeContainer = styled.div`
@@ -84,10 +116,13 @@ const BadgeContainer = styled.div`
 `;
 
 const BadgeTitleContainer = styled.div`
-  max-width: 99rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+  }
 `;
 
 const BadgeTitle = styled.div`
@@ -116,13 +151,13 @@ const Badges = styled.div`
 const Badge = styled.div``;
 
 interface ProfileProps {
-  level: number;
-  name: string;
-  img: string;
-  preference: string[] | undefined;
-  description: string;
-  clickShowAll: () => void;
-  clickVerify: () => void;
+  level?: number;
+  name?: string;
+  img?: string;
+  preference?: string[] | undefined;
+  description?: string;
+  clickShowAll?: () => void;
+  clickVerify?: () => void;
 }
 
 export default function Profile({
@@ -135,15 +170,21 @@ export default function Profile({
   clickVerify,
 }: ProfileProps) {
   return (
-    <>
+    <FlexContainer>
       <ProfileContainer>
         <AvatarContainer>
           <Avatars type="profile" img={img} />
           <TagsAndName>
             <Preferences>
-              {preference?.map((item: string, index: number) => (
-                <Preference key={'preference' + index}>{item}</Preference>
-              ))}
+              {preference ? (
+                <>
+                  {preference.map((item: string, index: number) => (
+                    <Preference key={'preference' + index}>{item}</Preference>
+                  ))}
+                </>
+              ) : (
+                ''
+              )}
             </Preferences>
             <LevelAndNickname>
               <Level>{'Lv.' + level}</Level>
@@ -159,7 +200,10 @@ export default function Profile({
             </LevelAndNickname>
           </TagsAndName>
         </AvatarContainer>
-        <Description>{description}</Description>
+        <Description>
+          {description +
+            '615615561156615615661561556115661561561561561556115661561561561561556115661561561561561556115661561561515'}
+        </Description>
       </ProfileContainer>
       <BadgeContainer>
         <BadgeTitleContainer>
@@ -173,6 +217,6 @@ export default function Profile({
           <Badge></Badge>
         </Badges>
       </BadgeContainer>
-    </>
+    </FlexContainer>
   );
 }
