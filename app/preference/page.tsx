@@ -19,14 +19,9 @@ const Body = styled.div`
   padding: 0 17.06rem 0 17.06rem;
   margin: 0 auto;
   margin-bottom: 10rem;
-  max-width: 1200px;
 
   @media (max-width: 768px) {
-    padding: 0 7.44rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 2rem;
+    padding: 0 3.44rem;
   }
 `;
 

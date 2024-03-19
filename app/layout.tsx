@@ -4,6 +4,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import StyledComponentsRegistry from '../src/lib/registry';
 import { ConfigProvider } from 'antd';
 import GlobalStyle from './styles/globals';
+import Layout from '@/src/components/shared/Layout';
 
 const myFont = localFont({
   src: './styles/PretendardVariable.woff2',
@@ -37,8 +38,10 @@ export default function RootLayout({
           >
             {/* styled component를 server component에 적용할 수 있게 세팅 */}
             <StyledComponentsRegistry>
-              <GlobalStyle />
-              {children}
+              <Layout>
+                <GlobalStyle />
+                {children}
+              </Layout>
             </StyledComponentsRegistry>
           </ConfigProvider>
         </body>

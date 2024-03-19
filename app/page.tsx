@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from 'antd/es/radio';
 import Header from '@/src/components/shared/Header';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
+import Tab from '@/src/components/shared/Tab';
 
 const Body = styled.div`
   display: flex;
@@ -34,6 +35,8 @@ const NavBar = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  /* tab botton 확인을 위해서 임시 패딩 설정 */
+  padding-top: 5rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -54,6 +57,7 @@ export default function Home() {
   return (
     <Body>
       <Header />
+      <Tab />
       <div>{/* 검색바 */}</div>
       <div>{/* 이미지 넘기는 섹션 */}</div>
       {/* 내비게이션 바 */}

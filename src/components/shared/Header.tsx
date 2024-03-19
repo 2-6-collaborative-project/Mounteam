@@ -16,6 +16,7 @@ const IconGap = styled.div`
   display: flex;
   gap: 1.25rem;
 `;
+// 얘도 router 쓰지말고 type 지정해서 default가 수정 아이콘까지 보이는거, main만 수정아이콘 가리는걸로 하자
 
 export default function Header() {
   return (
@@ -29,7 +30,6 @@ export default function Header() {
           </Link>
         </IconGap>
       </HeaderBox>
-      <Tab />
     </div>
   );
 }
