@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import typography from '@/app/styles/typography';
+import { colors } from '@/app/styles/colors';
 
 type Variant = 'main' | 'explore' | 'feeds' | 'teams';
 
@@ -19,13 +20,13 @@ const StyledParagraph = styled.p<{ variant?: Variant }>`
   padding: 1rem 0rem;
 
   color: ${({ variant }) =>
-    variant === 'main' ? 'var(--brand-deep, #0008ce)' : 'inherit'};
+    variant === 'main' ? colors.Primary[500] : 'inherit'};
   border-bottom: ${({ variant }) =>
-    variant === 'main' ? '1px solid var(--brand-deep, #0008ce)' : 'none'};
+    variant === 'main' ? `1px solid ${colors.Primary[500]}` : 'none'};
 
   // hover시 색 변화가 있어야할 것 같아 아래 설정 추가했습니다. 제외해야 할까요?
   &:hover {
-    color: var(--brand-deep, #0008ce);
+    color: ${colors.Primary[500]};
   }
 `;
 

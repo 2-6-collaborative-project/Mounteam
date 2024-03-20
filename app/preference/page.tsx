@@ -8,6 +8,7 @@ import type { RadioChangeEvent } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { ConfigProvider } from 'antd';
 import typography from '@/app/styles/typography';
+import { colors } from '../styles/colors';
 
 interface ButtonProps {
   $isActive: boolean;
@@ -39,8 +40,8 @@ const Notification = styled.div`
   gap: 0.625rem;
   margin: auto;
   border-radius: 0.1875rem;
-  background: var(--MDS-Primary-50, #d3dcfd);
-  color: var(--MDS-GrayScale-13, #000);
+  background: ${colors.Primary[50]};
+  color: ${colors.Grayscale[13]};
   ${typography.Footnote16}
   @media (max-width: 480px) {
     p {
@@ -55,15 +56,16 @@ const RadioCol = styled.div`
   flex-direction: column;
   margin-top: 2.88rem;
   gap: 2.75rem;
-  color: var(--MDS-GrayScale-13, #000);
-  ${typography.Heading16}
+  color: ${colors.Grayscale[13]};
+  ${typography.Heading16};
+
   @media (max-width: 480px) {
     padding: 0 10rem 0 0;
   }
 `;
 
 const RadioLabel = styled.div`
-  color: var(--MDS-GrayScale-13, #000);
+  color: ${colors.Grayscale[13]};
   ${typography.Heading20}
 `;
 
@@ -90,11 +92,9 @@ const Button = styled.div<ButtonProps>`
   flex-shrink: 0;
   border-radius: 0.1875rem;
   background: ${({ $isActive }) =>
-    $isActive
-      ? 'var(--MDS-Primary-500, #0331d1)'
-      : 'var(--MDS-GrayScale-4, #F0F0F0)'};
+    $isActive ? colors.Primary[500] : colors.Grayscale[4]};
   color: ${({ $isActive }) =>
-    $isActive ? 'white' : 'var(--MDS-GrayScale-6, #BFBFBF)'};
+    $isActive ? colors.Grayscale[1] : colors.Grayscale[6]};
   cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'not-allowed')};
   ${typography.Heading16}
   margin: auto;

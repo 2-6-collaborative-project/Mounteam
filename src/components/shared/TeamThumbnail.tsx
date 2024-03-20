@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import styled from 'styled-components';
+import typography from '@/app/styles/typography';
 
 const ImageSection = styled.div`
   width: 19.6875rem;
@@ -13,25 +14,14 @@ const ImageSection = styled.div`
 
 const Title = styled.div`
   color: var(--MDS-GrayScale-13, #000);
-
-  /* Heading/20 */
-  /* font-family: Pretendard; */
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.75rem; /* 140% */
+  ${typography.Heading20}
 `;
 
 const TeamInfo = styled.div`
   display: flex;
   flex-direction: column;
   color: var(--MDS-GrayScale-7, #8c8c8c);
-  /* Body/16 */
-  /* font-family: Pretendard; */
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.875rem;
+  ${typography.Body16}
   p {
     margin: 0;
   }
@@ -40,12 +30,7 @@ const TeamInfo = styled.div`
 const TeamInfoRow = styled.div`
   display: flex;
   align-items: center;
-  /* Footnote/12 */
-  /* font-family: Pretendard; */
-  font-size: 0.75rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 166.667% */
+  ${typography.Footnote12}
 `;
 
 export default function TeamThumbnail() {
