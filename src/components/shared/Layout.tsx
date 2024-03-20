@@ -4,29 +4,16 @@ import styled from 'styled-components';
 
 const PaddingLayout = styled.div`
   margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 6.5rem;
+  width: 620px;
 
   @media (max-width: 768px) {
-    padding: 0 4rem;
+    width: 400px;
   }
 
   @media (max-width: 480px) {
-    padding: 0 2rem;
+    width: 260px;
   }
 `;
-
-// const PaddingLayout = styled.div`
-//   margin: 0 auto;
-//   width: 524px;
-
-//   @media (max-width: 768px) {
-//   }
-
-//   @media (max-width: 480px) {
-//     width: 416px;
-//   }
-// `;
 
 interface LayoutProps {
   children?: React.ReactNode;
