@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import StyledComponentsRegistry from '../src/lib/registry';
+import StyledComponentsRegistry from '@/src/lib/registry';
 import { ConfigProvider } from 'antd';
-import GlobalStyle from './styles/globals';
-import Layout from '@/src/components/shared/Layout';
+import GlobalStyle from '@/app/styles/globals';
+import InnerLayout from '@/src/components/shared/InnerLayout';
+import { colors } from '@/app/styles/colors';
+import Header from '@/src/components/shared/Header';
 
 const myFont = localFont({
-  src: './styles/PretendardVariable.woff2',
+  src: '../styles/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
 });
@@ -33,15 +35,17 @@ export default function RootLayout({
             theme={{
               token: {
                 fontFamily: myFont.style.fontFamily,
+                colorPrimary: colors.Primary[500],
               },
             }}
           >
             {/* styled component를 server component에 적용할 수 있게 세팅 */}
             <StyledComponentsRegistry>
-              <Layout>
+              <Header />
+              <InnerLayout>
                 <GlobalStyle />
                 {children}
-              </Layout>
+              </InnerLayout>
             </StyledComponentsRegistry>
           </ConfigProvider>
         </body>
