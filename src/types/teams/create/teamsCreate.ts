@@ -1,6 +1,6 @@
 export default interface TeamCreationForm {
   exploreId: string;
-  isCourseSelected: boolean;
+  isCourseSelected: boolean | null;
   course: string;
   title: string;
   description: string;

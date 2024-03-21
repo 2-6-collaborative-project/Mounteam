@@ -6,25 +6,23 @@ import CourseRadio from '@/src/components/teams/create/CourseRadio';
 import CustomInput from '@/src/components/shared/CustomInput';
 import CustomTextArea from '@/src/components/shared/CustomTextArea';
 import TeamDatePicker from '@/src/components/teams/create/TeamDatePicker';
-import TeamTimePicker from '@/src/components/teams/create/TeamTimePicker';
 import CustomButton from '@/src/components/shared/CustomButton';
 import MemberCollapse from '@/src/components/teams/create/MemberCollapse';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 
 const Layout = styled.div`
+  width: 50%;
   margin: 0 auto;
+  max-width: 1200px;
   font-size: 1.6rem;
 
-  @media (min-width: 480px) {
-    width: 416px;
+  @media (max-width: 768px) {
+    width: 70%;
   }
 
-  @media (min-width: 768px) {
-  }
-
-  @media (min-width: 1200px) {
-    width: 524px;
+  @media (max-width: 480px) {
+    width: 100%;
   }
 `;
 
@@ -75,7 +73,7 @@ export default function TeamCreationPage() {
 
         <Title>코스 선택하기</Title>
 
-        <CourseRadio />
+        <CourseRadio handleTeamCreationForm={handleTeamCreationForm} />
       </StepSection>
 
       <StepSection>
@@ -100,12 +98,8 @@ export default function TeamCreationPage() {
         <Description>모이고 싶은 날짜와 시간을 알려주세요:{')'}</Description>
 
         <Title>날짜와 시간 선택하기</Title>
-        <div>
-          <TeamDatePicker />
-        </div>
-        <div>
-          <TeamTimePicker />
-        </div>
+
+        <TeamDatePicker handleTeamCreationForm={handleTeamCreationForm} />
       </StepSection>
 
       <StepSection>

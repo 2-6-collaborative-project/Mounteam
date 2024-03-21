@@ -6,10 +6,7 @@ import { colors } from '@/app/styles/colors';
 export default function MemberCollapse({
   handleTeamCreationForm,
 }: {
-  handleTeamCreationForm: (
-    key: keyof TeamCreationForm,
-    value: string | boolean,
-  ) => void;
+  handleTeamCreationForm: (key: keyof TeamCreationForm, value: string) => void;
 }) {
   const onChangeRadio = (e: RadioChangeEvent) => {
     const { name, value } = e.target;
@@ -38,7 +35,7 @@ export default function MemberCollapse({
                 <Space
                   direction="vertical"
                   style={{
-                    fontSize: '1.4rem',
+                    fontSize: '1.4rem', // Doesn't Work
                     fontWeight: '600',
                     lineHeight: '2rem',
                     gap: '1.8rem',
@@ -72,7 +69,7 @@ export default function MemberCollapse({
                 <Space
                   direction="vertical"
                   style={{
-                    fontSize: '1.4rem',
+                    fontSize: '1.4rem', // Doesn't Work
                     fontWeight: '600',
                     lineHeight: '2rem',
                     gap: '1.8rem',

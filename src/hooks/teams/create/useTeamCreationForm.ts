@@ -5,7 +5,7 @@ export default function useTeamCreationForm() {
   const [teamCreationFormData, setTeamCreationFormData] =
     useState<TeamCreationForm>({
       exploreId: '',
-      isCourseSelected: false,
+      isCourseSelected: null,
       course: '',
       title: '',
       description: '',
