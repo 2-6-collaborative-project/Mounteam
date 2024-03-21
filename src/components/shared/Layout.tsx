@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-const PaddingLayout = styled.div`
+const InnerLayout = styled.div`
   margin: 0 auto;
   width: 992px;
 
@@ -15,15 +15,16 @@ const PaddingLayout = styled.div`
   }
 `;
 
-// const PaddingLayout = styled.div`
+// const innerLayout = styled.div`
 //   margin: 0 auto;
-//   width: 524px;
+//   padding: 6.5rem 0;
 
 //   @media (max-width: 768px) {
+//     padding: 4rem 0;
 //   }
 
 //   @media (max-width: 480px) {
-//     width: 416px;
+//     padding: 2rem 0;
 //   }
 // `;
 
@@ -34,7 +35,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div>
-      <PaddingLayout>{children}</PaddingLayout>
+      <InnerLayout>{children}</InnerLayout>
     </div>
   );
 }
