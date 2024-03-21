@@ -7,7 +7,6 @@ import Link from 'next/link';
 const HeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
-  /* width: 100%; */
   padding: 2rem 0rem 3.75rem 0rem;
   align-items: center;
 `;

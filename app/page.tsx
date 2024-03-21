@@ -4,15 +4,16 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { Button } from 'antd/es/radio';
 import typography from '@/app/styles/typography';
-import Header from '@/src/components/shared/Header';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
+import { teamFeed } from '@/src/lib/mockData';
 
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 10rem;
+  width: 100%;
 `;
 
 const Between = styled.div`
@@ -21,6 +22,7 @@ const Between = styled.div`
   align-items: center;
   ${typography.Heading24};
   padding-bottom: 1.88rem;
+  width: 100%;
 `;
 
 const NavBar = styled.div`
@@ -52,17 +54,11 @@ const TeamThumbnailContainer = styled.div`
   grid-template-rows: repeat(3, auto);
   gap: 1.44rem;
   padding-bottom: 7.5rem;
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, auto);
-  }
 `;
 
 export default function Home() {
   return (
     <>
-      <Header />
       <Body>
         <Tab variant="main" />
         <div>{/* 검색바 */}</div>
@@ -90,12 +86,9 @@ export default function Home() {
             </StyledLink>
           </Between>
           <TeamThumbnailContainer>
-            <TeamThumbnail />
-            <TeamThumbnail />
-            <TeamThumbnail />
-            <TeamThumbnail />
-            <TeamThumbnail />
-            <TeamThumbnail />
+            {teamFeed.slice(0, 6).map((team) => (
+              <TeamThumbnail key={team.teamId} team={team} />
+            ))}
           </TeamThumbnailContainer>
         </div>
         <div>

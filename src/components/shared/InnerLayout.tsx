@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-const InnerLayout = styled.div`
+const Layout = styled.div`
   margin: 0 auto;
   width: clamp(639px, calc(100% - 130px), 992px);
 
@@ -22,6 +22,6 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
-export default function Layout({ children }: LayoutProps) {
-  return <InnerLayout>{children}</InnerLayout>;
+export default function InnerLayout({ children }: LayoutProps) {
+  return <Layout>{children}</Layout>;
 }
