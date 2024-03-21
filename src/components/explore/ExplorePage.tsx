@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import KakaoMap from './KakaoMap';
 import MountainInfo from '../shared/MountainInfo';
-import ExploreCheckbox from './ExploreCheckbox';
+import ExploreFilterPanel from './ExploreFilterPanel';
 
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -37,54 +37,6 @@ const FilterContainer = styled.div`
   width: 20rem;
 `;
 
-interface type {
-  type: 'main' | 'sub';
-}
-
-const FilterHeader = styled.div<type>`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1rem;
-  border-bottom: ${(props) =>
-    props.type === 'main'
-      ? '1px solid var(--MDS-GrayScale-5, #d9d9d9)'
-      : 'none'};
-`;
-
-const FilterTitle = styled.p`
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 2.5rem;
-`;
-
-const FilterReset = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-`;
-
-const ResetImage = styled.button`
-  width: 1.6rem;
-  height: 1.6rem;
-  background: url('./filterReset.svg') no-repeat center center;
-  background-size: cover;
-`;
-
-const ResetTitle = styled(FilterTitle)`
-  color: var(--MDS-GrayScale-7, #8c8c8c);
-`;
-const FilterContents = styled.div`
-  margin-top: 3.3rem;
-  border-bottom: 1px solid var(--MDS-GrayScale-5, #d9d9d9);
-`;
-
-const CollapseButton = styled.button`
-  width: 1rem;
-  height: 1rem;
-  background: url('./arrowUp.svg') no-repeat center center;
-  background-size: cover;
-`;
 const MountainListContainer = styled.div``;
 
 const MountainListHeader = styled.div`
@@ -116,35 +68,6 @@ const MountainList = styled.div`
   row-gap: 4rem;
 `;
 
-const CheckboxGroupContainer = styled.div`
-  .ant-collapse-header {
-    padding: 0 !important;
-  }
-
-  .ant-collapse-content-box {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 1rem 0 0 0 !important;
-  }
-
-  .ant-checkbox-inner {
-    width: 1.3rem;
-    height: 1.3rem;
-  }
-
-  .ant-checkbox-wrapper > span {
-    font-size: 1.16rem;
-    font-weight: 600;
-  }
-
-  @media (max-width: 768px) {
-    .ant-collapse-content-box {
-      display: block;
-    }
-  }
-`;
-
 const Container = styled.div`
   max-width: 100rem;
   margin: 0 auto;
@@ -165,11 +88,6 @@ const Container = styled.div`
     ${FilterContainer} {
       width: 100%;
     }
-
-    ${CheckboxGroupContainer} {
-      display: block;
-      margin-top: 0;
-    }
   }
 
   @media (max-width: 480px) {
@@ -182,32 +100,6 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const regionOptions = [
-    '서울',
-    '경기도',
-    '강원도',
-    '충청북도',
-    '충청남도',
-    '전라북도',
-    '전라남도',
-    '경상북도',
-    '경상남도',
-    '제주도',
-  ];
-
-  const heightOptions = [
-    '500m 미만',
-    '500 ~ 1000m',
-    '1000 ~ 1500m',
-    '1500m 이상',
-  ];
-  // const handleRegionChange = (checkedValues) => {
-  //   console.log('선택된 지역:');
-  //   checkedValues.forEach((value) => {
-  //     console.log(value);
-  //   });
-  // };
-
   return (
     <>
       <Container>
@@ -249,23 +141,7 @@ export default function ExplorePage() {
 
         <SearchResultArea>
           <FilterContainer>
-            <FilterHeader type={'main'}>
-              <FilterTitle>필터</FilterTitle>
-              <FilterReset>
-                <ResetImage />
-                <ResetTitle>초기화</ResetTitle>
-              </FilterReset>
-            </FilterHeader>
-            <FilterContents>
-              <CheckboxGroupContainer>
-                <ExploreCheckbox label={'관심지역'} options={regionOptions} />
-              </CheckboxGroupContainer>
-            </FilterContents>
-            <FilterContents>
-              <CheckboxGroupContainer>
-                <ExploreCheckbox label={'높이'} options={heightOptions} />
-              </CheckboxGroupContainer>
-            </FilterContents>
+            <ExploreFilterPanel />
           </FilterContainer>
 
           <MountainListContainer>
