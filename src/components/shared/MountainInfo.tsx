@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const MountainItem = styled.div`
@@ -45,23 +46,25 @@ const MountainHeight = styled(MountainStatus)`
 
 export default function MountainInfo() {
   return (
-    <MountainItem>
-      <Image
-        layout="responsive"
-        width={260}
-        height={260}
-        objectFit="contain"
-        src="/sample.jpg"
-        alt="산 이미지"
-      />
-      <div>
-        <MountainName>관악산</MountainName>
-        <MountainLocation>산 위치 정보</MountainLocation>
-        <MountainDetail>
-          <MountainHeight>높이: 632m</MountainHeight>
-          <MountainStatus>코스 개수: 15개</MountainStatus>
-        </MountainDetail>
-      </div>
-    </MountainItem>
+    <Link href="/explore/course">
+      <MountainItem>
+        <Image
+          layout="responsive"
+          width={260}
+          height={260}
+          objectFit="contain"
+          src="/sample.jpg"
+          alt="산 이미지"
+        />
+        <div>
+          <MountainName>관악산</MountainName>
+          <MountainLocation>산 위치 정보</MountainLocation>
+          <MountainDetail>
+            <MountainHeight>높이: 632m</MountainHeight>
+            <MountainStatus>코스 개수: 15개</MountainStatus>
+          </MountainDetail>
+        </div>
+      </MountainItem>
+    </Link>
   );
 }

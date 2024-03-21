@@ -1,11 +1,8 @@
 'use client';
-
-import { useState } from 'react';
 import styled from 'styled-components';
 import KakaoMap from './KakaoMap';
 import MountainInfo from '../shared/MountainInfo';
-import { Checkbox } from 'antd';
-import type { CheckboxProps, GetProp } from 'antd';
+import ExploreCheckbox from './ExploreCheckbox';
 
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -120,18 +117,31 @@ const MountainList = styled.div`
 `;
 
 const CheckboxGroupContainer = styled.div`
-  .ant-checkbox-group {
+  .ant-collapse-header {
+    padding: 0 !important;
+  }
+
+  .ant-collapse-content-box {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    padding: 1rem 0 0 0 !important;
   }
 
-  span {
-    font-size: 1.16667rem;
+  .ant-checkbox-inner {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  .ant-checkbox-wrapper > span {
+    font-size: 1.16rem;
     font-weight: 600;
-    line-height: 1.66667rem;
+  }
+
+  @media (max-width: 768px) {
+    .ant-collapse-content-box {
+      display: block;
+    }
   }
 `;
 
@@ -157,9 +167,8 @@ const Container = styled.div`
     }
 
     ${CheckboxGroupContainer} {
-      .ant-checkbox-group {
-        flex-direction: row;
-      }
+      display: block;
+      margin-top: 0;
     }
   }
 
@@ -167,71 +176,37 @@ const Container = styled.div`
     max-width: 40rem;
 
     ${MountainList} {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 40rem));
-
-  }
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 40rem));
+   }
 `;
 
-type CheckboxValueType = GetProp<typeof Checkbox.Group, 'value'>[number];
-
-const CheckboxGroup = Checkbox.Group;
-
-const regionOptions = [
-  '서울',
-  '경기도',
-  '강원도',
-  '충청북도',
-  '충청남도',
-  '전라북도',
-  '전라남도',
-  '경상북도',
-  '경상남도',
-  '제주도',
-];
-
-const heightOptions = [
-  '500m 미만',
-  '500 ~ 1000m',
-  '1000 ~ 1500m',
-  '1500m 이상',
-];
-
 export default function ExplorePage() {
-  const [regionCheckedList, setRegionCheckedList] =
-    useState<CheckboxValueType[]>();
-  const [regionCheckAll, setRegionCheckAll] = useState<boolean>(true);
+  const regionOptions = [
+    '서울',
+    '경기도',
+    '강원도',
+    '충청북도',
+    '충청남도',
+    '전라북도',
+    '전라남도',
+    '경상북도',
+    '경상남도',
+    '제주도',
+  ];
 
-  const [heightCheckedList, setHeightCheckedList] = useState<
-    CheckboxValueType[]
-  >([]);
-  const [heightCheckAll, setHeightCheckAll] = useState<boolean>(false);
-
-  const onRegionChange = (
-    list: CheckboxValueType[],
-    setCheckAllState: Function,
-  ) => {
-    setRegionCheckedList(list);
-    setCheckAllState(list.length === regionOptions.length);
-  };
-
-  const onRegionCheckAllChange: CheckboxProps['onChange'] = (e) => {
-    setRegionCheckedList(e.target.checked ? regionOptions : []);
-    setRegionCheckAll(e.target.checked);
-  };
-
-  const onHeightChange = (
-    list: CheckboxValueType[],
-    setCheckAllState: Function,
-  ) => {
-    setHeightCheckedList(list);
-    setCheckAllState(list.length === heightOptions.length);
-  };
-
-  const onHeightCheckAllChange: CheckboxProps['onChange'] = (e) => {
-    setHeightCheckedList(e.target.checked ? heightOptions : []);
-    setHeightCheckAll(e.target.checked);
-  };
+  const heightOptions = [
+    '500m 미만',
+    '500 ~ 1000m',
+    '1000 ~ 1500m',
+    '1500m 이상',
+  ];
+  // const handleRegionChange = (checkedValues) => {
+  //   console.log('선택된 지역:');
+  //   checkedValues.forEach((value) => {
+  //     console.log(value);
+  //   });
+  // };
 
   return (
     <>
@@ -282,43 +257,13 @@ export default function ExplorePage() {
               </FilterReset>
             </FilterHeader>
             <FilterContents>
-              <FilterHeader type={'sub'}>
-                <FilterTitle>관심지역</FilterTitle>
-                <CollapseButton />
-              </FilterHeader>
-
               <CheckboxGroupContainer>
-                <Checkbox
-                  onChange={onRegionCheckAllChange}
-                  checked={regionCheckAll}
-                >
-                  전체 선택
-                </Checkbox>
-
-                <CheckboxGroup
-                  options={regionOptions}
-                  value={regionCheckedList}
-                  onChange={(list) => onRegionChange(list, setRegionCheckAll)}
-                />
+                <ExploreCheckbox label={'관심지역'} options={regionOptions} />
               </CheckboxGroupContainer>
             </FilterContents>
             <FilterContents>
-              <FilterHeader type="sub">
-                <FilterTitle>높이</FilterTitle>
-                <CollapseButton />
-              </FilterHeader>
               <CheckboxGroupContainer>
-                <Checkbox
-                  onChange={onHeightCheckAllChange}
-                  checked={heightCheckAll}
-                >
-                  전체 선택
-                </Checkbox>
-                <CheckboxGroup
-                  options={heightOptions}
-                  value={heightCheckedList}
-                  onChange={(list) => onHeightChange(list, setHeightCheckAll)}
-                ></CheckboxGroup>
+                <ExploreCheckbox label={'높이'} options={heightOptions} />
               </CheckboxGroupContainer>
             </FilterContents>
           </FilterContainer>
