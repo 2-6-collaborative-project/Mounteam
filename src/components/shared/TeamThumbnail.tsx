@@ -27,12 +27,6 @@ const TeamInfo = styled.div`
   }
 `;
 
-const TeamInfoRow = styled.div`
-  display: flex;
-  align-items: center;
-  ${typography.Footnote12}
-`;
-
 export default function TeamThumbnail() {
   return (
     <div>
@@ -40,10 +34,6 @@ export default function TeamThumbnail() {
       <Title>모임 제목</Title>
       <TeamInfo>
         <p>관악산 입구 | 3.27(수) | 오후 2시</p>
-        <TeamInfoRow>
-          <Image src="/team.svg" alt="team icon" width={16} height={16} />
-          <p>3/10</p>
-        </TeamInfoRow>
       </TeamInfo>
     </div>
   );
