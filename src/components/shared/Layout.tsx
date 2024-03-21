@@ -4,14 +4,14 @@ import styled from 'styled-components';
 
 const PaddingLayout = styled.div`
   margin: 0 auto;
-  width: 620px;
+  width: 992px;
 
   @media (max-width: 768px) {
-    width: 400px;
+    width: 640px;
   }
 
   @media (max-width: 480px) {
-    width: 260px;
+    width: 416px;
   }
 `;
 
