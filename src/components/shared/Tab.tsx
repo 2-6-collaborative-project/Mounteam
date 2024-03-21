@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 
-type Variant = 'main' | 'explore' | 'feeds' | 'teams';
+type Variant = 'main' | 'explores' | 'feeds' | 'teams';
 
 const LinkCol = styled.div`
   display: flex;
@@ -24,7 +24,6 @@ const StyledParagraph = styled.p<{ $variant?: Variant }>`
   border-bottom: ${({ $variant }) =>
     $variant === 'main' ? `1px solid ${colors.Primary[500]}` : 'none'};
 
-  // hover시 색 변화가 있어야할 것 같아 아래 설정 추가했습니다. 제외해야 할까요?
   &:hover {
     color: ${colors.Primary[500]};
   }
@@ -35,7 +34,6 @@ interface TabProps {
 }
 
 // 엔드포인트 명에 맞게 링크명에 s 달았습니다.
-
 export default function Tab({ variant }: TabProps) {
   return (
     <div>
@@ -45,7 +43,7 @@ export default function Tab({ variant }: TabProps) {
         </Link>
         <Link href="/explores" passHref>
           <StyledParagraph
-            $variant={variant === 'explore' ? 'explore' : undefined}
+            $variant={variant === 'explores' ? 'explores' : undefined}
           >
             탐험
           </StyledParagraph>
