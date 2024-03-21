@@ -16,13 +16,13 @@ const LinkCol = styled.div`
   ${typography.Heading20}
 `;
 
-const StyledParagraph = styled.p<{ variant?: Variant }>`
+const StyledParagraph = styled.p<{ $variant?: Variant }>`
   padding: 1rem 0rem;
 
-  color: ${({ variant }) =>
-    variant === 'main' ? colors.Primary[500] : 'inherit'};
-  border-bottom: ${({ variant }) =>
-    variant === 'main' ? `1px solid ${colors.Primary[500]}` : 'none'};
+  color: ${({ $variant }) =>
+    $variant === 'main' ? colors.Primary[500] : 'inherit'};
+  border-bottom: ${({ $variant }) =>
+    $variant === 'main' ? `1px solid ${colors.Primary[500]}` : 'none'};
 
   // hover시 색 변화가 있어야할 것 같아 아래 설정 추가했습니다. 제외해야 할까요?
   &:hover {
@@ -41,22 +41,22 @@ export default function Tab({ variant }: TabProps) {
     <div>
       <LinkCol>
         <Link href="/" passHref>
-          <StyledParagraph variant={variant}>추천</StyledParagraph>
+          <StyledParagraph $variant={variant}>추천</StyledParagraph>
         </Link>
         <Link href="/explores" passHref>
           <StyledParagraph
-            variant={variant === 'explore' ? 'explore' : undefined}
+            $variant={variant === 'explore' ? 'explore' : undefined}
           >
             탐험
           </StyledParagraph>
         </Link>
         <Link href="/feeds" passHref>
-          <StyledParagraph variant={variant === 'feeds' ? 'feeds' : undefined}>
+          <StyledParagraph $variant={variant === 'feeds' ? 'feeds' : undefined}>
             피드
           </StyledParagraph>
         </Link>
         <Link href="/teams" passHref>
-          <StyledParagraph variant={variant === 'teams' ? 'teams' : undefined}>
+          <StyledParagraph $variant={variant === 'teams' ? 'teams' : undefined}>
             모임
           </StyledParagraph>
         </Link>

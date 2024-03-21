@@ -15,6 +15,18 @@ const PaddingLayout = styled.div`
   }
 `;
 
+// const PaddingLayout = styled.div`
+//   margin: 0 auto;
+//   width: 524px;
+
+//   @media (max-width: 768px) {
+//   }
+
+//   @media (max-width: 480px) {
+//     width: 416px;
+//   }
+// `;
+
 interface LayoutProps {
   children?: React.ReactNode;
 }
