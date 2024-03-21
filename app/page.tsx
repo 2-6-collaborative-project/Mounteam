@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Button } from 'antd/es/radio';
+import typography from '@/app/styles/typography';
 import Header from '@/src/components/shared/Header';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
@@ -18,6 +19,8 @@ const Between = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${typography.Heading24};
+  padding-bottom: 1.88rem;
 `;
 
 const NavBar = styled.div`
@@ -31,6 +34,7 @@ const NavBar = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+  ${typography.Footnote16};
 
   &:hover {
     text-decoration: none;
@@ -39,6 +43,19 @@ const StyledLink = styled(Link)`
   p {
     margin: 0;
     color: inherit;
+  }
+`;
+
+const TeamThumbnailContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 1.44rem;
+  padding-bottom: 7.5rem;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, auto);
   }
 `;
 
@@ -53,11 +70,11 @@ export default function Home() {
         {/* 내비게이션 바 */}
         <div>
           <NavBar>
-            <StyledLink href="/team">
-              <Button>모임 보러가기</Button>
+            <StyledLink href="/teams">
+              <Button>등산 모임</Button>
             </StyledLink>
-            <StyledLink href="/explore">
-              <Button>100대 명산 모음</Button>
+            <StyledLink href="/explores">
+              <Button>100대 명산</Button>
             </StyledLink>
             {/* 아래 버튼은 추후 페이지 제작 후 링크 연결 */}
             <Button>지도 보기</Button>
@@ -67,17 +84,24 @@ export default function Home() {
         </div>
         <div>
           <Between>
-            <p>요즘 뜨는 등산 모임 Top 3</p>
-            <StyledLink href="/team">
+            <p>등산 같이가자</p>
+            <StyledLink href="/teams">
               <p>전체보기</p>
             </StyledLink>
           </Between>
-          <TeamThumbnail />
+          <TeamThumbnailContainer>
+            <TeamThumbnail />
+            <TeamThumbnail />
+            <TeamThumbnail />
+            <TeamThumbnail />
+            <TeamThumbnail />
+            <TeamThumbnail />
+          </TeamThumbnailContainer>
         </div>
         <div>
           <Between>
-            <p>등반 후기</p>
-            <StyledLink href="/feed">
+            <p>#등반후기</p>
+            <StyledLink href="/feeds">
               <p>전체보기</p>
             </StyledLink>
           </Between>

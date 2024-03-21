@@ -1,40 +1,48 @@
 'use client';
 
-import Image from 'next/image';
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
+import { colors } from '@/app/styles/colors';
 
-const ImageSection = styled.div`
-  width: 19.6875rem;
-  height: 19.6875rem;
-  border-radius: 0.1875rem;
-  background: var(--MDS-GrayScale-5, #d9d9d9);
-  margin-bottom: 0.62rem;
+const TeamBox = styled.div`
+  display: flex;
+  width: 30.25rem;
+  padding: 1.125rem 0.9375rem;
+  align-items: flex-start;
+  gap: 1.875rem;
 `;
 
-const Title = styled.div`
-  color: var(--MDS-GrayScale-13, #000);
-  ${typography.Heading20}
+const ImageSection = styled.div`
+  width: 6.875rem;
+  height: 6.875rem;
+  border-radius: 100%;
+  background: ${colors.Grayscale[5]};
 `;
 
 const TeamInfo = styled.div`
   display: flex;
   flex-direction: column;
-  color: var(--MDS-GrayScale-7, #8c8c8c);
+  color: ${colors.Grayscale[7]};
   ${typography.Body16}
   p {
     margin: 0;
   }
 `;
 
+const Title = styled.div`
+  color: ${colors.Grayscale[13]};
+  ${typography.Heading20};
+  padding-bottom: 0.31rem;
+`;
+
 export default function TeamThumbnail() {
   return (
-    <div>
+    <TeamBox>
       <ImageSection />
-      <Title>모임 제목</Title>
       <TeamInfo>
+        <Title>모임 제목</Title>
         <p>관악산 입구 | 3.27(수) | 오후 2시</p>
       </TeamInfo>
-    </div>
+    </TeamBox>
   );
 }
