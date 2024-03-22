@@ -1,7 +1,9 @@
 'use client';
 
+import EditProfile from '@/src/components/mypage/EditProfile';
 import Profile from '@/src/components/mypage/Profile';
-import React, { useEffect, useState } from 'react';
+import Modals from '@/src/components/shared/Modal';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const ContentsContainer = styled.div`
@@ -75,7 +77,6 @@ export default function Mypage() {
           clickShowAll={() => {}}
           clickVerify={() => {}}
         />
-
         <Selector>
           <Text1
             selector={selector}
