@@ -219,7 +219,7 @@ export default function ExplorePage() {
             <SearchTag>Tag2</SearchTag>
             <SearchTag>Tag3</SearchTag>
           </SearchTagContainer>
-          <KakaoMap />
+          <KakaoMap mountainList={mountainList} />
         </SearchMountainArea>
 
         <SearchResultArea>
