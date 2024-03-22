@@ -8,7 +8,7 @@ import type { RadioChangeEvent } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { ConfigProvider } from 'antd';
 import typography from '@/app/styles/typography';
-import { colors } from '@/app/styles/colors';
+import { colors } from '../../styles/colors';
 
 interface ButtonProps {
   $isActive: boolean;

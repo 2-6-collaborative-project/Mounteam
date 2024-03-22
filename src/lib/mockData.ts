@@ -26,8 +26,8 @@ export const teamFeed = [
     exploreId: '명지산',
     title: '명지산 렛츠고',
     departureDay: '2024-09-12 13:00',
-    ageRange: '50',
-    genderRange: '여성',
+    ageRange: '50', //teenager, twetnys,....병화님꺼 pull 받아와서 참고하기
+    genderRange: '여성', //male, female
     description: '',
     kakaoLink: '',
     kakaoPassword: '',
