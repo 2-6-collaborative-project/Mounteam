@@ -8,6 +8,7 @@ import InnerLayout from '@/src/components/shared/InnerLayout';
 import { colors } from '@/app/styles/colors';
 import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
+import QueryProvider from '@/app/QueryProvider/QueryProvider';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
@@ -50,14 +51,16 @@ export default function RootLayout({
               },
             }}
           >
-            {/* styled component를 server component에 적용할 수 있게 세팅 */}
-            <StyledComponentsRegistry>
-              <Header />
-              <InnerLayout>
-                <GlobalStyle />
-                {children}
-              </InnerLayout>
-            </StyledComponentsRegistry>
+            <QueryProvider>
+              {/* styled component를 server component에 적용할 수 있게 세팅 */}
+              <StyledComponentsRegistry>
+                <Header />
+                <InnerLayout>
+                  <GlobalStyle />
+                  {children}
+                </InnerLayout>
+              </StyledComponentsRegistry>
+            </QueryProvider>
           </ConfigProvider>
         </body>
       </AntdRegistry>

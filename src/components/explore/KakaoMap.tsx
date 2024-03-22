@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import mountainData from './mountainData';
+import mountainData from './getMountainData';
+
 const Map = styled.div`
   width: 100%;
   height: 400px;

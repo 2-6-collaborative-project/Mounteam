@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import KakaoMap from './KakaoMap';
 import MountainInfo from '../shared/MountainInfo';
 import ExploreFilterPanel from './ExploreFilterPanel';
-import mountainData from './mountainData';
+import getMountainData from './getMountainData';
 import Link from 'next/link';
 
 const SearchMountainArea = styled.div`
@@ -166,7 +166,7 @@ export default function ExplorePage() {
   };
 
   const searchData = async () => {
-    const res = await mountainData();
+    const res = await getMountainData();
 
     let autoCompletedData = res.filter(
       (list: any) => list.명산_이름.includes(keyword) === true,

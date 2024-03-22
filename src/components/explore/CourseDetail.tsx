@@ -65,15 +65,6 @@ export default function CourseDetail() {
       <Container>
         <div
           style={{
-            height: '5.7rem',
-            backgroundColor: '#ddd',
-            marginBottom: '0.4rem',
-          }}
-        >
-          헤더가 들어갈 자리입니다.
-        </div>
-        <div
-          style={{
             height: '4.6rem',
             backgroundColor: '#ddd',
           }}
