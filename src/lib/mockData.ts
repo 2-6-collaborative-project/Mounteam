@@ -35,7 +35,7 @@ export const teamFeed = [
   {
     teamId: 4,
     exploreId: '설악산',
-    title: '설악산 가실?',
+    title: '고수만 모십니다',
     departureDay: '2024-04-16 14:00',
     ageRange: '30',
     genderRange: '남성',
@@ -57,7 +57,7 @@ export const teamFeed = [
   {
     teamId: 6,
     exploreId: '용문산',
-    title: '용문산 같이가실분',
+    title: '용문산으로 떠나요',
     departureDay: '2024-03-27 17:00',
     ageRange: '40',
     genderRange: '여성',

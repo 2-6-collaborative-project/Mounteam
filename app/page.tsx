@@ -2,11 +2,12 @@
 
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Button } from 'antd/es/radio';
-import typography from '@/app/styles/typography';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
+import NavButton from '@/src/components/main/NavButton';
+import CarouselSection from '@/src/components/main/CarouselSection';
 import { teamFeed } from '@/src/lib/mockData';
+import typography from '@/app/styles/typography';
 
 const Body = styled.div`
   display: flex;
@@ -21,7 +22,6 @@ const Between = styled.div`
   justify-content: space-between;
   align-items: center;
   ${typography.Heading24};
-  padding-bottom: 1.88rem;
   width: 100%;
 `;
 
@@ -31,6 +31,8 @@ const NavBar = styled.div`
   align-items: center;
   /* tab botton 확인을 위해서 임시 패딩 설정 */
   padding-top: 5rem;
+  padding: 1.875rem 0rem;
+  gap: 1.125rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -62,20 +64,25 @@ export default function Home() {
       <Body>
         <Tab variant="main" />
         <div>{/* 검색바 */}</div>
-        <div>{/* 이미지 넘기는 섹션 */}</div>
-        {/* 내비게이션 바 */}
+        {/* <CarouselSection /> */}
         <div>
           <NavBar>
-            <StyledLink href="/teams">
-              <Button>등산 모임</Button>
-            </StyledLink>
-            <StyledLink href="/explores">
-              <Button>100대 명산</Button>
-            </StyledLink>
-            {/* 아래 버튼은 추후 페이지 제작 후 링크 연결 */}
-            <Button>지도 보기</Button>
-            <Button>추천 코스</Button>
-            <Button>초심자 추천</Button>
+            <NavButton href="/teams">
+              <p>등산 모임</p>
+            </NavButton>
+            <NavButton href="/teams">
+              <p>100대 명산</p>
+            </NavButton>
+            {/* 아래 3개는 추후 페이지 제작 후 링크연결 */}
+            <NavButton href="/">
+              <p>지도 보기</p>
+            </NavButton>
+            <NavButton href="/">
+              <p>추천 코스</p>
+            </NavButton>
+            <NavButton href="/">
+              <p>초보 추천</p>
+            </NavButton>
           </NavBar>
         </div>
         <div>
