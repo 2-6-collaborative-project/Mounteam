@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import KakaoMap from './KakaoMap';
-import MountainInfo from '../shared/MountainInfo';
-import ExploreFilterPanel from './ExploreFilterPanel';
-import getMountainData from './getMountainData';
-import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import styled from 'styled-components';
+import KakaoMap from '@/src/components/explore/KakaoMap';
+import MountainInfo from '@/src/components/shared/MountainInfo';
+import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
+import getMountainData from '@/src/components/explore/getMountainData';
 
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -73,12 +73,7 @@ const MountainList = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 100rem;
-  margin: 0 auto;
-
   @media (max-width: 768px) {
-    max-width: 64rem;
-
     ${MainTitle} {
       font-size: 2rem;
       line-height: 2.5rem;
@@ -94,8 +89,6 @@ const Container = styled.div`
   }
 
   @media (max-width: 480px) {
-    max-width: 40rem;
-
     ${MountainList} {
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 40rem));
