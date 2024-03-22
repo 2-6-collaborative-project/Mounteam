@@ -1,4 +1,4 @@
-interface Feed {
+export interface Feed {
   id: number; // 게시글 아이디
   exploreId: number; // 산 아이디
   author: {

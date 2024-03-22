@@ -11,6 +11,7 @@ import bookmark from '@/public/bookmark.svg';
 import fillBookmark from '@/public/fillBookmark.svg';
 import { Popover } from 'antd';
 import styled from 'styled-components';
+import { InfoBox } from '../shared/InfoBox';
 
 interface FeedImgProps {
   imageUrl?: string;
@@ -92,54 +93,6 @@ const MeatBallFrame = styled.div`
 const PictureBox = styled.div`
   width: 31.5rem;
   height: 31.5rem;
-`;
-
-const InfoBox = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: 1.5rem;
-  padding-top: 1.1rem;
-
-  & p {
-    color: #000;
-    font-size: 1.2rem;
-    font-weight: 600;
-    line-height: 1.2rem;
-  }
-`;
-
-const LikeBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-
-  & img {
-    cursor: pointer;
-  }
-`;
-
-const CommentBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-
-  & img {
-    cursor: pointer;
-  }
-`;
-
-const BookmarkBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  padding-left: 19rem;
-
-  & img {
-    cursor: pointer;
-  }
 `;
 
 const TextBox = styled.div`
@@ -232,7 +185,7 @@ export default function FeedPage() {
               ></div>
             )}
 
-            <InfoBox>
+            {/* <InfoContainer>
               <LikeBox>
                 {feed.isLiked ? (
                   <Image src={fillHeart} alt="좋아요 갯수 확인 아이콘" />
@@ -255,7 +208,9 @@ export default function FeedPage() {
                   <Image src={bookmark} alt="피드 저장 여부 확인 아이콘" />
                 )}
               </BookmarkBox>
-            </InfoBox>
+            </InfoContainer> */}
+
+            <InfoBox feed={feed} />
 
             {feed.mainText ? (
               <TextBox>
