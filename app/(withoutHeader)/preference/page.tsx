@@ -7,6 +7,8 @@ import { Radio, Checkbox } from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { ConfigProvider } from 'antd';
+import typography from '@/app/styles/typography';
+import { colors } from '../../styles/colors';
 
 interface ButtonProps {
   $isActive: boolean;
@@ -16,17 +18,11 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 17.06rem 0 17.06rem;
   margin: 0 auto;
   margin-bottom: 10rem;
-  max-width: 1200px;
 
   @media (max-width: 768px) {
-    padding: 0 7.44rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 2rem;
+    padding: 0 3.44rem;
   }
 `;
 
@@ -44,13 +40,9 @@ const Notification = styled.div`
   gap: 0.625rem;
   margin: auto;
   border-radius: 0.1875rem;
-  background: var(--MDS-Primary-50, #d3dcfd);
-  color: var(--MDS-GrayScale-13, #000);
-  /* Footnote/16 */
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 2rem; /* 200% */
+  background: ${colors.Primary[50]};
+  color: ${colors.Grayscale[13]};
+  ${typography.Footnote16}
   @media (max-width: 480px) {
     p {
       display: inline;
@@ -64,13 +56,8 @@ const RadioCol = styled.div`
   flex-direction: column;
   margin-top: 2.88rem;
   gap: 2.75rem;
-  color: var(--MDS-GrayScale-13, #000);
-  /* Heading/16 */
-  /* font-family: Pretendard; */
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5rem; /* 150% */
+  color: ${colors.Grayscale[13]};
+  ${typography.Heading16};
 
   @media (max-width: 480px) {
     padding: 0 10rem 0 0;
@@ -78,13 +65,8 @@ const RadioCol = styled.div`
 `;
 
 const RadioLabel = styled.div`
-  color: var(--MDS-GrayScale-13, #000);
-  /* Heading/20 */
-  /* font-family: Pretendard; */
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.75rem; /* 140% */
+  color: ${colors.Grayscale[13]};
+  ${typography.Heading20}
 `;
 
 const RegionCol = styled.div`
@@ -96,18 +78,7 @@ const CheckboxCol = styled.div`
   flex-direction: column;
   gap: 0.625rem;
   padding: 4.06rem 0 5.81rem;
-  /* Heading/16 */
-  /* font-family: Pretendard; */
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5rem; /* 150% */
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  ${typography.Heading16}
 `;
 
 // antd button or 버튼 컴포넌트로 변경하기
@@ -121,16 +92,11 @@ const Button = styled.div<ButtonProps>`
   flex-shrink: 0;
   border-radius: 0.1875rem;
   background: ${({ $isActive }) =>
-    $isActive
-      ? 'var(--MDS-Primary-500, #0331d1)'
-      : 'var(--MDS-GrayScale-4, #F0F0F0)'};
+    $isActive ? colors.Primary[500] : colors.Grayscale[4]};
   color: ${({ $isActive }) =>
-    $isActive ? 'white' : 'var(MDS GrayScale-6, #BFBFBF)'};
+    $isActive ? colors.Grayscale[1] : colors.Grayscale[6]};
   cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'not-allowed')};
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 2rem;
+  ${typography.Heading16}
   margin: auto;
   @media (max-width: 480px) {
     width: calc(100% - 2rem);
@@ -172,7 +138,7 @@ export default function Preference() {
     <ConfigProvider
       theme={{
         token: {
-          fontSize: 10,
+          fontSize: 16,
         },
       }}
     >
@@ -248,9 +214,7 @@ export default function Preference() {
             </Checkbox>
           </div>
         </CheckboxCol>
-        <ButtonContainer>
-          <Button $isActive={isButtonActive}>시작하기</Button>
-        </ButtonContainer>
+        <Button $isActive={isButtonActive}>시작하기</Button>
       </Body>
     </ConfigProvider>
   );
