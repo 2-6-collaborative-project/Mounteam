@@ -34,6 +34,7 @@ const SearchWrapper = styled.div`
   align-items: center;
   gap: 1.1rem;
   cursor: pointer;
+  width: 100%;
 
   & img {
     width: 2.4rem;
@@ -41,7 +42,7 @@ const SearchWrapper = styled.div`
   }
 
   & input {
-    width: 16rem;
+    width: 100%;
     height: 3rem;
     border: none;
     padding-left: 1rem;
@@ -53,13 +54,6 @@ const SearchWrapper = styled.div`
       font-weight: 400;
       line-height: 3.6rem;
     }
-  }
-
-  @media (max-width: 768px) {
-    margin-left: -2.5rem;
-  }
-  @media (max-width: 480px) {
-    margin-left: -2.5rem;
   }
 `;
 
