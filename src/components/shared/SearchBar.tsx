@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import feedSearchImgfrom from '@/public/feedSearch.svg';
+import { colors } from '@/app/styles/colors';
 
 interface SearchBarProps {
   placeholder: string;
@@ -15,7 +16,7 @@ const SearchContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
-  border-bottom: 1px solid var(--black-000000);
+  border-bottom: 1px solid ${colors.Grayscale[13]};
   margin: 0 auto;
 
   @media (max-width: 768px) {
