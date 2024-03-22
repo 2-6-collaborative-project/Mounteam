@@ -7,7 +7,6 @@ import FeedSearch from '@/src/components/feeds/FeedSearch';
 const FeedHomeLayer = styled.div`
   width: 100%;
   height: auto;
-  padding: 18rem;
   margin: auto;
 `;
 
