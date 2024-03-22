@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { SelectPopover } from '../shared/Modal';
+import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { feedMockData } from './mock';
 import user from '@/public/user.svg';
 import meatballs from '@/public/meatballs.svg';
@@ -12,6 +12,7 @@ import fillBookmark from '@/public/fillBookmark.svg';
 import { Popover } from 'antd';
 import styled from 'styled-components';
 import { InfoBox } from '../shared/InfoBox';
+import Link from 'next/link';
 
 interface FeedImgProps {
   imageUrl?: string;
@@ -130,8 +131,25 @@ const TagWrapper = styled.div`
   }
 `;
 
+const PopoverContentBox = styled.div`
+  display: flex;
+  cursor: pointer;
+  width: 71px;
+  flex-direction: column;
+  align-items: center;
+`;
+
 // 후기 컴포넌트
 export default function FeedPage() {
+  // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
+  // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
+  const content = (
+    <PopoverContentBox>
+      <Link href="/">수정</Link>
+      <Link href="/">삭제</Link>
+    </PopoverContentBox>
+  );
+
   const feeds = feedMockData();
 
   return (
@@ -159,16 +177,9 @@ export default function FeedPage() {
 
               <MeatBallFrame>
                 {feed.createdByme && (
-                  <Popover
-                    content={
-                      <div style={{ cursor: 'pointer' }}>
-                        <p>수정</p>
-                        <p>삭제</p>
-                      </div>
-                    }
-                  >
+                  <CustomPopover content={content}>
                     <Image src={meatballs} alt="미트볼" />
-                  </Popover>
+                  </CustomPopover>
                 )}
               </MeatBallFrame>
             </FeedHead>
