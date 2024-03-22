@@ -6,7 +6,7 @@ import message from '@/public/message.svg';
 import bookmark from '@/public/bookmark.svg';
 import fillBookmark from '@/public/fillBookmark.svg';
 import Image from 'next/image';
-import { Feed } from '@/src/components/feed/mock';
+import { Feed } from '@/src/components/feeds/mock';
 
 interface InfoBoxProps {
   feed: Feed;

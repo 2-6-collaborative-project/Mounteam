@@ -1,8 +1,8 @@
 'use client';
 
 import styled from 'styled-components';
-import FeedPage from '@/src/components/feed/FeedPage';
-import FeedSearch from '@/src/components/feed/FeedSearch';
+import FeedPage from '@/src/components/feeds/FeedPage';
+import FeedSearch from '@/src/components/feeds/FeedSearch';
 
 const FeedHomeLayer = styled.div`
   width: 100%;
