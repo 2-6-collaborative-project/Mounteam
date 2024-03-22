@@ -18,8 +18,8 @@ const NavButtonContainer = styled.div`
   align-items: center;
   gap: 0.8125rem;
   border-radius: 0.1875rem;
-  background: ${colors.Primary[50]};
-  ${typography.Heading20};
+  background: ${colors.Grayscale[3]};
+  ${typography.Heading16};
 `;
 
 const ImageSection = styled.div`

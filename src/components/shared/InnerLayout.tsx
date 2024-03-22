@@ -14,19 +14,6 @@ const Layout = styled.div`
   }
 `;
 
-// const innerLayout = styled.div`
-//   margin: 0 auto;
-//   padding: 6.5rem 0;
-
-//   @media (max-width: 768px) {
-//     padding: 4rem 0;
-//   }
-
-//   @media (max-width: 480px) {
-//     padding: 2rem 0;
-//   }
-// `;
-
 interface LayoutProps {
   children?: React.ReactNode;
 }

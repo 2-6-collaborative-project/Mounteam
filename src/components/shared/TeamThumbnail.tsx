@@ -6,6 +6,7 @@ import { colors } from '@/app/styles/colors';
 
 const TeamBox = styled.div`
   display: flex;
+  width: 100%;
   padding: 1.125rem 0.9375rem;
   align-items: center;
   gap: 1.875rem;
@@ -15,6 +16,14 @@ const TeamBox = styled.div`
     border-radius: 0.1875rem;
     border: 1.4px solid ${colors.Primary[500]};
   }
+
+  @media (max-width: 768px) {
+    width: 40rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const ImageSection = styled.div`
@@ -22,6 +31,17 @@ const ImageSection = styled.div`
   height: 6.875rem;
   border-radius: 100%;
   background: ${colors.Grayscale[5]};
+
+  @media (max-width: 768px) {
+    width: 7.5rem;
+    height: 7.5rem;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    width: 6.875rem;
+    height: 6.875rem;
+  }
 `;
 
 const TeamInfo = styled.div`
@@ -81,14 +101,11 @@ interface TeamFeedType {
   exploreId: string;
   title: string;
   departureDay: string;
-  ageRange: string;
-  genderRange: string;
-  description: string;
-  kakaoLink: string;
-  kakaoPassword: string;
+  ageRange: string[];
+  genderRange: string[];
 }
 
-// 클릭 시 상세페이지로 이동하는 기능 추가 필요
+// 클릭 시 상세페이지로 이동하는 기능 추가, 산 아이디에 따른 이름 변환 필요
 
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   const formatDate = (dateStr: any) => {
@@ -106,6 +123,47 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
 
   const { formattedDate, formattedTime } = formatDate(team.departureDay);
 
+  const renderGenderText = () => {
+    const genderRanges = Array.isArray(team.genderRange)
+      ? team.genderRange
+      : [team.genderRange];
+
+    if (genderRanges.includes('male') && genderRanges.includes('female')) {
+      return '성별무관';
+    } else if (genderRanges.includes('male')) {
+      return '남성만';
+    } else if (genderRanges.includes('female')) {
+      return '여성만';
+    }
+    return ''; // genderRange가 빈 문자열이거나 빈 배열인 경우
+  };
+
+  const renderAgeRangeText = () => {
+    const ageRanges = Array.isArray(team.ageRange)
+      ? team.ageRange
+      : [team.ageRange];
+    return ageRanges
+      .map((age) => {
+        switch (age) {
+          case 'teenager':
+            return '10대';
+          case 'twenties':
+            return '20대';
+          case 'thirties':
+            return '30대';
+          case 'fourties':
+            return '40대';
+          case 'fifties':
+            return '50대';
+          case 'sixties':
+            return '60대 이상';
+          default:
+            return '';
+        }
+      })
+      .join(', ');
+  };
+
   return (
     <TeamBox>
       <ImageSection />
@@ -116,10 +174,10 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
         </TeamInfo>
         <TeamChips>
           <GenderRange>
-            <p>{team.genderRange}만</p>
+            <p>{renderGenderText()}</p>
           </GenderRange>
           <AgeRange>
-            <p>{`${team.ageRange}대만`}</p>
+            <p>{renderAgeRangeText()}</p>
           </AgeRange>
         </TeamChips>
       </TeamCol>
