@@ -11,7 +11,7 @@ export default function CustomTextArea(props: CustomTextAreaProps) {
       {...props}
       style={{
         borderRadius: '3px',
-        padding: '1.2rem 2.5rem;',
+        padding: '1.2rem 2.5rem',
       }}
     />
   );
