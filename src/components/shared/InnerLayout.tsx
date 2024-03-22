@@ -2,16 +2,15 @@
 
 import styled from 'styled-components';
 
-const InnerLayout = styled.div`
+const Layout = styled.div`
+  width: 82%;
   margin: 0 auto;
-  width: 992px;
+  max-width: 1200px;
 
   @media (max-width: 768px) {
-    width: 640px;
   }
 
   @media (max-width: 480px) {
-    width: 416px;
   }
 `;
 
@@ -32,10 +31,10 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function InnerLayout({ children }: LayoutProps) {
   return (
     <div>
-      <InnerLayout>{children}</InnerLayout>
+      <Layout>{children}</Layout>
     </div>
   );
 }

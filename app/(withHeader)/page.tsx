@@ -3,7 +3,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Button } from 'antd/es/radio';
-import Header from '@/src/components/shared/Header';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
 
@@ -45,7 +44,6 @@ const StyledLink = styled(Link)`
 export default function Home() {
   return (
     <>
-      <Header />
       <Body>
         <Tab variant="main" />
         <div>{/* 검색바 */}</div>

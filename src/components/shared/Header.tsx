@@ -7,9 +7,17 @@ import Link from 'next/link';
 const HeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 82%;
+  margin: 0 auto;
+  max-width: 1200px;
   padding: 2rem 0rem 3.75rem 0rem;
   align-items: center;
+
+  @media (max-width: 768px) {
+  }
+
+  @media (max-width: 480px) {
+  }
 `;
 
 const LogoContainer = styled.div`
