@@ -1,10 +1,15 @@
 'use client';
 
-import EditProfile from '@/src/components/mypage/EditProfile';
+import FeedPage from '@/src/components/feeds/FeedPage';
+import { feedMockData } from '@/src/components/feeds/mock';
 import Profile from '@/src/components/mypage/Profile';
-import Modals from '@/src/components/shared/Modal';
+import Tab from '@/src/components/shared/Tab';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+const TabContainer = styled.div`
+  margin-bottom: 8rem;
+`;
 
 const ContentsContainer = styled.div`
   display: flex;
@@ -12,13 +17,19 @@ const ContentsContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10rem;
-  padding: 0 3.2rem 0 3.2rem;
 `;
 
 const Flex = styled.div`
   margin: 0 auto 0 auto;
 `;
 
+const FlexContainer = styled.div`
+  padding-bottom: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+`;
 const Selector = styled.div`
   width: fit-content;
   display: flex;
@@ -65,44 +76,60 @@ interface StyledProps {
 //
 export default function Mypage() {
   const [selector, setSelector] = useState(1);
-
+  const feeds = feedMockData();
   return (
     <>
+      <TabContainer>
+        <Tab variant="feeds" />
+      </TabContainer>
       <ContentsContainer>
         <Profile
           level={12}
           name={''}
           img={''}
           description={''}
+          age={''}
+          region={''}
           clickShowAll={() => {}}
           clickVerify={() => {}}
         />
-        <Selector>
-          <Text1
-            selector={selector}
-            onClick={() => {
-              setSelector(1);
-            }}
-          >
-            피드
-          </Text1>
-          <Text2
-            selector={selector}
-            onClick={() => {
-              setSelector(2);
-            }}
-          >
-            저장됨
-          </Text2>
-          <Text3
-            selector={selector}
-            onClick={() => {
-              setSelector(3);
-            }}
-          >
-            모임
-          </Text3>
-        </Selector>
+        <FlexContainer>
+          <Selector>
+            <Text1
+              selector={selector}
+              onClick={() => {
+                setSelector(1);
+              }}
+            >
+              피드
+            </Text1>
+            <Text2
+              selector={selector}
+              onClick={() => {
+                setSelector(2);
+              }}
+            >
+              저장됨
+            </Text2>
+            <Text3
+              selector={selector}
+              onClick={() => {
+                setSelector(3);
+              }}
+            >
+              모임
+            </Text3>
+          </Selector>
+          {selector === 1 ? (
+            <>
+              <FeedPage feeds={feeds} />
+            </>
+          ) : selector === 2 ? (
+            ''
+          ) : (
+            ''
+          )}
+        </FlexContainer>
       </ContentsContainer>
     </>
   );
