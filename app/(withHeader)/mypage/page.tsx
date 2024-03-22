@@ -62,7 +62,7 @@ const Text3 = styled.p<StyledProps>`
 interface StyledProps {
   selector: number;
 }
-
+//
 export default function Mypage() {
   const [selector, setSelector] = useState(1);
 
