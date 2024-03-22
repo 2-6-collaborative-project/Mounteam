@@ -1,8 +1,11 @@
 'use client';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import KakaoMap from './KakaoMap';
 import MountainInfo from '../shared/MountainInfo';
 import ExploreFilterPanel from './ExploreFilterPanel';
+import mountainData from './mountainData';
+import Link from 'next/link';
 
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -71,7 +74,6 @@ const MountainList = styled.div`
 const Container = styled.div`
   max-width: 100rem;
   margin: 0 auto;
-  padding: 0 1rem;
 
   @media (max-width: 768px) {
     max-width: 64rem;
@@ -99,19 +101,93 @@ const Container = styled.div`
    }
 `;
 
+const SearchContainer = styled.div`
+  width: 400px;
+  height: 45px;
+  position: relative;
+  border: 0;
+  img {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+`;
+
+const Search = styled.input`
+  border: 0;
+  padding-left: 10px;
+  background-color: #eaeaea;
+  width: 100%;
+  height: 100%;
+  outline: none;
+`;
+
+const AutoSearchContainer = styled.div`
+  z-index: 3;
+  height: 50vh;
+  width: 400px;
+  background-color: #fff;
+  position: absolute;
+  top: 45px;
+  border: 2px solid;
+  padding: 15px;
+`;
+
+const AutoSearchWrap = styled.ul``;
+
+const AutoSearchData = styled.li`
+  padding: 10px 8px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 4;
+  letter-spacing: 2px;
+  &:hover {
+    background-color: #edf5f5;
+    cursor: pointer;
+  }
+  position: relative;
+  img {
+    position: absolute;
+    right: 5px;
+    width: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+`;
+
 export default function ExplorePage() {
+  const [keyword, setKeyword] = useState<string>('');
+  const [keyItems, setKeyItems] = useState<string[]>([]);
+  const [allMountains, setAllMountains] = useState<string[]>([]);
+
+  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setKeyword(e.currentTarget.value);
+  };
+
+  const searchData = async () => {
+    const res = await mountainData();
+
+    let autoCompletedData = res.filter(
+      (list: any) => list.명산_이름.includes(keyword) === true,
+    );
+
+    setAllMountains(res);
+    setKeyItems(autoCompletedData);
+  };
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (keyword) searchData();
+    }, 200);
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [keyword]);
+
   return (
     <>
       <Container>
-        <div
-          style={{
-            height: '5.7rem',
-            backgroundColor: '#ddd',
-            marginBottom: '0.4rem',
-          }}
-        >
-          헤더가 들어갈 자리입니다.
-        </div>
         <div
           style={{
             height: '4.6rem',
@@ -123,14 +199,20 @@ export default function ExplorePage() {
 
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
-          <div
-            style={{
-              height: '4.7rem',
-              backgroundColor: '#ddd',
-            }}
-          >
-            검색창이 들어갈 자리입니다.
-          </div>
+          <SearchContainer>
+            <Search value={keyword} onChange={handleInputChange} />
+            <AutoSearchContainer>
+              <AutoSearchWrap>
+                <AutoSearchData>
+                  {keyItems.map((item: any) => (
+                    <Link href="#" key={item.X좌표}>
+                      {item.명산_이름}
+                    </Link>
+                  ))}
+                </AutoSearchData>
+              </AutoSearchWrap>
+            </AutoSearchContainer>
+          </SearchContainer>
           <SearchTagContainer>
             <SearchTag>Tag1</SearchTag>
             <SearchTag>Tag2</SearchTag>
@@ -149,12 +231,9 @@ export default function ExplorePage() {
               <span>가나다순</span> <span>인기순</span>
             </MountainListHeader>
             <MountainList>
-              <MountainInfo />
-              <MountainInfo />
-              <MountainInfo />
-              <MountainInfo />
-              <MountainInfo />
-              <MountainInfo />
+              {allMountains.map((mountain: any) => (
+                <MountainInfo key={mountain.X좌표} mountain={mountain} />
+              ))}
             </MountainList>
           </MountainListContainer>
         </SearchResultArea>

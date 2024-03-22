@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={myFont.className}>
+    <html lang="ko" className={myFont.className}>
       {/* AntdRegistry 적용 -> nextjs에서 깜빡임 증상 없애기 */}
       <AntdRegistry>
         <body>

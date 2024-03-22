@@ -21,6 +21,7 @@ const FilterReset = styled.div`
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  cursor: pointer;
 `;
 
 const ResetImage = styled.button`

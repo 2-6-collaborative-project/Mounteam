@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import mountainData from './mountainData';
 const Map = styled.div`
@@ -14,6 +14,7 @@ interface mountainDataProps {
   명산_소재지: string;
   명산_이름: string;
 }
+
 export default function KakaoMap() {
   useEffect(() => {
     const fetchData = async () => {
