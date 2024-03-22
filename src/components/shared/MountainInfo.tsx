@@ -44,7 +44,7 @@ const MountainHeight = styled(MountainStatus)`
   }
 `;
 
-export default function MountainInfo({ mountain }: any) {
+export default function MountainInfo({ list }: any) {
   return (
     <Link href="/explore/course">
       <MountainItem>
@@ -57,10 +57,10 @@ export default function MountainInfo({ mountain }: any) {
           alt="산 이미지"
         />
         <div>
-          <MountainName>{mountain.명산_이름}</MountainName>
-          <MountainLocation>{mountain.명산_소재지}</MountainLocation>
+          <MountainName>{list.명산_이름}</MountainName>
+          <MountainLocation>{list.명산_소재지}</MountainLocation>
           <MountainDetail>
-            <MountainHeight>{mountain.명산_높이}m</MountainHeight>
+            <MountainHeight>{list.명산_높이}m</MountainHeight>
             <MountainStatus>코스 개수: 15개</MountainStatus>
           </MountainDetail>
         </div>

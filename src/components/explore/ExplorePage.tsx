@@ -6,6 +6,7 @@ import MountainInfo from '../shared/MountainInfo';
 import ExploreFilterPanel from './ExploreFilterPanel';
 import getMountainData from './getMountainData';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -159,20 +160,20 @@ const AutoSearchData = styled.li`
 export default function ExplorePage() {
   const [keyword, setKeyword] = useState<string>('');
   const [keyItems, setKeyItems] = useState<string[]>([]);
-  const [allMountains, setAllMountains] = useState<string[]>([]);
+
+  const { data: mountainList } = useQuery({
+    queryKey: ['mountainList'],
+    queryFn: () => getMountainData(),
+  });
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
   };
 
   const searchData = async () => {
-    const res = await getMountainData();
-
-    let autoCompletedData = res.filter(
+    let autoCompletedData = mountainList.filter(
       (list: any) => list.명산_이름.includes(keyword) === true,
     );
-
-    setAllMountains(res);
     setKeyItems(autoCompletedData);
   };
 
@@ -231,8 +232,8 @@ export default function ExplorePage() {
               <span>가나다순</span> <span>인기순</span>
             </MountainListHeader>
             <MountainList>
-              {allMountains.map((mountain: any) => (
-                <MountainInfo key={mountain.X좌표} mountain={mountain} />
+              {mountainList?.map((list: any) => (
+                <MountainInfo key={list.X좌표} list={list} />
               ))}
             </MountainList>
           </MountainListContainer>
