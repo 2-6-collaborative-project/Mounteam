@@ -1,17 +1,26 @@
-import { Collapse, Radio, Space } from 'antd';
-import type { RadioChangeEvent } from 'antd';
-import TeamCreationForm from '@/src/types/teams/create/teamsCreate';
+import { Collapse, Radio, Space, Checkbox } from 'antd';
+import type { RadioChangeEvent, GetProp } from 'antd';
+import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 import { colors } from '@/app/styles/colors';
 
 export default function MemberCollapse({
   handleTeamCreationForm,
 }: {
-  handleTeamCreationForm: (key: keyof TeamCreationForm, value: string) => void;
+  handleTeamCreationForm: (
+    key: keyof TeamCreationForm,
+    value: string | string[],
+  ) => void;
 }) {
   const onChangeRadio = (e: RadioChangeEvent) => {
     const { name, value } = e.target;
 
     handleTeamCreationForm(name as keyof TeamCreationForm, value);
+  };
+
+  const onChangeCheckbox: GetProp<typeof Checkbox.Group, 'onChange'> = (
+    value,
+  ) => {
+    handleTeamCreationForm('ageRange', value as string[]);
   };
 
   return (
@@ -43,6 +52,7 @@ export default function MemberCollapse({
                 >
                   <Radio value={'male'}>남성</Radio>
                   <Radio value={'female'}>여성</Radio>
+                  <Radio value={'all'}>상관 없음</Radio>
                 </Space>
               </Radio.Group>
             ),
@@ -65,7 +75,7 @@ export default function MemberCollapse({
           {
             label: '연령대',
             children: (
-              <Radio.Group name="ageRange" onChange={onChangeRadio}>
+              <Checkbox.Group name="ageRange" onChange={onChangeCheckbox}>
                 <Space
                   direction="vertical"
                   style={{
@@ -75,14 +85,14 @@ export default function MemberCollapse({
                     gap: '1.8rem',
                   }}
                 >
-                  <Radio value={'teenager'}>10대</Radio>
-                  <Radio value={'twenties'}>20대</Radio>
-                  <Radio value={'thirties'}>30대</Radio>
-                  <Radio value={'fourties'}>40대</Radio>
-                  <Radio value={'fifties'}>50대</Radio>
-                  <Radio value={'sixties'}>60대 이상</Radio>
+                  <Checkbox value={'teenager'}>10대</Checkbox>
+                  <Checkbox value={'twenties'}>20대</Checkbox>
+                  <Checkbox value={'thirties'}>30대</Checkbox>
+                  <Checkbox value={'fourties'}>40대</Checkbox>
+                  <Checkbox value={'fifties'}>50대</Checkbox>
+                  <Checkbox value={'sixties'}>60대 이상</Checkbox>
                 </Space>
-              </Radio.Group>
+              </Checkbox.Group>
             ),
           },
         ]}

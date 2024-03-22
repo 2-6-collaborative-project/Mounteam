@@ -5,15 +5,16 @@ export default interface TeamCreationForm {
   title: string;
   description: string;
   departureDay: string;
-  ageRange: 'male' | 'female' | '';
-  genderRange:
+  genderRange: 'male' | 'female' | 'all' | '';
+  ageRange: (
     | 'teenager'
     | 'twenties'
     | 'thirties'
     | 'fourties'
     | 'fifties'
     | 'sixties'
-    | '';
+    | ''
+  )[];
   kakaoLink: string;
   kakaoPasword: string;
 }

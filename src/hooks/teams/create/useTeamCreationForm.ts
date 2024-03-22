@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import TeamCreationForm from '@/src/types/teams/create/teamsCreate';
+import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 
 export default function useTeamCreationForm() {
   const [teamCreationFormData, setTeamCreationFormData] =
@@ -10,14 +10,14 @@ export default function useTeamCreationForm() {
       title: '',
       description: '',
       departureDay: '',
-      ageRange: '',
+      ageRange: [],
       genderRange: '',
       kakaoLink: '',
       kakaoPasword: '',
     });
 
   const handleTeamCreationForm = useCallback(
-    (key: keyof TeamCreationForm, value: string | boolean) => {
+    (key: keyof TeamCreationForm, value: string | string[] | boolean) => {
       setTeamCreationFormData((prev) => ({ ...prev, [key]: value }));
     },
     [],
