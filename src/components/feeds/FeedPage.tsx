@@ -12,6 +12,10 @@ interface FeedImgProps {
   imageUrl?: string;
 }
 
+interface FeedPageProps {
+  feeds: any;
+}
+
 const FeedGrid = styled.div`
   display: grid;
   justify-content: center;
@@ -134,7 +138,7 @@ const PopoverContentBox = styled.div`
 `;
 
 // 후기 컴포넌트
-export default function FeedPage() {
+export default function FeedPage({ feeds }: FeedPageProps) {
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
   const content = (
@@ -143,8 +147,6 @@ export default function FeedPage() {
       <Link href="/">삭제</Link>
     </PopoverContentBox>
   );
-
-  const feeds = feedMockData();
 
   return (
     <>
