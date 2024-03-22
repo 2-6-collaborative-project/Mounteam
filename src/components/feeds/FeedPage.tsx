@@ -151,7 +151,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
   return (
     <>
       <FeedGrid>
-        {feeds.map((feed) => (
+        {feeds.map((feed: any) => (
           <div key={feed.id}>
             <FeedHead>
               <div>
@@ -229,7 +229,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
 
             {feed.tags ? (
               <TagBox>
-                {feed.tags.map((tag, index) => (
+                {feed.tags.map((tag: any, index: number) => (
                   <TagWrapper key={index}>
                     <p>{tag}</p>
                   </TagWrapper>
