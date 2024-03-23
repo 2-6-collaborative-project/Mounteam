@@ -12,7 +12,7 @@ interface FeedImgProps {
   imageUrl?: string;
 }
 
-interface FeedPageProps {
+export interface FeedPageProps {
   feeds: any;
 }
 
@@ -58,7 +58,7 @@ const FeedImg = styled.div<FeedImgProps>`
   background-size: cover;
 `;
 
-const AvatarImage = styled.img`
+export const AvatarImage = styled.img`
   position: absolute;
   width: 2rem;
   height: 2rem;
