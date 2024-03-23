@@ -38,7 +38,6 @@ export default function Avatars({ type, img, name }: AvatarProps) {
       default:
         setImgSize(27);
     }
-    console.log(imgSize);
   }, []);
 
   return (

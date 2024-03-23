@@ -1,7 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Avatars from '../shared/Avatar';
+import EditProfile from './EditProfile';
 
 const FlexContainer = styled.div`
   width: 100%;
@@ -156,6 +157,8 @@ interface ProfileProps {
   img?: string;
   preference?: string[] | undefined;
   description?: string;
+  age?: number | string;
+  region?: number | string;
   clickShowAll?: () => void;
   clickVerify?: () => void;
 }
@@ -166,57 +169,77 @@ export default function Profile({
   img,
   preference,
   description,
+  age,
+  region,
   clickShowAll,
   clickVerify,
 }: ProfileProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleEditProfile = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
-    <FlexContainer>
-      <ProfileContainer>
-        <AvatarContainer>
-          <Avatars type="profile" img={img} />
-          <TagsAndName>
-            <Preferences>
-              {preference ? (
-                <>
-                  {preference.map((item: string, index: number) => (
-                    <Preference key={'preference' + index}>{item}</Preference>
-                  ))}
-                </>
-              ) : (
-                ''
-              )}
-            </Preferences>
-            <LevelAndNickname>
-              <Level>{'Lv.' + level}</Level>
-              <NicknameContainer>
-                <Nickname>{name + 'd'}</Nickname>
-                <Image
-                  alt="프로필수정"
-                  src="/edit.svg"
-                  width={16}
-                  height={16}
-                />
-              </NicknameContainer>
-            </LevelAndNickname>
-          </TagsAndName>
-        </AvatarContainer>
-        <Description>
-          {description +
-            '615615561156615615661561556115661561561561561556115661561561561561556115661561561561561556115661561561515'}
-        </Description>
-      </ProfileContainer>
-      <BadgeContainer>
-        <BadgeTitleContainer>
-          <BadgeTitle>내 뱃지</BadgeTitle>
-          <OptionContainer>
-            <Option onClick={clickShowAll}>전체보기</Option>
-            <Option onClick={clickVerify}>인증하기</Option>
-          </OptionContainer>
-        </BadgeTitleContainer>
-        <Badges>
-          <Badge></Badge>
-        </Badges>
-      </BadgeContainer>
-    </FlexContainer>
+    <>
+      <FlexContainer>
+        <ProfileContainer>
+          <AvatarContainer>
+            <Avatars type="profile" img={img} />
+            <TagsAndName>
+              <Preferences>
+                {preference ? (
+                  <>
+                    {preference.map((item: string, index: number) => (
+                      <Preference key={'preference' + index}>{item}</Preference>
+                    ))}
+                  </>
+                ) : (
+                  ''
+                )}
+              </Preferences>
+              <LevelAndNickname>
+                <Level>{'Lv.' + level}</Level>
+                <NicknameContainer>
+                  <Nickname>{name + 'd'}</Nickname>
+                  <Image
+                    alt="프로필수정"
+                    src="/edit.svg"
+                    width={16}
+                    height={16}
+                    onClick={handleEditProfile}
+                  />
+                </NicknameContainer>
+              </LevelAndNickname>
+            </TagsAndName>
+          </AvatarContainer>
+          <Description>
+            {description +
+              '615615561156615615661561556115661561561561561556115661561561561561556115661561561561561556115661561561515'}
+          </Description>
+        </ProfileContainer>
+        <BadgeContainer>
+          <BadgeTitleContainer>
+            <BadgeTitle>내 뱃지</BadgeTitle>
+            <OptionContainer>
+              <Option onClick={clickShowAll}>전체보기</Option>
+              <Option onClick={clickVerify}>인증하기</Option>
+            </OptionContainer>
+          </BadgeTitleContainer>
+          <Badges>
+            <Badge></Badge>
+          </Badges>
+        </BadgeContainer>
+      </FlexContainer>
+      <EditProfile
+        modalOpenState={isModalOpen}
+        setter={setIsModalOpen}
+        defaultProfileImg={img}
+        defaultNickname={name}
+        defaultDescription={description}
+        defaultAge={age}
+        defaultRegion={region}
+      />
+    </>
   );
 }
