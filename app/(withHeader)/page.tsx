@@ -1,35 +1,43 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Button } from 'antd/es/radio';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
+import NavButton from '@/src/components/main/NavButton';
+import CarouselSection from '@/src/components/main/CarouselSection';
+import { teamFeed } from '@/src/lib/mockData';
+import typography from '@/app/styles/typography';
 
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   margin-bottom: 10rem;
+  width: 100%;
 `;
 
 const Between = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${typography.Heading24};
+  width: 100%;
+  padding-bottom: 2.5rem;
 `;
 
 const NavBar = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  /* tab botton 확인을 위해서 임시 패딩 설정 */
-  padding-top: 5rem;
+  justify-content: space-between;
+  padding: 2.5rem 0rem 7.81rem 0rem;
+  align-items: flex-start;
+  gap: 1.25rem;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+  ${typography.Footnote16};
 
   &:hover {
     text-decoration: none;
@@ -41,45 +49,90 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const TeamThumbnailContainer = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 1.44rem;
+  padding-bottom: 7.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, auto);
+  }
+`;
+
 export default function Home() {
+  const [numItems, setNumItems] = useState(6);
+
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth <= 480) {
+        setNumItems(4);
+      } else if (window.innerWidth <= 768) {
+        setNumItems(3);
+      } else {
+        setNumItems(6);
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <>
       <Body>
         <Tab variant="main" />
         <div>{/* 검색바 */}</div>
-        <div>{/* 이미지 넘기는 섹션 */}</div>
-        {/* 내비게이션 바 */}
-        <div>
-          <NavBar>
-            <StyledLink href="/team">
-              <Button>모임 보러가기</Button>
-            </StyledLink>
-            <StyledLink href="/explore">
-              <Button>100대 명산 모음</Button>
-            </StyledLink>
-            {/* 아래 버튼은 추후 페이지 제작 후 링크 연결 */}
-            <Button>지도 보기</Button>
-            <Button>추천 코스</Button>
-            <Button>초심자 추천</Button>
-          </NavBar>
-        </div>
-        <div>
-          <Between>
-            <p>요즘 뜨는 등산 모임 Top 3</p>
-            <StyledLink href="/team">
-              <p>전체보기</p>
-            </StyledLink>
-          </Between>
-          <TeamThumbnail />
-        </div>
-        <div>
-          <Between>
-            <p>등반 후기</p>
-            <StyledLink href="/feed">
-              <p>전체보기</p>
-            </StyledLink>
-          </Between>
-        </div>
+
+        <CarouselSection />
+
+        {/* 추후 NavButton 디자인 변경 예정 */}
+        <NavBar>
+          <NavButton href="/teams">
+            <p>전체 모임</p>
+          </NavButton>
+          <NavButton href="/teams">
+            <p>100대 명산</p>
+          </NavButton>
+          {/* 아래 3개는 추후 페이지 제작 후 링크연결 */}
+          <NavButton href="/">
+            <p>지도 보기</p>
+          </NavButton>
+          <NavButton href="/">
+            <p>추천 코스</p>
+          </NavButton>
+          <NavButton href="/">
+            <p>초심자 추천</p>
+          </NavButton>
+        </NavBar>
+        <Between>
+          <p>등산 같이가자</p>
+          <StyledLink href="/teams">
+            <p>전체보기</p>
+          </StyledLink>
+        </Between>
+        <TeamThumbnailContainer>
+          {teamFeed.slice(0, numItems).map((team) => (
+            <TeamThumbnail key={team.teamId} team={team} />
+          ))}
+        </TeamThumbnailContainer>
+        <Between>
+          <p>#등반후기</p>
+          <StyledLink href="/feeds">
+            <p>전체보기</p>
+          </StyledLink>
+        </Between>
         <footer></footer>
       </Body>
     </>
