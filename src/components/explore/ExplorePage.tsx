@@ -201,9 +201,7 @@ export default function ExplorePage() {
               <Input.Search
                 placeholder="대한민국 산 탐험하기"
                 enterButton
-                onSearch={() => {
-                  console.log('클릭');
-                }}
+                onSearch={handleSelectMountain}
               />
             </AutoComplete>
           </SearchContainer>

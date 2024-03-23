@@ -24,9 +24,8 @@ export default function KakaoMap({
 }) {
   useEffect(() => {
     window.kakao.maps.load(() => {
-      const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+      const container = document.getElementById('map');
       const options = {
-        //지도를 생성할 때 필요한 기본 옵션
         center: selectedMountain
           ? new window.kakao.maps.LatLng(
               selectedMountain.X좌표,
@@ -36,7 +35,7 @@ export default function KakaoMap({
         level: selectedMountain ? 7 : 13,
       };
 
-      const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+      const map = new window.kakao.maps.Map(container, options);
 
       const positions = mountainList?.map((list: mountainDataProps) => ({
         title: list.명산_이름,
@@ -48,29 +47,21 @@ export default function KakaoMap({
           : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
       }));
 
-      // 마커 이미지의 이미지 주소입니다
       const imageSrc = '/markerSuccess.svg';
 
       for (let i = 0; i < positions?.length; i++) {
-        // 마커 이미지의 이미지 크기 입니다
         const imageSize = new window.kakao.maps.Size(24, 35);
 
-        // 마커 이미지를 생성합니다
         const markerImage = new window.kakao.maps.MarkerImage(
           imageSrc,
           imageSize,
         );
 
-        // 마커를 생성합니다
         const marker = new window.kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: positions[i].latlng, // 마커를 표시할 위치
-          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image: markerImage, // 마커 이미지
-        });
-
-        window.kakao.maps.event.addListener(marker, 'click', function () {
-          console.log('클릭됨');
+          map: map,
+          position: positions[i].latlng,
+          title: positions[i].title,
+          image: markerImage,
         });
       }
     });
