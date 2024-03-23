@@ -1,6 +1,6 @@
 import type { RadioChangeEvent } from 'antd';
 import { Radio, Space } from 'antd';
-import TeamCreationForm from '@/src/types/teams/create/teamsCreate';
+import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 
 export default function CourseRadio({
   handleTeamCreationForm,

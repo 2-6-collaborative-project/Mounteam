@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, TimePicker } from 'antd';
-import TeamCreationForm from '@/src/types/teams/create/teamsCreate';
+import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 
 export default function TeamDatePicker({
   handleTeamCreationForm,
 }: {
-  handleTeamCreationForm: (
-    key: keyof TeamCreationForm,
-    value: string | boolean,
-  ) => void;
+  handleTeamCreationForm: (key: keyof TeamCreationForm, value: string) => void;
 }) {
   const [departureDay, setDepartureDay] = useState('');
   const [date, setDate] = useState('');
