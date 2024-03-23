@@ -73,19 +73,7 @@ const TeamChips = styled.div`
   flex-shrink: 0;
 `;
 
-const GenderRange = styled.div`
-  display: flex;
-  padding: 0.1875rem 0.4375rem;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.1875rem;
-  background: ${colors.Primary[50]};
-  color: ${colors.Primary[500]};
-  text-align: center;
-  ${typography.Footnote14};
-`;
-
-const AgeRange = styled.div`
+const TeamRange = styled.div`
   display: flex;
   padding: 0.1875rem 0.4375rem;
   justify-content: center;
@@ -171,12 +159,12 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
           <p>{`${team.exploreId} | ${formattedDate} | ${formattedTime}`}</p>
         </TeamInfo>
         <TeamChips>
-          <GenderRange>
+          <TeamRange>
             <p>{renderGenderText()}</p>
-          </GenderRange>
-          <AgeRange>
+          </TeamRange>
+          <TeamRange>
             <p>{renderAgeRangeText()}</p>
-          </AgeRange>
+          </TeamRange>
         </TeamChips>
       </TeamCol>
     </TeamBox>
