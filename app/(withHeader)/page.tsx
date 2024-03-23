@@ -13,7 +13,7 @@ import typography from '@/app/styles/typography';
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   margin-bottom: 10rem;
   width: 100%;
 `;
@@ -24,16 +24,15 @@ const Between = styled.div`
   align-items: center;
   ${typography.Heading24};
   width: 100%;
+  padding-bottom: 2.5rem;
 `;
 
 const NavBar = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  /* tab botton 확인을 위해서 임시 패딩 설정 */
-  padding-top: 5rem;
-  padding: 1.875rem 0rem;
-  gap: 1.125rem;
+  justify-content: space-between;
+  padding: 2.5rem 0rem 7.81rem 0rem;
+  align-items: flex-start;
+  gap: 1.25rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -53,6 +52,7 @@ const StyledLink = styled(Link)`
 
 const TeamThumbnailContainer = styled.div`
   display: grid;
+  width: 100%;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
   gap: 1.44rem;
@@ -95,48 +95,45 @@ export default function Home() {
       <Body>
         <Tab variant="main" />
         <div>{/* 검색바 */}</div>
-        {/* <CarouselSection /> */}
-        <div>
-          <NavBar>
-            <NavButton href="/teams">
-              <p>등산 모임</p>
-            </NavButton>
-            <NavButton href="/teams">
-              <p>100대 명산</p>
-            </NavButton>
-            {/* 아래 3개는 추후 페이지 제작 후 링크연결 */}
-            <NavButton href="/">
-              <p>지도 보기</p>
-            </NavButton>
-            <NavButton href="/">
-              <p>추천 코스</p>
-            </NavButton>
-            <NavButton href="/">
-              <p>초보 추천</p>
-            </NavButton>
-          </NavBar>
-        </div>
-        <div>
-          <Between>
-            <p>등산 같이가자</p>
-            <StyledLink href="/teams">
-              <p>전체보기</p>
-            </StyledLink>
-          </Between>
-          <TeamThumbnailContainer>
-            {teamFeed.slice(0, numItems).map((team) => (
-              <TeamThumbnail key={team.teamId} team={team} />
-            ))}
-          </TeamThumbnailContainer>
-        </div>
-        <div>
-          <Between>
-            <p>#등반후기</p>
-            <StyledLink href="/feeds">
-              <p>전체보기</p>
-            </StyledLink>
-          </Between>
-        </div>
+
+        <CarouselSection />
+
+        {/* 추후 NavButton 디자인 변경 예정 */}
+        <NavBar>
+          <NavButton href="/teams">
+            <p>전체 모임</p>
+          </NavButton>
+          <NavButton href="/teams">
+            <p>100대 명산</p>
+          </NavButton>
+          {/* 아래 3개는 추후 페이지 제작 후 링크연결 */}
+          <NavButton href="/">
+            <p>지도 보기</p>
+          </NavButton>
+          <NavButton href="/">
+            <p>추천 코스</p>
+          </NavButton>
+          <NavButton href="/">
+            <p>초심자 추천</p>
+          </NavButton>
+        </NavBar>
+        <Between>
+          <p>등산 같이가자</p>
+          <StyledLink href="/teams">
+            <p>전체보기</p>
+          </StyledLink>
+        </Between>
+        <TeamThumbnailContainer>
+          {teamFeed.slice(0, numItems).map((team) => (
+            <TeamThumbnail key={team.teamId} team={team} />
+          ))}
+        </TeamThumbnailContainer>
+        <Between>
+          <p>#등반후기</p>
+          <StyledLink href="/feeds">
+            <p>전체보기</p>
+          </StyledLink>
+        </Between>
         <footer></footer>
       </Body>
     </>

@@ -10,11 +10,12 @@ const TeamBox = styled.div`
   padding: 1.125rem 0.9375rem;
   align-items: center;
   gap: 1.875rem;
-  border: 1.4px solid ${colors.Grayscale[1]};
-
+  box-sizing: border-box;
+  /* border: 1.4px solid ${colors.Grayscale[1]}; */
   &:hover {
     border-radius: 0.1875rem;
-    border: 1.4px solid ${colors.Primary[500]};
+    /* border: 1.4px solid ${colors.Primary[500]}; */
+    box-shadow: 0 0 0 1px ${colors.Primary[500]} inset;
   }
 
   @media (max-width: 768px) {
