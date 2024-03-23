@@ -1,13 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import styled from 'styled-components';
 import KakaoMap from '@/src/components/explore/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
 import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
 import getMountainData from '@/src/components/explore/getMountainData';
-
+import { SearchBar } from '../shared/SearchBar';
+import { AutoComplete, Input } from 'antd';
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
 `;
@@ -152,32 +152,31 @@ const AutoSearchData = styled.li`
 
 export default function ExplorePage() {
   const [keyword, setKeyword] = useState<string>('');
-  const [keyItems, setKeyItems] = useState<string[]>([]);
+  const [selectedMountain, setSelectedMountain] = useState(null);
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 
-  const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setKeyword(e.currentTarget.value);
+  const handleInputChange = (value: string) => {
+    setKeyword(value);
   };
 
-  const searchData = async () => {
-    let autoCompletedData = mountainList.filter(
-      (list: any) => list.명산_이름.includes(keyword) === true,
-    );
-    setKeyItems(autoCompletedData);
+  const options = mountainList?.map((list: any) => ({
+    value: list.명산_이름,
+  }));
+
+  const handleSelectMountain = (value: string) => {
+    const selected = mountainList.find((list: any) => list.명산_이름 === value);
+
+    setSelectedMountain(selected);
+    setKeyword(value);
   };
 
-  useEffect(() => {
-    const debounce = setTimeout(() => {
-      if (keyword) searchData();
-    }, 200);
-    return () => {
-      clearTimeout(debounce);
-    };
-  }, [keyword]);
+  const filteredOptions = options?.filter((option: any) =>
+    option.value.includes(keyword),
+  );
 
   return (
     <>
@@ -194,25 +193,26 @@ export default function ExplorePage() {
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
           <SearchContainer>
-            <Search value={keyword} onChange={handleInputChange} />
-            <AutoSearchContainer>
-              <AutoSearchWrap>
-                <AutoSearchData>
-                  {keyItems.map((item: any) => (
-                    <Link href="#" key={item.X좌표}>
-                      {item.명산_이름}
-                    </Link>
-                  ))}
-                </AutoSearchData>
-              </AutoSearchWrap>
-            </AutoSearchContainer>
+            <AutoComplete
+              options={filteredOptions}
+              onSelect={handleSelectMountain}
+              onSearch={handleInputChange}
+              value={keyword}
+            >
+              <Input.Search
+                placeholder="대한민국 산 탐험하기"
+                enterButton
+                onSearch={() => {
+                  console.log('클릭');
+                }}
+              />
+            </AutoComplete>
           </SearchContainer>
-          <SearchTagContainer>
-            <SearchTag>Tag1</SearchTag>
-            <SearchTag>Tag2</SearchTag>
-            <SearchTag>Tag3</SearchTag>
-          </SearchTagContainer>
-          <KakaoMap mountainList={mountainList} />
+
+          <KakaoMap
+            mountainList={mountainList}
+            selectedMountain={selectedMountain}
+          />
         </SearchMountainArea>
 
         <SearchResultArea>

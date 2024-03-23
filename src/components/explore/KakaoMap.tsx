@@ -17,23 +17,33 @@ interface mountainDataProps {
 
 export default function KakaoMap({
   mountainList,
+  selectedMountain,
 }: {
   mountainList: mountainDataProps[];
+  selectedMountain: any;
 }) {
   useEffect(() => {
     window.kakao.maps.load(() => {
       const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
       const options = {
         //지도를 생성할 때 필요한 기본 옵션
-        center: new window.kakao.maps.LatLng(36.71069, 127.97434), //지도의 중심좌표
-        level: 13, //지도의 레벨(확대, 축소 정도)
+        center: selectedMountain
+          ? new window.kakao.maps.LatLng(
+              selectedMountain?.X좌표,
+              selectedMountain?.Y좌표,
+            )
+          : new window.kakao.maps.LatLng(36.71069, 127.97434),
+        level: selectedMountain ? 7 : 13,
       };
 
       const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 
       const positions = mountainList?.map((list: mountainDataProps) => ({
         title: list.명산_이름,
-        latlng: new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
+        latlng: new window.kakao.maps.LatLng(
+          selectedMountain?.X좌표,
+          selectedMountain?.Y좌표,
+        ),
       }));
 
       // 마커 이미지의 이미지 주소입니다
@@ -62,7 +72,7 @@ export default function KakaoMap({
         });
       }
     });
-  }, [mountainList]);
+  }, [mountainList, selectedMountain]);
 
   return <Map id="map" />;
 }
