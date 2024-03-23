@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
+import Link from 'next/link';
 
 const Logo = styled.div`
   position: relative;
@@ -75,10 +76,12 @@ function SignInPage() {
           <Image fill src="/logo.png" alt="로고" />
         </Logo>
         <Dsecription>SNS로 간편하게 로그인하기</Dsecription>
-        <KakaoLogin>
-          <Icon src="/kakaoLogo.svg" alt="카카오 로고" />
-          카카오로 로그인 하기
-        </KakaoLogin>
+        <Link href="https://d6f5-118-32-35-58.ngrok-free.app/oauth2/authorization/kakao">
+          <KakaoLogin>
+            <Icon src="/kakaoLogo.svg" alt="카카오 로고" />
+            카카오로 로그인 하기
+          </KakaoLogin>
+        </Link>
         <NaverLogin>
           <Icon src="/naverLogo.svg" alt="네이버 로고" />
           네이버로 로그인 하기
