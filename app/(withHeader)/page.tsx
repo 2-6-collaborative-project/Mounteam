@@ -13,7 +13,6 @@ import typography from '@/app/styles/typography';
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
   margin-bottom: 10rem;
   width: 100%;
 `;
