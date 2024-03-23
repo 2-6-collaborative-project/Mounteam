@@ -29,8 +29,8 @@ export default function KakaoMap({
         //지도를 생성할 때 필요한 기본 옵션
         center: selectedMountain
           ? new window.kakao.maps.LatLng(
-              selectedMountain?.X좌표,
-              selectedMountain?.Y좌표,
+              selectedMountain.X좌표,
+              selectedMountain.Y좌표,
             )
           : new window.kakao.maps.LatLng(36.71069, 127.97434),
         level: selectedMountain ? 7 : 13,
@@ -40,10 +40,12 @@ export default function KakaoMap({
 
       const positions = mountainList?.map((list: mountainDataProps) => ({
         title: list.명산_이름,
-        latlng: new window.kakao.maps.LatLng(
-          selectedMountain?.X좌표,
-          selectedMountain?.Y좌표,
-        ),
+        latlng: selectedMountain
+          ? new window.kakao.maps.LatLng(
+              selectedMountain.X좌표,
+              selectedMountain.Y좌표,
+            )
+          : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
       }));
 
       // 마커 이미지의 이미지 주소입니다

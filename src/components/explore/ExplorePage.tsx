@@ -6,7 +6,6 @@ import KakaoMap from '@/src/components/explore/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
 import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
 import getMountainData from '@/src/components/explore/getMountainData';
-import { SearchBar } from '../shared/SearchBar';
 import { AutoComplete, Input } from 'antd';
 const SearchMountainArea = styled.div`
   margin-top: 7rem;
@@ -224,10 +223,15 @@ export default function ExplorePage() {
             <MountainListHeader>
               <span>가나다순</span> <span>인기순</span>
             </MountainListHeader>
+
             <MountainList>
-              {mountainList?.map((list: any) => (
-                <MountainInfo key={list.X좌표} list={list} />
-              ))}
+              {selectedMountain ? (
+                <MountainInfo list={selectedMountain} />
+              ) : (
+                mountainList?.map((list: any) => (
+                  <MountainInfo key={list.X좌표} list={list} />
+                ))
+              )}
             </MountainList>
           </MountainListContainer>
         </SearchResultArea>
