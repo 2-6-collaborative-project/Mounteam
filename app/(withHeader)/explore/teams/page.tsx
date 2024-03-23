@@ -1,5 +1,5 @@
-import React from 'react';
+import TeamList from '@/src/components/explore/TeamList';
 
 export default function teams() {
-  return <div>teams</div>;
+  return <TeamList />;
 }
