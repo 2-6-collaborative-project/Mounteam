@@ -5,8 +5,6 @@ import styled from 'styled-components';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
-  // width: '620px',
-  // height: '402px',
   color: '#fff',
   lineHeight: '160px',
   textAlign: 'center',
