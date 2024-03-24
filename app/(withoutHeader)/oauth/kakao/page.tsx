@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
 
 export default function KakaoLogin() {
   useEffect(() => {
@@ -23,6 +24,13 @@ export default function KakaoLogin() {
     };
 
     fetchData();
+
+    const accessToken = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('accessToken='))
+      ?.split('=')[1];
+
+    if (accessToken) return redirect('/preference');
   }, []);
 
   return <div>로그인 중입니다.</div>;

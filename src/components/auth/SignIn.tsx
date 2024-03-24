@@ -82,7 +82,7 @@ function SignInPage() {
       .find((row) => row.startsWith('accessToken='))
       ?.split('=')[1];
 
-    if (accessToken) return redirect('/preference');
+    if (accessToken) return redirect('/');
   }, []);
 
   return (
