@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
 
 const Logo = styled.div`
@@ -71,9 +71,19 @@ const Container = styled.div`
 function SignInPage() {
   const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
+
+  useEffect(() => {
+    const accessToken = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('accessToken='))
+      ?.split('=')[1];
+
+    if (accessToken) return redirect('/preference');
+  }, []);
 
   return (
     <>
