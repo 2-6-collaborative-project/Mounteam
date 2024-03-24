@@ -7,11 +7,9 @@ const DATA_PER_PAGE = 100;
 
 export default async function getMountainData() {
   const url = `${BASE_URL}${END_POINT}?page=${PAGE_NUM}&perPage=${DATA_PER_PAGE}&serviceKey=${process.env.NEXT_PUBLIC_MOUNTAIN_SERVICE_KEY}`;
-  console.log(url);
+
   try {
-    const response = await axios.get(
-      `${BASE_URL}${END_POINT}?page=${PAGE_NUM}&perPage=${DATA_PER_PAGE}&serviceKey=${process.env.NEXT_PUBLIC_MOUNTAIN_SERVICE_KEY}`,
-    );
+    const response = await axios.get(url);
 
     return response.data.data;
   } catch (e) {
