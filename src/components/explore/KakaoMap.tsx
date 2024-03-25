@@ -10,9 +10,9 @@ interface mountainDataProps {
   X좌표: number;
   Y좌표: number;
   교통정보: string;
-  명산_높이: number;
-  명산_소재지: string;
-  명산_이름: string;
+  명산높이: number;
+  명산소재지: string;
+  명산이름: string;
 }
 
 export default function KakaoMap({
@@ -38,7 +38,7 @@ export default function KakaoMap({
       const map = new window.kakao.maps.Map(container, options);
 
       const positions = mountainList?.map((list: mountainDataProps) => ({
-        title: list.명산_이름,
+        title: list.명산이름,
         latlng: selectedMountain
           ? new window.kakao.maps.LatLng(
               selectedMountain.X좌표,

@@ -80,7 +80,8 @@ const Container = styled.div`
     ${MountainList} {
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 40rem));
-   }
+    }
+  }
 `;
 
 const SearchContainer = styled.div`
