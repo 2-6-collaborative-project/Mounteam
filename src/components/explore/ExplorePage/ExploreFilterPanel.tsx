@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { Checkbox, Collapse } from 'antd';
+import { Collapse } from 'antd';
 import styled from 'styled-components';
 import RegionFilter from './RegionFilter';
 import HeightFilter from './HeightFilter';

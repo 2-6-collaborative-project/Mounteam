@@ -11,7 +11,6 @@ interface SearchBarProps {
 const SearchContainer = styled.div`
   display: flex;
   max-width: 99.2rem;
-  width: auto;
   padding: 1rem;
   flex-direction: column;
   align-items: flex-start;
@@ -20,11 +19,9 @@ const SearchContainer = styled.div`
   margin: 0 auto;
 
   @media (max-width: 768px) {
-    width: auto;
     min-width: 6.4rem;
   }
   @media (max-width: 480px) {
-    width: auto;
     min-width: 4.16rem;
   }
 `;
