@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AutoComplete, Input } from 'antd';
 import styled from 'styled-components';
-import getMountainData from '@/src/components/explore/getMountainData';
+import getMountainData from '@/src/components/explore/api/getMountainData';
 import { colors } from '@/app/styles/colors';
 
 const SearchContainer = styled.div`
@@ -23,22 +23,13 @@ const SearchContainer = styled.div`
   }
 
   .ant-input-affix-wrapper {
-    position: relative;
     width: 100%;
     height: 3rem;
-  }
-
-  .ant-input-prefix {
-    position: absolute;
-    top: 0.5rem;
-    left: 0;
+    border: none;
   }
 
   .ant-input {
-    margin-left: 2rem;
-  }
-  .ant-input-prefix > img {
-    position: static;
+    margin-left: 0.8rem;
   }
 `;
 

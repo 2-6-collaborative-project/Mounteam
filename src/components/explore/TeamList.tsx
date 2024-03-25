@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import KakaoMap from '@/src/components/explore/KakaoMap';
+import KakaoMap from '@/src/components/explore/ExplorePage/KakaoMap';
 
 const Container = styled.div`
   margin: 3.2rem 10.4rem;

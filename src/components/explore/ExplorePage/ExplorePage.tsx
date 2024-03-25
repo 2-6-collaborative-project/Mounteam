@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import KakaoMap from '@/src/components/explore/KakaoMap';
+import KakaoMap from '@/src/components/explore/ExplorePage/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
-import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
-import getMountainData from '@/src/components/explore/getMountainData';
+import ExploreFilterPanel from '@/src/components/explore/ExplorePage/ExploreFilterPanel';
+import getMountainData from '@/src/components/explore/api/getMountainData';
 import styled from 'styled-components';
-import AutoSearchBar from '../shared/AutoSearchBar';
+import AutoSearchBar from '../../shared/AutoSearchBar';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -104,13 +104,10 @@ export default function ExplorePage() {
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
           <AutoSearchBar setSearchedMountain={setSearchedMountain} />
-
-          {
-            <KakaoMap
-              mountainList={mountainList}
-              selectedMountain={searchedMountain}
-            />
-          }
+          <KakaoMap
+            mountainList={mountainList}
+            selectedMountain={searchedMountain}
+          />
         </SearchMountainArea>
 
         <SearchResultArea>

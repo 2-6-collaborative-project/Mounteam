@@ -1,27 +1,22 @@
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { Checkbox } from 'antd';
 
-interface RegionFilterProps {
-  regionCheckedList: string[];
-  setRegionCheckedList: (list: string[]) => void;
+interface HeightFilterProps {
+  heightCheckedList: string[];
+  setHeightCheckedList: (list: string[]) => void;
 }
-const regionOptions = [
-  '서울',
-  '경기도',
-  '강원도',
-  '충청북도',
-  '충청남도',
-  '전라북도',
-  '전라남도',
-  '경상북도',
-  '경상남도',
-  '제주도',
-];
 
-export default function RegionFilter({
-  regionCheckedList,
-  setRegionCheckedList,
-}: RegionFilterProps) {
+export default function HeightFilter({
+  heightCheckedList,
+  setHeightCheckedList,
+}: HeightFilterProps) {
+  const heightOptions = [
+    { label: '500m 미만', range: [0, 500] },
+    { label: '500 ~ 1000m', range: [500, 1000] },
+    { label: '1000 ~ 1500m', range: [1000, 1500] },
+    { label: '1500m 이상', range: [1500, Infinity] },
+  ];
+
   const handleCheckboxListChange = (
     option: string,
     checkedList: string[],
@@ -46,29 +41,34 @@ export default function RegionFilter({
   ) => {
     setCheckedList(e.target.checked ? option : []);
   };
+
   return (
     <>
       <Checkbox
         onChange={(e) =>
-          handleCheckAllChange(e, regionOptions, setRegionCheckedList)
+          handleCheckAllChange(
+            e,
+            heightOptions.map((option) => option.label),
+            setHeightCheckedList,
+          )
         }
-        checked={regionCheckedList.length === regionOptions.length}
+        checked={heightCheckedList.length === heightOptions.length}
       >
         전체 선택
       </Checkbox>
-      {regionOptions.map((option) => (
+      {heightOptions.map((option) => (
         <Checkbox
-          key={option}
+          key={option.label}
           onChange={() =>
             handleCheckboxListChange(
-              option,
-              regionCheckedList,
-              setRegionCheckedList,
+              option.label,
+              heightCheckedList,
+              setHeightCheckedList,
             )
           }
-          checked={regionCheckedList.includes(option)}
+          checked={heightCheckedList.includes(option.label)}
         >
-          {option}
+          {option.label}
         </Checkbox>
       ))}
     </>
