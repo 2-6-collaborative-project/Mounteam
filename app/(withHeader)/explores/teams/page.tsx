@@ -1,4 +1,4 @@
-import TeamList from '@/src/components/explore/TeamList';
+import TeamList from '@/src/components/explores/TeamList';
 
 export default function teams() {
   return <TeamList />;
