@@ -19,10 +19,9 @@ const LinkCol = styled.div`
 const StyledParagraph = styled.p<{ $variant?: Variant }>`
   padding: 1rem 0rem;
 
-  color: ${({ $variant }) =>
-    $variant === 'main' ? colors.Primary[500] : 'inherit'};
+  color: ${({ $variant }) => ($variant ? colors.Primary[500] : 'inherit')};
   border-bottom: ${({ $variant }) =>
-    $variant === 'main' ? `1px solid ${colors.Primary[500]}` : 'none'};
+    $variant ? `1px solid ${colors.Primary[500]}` : 'none'};
 
   &:hover {
     color: ${colors.Primary[500]};
@@ -39,7 +38,9 @@ export default function Tab({ variant }: TabProps) {
     <div>
       <LinkCol>
         <Link href="/" passHref>
-          <StyledParagraph $variant={variant}>추천</StyledParagraph>
+          <StyledParagraph $variant={variant === 'main' ? 'main' : undefined}>
+            추천
+          </StyledParagraph>
         </Link>
         <Link href="/explores" passHref>
           <StyledParagraph
