@@ -48,6 +48,15 @@ export default function RootLayout({
               token: {
                 fontFamily: myFont.style.fontFamily,
                 colorPrimary: colors.Primary[500],
+                colorBorder: 'transparent',
+              },
+              components: {
+                Input: {
+                  activeBorderColor: 'transparent',
+                  activeShadow: 'transparent',
+                  hoverBorderColor: 'transparent',
+                  paddingBlock: 0,
+                },
               },
             }}
           >

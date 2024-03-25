@@ -1,19 +1,20 @@
 'use client';
 
+import Image from 'next/image';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import styled from 'styled-components';
 import KakaoMap from '@/src/components/explore/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
 import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
 import getMountainData from '@/src/components/explore/getMountainData';
+import styled from 'styled-components';
 import { AutoComplete, Input } from 'antd';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { colors } from '@/app/styles/colors';
 
-const SearchMountainArea = styled.div`
-  margin-top: 7rem;
-`;
+const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
+  margin-bottom: 5.8rem;
   font-size: 3rem;
   font-weight: 600;
   line-height: 4.2rem;
@@ -60,7 +61,43 @@ const MountainList = styled.div`
   row-gap: 4rem;
 `;
 
+const SearchContainer = styled.div`
+  display: flex;
+  max-width: 99.2rem;
+  padding: 0 0.8rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  border-bottom: 1px solid ${colors.Grayscale[13]};
+  margin: 0 auto;
+
+  .ant-select {
+    width: 100%;
+  }
+
+  .ant-input-affix-wrapper {
+    position: relative;
+    width: 100%;
+    height: 3rem;
+    padding-left: 3rem;
+    padding: 0;
+  }
+
+  .ant-input-prefix {
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+  }
+  .ant-input-prefix > img {
+    position: static;
+  }
+`;
+
 const Container = styled.div`
+  ${SearchContainer} {
+    margin-bottom: 5rem;
+  }
+
   @media (max-width: 768px) {
     ${MainTitle} {
       font-size: 2rem;
@@ -81,18 +118,6 @@ const Container = styled.div`
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 40rem));
    }
-`;
-
-const SearchContainer = styled.div`
-  width: 400px;
-  height: 45px;
-  position: relative;
-  border: 0;
-  img {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-  }
 `;
 
 export default function ExplorePage() {
@@ -166,12 +191,19 @@ export default function ExplorePage() {
               options={filteredOptions}
               onSelect={handleSearch}
               onSearch={handleInputChange}
+              notFoundContent="검색 결과가 없습니다."
               value={keyword}
             >
-              <Input.Search
-                placeholder="대한민국 산 탐험하기"
-                onSearch={handleSearch}
-                enterButton
+              <Input
+                prefix={
+                  <Image
+                    width={20}
+                    height={20}
+                    src="./feedSearch.svg"
+                    alt="검색"
+                  />
+                }
+                placeholder="탐험하고 싶은 산을 찾아보세요."
               />
             </AutoComplete>
           </SearchContainer>
