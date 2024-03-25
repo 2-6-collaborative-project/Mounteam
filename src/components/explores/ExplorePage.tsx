@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import KakaoMap from '@/src/components/explore/KakaoMap';
+import KakaoMap from '@/src/components/explores/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
-import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
-import getMountainData from '@/src/components/explore/getMountainData';
+import ExploreFilterPanel from '@/src/components/explores/ExploreFilterPanel';
+import getMountainData from '@/src/components/explores/getMountainData';
 import { AutoComplete, Input } from 'antd';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 

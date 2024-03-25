@@ -1,5 +1,5 @@
-import ExplorePage from '@/src/components/explore/ExplorePage';
+import ExplorePage from '@/src/components/explores/ExplorePage';
 
-export default function explore() {
+export default function explores() {
   return <ExplorePage />;
 }
