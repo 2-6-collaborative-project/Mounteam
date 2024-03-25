@@ -1,16 +1,13 @@
 'use client';
 
-import Image from 'next/image';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import KakaoMap from '@/src/components/explore/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
 import ExploreFilterPanel from '@/src/components/explore/ExploreFilterPanel';
 import getMountainData from '@/src/components/explore/getMountainData';
 import styled from 'styled-components';
-import { AutoComplete, Input } from 'antd';
-import { colors } from '@/app/styles/colors';
+import AutoSearchBar from '../shared/AutoSearchBar';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -61,43 +58,7 @@ const MountainList = styled.div`
   row-gap: 4rem;
 `;
 
-const SearchContainer = styled.div`
-  display: flex;
-  max-width: 99.2rem;
-  padding: 0 0.8rem;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
-  border-bottom: 1px solid ${colors.Grayscale[13]};
-  margin: 0 auto;
-
-  .ant-select {
-    width: 100%;
-  }
-
-  .ant-input-affix-wrapper {
-    position: relative;
-    width: 100%;
-    height: 3rem;
-    padding-left: 3rem;
-    padding: 0;
-  }
-
-  .ant-input-prefix {
-    position: absolute;
-    top: 0.5rem;
-    left: 0;
-  }
-  .ant-input-prefix > img {
-    position: static;
-  }
-`;
-
 const Container = styled.div`
-  ${SearchContainer} {
-    margin-bottom: 5rem;
-  }
-
   @media (max-width: 768px) {
     ${MainTitle} {
       font-size: 2rem;
@@ -121,56 +82,12 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const initKeyword = searchParams.get('mountain');
-
-  const [keyword, setKeyword] = useState<string>(initKeyword || '');
   const [searchedMountain, setSearchedMountain] = useState(null);
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
-  );
-
-  const handleInputChange = (value: string) => {
-    setKeyword(value);
-  };
-
-  const options = mountainList?.map((list: any) => ({
-    value: list.명산_이름,
-  }));
-
-  const handleSearch = (value: string) => {
-    // URL 쿼리스트링 업데이트
-    router.push(pathname + '?' + createQueryString('mountain', value));
-    setKeyword(value);
-  };
-
-  const filteredOptions = options?.filter((option: any) =>
-    option.value.includes(keyword),
-  );
-
-  useEffect(() => {
-    if (initKeyword) {
-      const searched = mountainList?.find(
-        (list: any) => list.명산_이름 === initKeyword,
-      );
-
-      setSearchedMountain(searched);
-    }
-  }, [initKeyword, mountainList]);
 
   return (
     <>
@@ -186,27 +103,7 @@ export default function ExplorePage() {
 
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
-          <SearchContainer>
-            <AutoComplete
-              options={filteredOptions}
-              onSelect={handleSearch}
-              onSearch={handleInputChange}
-              notFoundContent="검색 결과가 없습니다."
-              value={keyword}
-            >
-              <Input
-                prefix={
-                  <Image
-                    width={20}
-                    height={20}
-                    src="./feedSearch.svg"
-                    alt="검색"
-                  />
-                }
-                placeholder="탐험하고 싶은 산을 찾아보세요."
-              />
-            </AutoComplete>
-          </SearchContainer>
+          <AutoSearchBar setSearchedMountain={setSearchedMountain} />
 
           {
             <KakaoMap
@@ -227,25 +124,12 @@ export default function ExplorePage() {
             </MountainListHeader>
 
             <MountainList>
-              {initKeyword === '' &&
+              {!searchedMountain ? (
                 mountainList?.map((list: any) => (
                   <MountainInfo key={list.X좌표} list={list} />
-                ))}
-
-              {/* /explore 처음 진입했을떄 */}
-              {!initKeyword &&
-                !searchedMountain &&
-                mountainList?.map((list: any) => (
-                  <MountainInfo key={list.X좌표} list={list} />
-                ))}
-              {/* 검색한 산이 있을때 */}
-              {initKeyword && searchedMountain && (
+                ))
+              ) : (
                 <MountainInfo list={searchedMountain} />
-              )}
-
-              {/* 검색한 산이 없을때 */}
-              {initKeyword && !searchedMountain && (
-                <div>검색 결과가 없습니다.</div>
               )}
             </MountainList>
           </MountainListContainer>
