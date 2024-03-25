@@ -2,6 +2,8 @@ import { useState } from 'react';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { Checkbox, Collapse } from 'antd';
 import styled from 'styled-components';
+import RegionFilter from './RegionFilter';
+import HeightFilter from './HeightFilter';
 
 const FilterHeader = styled.div`
   display: flex;
@@ -76,58 +78,13 @@ const CheckboxGroupContainer = styled.div`
   }
 `;
 
-const regionOptions = [
-  '서울',
-  '경기도',
-  '강원도',
-  '충청북도',
-  '충청남도',
-  '전라북도',
-  '전라남도',
-  '경상북도',
-  '경상남도',
-  '제주도',
-];
-
-const heightOptions = [
-  '500m 미만',
-  '500 ~ 1000m',
-  '1000 ~ 1500m',
-  '1500m 이상',
-];
-
 export default function ExploreFilterPanel() {
   const [regionCheckedList, setRegionCheckedList] = useState<string[]>([]);
   const [heightCheckedList, setHeightCheckedList] = useState<string[]>([]);
 
-  const handleCheckboxListChange = (
-    option: string,
-    checkedList: string[],
-    setCheckedList: (list: string[]) => void,
-  ) => {
-    const currentIndex = checkedList.indexOf(option);
-    const newCheckedList = [...checkedList];
-
-    if (currentIndex === -1) {
-      newCheckedList.push(option);
-    } else {
-      newCheckedList.splice(currentIndex, 1);
-    }
-
-    setCheckedList(newCheckedList);
-  };
-
   const handleCheckReset = () => {
     setRegionCheckedList([]);
     setHeightCheckedList([]);
-  };
-
-  const handleCheckAllChange = (
-    e: CheckboxChangeEvent,
-    option: string[],
-    setCheckedList: (list: string[]) => void,
-  ) => {
-    setCheckedList(e.target.checked ? option : []);
   };
 
   return (
@@ -157,74 +114,20 @@ export default function ExploreFilterPanel() {
                 key: '1',
                 label: '관심지역',
                 children: (
-                  <>
-                    <Checkbox
-                      onChange={(e) =>
-                        handleCheckAllChange(
-                          e,
-                          regionOptions,
-                          setRegionCheckedList,
-                        )
-                      }
-                      checked={
-                        regionCheckedList.length === regionOptions.length
-                      }
-                    >
-                      전체 선택
-                    </Checkbox>
-                    {regionOptions.map((option) => (
-                      <Checkbox
-                        key={option}
-                        onChange={() =>
-                          handleCheckboxListChange(
-                            option,
-                            regionCheckedList,
-                            setRegionCheckedList,
-                          )
-                        }
-                        checked={regionCheckedList.includes(option)}
-                      >
-                        {option}
-                      </Checkbox>
-                    ))}
-                  </>
+                  <RegionFilter
+                    regionCheckedList={regionCheckedList}
+                    setRegionCheckedList={setRegionCheckedList}
+                  />
                 ),
               },
               {
                 key: '2',
                 label: '높이',
                 children: (
-                  <>
-                    <Checkbox
-                      onChange={(e) =>
-                        handleCheckAllChange(
-                          e,
-                          heightOptions,
-                          setHeightCheckedList,
-                        )
-                      }
-                      checked={
-                        heightCheckedList.length === heightOptions.length
-                      }
-                    >
-                      전체 선택
-                    </Checkbox>
-                    {heightOptions.map((option) => (
-                      <Checkbox
-                        key={option}
-                        onChange={() =>
-                          handleCheckboxListChange(
-                            option,
-                            heightCheckedList,
-                            setHeightCheckedList,
-                          )
-                        }
-                        checked={heightCheckedList.includes(option)}
-                      >
-                        {option}
-                      </Checkbox>
-                    ))}
-                  </>
+                  <HeightFilter
+                    heightCheckedList={heightCheckedList}
+                    setHeightCheckedList={setHeightCheckedList}
+                  />
                 ),
               },
             ]}
