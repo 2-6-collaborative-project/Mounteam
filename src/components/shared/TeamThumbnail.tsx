@@ -73,7 +73,7 @@ const TeamChips = styled.div`
   flex-shrink: 0;
 `;
 
-const GenderRange = styled.div`
+const TeamRange = styled.div`
   display: flex;
   padding: 0.1875rem 0.4375rem;
   justify-content: center;
@@ -85,25 +85,13 @@ const GenderRange = styled.div`
   ${typography.Footnote14};
 `;
 
-const AgeRange = styled.div`
-  display: flex;
-  padding: 0.1875rem 0.4375rem;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.1875rem;
-  background: ${colors.System[`Warning_bg`]};
-  color: ${colors.System[`Warning`]};
-  text-align: center;
-  ${typography.Footnote14};
-`;
-
 interface TeamFeedType {
   teamId: number;
   exploreId: string;
   title: string;
   departureDay: string;
   ageRange: string[];
-  genderRange: string[];
+  genderRange: string;
 }
 
 // 클릭 시 상세페이지로 이동하는 기능 추가, 산 아이디에 따른 이름 변환 필요
@@ -125,20 +113,17 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   const { formattedDate, formattedTime } = formatDate(team.departureDay);
 
   const renderGenderText = () => {
-    const genderRanges = Array.isArray(team.genderRange)
-      ? team.genderRange
-      : [team.genderRange];
-
-    if (genderRanges.includes('male') && genderRanges.includes('female')) {
-      return '성별무관';
-    } else if (genderRanges.includes('male')) {
-      return '남성만';
-    } else if (genderRanges.includes('female')) {
-      return '여성만';
+    switch (team.genderRange) {
+      case 'male':
+        return '남성만';
+      case 'female':
+        return '여성만';
+      case 'all':
+        return '성별무관';
+      default:
+        return '';
     }
-    return ''; // genderRange가 빈 문자열이거나 빈 배열인 경우
   };
-
   const renderAgeRangeText = () => {
     const ageRanges = Array.isArray(team.ageRange)
       ? team.ageRange
@@ -174,12 +159,12 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
           <p>{`${team.exploreId} | ${formattedDate} | ${formattedTime}`}</p>
         </TeamInfo>
         <TeamChips>
-          <GenderRange>
+          <TeamRange>
             <p>{renderGenderText()}</p>
-          </GenderRange>
-          <AgeRange>
+          </TeamRange>
+          <TeamRange>
             <p>{renderAgeRangeText()}</p>
-          </AgeRange>
+          </TeamRange>
         </TeamChips>
       </TeamCol>
     </TeamBox>

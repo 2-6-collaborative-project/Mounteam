@@ -5,7 +5,7 @@ export const teamFeed = [
     title: '관악산 함께가요',
     departureDay: '2024-04-08 14:00',
     ageRange: ['teenager'],
-    genderRange: ['male', 'female'],
+    genderRange: 'all',
   },
   {
     teamId: 2,
@@ -13,7 +13,7 @@ export const teamFeed = [
     title: '북한산 가보자고',
     departureDay: '2024-10-05 11:00',
     ageRange: ['twenties', 'thirties'],
-    genderRange: ['male'],
+    genderRange: 'male',
   },
   {
     teamId: 3,
@@ -21,7 +21,7 @@ export const teamFeed = [
     title: '명지산 렛츠고',
     departureDay: '2024-09-12 13:00',
     ageRange: ['fifties'],
-    genderRange: ['male', 'female'],
+    genderRange: 'all',
   },
   {
     teamId: 4,
@@ -29,7 +29,7 @@ export const teamFeed = [
     title: '고수만 모십니다',
     departureDay: '2024-04-16 14:00',
     ageRange: ['fourties'],
-    genderRange: ['male'],
+    genderRange: 'male',
   },
   {
     teamId: 5,
@@ -37,7 +37,7 @@ export const teamFeed = [
     title: '백운산 같이가요',
     departureDay: '2024-06-15 17:00',
     ageRange: ['twenties'],
-    genderRange: ['female'],
+    genderRange: 'female',
   },
   {
     teamId: 6,
@@ -45,6 +45,6 @@ export const teamFeed = [
     title: '용문산으로 떠나요',
     departureDay: '2024-03-27 17:00',
     ageRange: ['fifties', 'sixties'],
-    genderRange: ['female'],
+    genderRange: 'female',
   },
 ];

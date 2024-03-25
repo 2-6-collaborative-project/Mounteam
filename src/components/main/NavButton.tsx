@@ -13,13 +13,15 @@ interface NavButtonProps {
 const NavButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1 0 0;
   padding: 0.625rem 3.0625rem;
   justify-content: center;
   align-items: center;
   gap: 0.625rem;
-  border-radius: 0.1875rem;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 0.625rem;
   background: ${colors.Grayscale[3]};
+  color: ${colors.Grayscale[13]};
   text-align: center;
   ${typography.Heading16};
 
