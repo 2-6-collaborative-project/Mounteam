@@ -90,7 +90,7 @@ function SignInPage() {
       <GlobalStyle />
       <Container>
         <Logo>
-          <Image fill src="/logo.png" alt="로고" />
+          <Image fill src="/logo.svg" alt="로고" />
         </Logo>
         <Dsecription>SNS로 간편하게 로그인하기</Dsecription>
 
