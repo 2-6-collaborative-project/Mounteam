@@ -98,7 +98,7 @@ export default function EditProfile({
     setter(false);
   };
 
-  const handleFileChange = ({ fileList }) => {
+  const handleFileChange = ({ fileList }: any) => {
     console.log('Uploaded files:', fileList);
     setFileList(fileList);
   };
