@@ -11,7 +11,6 @@ const LinkCol = styled.div`
   justify-content: start;
   align-items: center;
   color: var(--MDS-GrayScale-13, #000);
-  border-bottom: 1px solid #f0f0f0;
   column-gap: 2.06rem;
   ${typography.Heading20}
 `;
