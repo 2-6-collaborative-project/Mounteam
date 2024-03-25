@@ -1,29 +1,30 @@
-import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { Checkbox } from 'antd';
-import useCheckboxList from '@/src/hooks/explore/useCheckbox';
+import useExploreCheckbox from '@/src/hooks/explore/useExploreCheckbox';
 
 interface RegionFilterProps {
   regionCheckedList: string[];
   setRegionCheckedList: (list: string[]) => void;
 }
-const regionOptions = [
-  '서울',
-  '경기도',
-  '강원도',
-  '충청북도',
-  '충청남도',
-  '전라북도',
-  '전라남도',
-  '경상북도',
-  '경상남도',
-  '제주도',
-];
 
 export default function RegionFilter({
   regionCheckedList,
   setRegionCheckedList,
 }: RegionFilterProps) {
-  const { handleCheckAllChange, handleCheckboxListChange } = useCheckboxList();
+  const regionOptions = [
+    '서울',
+    '경기도',
+    '강원도',
+    '충청북도',
+    '충청남도',
+    '전라북도',
+    '전라남도',
+    '경상북도',
+    '경상남도',
+    '제주도',
+  ];
+
+  const { handleCheckAllChange, handleCheckboxListChange } =
+    useExploreCheckbox();
 
   return (
     <>

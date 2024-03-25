@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
-export default function useCheckboxList() {
+export default function useExploreCheckbox() {
   const handleCheckboxListChange = (
     option: string,
     checkedList: string[],

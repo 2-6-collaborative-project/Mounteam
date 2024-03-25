@@ -1,5 +1,5 @@
-import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { Checkbox } from 'antd';
+import useExploreCheckbox from '@/src/hooks/explore/useExploreCheckbox';
 
 interface HeightFilterProps {
   heightCheckedList: string[];
@@ -17,30 +17,8 @@ export default function HeightFilter({
     { label: '1500m 이상', range: [1500, Infinity] },
   ];
 
-  const handleCheckboxListChange = (
-    option: string,
-    checkedList: string[],
-    setCheckedList: (list: string[]) => void,
-  ) => {
-    const currentIndex = checkedList.indexOf(option);
-    const newCheckedList = [...checkedList];
-
-    if (currentIndex === -1) {
-      newCheckedList.push(option);
-    } else {
-      newCheckedList.splice(currentIndex, 1);
-    }
-
-    setCheckedList(newCheckedList);
-  };
-
-  const handleCheckAllChange = (
-    e: CheckboxChangeEvent,
-    option: string[],
-    setCheckedList: (list: string[]) => void,
-  ) => {
-    setCheckedList(e.target.checked ? option : []);
-  };
+  const { handleCheckAllChange, handleCheckboxListChange } =
+    useExploreCheckbox();
 
   return (
     <>
