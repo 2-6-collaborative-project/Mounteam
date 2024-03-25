@@ -19,10 +19,6 @@ const ContentsContainer = styled.div`
   gap: 10rem;
 `;
 
-const Flex = styled.div`
-  margin: 0 auto 0 auto;
-`;
-
 const FlexContainer = styled.div`
   padding-bottom: 20rem;
   display: flex;
