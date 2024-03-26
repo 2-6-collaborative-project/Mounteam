@@ -29,13 +29,11 @@ const SearchContainer = styled.div`
   }
 `;
 
-interface AutoSearchBarProps {
-  setSearchedMountain?: React.Dispatch<React.SetStateAction<never[]>>;
-}
-
 export default function AutoSearchBar({
   setSearchedMountain,
-}: AutoSearchBarProps) {
+}: {
+  setSearchedMountain: (list: mountainDataProps) => void;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

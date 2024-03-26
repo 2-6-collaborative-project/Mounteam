@@ -9,7 +9,6 @@ import getMountainData from '@/src/components/explores/api/getMountainData';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import Tab from '@/src/components/shared/Tab';
-import { useState } from 'react';
 import mountainDataProps from '@/src/types/mountainDataProps';
 
 const SearchMountainArea = styled.div``;
@@ -87,8 +86,9 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const [searchedMountain, setSearchedMountain] = useState([]);
-  const { keyword } = useSearchMountainStore();
+  const { keyword, searchedMountain, setSearchedMountain } =
+    useSearchMountainStore();
+
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
@@ -102,15 +102,12 @@ export default function ExplorePage() {
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
           <AutoSearchBar setSearchedMountain={setSearchedMountain} />
-          <KakaoMap
-            mountainList={mountainList}
-            searchedMountain={searchedMountain}
-          />
+          <KakaoMap mountainList={mountainList} />
         </SearchMountainArea>
 
         <SearchResultArea>
           <FilterContainer>
-            <ExploreFilterPanel />
+            <ExploreFilterPanel setSearchedMountain={setSearchedMountain} />
           </FilterContainer>
 
           <MountainListContainer>

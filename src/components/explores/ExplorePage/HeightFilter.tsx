@@ -4,11 +4,13 @@ import useExploreCheckbox from '@/src/hooks/explore/useExploreCheckbox';
 interface HeightFilterProps {
   heightCheckedList: string[];
   setHeightCheckedList: (list: string[]) => void;
+  setSearchedMountain: any;
 }
 
 export default function HeightFilter({
   heightCheckedList,
   setHeightCheckedList,
+  setSearchedMountain,
 }: HeightFilterProps) {
   const heightOptions = [
     { label: '500m 미만', range: [0, 500] },
@@ -17,9 +19,20 @@ export default function HeightFilter({
     { label: '1500m 이상', range: [1500, Infinity] },
   ];
 
-  const { handleCheckAllChange, handleCheckboxListChange } =
-    useExploreCheckbox();
+  const {
+    handleCheckAllChange,
+    handleCheckListChange,
+    handleFilterCheckedList,
+  } = useExploreCheckbox();
 
+  const handleCheckBoxChage = (option: { label: string; range: number[] }) => {
+    handleCheckListChange(
+      option.label,
+      heightCheckedList,
+      setHeightCheckedList,
+    );
+    handleFilterCheckedList(option.range, setSearchedMountain);
+  };
   return (
     <>
       <Checkbox
@@ -37,13 +50,7 @@ export default function HeightFilter({
       {heightOptions.map((option) => (
         <Checkbox
           key={option.label}
-          onChange={() =>
-            handleCheckboxListChange(
-              option.label,
-              heightCheckedList,
-              setHeightCheckedList,
-            )
-          }
+          onChange={() => handleCheckBoxChage(option)}
           checked={heightCheckedList.includes(option.label)}
         >
           {option.label}
