@@ -9,6 +9,8 @@ import getMountainData from '@/src/components/explores/api/getMountainData';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import Tab from '@/src/components/shared/Tab';
+import { useState } from 'react';
+import mountainDataProps from '@/src/types/mountainDataProps';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -85,9 +87,8 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const { keyword, searchedMountain, setSearchedMountain } =
-    useSearchMountainStore();
-
+  const [searchedMountain, setSearchedMountain] = useState([]);
+  const { keyword } = useSearchMountainStore();
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
@@ -119,7 +120,7 @@ export default function ExplorePage() {
 
             <MountainList>
               {keyword === '' ? (
-                mountainList?.map((list: any) => (
+                mountainList?.map((list: mountainDataProps) => (
                   <MountainInfo key={list.X좌표} list={list} />
                 ))
               ) : (

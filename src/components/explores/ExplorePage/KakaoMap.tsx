@@ -1,19 +1,11 @@
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-
+import mountainDataProps from '@/src/types/mountainDataProps';
 const Map = styled.div`
   width: 100%;
   height: 400px;
 `;
-
-interface mountainDataProps {
-  X좌표: number;
-  Y좌표: number;
-  명산_높이: number;
-  명산_소재지: string;
-  명산_이름: string;
-}
 
 export default function KakaoMap({
   mountainList,
@@ -22,7 +14,7 @@ export default function KakaoMap({
   mountainList: mountainDataProps[];
   searchedMountain: any;
 }) {
-  const { keyword, setSearchedMountain } = useSearchMountainStore();
+  const { keyword } = useSearchMountainStore();
 
   useEffect(() => {
     window.kakao.maps.load(() => {
@@ -43,7 +35,7 @@ export default function KakaoMap({
       const positions = mountainList?.map((list: mountainDataProps) => ({
         title: list.명산_이름,
         latlng:
-          keyword !== ''
+          searchedMountain && keyword !== ''
             ? new window.kakao.maps.LatLng(
                 searchedMountain.X좌표,
                 searchedMountain.Y좌표,
