@@ -49,6 +49,15 @@ export default function RootLayout({
                 fontFamily: myFont.style.fontFamily,
                 colorPrimary: colors.Primary[500],
               },
+              components: {
+                Input: {
+                  activeBorderColor: 'transparent',
+                  activeShadow: 'transparent',
+                  hoverBorderColor: 'transparent',
+                  paddingBlock: 0,
+                  paddingInline: 0,
+                },
+              },
             }}
           >
             <QueryProvider>

@@ -9,6 +9,7 @@ import NavButton from '@/src/components/main/NavButton';
 import CarouselSection from '@/src/components/main/CarouselSection';
 import { teamFeed } from '@/src/lib/mockData';
 import typography from '@/app/styles/typography';
+import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 
 const Body = styled.div`
   display: flex;
@@ -95,7 +96,9 @@ export default function Home() {
     <>
       <Body>
         <Tab variant="main" />
-        <div>{/* 검색바 */}</div>
+        <div>
+          <AutoSearchBar />
+        </div>
 
         <CarouselSection />
 
