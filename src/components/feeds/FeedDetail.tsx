@@ -1,12 +1,12 @@
-import { useRef } from 'react';
-import Image from 'next/image';
 import styled from 'styled-components';
-import { Carousel } from 'antd';
+import Link from 'next/link';
+import Image from 'next/image';
 import meatballs from '@/public/meatballs.svg';
 import user from '@/public/user.svg';
-import { CustomPopover } from '../shared/CustomPopover';
-import Link from 'next/link';
-import { InfoBox } from '../shared/InfoBox';
+import { useRef } from 'react';
+import { CustomPopover } from '@/src/components/shared/CustomPopover';
+import { Carousel } from 'antd';
+import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 
 const contentStyle: React.CSSProperties = {

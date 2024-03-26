@@ -1,10 +1,10 @@
+import styled from 'styled-components';
 import Image from 'next/image';
-import { CustomPopover } from '@/src/components/shared/CustomPopover';
+import Link from 'next/link';
 import user from '@/public/user.svg';
 import meatballs from '@/public/meatballs.svg';
-import styled from 'styled-components';
-import { InfoBox } from '../shared/InfoBox';
-import Link from 'next/link';
+import { CustomPopover } from '@/src/components/shared/CustomPopover';
+import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
 
@@ -110,6 +110,10 @@ const TextBox = styled.div`
     font-weight: 400;
     line-height: 2.1rem;
     letter-spacing: -0.14px;
+    height: 3.3em;
+    overflow: hidden;
+    text-overflow: elipsis;
+    -webkit-line-clamp: 2;
   }
 `;
 
@@ -128,10 +132,10 @@ const TagWrapper = styled.div`
   gap: 0.3rem;
   border: 1px solid ${colors.Primary[500]};
   border-radius: 3px;
-  background-color: colors[Grayscale].1;
+  background-color: ${colors.Grayscale[1]};
 
   & p {
-    color: colors[Primary].500;
+    color: ${colors.Primary[500]};
   }
 `;
 

@@ -4,7 +4,7 @@ import { colors } from '@/app/styles/colors';
 import { Input, Modal, Radio, Upload, Button, Avatar } from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
-import Avatars from '../shared/Avatar';
+import Avatars from '@/src/components/shared/Avatar';
 
 const Title = styled.p`
   font-size: 1.6rem;

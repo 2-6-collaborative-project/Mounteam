@@ -1,10 +1,10 @@
 'use client';
 
 import styled from 'styled-components';
+import Tab from '@/src/components/shared/Tab';
 import FeedPage from '@/src/components/feeds/FeedPage';
 import FeedSearch from '@/src/components/feeds/FeedSearch';
 import { feedMockData } from '@/src/components/feeds/mock';
-import Tab from '@/src/components/shared/Tab';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;

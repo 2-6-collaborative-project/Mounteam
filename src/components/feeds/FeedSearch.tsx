@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import styled from 'styled-components';
+import Image from 'next/image';
 import { SearchBar } from '@/src/components/shared/SearchBar';
 
 const FeedConatiner = styled.div`
