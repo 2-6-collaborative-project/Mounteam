@@ -85,7 +85,8 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const { searchedMountain, setSearchedMountain } = useSearchMountainStore();
+  const { keyword, searchedMountain, setSearchedMountain } =
+    useSearchMountainStore();
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
@@ -117,7 +118,7 @@ export default function ExplorePage() {
             </MountainListHeader>
 
             <MountainList>
-              {!searchedMountain ? (
+              {keyword === '' ? (
                 mountainList?.map((list: any) => (
                   <MountainInfo key={list.X좌표} list={list} />
                 ))

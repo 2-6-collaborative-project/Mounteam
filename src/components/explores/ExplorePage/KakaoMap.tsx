@@ -1,3 +1,4 @@
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -21,29 +22,33 @@ export default function KakaoMap({
   mountainList: mountainDataProps[];
   searchedMountain: any;
 }) {
+  const { keyword, setSearchedMountain } = useSearchMountainStore();
+
   useEffect(() => {
     window.kakao.maps.load(() => {
       const container = document.getElementById('map');
       const options = {
-        center: searchedMountain
-          ? new window.kakao.maps.LatLng(
-              searchedMountain.X좌표,
-              searchedMountain.Y좌표,
-            )
-          : new window.kakao.maps.LatLng(36.71069, 127.97434),
-        level: searchedMountain ? 7 : 13,
+        center:
+          searchedMountain && keyword !== ''
+            ? new window.kakao.maps.LatLng(
+                searchedMountain.X좌표,
+                searchedMountain.Y좌표,
+              )
+            : new window.kakao.maps.LatLng(36.71069, 127.97434),
+        level: searchedMountain && keyword !== '' ? 7 : 13,
       };
 
       const map = new window.kakao.maps.Map(container, options);
 
       const positions = mountainList?.map((list: mountainDataProps) => ({
         title: list.명산_이름,
-        latlng: searchedMountain
-          ? new window.kakao.maps.LatLng(
-              searchedMountain.X좌표,
-              searchedMountain.Y좌표,
-            )
-          : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
+        latlng:
+          keyword !== ''
+            ? new window.kakao.maps.LatLng(
+                searchedMountain.X좌표,
+                searchedMountain.Y좌표,
+              )
+            : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
       }));
 
       const imageSrc = '/markerSuccess.svg';

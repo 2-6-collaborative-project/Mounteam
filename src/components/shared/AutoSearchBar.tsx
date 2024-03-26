@@ -89,6 +89,7 @@ export default function AutoSearchBar({
       );
 
       setSearchedMountain(searched);
+      setKeyword(initKeyword);
     }
   }, [initKeyword, mountainList]);
 
