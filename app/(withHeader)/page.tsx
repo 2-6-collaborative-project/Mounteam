@@ -15,7 +15,7 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10rem;
-  width: 100%;
+  width: 97%;
 `;
 
 const SearchBarContainer = styled.div`
