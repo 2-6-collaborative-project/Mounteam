@@ -68,8 +68,8 @@ export default function AutoSearchBar({
   const handleSearch = (value: string) => {
     const searchLink =
       pathname === '/'
-        ? pathname + 'explore?' + createQueryString('mountain', value)
-        : pathname === '/explore'
+        ? pathname + 'explores?' + createQueryString('mountain', value)
+        : pathname === '/explores'
           ? pathname + '?' + createQueryString('mountain', value)
           : '';
 
