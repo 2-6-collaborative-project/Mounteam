@@ -8,13 +8,22 @@ import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import { colors } from '@/app/styles/colors';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import { teamFeed } from '@/src/lib/mockData';
+import { SearchBar } from '@/src/components/shared/SearchBar';
 
 const SearchTeamArea = styled.div``;
 
 const MainTitle = styled.h2`
-  margin-top: 2.5rem;
-  margin-bottom: 5.8rem;
+  display: flex;
+  padding: 1.87rem 0 5rem 0;
+  flex-direction: column;
+  align-items: flex-start;
+  color: ${colors.Grayscale[13]};
   ${typography.Heading30};
+
+  @media (max-width: 768px) {
+    padding: 1.25rem 0 5rem 0;
+    ${typography.Heading24};
+  }
 `;
 
 const SearchResultArea = styled.div`
@@ -25,6 +34,10 @@ const SearchResultArea = styled.div`
 
 const FilterContainer = styled.div`
   width: 20rem;
+
+  @media (max-width: 768px) {
+    padding: 3.125rem 0rem;
+  }
 `;
 
 const TeamListContainer = styled.div`
@@ -41,6 +54,7 @@ const TeamListHeader = styled.div`
   ${typography.Footnote14};
   gap: 0.5rem;
   margin-left: auto; // TeamList 정렬 변경에 따라 오른쪽 정렬 방식 변경
+
   // 정렬 선택 시 색상 ${colors.Grayscale[13]}으로 변경 필요
 `;
 
@@ -91,6 +105,7 @@ export default function TeamsPage() {
         <Tab variant="teams" />
         <SearchTeamArea>
           <MainTitle>전체 등산 모임</MainTitle>
+          <SearchBar placeholder="" />
         </SearchTeamArea>
 
         <SearchResultArea>
