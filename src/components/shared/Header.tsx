@@ -30,18 +30,19 @@ const IconGap = styled.div`
 `;
 
 // 추후 popover 컴포넌트 edit icon에 연결 필요
-
 export default function Header() {
   return (
     <HeaderBox>
       <LogoContainer>
-        <Image
-          src="/logo.svg"
-          alt="logo icon"
-          width={105.625}
-          height={35.505}
-          priority
-        />
+        <Link href="/" passHref>
+          <Image
+            src="/logo.svg"
+            alt="logo icon"
+            width={105.625}
+            height={35.505}
+            priority
+          />
+        </Link>
       </LogoContainer>
       <IconGap>
         <Image

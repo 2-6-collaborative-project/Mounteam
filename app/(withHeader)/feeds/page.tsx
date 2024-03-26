@@ -4,6 +4,11 @@ import styled from 'styled-components';
 import FeedPage from '@/src/components/feeds/FeedPage';
 import FeedSearch from '@/src/components/feeds/FeedSearch';
 import { feedMockData } from '@/src/components/feeds/mock';
+import Tab from '@/src/components/shared/Tab';
+
+const TabContainer = styled.div`
+  margin-bottom: 8rem;
+`;
 
 const FeedHomeLayer = styled.div`
   width: 100%;
@@ -28,6 +33,9 @@ export default function FeedHome() {
 
   return (
     <FeedHomeLayer>
+      <TabContainer>
+        <Tab variant="feeds" />
+      </TabContainer>
       <FeedFlex>
         <FeedSearch />
       </FeedFlex>

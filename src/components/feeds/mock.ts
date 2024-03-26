@@ -32,7 +32,8 @@ export const feedMockData = (): Feed[] => {
       },
       createdByme: true,
       createdAt: '2024-03-14T12:00:00',
-      imageUrl: '',
+      imageUrl:
+        'https://www.forest.go.kr/kfsweb/cmm/fms/getImage.do?atchFileId=FILE_000000000424235&fileSn=4',
       comments: ['Nice post!', 'Great job!'],
       likesCount: 10,
       isLiked: true,
@@ -52,7 +53,8 @@ export const feedMockData = (): Feed[] => {
       },
       createdByme: false,
       createdAt: '2024-03-14T12:00:00',
-      imageUrl: '',
+      imageUrl:
+        'https://www.forest.go.kr/kfsweb/cmm/fms/getImage.do?atchFileId=FILE_000000000423469&fileSn=1',
       comments: ['Nice post!', 'Great job!'],
       likesCount: 10,
       isLiked: true,

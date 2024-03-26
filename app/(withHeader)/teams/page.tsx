@@ -1,32 +1,25 @@
 'use client';
 
 import styled from 'styled-components';
+import typography from '@/app/styles/typography';
+import Tab from '@/src/components/shared/Tab';
 
-const Container = styled.div``;
+const Title = styled.div`
+  ${typography.Heading30};
+  padding: 1.88rem 0 5rem 0;
 
-const TopSection = styled.div``;
-
-const BottomSection = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
+  @media (max-width: 768px) {
+    ${typography.Heading24};
+    padding: 1.25rem 0 5rem 0;
+  }
 `;
-
-const FilterSection = styled.div``;
-
-const ListSection = styled.div``;
 
 export default function TeamPage() {
   return (
-    <Container>
-      <TopSection>
-        <div>전체 등산 모임</div>
-        <div>검색 바</div>
-      </TopSection>
-      <BottomSection>
-        <FilterSection>필터</FilterSection>
-        <ListSection>리스트</ListSection>
-      </BottomSection>
-    </Container>
+    <>
+      <Tab variant="teams" />
+      <Title>전체 등산 모임</Title>
+      <div>검색 바</div>
+    </>
   );
 }

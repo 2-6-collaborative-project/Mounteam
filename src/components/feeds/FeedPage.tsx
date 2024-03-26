@@ -1,18 +1,18 @@
-import React from 'react';
 import Image from 'next/image';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
-import { feedMockData } from './mock';
 import user from '@/public/user.svg';
 import meatballs from '@/public/meatballs.svg';
 import styled from 'styled-components';
 import { InfoBox } from '../shared/InfoBox';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { colors } from '@/app/styles/colors';
 
 interface FeedImgProps {
   imageUrl?: string;
 }
 
-interface FeedPageProps {
+export interface FeedPageProps {
   feeds: any;
 }
 
@@ -45,7 +45,7 @@ const HeadWrapper = styled.div`
   position: relative;
   width: 3.5rem;
   height: 3.5rem;
-  background-color: whitesmoke;
+  background-color: ${colors.Grayscale[3]};
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -67,7 +67,7 @@ const AvatarImage = styled.img`
 `;
 
 const HeadFont = styled.div`
-  color: var(--black-000000);
+  color: ${colors.Grayscale[13]};
   font-weight: 600;
   font-size: 12px;
 `;
@@ -90,8 +90,13 @@ const MeatBallFrame = styled.div`
 `;
 
 const PictureBox = styled.div`
+  cursor: pointer;
   width: 31.5rem;
   height: 31.5rem;
+  position: relative;
+  & img {
+    object-fit: contain;
+  }
 `;
 
 const TextBox = styled.div`
@@ -99,7 +104,7 @@ const TextBox = styled.div`
   padding-top: 1.1rem;
 
   & p {
-    color: var(--black-000000);
+    color: ${colors.Grayscale[13]};
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 2.1rem;
@@ -120,12 +125,12 @@ const TagWrapper = styled.div`
   padding: 0.1rem 0.8rem;
   align-items: center;
   gap: 0.3rem;
-  border: 1px solid #0331d1;
+  border: 1px solid ${colors.Primary[500]};
   border-radius: 3px;
-  background-color: var(--white-FFFFFF);
+  background-color: colors[Grayscale].1;
 
   & p {
-    color: #0331d1;
+    color: colors[Primary].500;
   }
 `;
 
@@ -139,6 +144,7 @@ const PopoverContentBox = styled.div`
 
 // 후기 컴포넌트
 export default function FeedPage({ feeds }: FeedPageProps) {
+  const router = useRouter();
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
   const content = (
@@ -154,18 +160,17 @@ export default function FeedPage({ feeds }: FeedPageProps) {
         {feeds.map((feed: any) => (
           <div key={feed.id}>
             <FeedHead>
-              <div>
-                <HeadWrapper>
-                  <AvatarImage
-                    src={
-                      feed.author.profileImageUrl
-                        ? feed.author.profileImageUrl
-                        : user.src
-                    }
-                    alt="User"
-                  />
-                </HeadWrapper>
-              </div>
+              <HeadWrapper>
+                <AvatarImage
+                  src={
+                    feed.author.profileImageUrl
+                      ? feed.author.profileImageUrl
+                      : user.src
+                  }
+                  alt="User"
+                />
+              </HeadWrapper>
+
               <HeadFont>
                 {<p style={{ fontWeight: 400 }}>Lv. {feed.author.level}</p>}
                 {<p>{feed.author.nickname}</p>}
@@ -181,41 +186,31 @@ export default function FeedPage({ feeds }: FeedPageProps) {
             </FeedHead>
 
             {feed.imageUrl ? (
-              <PictureBox>{feed.imageUrl}</PictureBox>
+              <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
+                <Image
+                  src={feed.imageUrl}
+                  alt="image"
+                  fill
+                  unoptimized={true}
+                />
+              </PictureBox>
             ) : (
-              <div
-                style={{
-                  width: '31.5rem',
-                  height: '31.5rem',
-                  backgroundColor: 'whitesmoke',
-                }}
-              ></div>
+              <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
+                <div
+                  style={{
+                    display: 'flex',
+                    width: '31.5rem',
+                    height: '31.5rem',
+                    backgroundColor: 'whitesmoke',
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <p>올린 이미지가 없습니다.</p>
+                </div>
+              </PictureBox>
             )}
-
-            {/* <InfoContainer>
-              <LikeBox>
-                {feed.isLiked ? (
-                  <Image src={fillHeart} alt="좋아요 갯수 확인 아이콘" />
-                ) : (
-                  <Image src={heart} alt="좋아요 갯수 확인 아이콘" />
-                )}
-                <p>{feed.likesCount}</p>
-              </LikeBox>
-              <CommentBox>
-                <Image src={message} alt="코멘트 갯수 확인 아이콘" />
-                <p>{feed.comments.length}</p>
-              </CommentBox>
-              <BookmarkBox>
-                {feed.isSaved ? (
-                  <Image
-                    src={fillBookmark}
-                    alt="피드 저장 했으면 이 아이콘 뜸"
-                  />
-                ) : (
-                  <Image src={bookmark} alt="피드 저장 여부 확인 아이콘" />
-                )}
-              </BookmarkBox>
-            </InfoContainer> */}
 
             <InfoBox feed={feed} />
 
