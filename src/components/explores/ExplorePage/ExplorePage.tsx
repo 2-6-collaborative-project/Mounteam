@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import KakaoMap from '@/src/components/explore/ExplorePage/KakaoMap';
+import KakaoMap from '@/src/components/explores/ExplorePage/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
-import ExploreFilterPanel from '@/src/components/explore/ExplorePage/ExploreFilterPanel';
-import getMountainData from '@/src/components/explore/api/getMountainData';
+import ExploreFilterPanel from '@/src/components/explores/ExplorePage/ExploreFilterPanel';
+import getMountainData from '@/src/components/explores/api/getMountainData';
 import styled from 'styled-components';
 import AutoSearchBar from '../../shared/AutoSearchBar';
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -78,11 +78,12 @@ const Container = styled.div`
     ${MountainList} {
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 40rem));
-   }
+    }
+  }
 `;
 
 export default function ExplorePage() {
-  const [searchedMountain, setSearchedMountain] = useState(null);
+  const { searchedMountain, setSearchedMountain } = useSearchMountainStore();
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
@@ -106,7 +107,7 @@ export default function ExplorePage() {
           <AutoSearchBar setSearchedMountain={setSearchedMountain} />
           <KakaoMap
             mountainList={mountainList}
-            selectedMountain={searchedMountain}
+            searchedMountain={searchedMountain}
           />
         </SearchMountainArea>
 

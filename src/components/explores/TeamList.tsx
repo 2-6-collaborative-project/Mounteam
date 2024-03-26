@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import KakaoMap from '@/src/components/explore/ExplorePage/KakaoMap';
+import KakaoMap from '@/src/components/explores/ExplorePage/KakaoMap';
 
 const Container = styled.div`
   margin: 3.2rem 10.4rem;
@@ -68,7 +68,7 @@ export default function TeamList() {
           </div>
           <MainTitle>산 이름</MainTitle>
         </div>
-        <KakaoMap />
+        {/* <KakaoMap /> */}
 
         <div className="mountainTeamList">
           <TeamTotalCount>관악산 등산모임: 4개</TeamTotalCount>

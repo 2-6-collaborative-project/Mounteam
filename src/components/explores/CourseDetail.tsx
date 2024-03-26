@@ -83,7 +83,7 @@ export default function CourseDetail() {
             브레드 크럼블이 들어갈 자리입니다.
           </div>
           <MainTitle>산 이름</MainTitle>
-          <KakaoMap />
+          {/* <KakaoMap /> */}
         </div>
         <ActivityTabs>
           <ActivityTab>등산 모임 n개</ActivityTab>

@@ -9,7 +9,6 @@ const Map = styled.div`
 interface mountainDataProps {
   X좌표: number;
   Y좌표: number;
-  교통정보: string;
   명산_높이: number;
   명산_소재지: string;
   명산_이름: string;
@@ -17,32 +16,32 @@ interface mountainDataProps {
 
 export default function KakaoMap({
   mountainList,
-  selectedMountain,
+  searchedMountain,
 }: {
   mountainList: mountainDataProps[];
-  selectedMountain: any;
+  searchedMountain: any;
 }) {
   useEffect(() => {
     window.kakao.maps.load(() => {
       const container = document.getElementById('map');
       const options = {
-        center: selectedMountain
+        center: searchedMountain
           ? new window.kakao.maps.LatLng(
-              selectedMountain.X좌표,
-              selectedMountain.Y좌표,
+              searchedMountain.X좌표,
+              searchedMountain.Y좌표,
             )
           : new window.kakao.maps.LatLng(36.71069, 127.97434),
-        level: selectedMountain ? 7 : 13,
+        level: searchedMountain ? 7 : 13,
       };
 
       const map = new window.kakao.maps.Map(container, options);
 
       const positions = mountainList?.map((list: mountainDataProps) => ({
         title: list.명산_이름,
-        latlng: selectedMountain
+        latlng: searchedMountain
           ? new window.kakao.maps.LatLng(
-              selectedMountain.X좌표,
-              selectedMountain.Y좌표,
+              searchedMountain.X좌표,
+              searchedMountain.Y좌표,
             )
           : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
       }));
@@ -65,7 +64,7 @@ export default function KakaoMap({
         });
       }
     });
-  }, [mountainList, selectedMountain]);
+  }, [mountainList, searchedMountain]);
 
   return <Map id="map" />;
 }
