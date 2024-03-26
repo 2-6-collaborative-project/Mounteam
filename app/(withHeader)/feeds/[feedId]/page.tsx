@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import { feedMockData } from '@/src/components/feeds/mock';
 import FeedDetail from '@/src/components/feeds/FeedDetail';
 import Comment from '@/src/components/feeds/Comment';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const DetailContainer = styled.div`
   width: 120rem;

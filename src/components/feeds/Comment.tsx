@@ -1,6 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 import user from '@/public/user.svg';
+import { colors } from '@/app/styles/colors';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const CommentContainer = styled.div`
   gap: 7px;
 
   & p {
-    color: var(#000);
+    color: ${colors.Grayscale[13]};
     font-size: 12px;
     font-weight: 500;
     line-height: 20px;
@@ -28,11 +28,11 @@ const CommentHeader = styled.div`
     flex-direction: column;
     align-items: flex-end;
     border-radius: 42.188px;
-    background: var(#bfbfbf);
+    background: ${colors.Grayscale[6]};
   }
 
   & p {
-    color: var(#000);
+    color: ${colors.Grayscale[13]};
     text-align: center;
     font-feature-settings: 'calt' off;
     font-size: 12px;
@@ -53,13 +53,13 @@ const AvatarImage = styled.img`
   padding: 0.4rem;
   width: 2rem;
   height: 2rem;
-  background-color: #bfbfbf;
+  background-color: ${colors.Grayscale[6]};
 `;
 
 const CommentBody = styled.div`
   width: 315px;
-  border: 1px solid var(#000);
-  color: var(#000);
+  border: 1px solid ${colors.Grayscale[13]};
+  color: ${colors.Grayscale[13]};
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;

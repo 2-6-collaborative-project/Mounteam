@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRef } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -8,13 +7,14 @@ import user from '@/public/user.svg';
 import { CustomPopover } from '../shared/CustomPopover';
 import Link from 'next/link';
 import { InfoBox } from '../shared/InfoBox';
+import { colors } from '@/app/styles/colors';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
   color: '#A0ABC0',
   lineHeight: '40rem',
   textAlign: 'center',
-  background: '#D9D9D9',
+  background: '#d9d9d9',
 };
 
 const ProfileCarouselContainer = styled.div`
@@ -48,7 +48,7 @@ const AvatarImage = styled.img`
   padding: 1rem;
   width: 4.8rem;
   height: 4.8rem;
-  background-color: #bfbfbf;
+  background-color: ${colors.Grayscale[6]};
 `;
 
 const HeadFont = styled.div`
@@ -57,15 +57,11 @@ const HeadFont = styled.div`
   align-items: flex-start;
 
   & p {
-    color: #000;
-
+    color: ${colors.Grayscale[13]};
     text-align: center;
-    /* Footnote/14 */
-    font-family: Pretendard;
     font-size: 14px;
-    font-style: normal;
     font-weight: 600;
-    line-height: 20px; /* 142.857% */
+    line-height: 20px;
   }
 `;
 
@@ -99,7 +95,7 @@ const CarouselConatiner = styled.div`
   height: 39.9rem;
   flex-shrink: 0;
 
-  background: #d9d9d9;
+  background: ${colors.Grayscale[5]};
 `;
 
 const InfoContainer = styled.div`
@@ -131,17 +127,14 @@ const TagWrapper = styled.div`
   align-items: center;
 
   border-radius: 3px;
-  border: 1px solid var(--MDS-Primary-500, #0331d1);
-  background: #fff;
+  border: 1px solid ${colors.Primary[500]};
+  background: ${colors.Grayscale[1]};
 
   & p {
-    color: var(--MDS-Primary-500, #0331d1);
-    /* Footnote/12 */
-    font-family: Pretendard;
+    color: ${colors.Primary[500]};
     font-size: 12px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 20px; /* 166.667% */
+    line-height: 20px;
   }
 `;
 
@@ -150,13 +143,10 @@ const TextBox = styled.div`
   padding-top: 1rem;
 
   & p {
-    color: var(--MDS-GrayScale-13, #000);
-    /* Body/16 */
-    font-family: Pretendard;
+    color: ${colors.Grayscale[13]};
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 30px; /* 187.5% */
+    line-height: 30px;
   }
 `;
 const CommentBarContainer = styled.div`
@@ -166,7 +156,7 @@ const CommentBarContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${colors.Grayscale[13]};
 `;
 
 const CommentBarWrapper = styled.div`
@@ -185,53 +175,12 @@ const TextWrapper = styled.div`
     padding-left: 1rem;
 
     ::placeholder {
-      color: var(#d9d9d9);
+      color: ${colors.Grayscale[5]};
       text-align: center;
       font-size: 20px;
       font-weight: 400;
       line-height: 36px;
     }
-  }
-`;
-
-const CommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 7px;
-
-  & p {
-    width: 315px;
-    color: var(#000);
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 20px;
-    letter-spacing: -0.12px;
-  }
-`;
-
-const CommentHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
-
-  & img {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    border-radius: 42.188px;
-    background: var(#bfbfbf);
-  }
-
-  & p {
-    color: var(#000);
-    text-align: center;
-    font-feature-settings: 'calt' off;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
-    letter-spacing: -0.12px;
   }
 `;
 

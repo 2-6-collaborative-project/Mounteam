@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import user from '@/public/user.svg';
@@ -46,7 +45,7 @@ const HeadWrapper = styled.div`
   position: relative;
   width: 3.5rem;
   height: 3.5rem;
-  background-color: whitesmoke;
+  background-color: ${colors.Grayscale[3]};
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -68,7 +67,7 @@ const AvatarImage = styled.img`
 `;
 
 const HeadFont = styled.div`
-  color: colors[GrayScale].13;
+  color: ${colors.Grayscale[13]};
   font-weight: 600;
   font-size: 12px;
 `;
@@ -105,7 +104,7 @@ const TextBox = styled.div`
   padding-top: 1.1rem;
 
   & p {
-    color: var(--black-000000);
+    color: ${colors.Grayscale[13]};
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 2.1rem;
@@ -126,12 +125,12 @@ const TagWrapper = styled.div`
   padding: 0.1rem 0.8rem;
   align-items: center;
   gap: 0.3rem;
-  border: 1px solid #0331d1;
+  border: 1px solid ${colors.Primary[500]};
   border-radius: 3px;
-  background-color: var(--white-FFFFFF);
+  background-color: colors[Grayscale].1;
 
   & p {
-    color: #0331d1;
+    color: colors[Primary].500;
   }
 `;
 
