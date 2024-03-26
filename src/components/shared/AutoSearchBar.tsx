@@ -4,18 +4,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AutoComplete, Input } from 'antd';
 import styled from 'styled-components';
-import getMountainData from '@/src/components/explore/api/getMountainData';
+import getMountainData from '@/src/components/explores/api/getMountainData';
 import { colors } from '@/app/styles/colors';
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 
 const SearchContainer = styled.div`
-  display: flex;
-  max-width: 99.2rem;
   padding: 0 0.8rem;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
   border-bottom: 1px solid ${colors.Grayscale[13]};
-  margin: 0 auto;
   margin-bottom: 5rem;
 
   .ant-select {
@@ -34,7 +29,7 @@ const SearchContainer = styled.div`
 `;
 
 interface AutoSearchBarProps {
-  setSearchedMountain?: React.Dispatch<React.SetStateAction<null>>;
+  setSearchedMountain?: (list: string) => void;
 }
 
 export default function AutoSearchBar({
@@ -44,7 +39,8 @@ export default function AutoSearchBar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const initKeyword = searchParams.get('mountain');
-  const [keyword, setKeyword] = useState<string>(initKeyword || '');
+
+  const { keyword, setKeyword } = useSearchMountainStore();
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
@@ -72,10 +68,10 @@ export default function AutoSearchBar({
   const handleSearch = (value: string) => {
     const searchLink =
       pathname === '/'
-        ? pathname + 'explore?' + createQueryString('mountain', value)
-        : pathname === '/explore'
+        ? pathname + 'explores?' + createQueryString('mountain', value)
+        : pathname === '/explores'
           ? pathname + '?' + createQueryString('mountain', value)
-          : '/404';
+          : '';
 
     router.push(`${searchLink}`);
 
@@ -107,7 +103,7 @@ export default function AutoSearchBar({
       >
         <Input
           prefix={
-            <Image width={20} height={20} src="./feedSearch.svg" alt="검색" />
+            <Image width={20} height={20} src="/feedSearch.svg" alt="검색" />
           }
           placeholder="탐험하고 싶은 산을 찾아보세요."
         />

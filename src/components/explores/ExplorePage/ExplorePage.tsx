@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import KakaoMap from '@/src/components/explore/ExplorePage/KakaoMap';
-import MountainInfo from '@/src/components/shared/MountainInfo';
-import ExploreFilterPanel from '@/src/components/explore/ExplorePage/ExploreFilterPanel';
-import getMountainData from '@/src/components/explore/api/getMountainData';
 import styled from 'styled-components';
-import AutoSearchBar from '../../shared/AutoSearchBar';
+import KakaoMap from '@/src/components/explores/ExplorePage/KakaoMap';
+import MountainInfo from '@/src/components/shared/MountainInfo';
+import ExploreFilterPanel from '@/src/components/explores/ExplorePage/ExploreFilterPanel';
+import getMountainData from '@/src/components/explores/api/getMountainData';
+import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
+import Tab from '@/src/components/shared/Tab';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
+  margin-top: 2.5rem;
   margin-bottom: 5.8rem;
   font-size: 3rem;
   font-weight: 600;
@@ -78,11 +80,12 @@ const Container = styled.div`
     ${MountainList} {
       display: grid;
       grid-template-columns: repeat(1, minmax(0, 40rem));
-   }
+    }
+  }
 `;
 
 export default function ExplorePage() {
-  const [searchedMountain, setSearchedMountain] = useState(null);
+  const { searchedMountain, setSearchedMountain } = useSearchMountainStore();
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
@@ -92,21 +95,14 @@ export default function ExplorePage() {
   return (
     <>
       <Container>
-        <div
-          style={{
-            height: '4.6rem',
-            backgroundColor: '#ddd',
-          }}
-        >
-          탭이 들어갈 자리입니다.
-        </div>
+        <Tab variant="explores" />
 
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
           <AutoSearchBar setSearchedMountain={setSearchedMountain} />
           <KakaoMap
             mountainList={mountainList}
-            selectedMountain={searchedMountain}
+            searchedMountain={searchedMountain}
           />
         </SearchMountainArea>
 

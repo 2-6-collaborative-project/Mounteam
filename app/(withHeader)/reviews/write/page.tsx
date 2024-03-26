@@ -9,6 +9,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import ko from 'antd/es/date-picker/locale/ko_KR';
 import Tags from '@/src/components/review/write/Tag';
 import { colors } from '@/app/styles/colors';
+import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -151,10 +152,9 @@ export default function Review() {
               <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
           </Form.Item>
-          <Form.Item
-            label="장소"
-            style={{ width: '100%', marginBottom: '0' }}
-          ></Form.Item>
+          <Form.Item label="장소" style={{ width: '100%', marginBottom: '0' }}>
+            <AutoSearchBar />
+          </Form.Item>
           <Form.Item label="날짜" style={{ width: '100%', marginBottom: '0' }}>
             <DatePicker
               placeholder="날짜 선택"

@@ -15,7 +15,11 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10rem;
-  width: 100%;
+  width: 97%;
+`;
+
+const SearchBarContainer = styled.div`
+  padding-top: 5rem;
 `;
 
 const Between = styled.div`
@@ -96,10 +100,9 @@ export default function Home() {
     <>
       <Body>
         <Tab variant="main" />
-        <div>
+        <SearchBarContainer>
           <AutoSearchBar />
-        </div>
-
+        </SearchBarContainer>
         <CarouselSection />
 
         {/* 추후 NavButton 디자인 변경 예정 */}
