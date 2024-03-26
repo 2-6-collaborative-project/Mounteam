@@ -26,16 +26,11 @@ export default function useExploreCheckbox() {
     setCheckedList(newCheckedList);
   };
 
-  const handleFilterCheckedList = (
-    optionRange: number[],
-    setSearchedMountain: any,
-  ) => {
+  const handleFilterCheckedList = (optionRange: number[]) => {
     const filteredItem = mountainList.filter(
       (list: mountainDataProps) =>
         optionRange[0] < list.명산_높이 && list.명산_높이 < optionRange[1],
     );
-
-    setSearchedMountain(filteredItem);
   };
 
   const handleCheckAllChange = (

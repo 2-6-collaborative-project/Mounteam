@@ -107,7 +107,7 @@ export default function ExplorePage() {
 
         <SearchResultArea>
           <FilterContainer>
-            <ExploreFilterPanel setSearchedMountain={setSearchedMountain} />
+            <ExploreFilterPanel />
           </FilterContainer>
 
           <MountainListContainer>

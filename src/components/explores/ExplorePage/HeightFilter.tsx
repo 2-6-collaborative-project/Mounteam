@@ -4,13 +4,11 @@ import useExploreCheckbox from '@/src/hooks/explore/useExploreCheckbox';
 interface HeightFilterProps {
   heightCheckedList: string[];
   setHeightCheckedList: (list: string[]) => void;
-  setSearchedMountain: any;
 }
 
 export default function HeightFilter({
   heightCheckedList,
   setHeightCheckedList,
-  setSearchedMountain,
 }: HeightFilterProps) {
   const heightOptions = [
     { label: '500m 미만', range: [0, 500] },
@@ -31,7 +29,7 @@ export default function HeightFilter({
       heightCheckedList,
       setHeightCheckedList,
     );
-    handleFilterCheckedList(option.range, setSearchedMountain);
+    handleFilterCheckedList(option.range);
   };
   return (
     <>

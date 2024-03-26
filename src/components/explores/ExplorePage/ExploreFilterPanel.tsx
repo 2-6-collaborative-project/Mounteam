@@ -77,7 +77,7 @@ const CheckboxGroupContainer = styled.div`
   }
 `;
 
-export default function ExploreFilterPanel({ setSearchedMountain }: any) {
+export default function ExploreFilterPanel() {
   const [regionCheckedList, setRegionCheckedList] = useState<string[]>([]);
   const [heightCheckedList, setHeightCheckedList] = useState<string[]>([]);
 
@@ -126,7 +126,6 @@ export default function ExploreFilterPanel({ setSearchedMountain }: any) {
                   <HeightFilter
                     heightCheckedList={heightCheckedList}
                     setHeightCheckedList={setHeightCheckedList}
-                    setSearchedMountain={setSearchedMountain}
                   />
                 ),
               },
