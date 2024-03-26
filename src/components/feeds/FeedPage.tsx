@@ -60,10 +60,11 @@ const FeedImg = styled.div<FeedImgProps>`
 
 const AvatarImage = styled.img`
   position: absolute;
-  width: 2rem;
-  height: 2rem;
-  top: 0.75rem;
-  left: 0.75rem;
+  width: 4rem;
+  height: 4rem;
+  left: -0.2rem;
+  top: -0.2rem;
+  padding: 0.1rem;
 `;
 
 const HeadFont = styled.div`

@@ -50,7 +50,7 @@ const AvatarWrapper = styled.div`
 `;
 
 const AvatarImage = styled.img`
-  padding: 0.4rem;
+  object-fit: cover;
   width: 2rem;
   height: 2rem;
   background-color: ${colors.Grayscale[6]};

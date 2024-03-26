@@ -45,10 +45,11 @@ const AvatarWrapper = styled.div`
 `;
 
 const AvatarImage = styled.img`
-  padding: 1rem;
+  padding: 0rem;
   width: 4.8rem;
   height: 4.8rem;
   background-color: ${colors.Grayscale[6]};
+  object-fit: cover;
 `;
 
 const HeadFont = styled.div`
@@ -94,7 +95,6 @@ const CarouselConatiner = styled.div`
   width: 39.9rem;
   height: 39.9rem;
   flex-shrink: 0;
-
   background: ${colors.Grayscale[5]};
 `;
 
@@ -283,7 +283,7 @@ export default function FeedDetail({ feedData }: any) {
                 borderRadius: '100%',
                 width: '2.4rem',
                 height: '2.4rem',
-                padding: '0.5rem',
+                objectFit: 'cover',
               }}
               alt="Profile Image"
             />

@@ -25,7 +25,8 @@ export const feedMockData = (): Feed[] => {
       id: 1,
       exploreId: 1,
       author: {
-        profileImageUrl: '',
+        profileImageUrl:
+          'https://www.forest.go.kr/kfsweb/cmm/fms/getImage.do?atchFileId=FILE_000000000424235&fileSn=4',
         nickname: 'John Doe',
         id: 1,
         level: 1,
