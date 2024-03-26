@@ -12,9 +12,13 @@ import { SearchBar } from '@/src/components/shared/SearchBar';
 
 const SearchTeamArea = styled.div``;
 
+const SearchBarContainer = styled.div`
+  padding: 5rem 0 3.75rem 0;
+`;
+
 const MainTitle = styled.h2`
   display: flex;
-  padding: 1.87rem 0 5rem 0;
+  padding-top: 1.87rem;
   flex-direction: column;
   align-items: flex-start;
   color: ${colors.Grayscale[13]};
@@ -28,7 +32,7 @@ const MainTitle = styled.h2`
 
 const SearchResultArea = styled.div`
   display: flex;
-  gap: 9rem;
+  gap: 7.38rem;
   margin-top: 6rem;
 `;
 
@@ -105,7 +109,9 @@ export default function TeamsPage() {
         <Tab variant="teams" />
         <SearchTeamArea>
           <MainTitle>전체 등산 모임</MainTitle>
-          <SearchBar placeholder="" />
+          <SearchBarContainer>
+            <SearchBar placeholder="" />
+          </SearchBarContainer>
         </SearchTeamArea>
 
         <SearchResultArea>
