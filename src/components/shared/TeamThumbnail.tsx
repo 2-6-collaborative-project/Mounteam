@@ -11,19 +11,10 @@ const TeamBox = styled.div`
   align-items: center;
   gap: 1.875rem;
   box-sizing: border-box;
-  /* border: 1.4px solid ${colors.Grayscale[1]}; */
+
   &:hover {
     border-radius: 0.1875rem;
-    /* border: 1.4px solid ${colors.Primary[500]}; */
     box-shadow: 0 0 0 1px ${colors.Primary[500]} inset;
-  }
-
-  @media (max-width: 768px) {
-    width: 40rem;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
   }
 `;
 
