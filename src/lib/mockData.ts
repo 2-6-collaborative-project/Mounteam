@@ -6,7 +6,7 @@ export const teamFeed = [
     departureDay: '2024-04-08 14:00',
     ageRange: ['teenager'],
     genderRange: 'all',
-    createdAt: '2024-03-27T13:18:38.264Z',
+    createdAt: '2024-03-23T13:18:38.264Z',
   },
   {
     teamId: 2,
@@ -24,7 +24,7 @@ export const teamFeed = [
     departureDay: '2024-09-12 13:00',
     ageRange: ['fifties'],
     genderRange: 'all',
-    createdAt: '2024-03-29T13:18:38.264Z',
+    createdAt: '2024-03-18T13:18:38.264Z',
   },
   {
     teamId: 4,
@@ -33,7 +33,7 @@ export const teamFeed = [
     departureDay: '2024-04-16 14:00',
     ageRange: ['fourties'],
     genderRange: 'male',
-    createdAt: '2024-03-28T13:18:38.264Z',
+    createdAt: '2024-03-16T13:18:38.264Z',
   },
   {
     teamId: 5,
@@ -51,7 +51,7 @@ export const teamFeed = [
     departureDay: '2024-03-27 17:00',
     ageRange: ['fifties', 'sixties'],
     genderRange: 'female',
-    createdAt: '2023-03-27T13:18:38.264Z',
+    createdAt: '2024-03-14T13:18:38.264Z',
   },
   {
     teamId: 7,
@@ -60,7 +60,7 @@ export const teamFeed = [
     departureDay: '2024-03-27 17:00',
     ageRange: ['fifties', 'sixties'],
     genderRange: 'female',
-    createdAt: '2023-03-06T13:18:38.264Z',
+    createdAt: '2024-03-06T13:18:38.264Z',
   },
   {
     teamId: 8,
@@ -69,6 +69,6 @@ export const teamFeed = [
     departureDay: '2024-03-27 17:00',
     ageRange: ['fifties', 'sixties'],
     genderRange: 'female',
-    createdAt: '2023-02-14T13:18:38.264Z',
+    createdAt: '2024-03-27T13:18:38.264Z',
   },
 ];
