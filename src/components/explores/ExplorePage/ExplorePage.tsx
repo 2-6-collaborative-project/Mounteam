@@ -12,7 +12,7 @@ import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { List } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -98,7 +98,27 @@ export default function ExplorePage() {
     queryFn: () => getMountainData(),
   });
 
-  console.log(filteredItems);
+  const [allMountain, setAllMountain] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (mountainList) {
+      setAllMountain(mountainList);
+    }
+  }, [mountainList]);
+
+  const [isAscending, setIsAscending] = useState(true);
+
+  const handleSortByName = () => {
+    const sortedList = [...mountainList].sort((a, b) => {
+      if (a.명산_이름 < b.명산_이름) return isAscending ? 1 : -1;
+      if (a.명산_이름 > b.명산_이름) return isAscending ? -1 : 1;
+      return 0;
+    });
+
+    setAllMountain(sortedList);
+    setIsAscending(!isAscending);
+  };
+  console.log(allMountain);
   return (
     <>
       <Container>
@@ -117,7 +137,8 @@ export default function ExplorePage() {
 
           <MountainListContainer>
             <MountainListHeader>
-              <span>가나다순</span> <span>인기순</span>
+              <span onClick={handleSortByName}>가나다순</span>{' '}
+              <span>인기순</span>
             </MountainListHeader>
             <MountainList>
               {keyword === '' ? (
@@ -126,7 +147,7 @@ export default function ExplorePage() {
                     <MountainInfo key={item.X좌표} list={item} />
                   ))
                 ) : (
-                  mountainList?.map((list: mountainDataProps) => (
+                  allMountain?.map((list: any) => (
                     <MountainInfo key={list.X좌표} list={list} />
                   ))
                 )
