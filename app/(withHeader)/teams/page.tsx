@@ -123,7 +123,7 @@ export default function TeamsPage() {
             <TeamListHeader>
               <p>가나다순</p>
               <p> | </p>
-              <p>인기순</p>
+              <p>최신순</p>
             </TeamListHeader>
             <TeamList>
               {teams.map((team) => (
