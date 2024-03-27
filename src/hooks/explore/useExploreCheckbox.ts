@@ -1,14 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import getMountainData from '@/src/components/explores/api/getMountainData';
-import mountainDataProps from '@/src/types/mountainDataProps';
 
 export default function useExploreCheckbox() {
-  const { data: mountainList } = useQuery({
-    queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
-  });
-
   const handleCheckListChange = (
     option: string,
     checkedList: string[],
@@ -26,13 +18,6 @@ export default function useExploreCheckbox() {
     setCheckedList(newCheckedList);
   };
 
-  const handleFilterCheckedList = (optionRange: number[]) => {
-    const filteredItem = mountainList.filter(
-      (list: mountainDataProps) =>
-        optionRange[0] < list.명산_높이 && list.명산_높이 < optionRange[1],
-    );
-  };
-
   const handleCheckAllChange = (
     e: CheckboxChangeEvent,
     option: string[],
@@ -44,6 +29,5 @@ export default function useExploreCheckbox() {
   return {
     handleCheckAllChange,
     handleCheckListChange,
-    handleFilterCheckedList,
   };
 }

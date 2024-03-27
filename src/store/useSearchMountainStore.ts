@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import mountainDataProps from '../types/mountainDataProps';
+import mountainDataProps from '@/src/types/mountainDataProps';
 
 interface StoreState {
   keyword: string;

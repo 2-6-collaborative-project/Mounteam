@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AutoComplete, Input } from 'antd';
 import styled from 'styled-components';
@@ -77,7 +77,7 @@ export default function AutoSearchBar({
     setKeyword(value);
   };
 
-  const filteredOptions = options?.filter((option: any) =>
+  const filteredOptions = options?.filter((option: HTMLInputElement) =>
     option.value.includes(keyword),
   );
 

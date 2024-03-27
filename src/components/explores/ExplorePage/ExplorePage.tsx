@@ -7,9 +7,12 @@ import MountainInfo from '@/src/components/shared/MountainInfo';
 import ExploreFilterPanel from '@/src/components/explores/ExplorePage/ExploreFilterPanel';
 import getMountainData from '@/src/components/explores/api/getMountainData';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
-import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import Tab from '@/src/components/shared/Tab';
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
+import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
+import { List } from 'antd';
+import { useEffect } from 'react';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -88,12 +91,14 @@ const Container = styled.div`
 export default function ExplorePage() {
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
+  const { filteredItems } = useFilterMountainStore();
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 
+  console.log(filteredItems);
   return (
     <>
       <Container>
@@ -114,12 +119,17 @@ export default function ExplorePage() {
             <MountainListHeader>
               <span>가나다순</span> <span>인기순</span>
             </MountainListHeader>
-
             <MountainList>
               {keyword === '' ? (
-                mountainList?.map((list: mountainDataProps) => (
-                  <MountainInfo key={list.X좌표} list={list} />
-                ))
+                filteredItems.length > 0 ? (
+                  filteredItems.map((item: mountainDataProps) => (
+                    <MountainInfo key={item.X좌표} list={item} />
+                  ))
+                ) : (
+                  mountainList?.map((list: mountainDataProps) => (
+                    <MountainInfo key={list.X좌표} list={list} />
+                  ))
+                )
               ) : (
                 <MountainInfo list={searchedMountain} />
               )}

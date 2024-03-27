@@ -1,3 +1,4 @@
+import mountainDataProps from '@/src/types/mountainDataProps';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -44,7 +45,7 @@ const MountainHeight = styled(MountainStatus)`
   }
 `;
 
-export default function MountainInfo({ list }: any) {
+export default function MountainInfo({ list }: { list: mountainDataProps }) {
   return (
     <Link href="/explore/course">
       <MountainItem>
