@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import user from '@/public/user.svg';
 import { colors } from '@/app/styles/colors';
+import Avatars from '../shared/Avatar';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -70,17 +70,11 @@ export default function Comment({ feedData }: any) {
     <>
       <CommentContainer>
         <CommentHeader>
-          <AvatarWrapper>
-            <AvatarImage
-              src={
-                feedData.author.profileImageUrl
-                  ? feedData.author.profileImageUrl
-                  : user.src
-              }
-              alt="Profile Image"
-            />
-          </AvatarWrapper>
-          <p>{feedData.author.nickname}</p>
+          <Avatars
+            type="comment"
+            img={feedData.author.profileImageUrl}
+            name={feedData.author.nickname}
+          />
         </CommentHeader>
         <CommentBody>
           {feedData.comments.map((comment: string[], index: number) => (

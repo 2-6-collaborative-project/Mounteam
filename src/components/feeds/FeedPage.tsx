@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-import user from '@/public/user.svg';
 import meatballs from '@/public/meatballs.svg';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
+import Avatars from '../shared/Avatar';
 
 interface FeedImgProps {
   imageUrl?: string;
@@ -43,8 +43,7 @@ const FeedHead = styled.div`
 
 const HeadWrapper = styled.div`
   position: relative;
-  width: 3.5rem;
-  height: 3.5rem;
+
   background-color: ${colors.Grayscale[3]};
   border-radius: 50%;
   overflow: hidden;
@@ -56,15 +55,6 @@ const FeedImg = styled.div<FeedImgProps>`
   height: 3rem;
   background-image: url(${(props) => props.imageUrl});
   background-size: cover;
-`;
-
-const AvatarImage = styled.img`
-  position: absolute;
-  width: 4rem;
-  height: 4rem;
-  left: -0.2rem;
-  top: -0.2rem;
-  padding: 0.1rem;
 `;
 
 const HeadFont = styled.div`
@@ -95,8 +85,10 @@ const PictureBox = styled.div`
   width: 31.5rem;
   height: 31.5rem;
   position: relative;
+
   & img {
     object-fit: contain;
+    background-color: ${colors.Grayscale[4]};
   }
 `;
 
@@ -166,14 +158,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
           <div key={feed.id}>
             <FeedHead>
               <HeadWrapper>
-                <AvatarImage
-                  src={
-                    feed.author.profileImageUrl
-                      ? feed.author.profileImageUrl
-                      : user.src
-                  }
-                  alt="User"
-                />
+                <Avatars type="" img={feed.author.profileImageUrl} />
               </HeadWrapper>
 
               <HeadFont>

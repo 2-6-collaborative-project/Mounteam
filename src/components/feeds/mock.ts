@@ -41,7 +41,7 @@ export const feedMockData = (): Feed[] => {
       isSaved: true,
       tags: ['#mock', '#data'],
       mainText:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industrys. Lorem Ipsum has been hi my name hi hihihihihi hi hi hi hiasdasdasdasdasd asdazxc가가다맞라마잡사 ',
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industrys. Lorem Ipsum has been hi my name hi hihihihihi hi hi hi hiasdasda sdasdasd asdazxc 가가다 나 다라마잡사 ',
     },
     {
       id: 2,
