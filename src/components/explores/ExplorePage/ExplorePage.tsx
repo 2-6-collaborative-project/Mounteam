@@ -96,7 +96,7 @@ const Container = styled.div`
 export default function ExplorePage() {
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
-  const { filteredItems } = useFilterMountainStore();
+  const { filteredItems, setFilteredItems } = useFilterMountainStore();
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
@@ -123,16 +123,32 @@ export default function ExplorePage() {
     });
 
     setAllMountainList(sortedList);
+
+    const filteredSortedList = [...filteredItems].sort((a, b) => {
+      if (a.명산_이름 < b.명산_이름) return isSorting ? 1 : -1;
+      if (a.명산_이름 > b.명산_이름) return isSorting ? -1 : 1;
+      return 0;
+    });
+
+    setFilteredItems(filteredSortedList);
+
     setIsSorting(!isSorting);
   };
 
   // 추후 API 연동시에 모임 개수로 대체될 예정입니다.
   const handleSortByTeamNumber = () => {
-    const sortedList = [...mountainList].sort((a, b) => {
+    const sortedList = [...allMountainList].sort((a, b) => {
       return isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이;
     });
 
     setAllMountainList(sortedList);
+
+    const filteredSortedList = [...filteredItems].sort((a, b) => {
+      return isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이;
+    });
+
+    setFilteredItems(filteredSortedList);
+
     setIsSorting(!isSorting);
   };
 
