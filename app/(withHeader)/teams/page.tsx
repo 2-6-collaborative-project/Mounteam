@@ -70,6 +70,23 @@ const TeamList = styled.div`
   gap: 2.1875rem;
 `;
 
+interface SortButtonProps {
+  active: boolean;
+}
+
+const SortButton = styled.button<SortButtonProps>`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${(props) =>
+    props.active ? colors.Grayscale[13] : colors.Grayscale[7]};
+  ${typography.Footnote14};
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 const Container = styled.div`
   @media (max-width: 768px) {
     ${MainTitle} {
@@ -89,19 +106,31 @@ const Container = styled.div`
 
 export default function TeamsPage() {
   const [teams, setTeams] = useState<
-    {
+    Array<{
       teamId: number;
       exploreId: string;
       title: string;
       departureDay: string;
       ageRange: string[];
       genderRange: string;
-    }[]
+      createdAt: string;
+    }>
   >([]);
+  const [sortOrder, setSortOrder] = useState('createdAt');
 
   useEffect(() => {
-    setTeams(teamFeed);
-  }, []);
+    const sortedTeams = [...teamFeed].sort((a, b) => {
+      if (sortOrder === 'title') {
+        return a.title.localeCompare(b.title);
+      } else {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }
+    });
+
+    setTeams(sortedTeams);
+  }, [sortOrder]);
 
   return (
     <>
@@ -121,9 +150,19 @@ export default function TeamsPage() {
 
           <TeamListContainer>
             <TeamListHeader>
-              <p>가나다순</p>
+              <SortButton
+                onClick={() => setSortOrder('title')}
+                active={sortOrder === 'title'}
+              >
+                가나다순
+              </SortButton>
               <p> | </p>
-              <p>최신순</p>
+              <SortButton
+                onClick={() => setSortOrder('createdAt')}
+                active={sortOrder === 'createdAt'}
+              >
+                최신순
+              </SortButton>
             </TeamListHeader>
             <TeamList>
               {teams.map((team) => (
