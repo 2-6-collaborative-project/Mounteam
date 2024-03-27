@@ -2,6 +2,7 @@
 
 import FeedPage from '@/src/components/feeds/FeedPage';
 import { feedMockData } from '@/src/components/feeds/mock';
+import MyTeamList from '@/src/components/mypage/MyTeamList';
 import Profile from '@/src/components/mypage/Profile';
 import Tab from '@/src/components/shared/Tab';
 import { useEffect, useState } from 'react';
@@ -20,6 +21,8 @@ const ContentsContainer = styled.div`
 `;
 
 const FlexContainer = styled.div`
+  width: 100%;
+  min-width: 41.5rem;
   padding-bottom: 20rem;
   display: flex;
   flex-direction: column;
@@ -69,7 +72,7 @@ const Text3 = styled.p<StyledProps>`
 interface StyledProps {
   selector: number;
 }
-//
+
 export default function Mypage() {
   const [selector, setSelector] = useState(1);
   const feeds = feedMockData();
@@ -123,7 +126,9 @@ export default function Mypage() {
           ) : selector === 2 ? (
             ''
           ) : (
-            ''
+            <>
+              <MyTeamList />
+            </>
           )}
         </FlexContainer>
       </ContentsContainer>

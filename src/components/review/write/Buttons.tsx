@@ -3,15 +3,24 @@ import { Button } from 'antd';
 import { useState } from 'react';
 
 interface ButtonsProps {
+  width: string;
+  height: string;
   children: string;
   disabled: boolean;
+  onClick?: () => void;
 }
-export default function Buttons({ children, disabled }: ButtonsProps) {
+export default function Buttons({
+  width,
+  height,
+  children,
+  disabled,
+  onClick,
+}: ButtonsProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const buttonStyle = {
-    width: '48.4rem',
-    height: '6.6rem',
+    width: width,
+    height: height,
     color: disabled ? colors.Grayscale[6] : colors.Grayscale[1],
     fontSize: '2.4rem',
     fontWeight: '600',
@@ -33,6 +42,7 @@ export default function Buttons({ children, disabled }: ButtonsProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       disabled={disabled}
+      onClick={onClick}
     >
       {children}
     </Button>

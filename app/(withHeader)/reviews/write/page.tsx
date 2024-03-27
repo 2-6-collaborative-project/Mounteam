@@ -122,7 +122,9 @@ export default function Review() {
           <Checkbox onChange={handleChecked}>
             <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
           </Checkbox>
-          <Buttons disabled={isButtonDisabled}>인증하기</Buttons>
+          <Buttons width="48.4rem" height="6.6rem" disabled={isButtonDisabled}>
+            인증하기
+          </Buttons>
         </FlexContainer>
       </ContentContainer>
     </>
