@@ -5,6 +5,8 @@ import getMountainData from '../api/getMountainData';
 import { useQuery } from '@tanstack/react-query';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface HeightFilterProps {
   heightCheckedList: string[];
@@ -22,6 +24,7 @@ export default function HeightFilter({
   heightCheckedList,
   setHeightCheckedList,
 }: HeightFilterProps) {
+  const searchParams = useSearchParams().get('mountain');
   const { filteredItems, setFilteredItems } = useFilterMountainStore();
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
@@ -29,6 +32,12 @@ export default function HeightFilter({
   });
 
   const { handleCheckAllChange, handleCheckListChange } = useExploreCheckbox();
+
+  useEffect(() => {
+    if (searchParams) {
+      setHeightCheckedList([]);
+    }
+  }, [searchParams]);
 
   const handleCheckBoxChage = (
     e: CheckboxChangeEvent,
@@ -74,7 +83,6 @@ export default function HeightFilter({
     if (!e.target.checked) {
       setFilteredItems([]);
     } else {
-      // 전체 선택 체크된 경우
       setFilteredItems(mountainList);
     }
   };
