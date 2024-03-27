@@ -35,7 +35,7 @@ const FilterContainer = styled.div`
 
 const MountainListContainer = styled.div``;
 
-const MountainListHeader = styled.div`
+const MountainSortHeader = styled.div`
   position: relative;
   margin-bottom: 2rem;
   text-align: right;
@@ -57,6 +57,11 @@ const MountainListHeader = styled.div`
     right: 4.5rem;
   }
 `;
+
+const SortItem = styled.span`
+  cursor: pointer;
+`;
+
 const MountainList = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 40rem));
@@ -98,27 +103,39 @@ export default function ExplorePage() {
     queryFn: () => getMountainData(),
   });
 
-  const [allMountain, setAllMountain] = useState<string[]>([]);
+  const [allMountainList, setAllMountainList] = useState<mountainDataProps[]>(
+    [],
+  );
 
   useEffect(() => {
     if (mountainList) {
-      setAllMountain(mountainList);
+      setAllMountainList(mountainList);
     }
   }, [mountainList]);
 
-  const [isAscending, setIsAscending] = useState(true);
+  const [isSorting, setIsSorting] = useState(true);
 
   const handleSortByName = () => {
     const sortedList = [...mountainList].sort((a, b) => {
-      if (a.명산_이름 < b.명산_이름) return isAscending ? 1 : -1;
-      if (a.명산_이름 > b.명산_이름) return isAscending ? -1 : 1;
+      if (a.명산_이름 < b.명산_이름) return isSorting ? 1 : -1;
+      if (a.명산_이름 > b.명산_이름) return isSorting ? -1 : 1;
       return 0;
     });
 
-    setAllMountain(sortedList);
-    setIsAscending(!isAscending);
+    setAllMountainList(sortedList);
+    setIsSorting(!isSorting);
   };
-  console.log(allMountain);
+
+  // 추후 API 연동시에 모임 개수로 대체될 예정입니다.
+  const handleSortByTeamNumber = () => {
+    const sortedList = [...mountainList].sort((a, b) => {
+      return isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이;
+    });
+
+    setAllMountainList(sortedList);
+    setIsSorting(!isSorting);
+  };
+
   return (
     <>
       <Container>
@@ -136,18 +153,18 @@ export default function ExplorePage() {
           </FilterContainer>
 
           <MountainListContainer>
-            <MountainListHeader>
-              <span onClick={handleSortByName}>가나다순</span>{' '}
-              <span>인기순</span>
-            </MountainListHeader>
+            <MountainSortHeader>
+              <SortItem onClick={handleSortByName}>가나다순</SortItem>
+              <SortItem onClick={handleSortByTeamNumber}>인기순</SortItem>
+            </MountainSortHeader>
             <MountainList>
               {keyword === '' ? (
                 filteredItems.length > 0 ? (
-                  filteredItems.map((item: mountainDataProps) => (
+                  filteredItems.map((item) => (
                     <MountainInfo key={item.X좌표} list={item} />
                   ))
                 ) : (
-                  allMountain?.map((list: any) => (
+                  allMountainList?.map((list) => (
                     <MountainInfo key={list.X좌표} list={list} />
                   ))
                 )

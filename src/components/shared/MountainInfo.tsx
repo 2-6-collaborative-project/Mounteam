@@ -62,7 +62,7 @@ export default function MountainInfo({ list }: { list: mountainDataProps }) {
           <MountainLocation>{list?.명산_소재지}</MountainLocation>
           <MountainDetail>
             <MountainHeight>{list?.명산_높이}m</MountainHeight>
-            <MountainStatus>코스 개수: 15개</MountainStatus>
+            <MountainStatus>모임 개수: 15개</MountainStatus>
           </MountainDetail>
         </div>
       </MountainItem>
