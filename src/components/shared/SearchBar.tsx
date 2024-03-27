@@ -10,7 +10,6 @@ interface SearchBarProps {
 
 const SearchContainer = styled.div`
   display: flex;
-  max-width: 99.2rem;
   padding: 1rem;
   flex-direction: column;
   align-items: flex-start;

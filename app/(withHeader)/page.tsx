@@ -15,7 +15,7 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10rem;
-  width: 97%;
+  width: 100%;
 `;
 
 const SearchBarContainer = styled.div`
@@ -27,7 +27,6 @@ const Between = styled.div`
   justify-content: space-between;
   align-items: center;
   ${typography.Heading24};
-  width: 100%;
   padding-bottom: 2.5rem;
 `;
 
