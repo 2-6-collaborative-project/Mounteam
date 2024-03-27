@@ -10,6 +10,7 @@ import { Feed } from '@/src/components/feeds/mock';
 
 interface InfoBoxProps {
   feed: Feed;
+  $paddingleft?: string;
 }
 
 interface LikeComponentProps {
@@ -23,6 +24,7 @@ interface CommentComponentProps {
 
 interface BookmarkComponentProps {
   isSaved: boolean;
+  $paddingleft?: string;
 }
 
 const InfoContainer = styled.div`
@@ -61,11 +63,11 @@ const CommentBox = styled.div`
   }
 `;
 
-const BookmarkBox = styled.div`
+const BookmarkBox = styled.div<{ $paddingleft?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 19rem;
+  padding-left: ${({ $paddingleft }) => $paddingleft || '19rem'};
   gap: 7px;
 
   & img {
@@ -94,8 +96,11 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ comments }) => (
   </CommentBox>
 );
 
-const BookmarkComponent: React.FC<BookmarkComponentProps> = ({ isSaved }) => (
-  <BookmarkBox>
+const BookmarkComponent: React.FC<BookmarkComponentProps> = ({
+  isSaved,
+  $paddingleft,
+}) => (
+  <BookmarkBox $paddingleft={$paddingleft}>
     {isSaved ? (
       <Image src={fillBookmark} alt="피드 저장 했으면 이 아이콘 뜸" />
     ) : (
@@ -104,10 +109,10 @@ const BookmarkComponent: React.FC<BookmarkComponentProps> = ({ isSaved }) => (
   </BookmarkBox>
 );
 
-export const InfoBox: React.FC<InfoBoxProps> = ({ feed }) => (
+export const InfoBox: React.FC<InfoBoxProps> = ({ feed, $paddingleft }) => (
   <InfoContainer>
     <LikeComponent isLiked={feed.isLiked} likesCount={feed.likesCount} />
     <CommentComponent comments={feed.comments} />
-    <BookmarkComponent isSaved={feed.isSaved} />
+    <BookmarkComponent isSaved={feed.isSaved} $paddingleft={$paddingleft} />
   </InfoContainer>
 );
