@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import typography from '@/app/styles/typography';
-import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import { colors } from '@/app/styles/colors';
+import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
-import { teamFeed } from '@/src/lib/mockData';
 import { SearchBar } from '@/src/components/shared/SearchBar';
+import { teamFeed } from '@/src/lib/mockData';
 
 const SearchTeamArea = styled.div``;
 
@@ -105,21 +105,17 @@ const Container = styled.div`
 `;
 
 export default function TeamsPage() {
-  const [teams, setTeams] = useState<
-    Array<{
-      teamId: number;
-      exploreId: string;
-      title: string;
-      departureDay: string;
-      ageRange: string[];
-      genderRange: string;
-      createdAt: string;
-    }>
-  >([]);
+  const [teams, setTeams] = useState([...teamFeed]);
+  const [filteredTeams, setFilteredTeams] = useState(teams);
+  const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('createdAt');
 
   useEffect(() => {
-    const sortedTeams = [...teamFeed].sort((a, b) => {
+    let updatedTeams = teams.filter((team) =>
+      team.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+
+    updatedTeams = updatedTeams.sort((a, b) => {
       if (sortOrder === 'title') {
         return a.title.localeCompare(b.title);
       } else {
@@ -129,8 +125,12 @@ export default function TeamsPage() {
       }
     });
 
-    setTeams(sortedTeams);
-  }, [sortOrder]);
+    setFilteredTeams(updatedTeams);
+  }, [searchTerm, sortOrder, teams]);
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
 
   return (
     <>
@@ -139,7 +139,7 @@ export default function TeamsPage() {
         <SearchTeamArea>
           <MainTitle>전체 등산 모임</MainTitle>
           <SearchBarContainer>
-            <SearchBar placeholder="" />
+            <SearchBar placeholder="검색" onSearch={handleSearch} />
           </SearchBarContainer>
         </SearchTeamArea>
 
@@ -165,7 +165,7 @@ export default function TeamsPage() {
               </SortButton>
             </TeamListHeader>
             <TeamList>
-              {teams.map((team) => (
+              {filteredTeams.map((team) => (
                 <TeamThumbnail key={team.teamId} team={team} />
               ))}
             </TeamList>
