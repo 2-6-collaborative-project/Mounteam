@@ -3,10 +3,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import meatballs from '@/public/meatballs.svg';
 import Avatars from '@/src/components/shared/Avatar';
+import FeedModify from '@/src/components/feeds/FeedModify';
+import { useState } from 'react';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
+import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 
 interface FeedImgProps {
   imageUrl?: string;
@@ -141,13 +144,22 @@ const PopoverContentBox = styled.div`
 
 // 후기 컴포넌트
 export default function FeedPage({ feeds }: FeedPageProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { editFeedId, setEditFeedId } = useFeedIdStore();
+
   const router = useRouter();
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
-  const content = (
+
+  const handleEditClick = (feedId: number) => {
+    setEditFeedId(feedId);
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const content = (feedId: number) => (
     <PopoverContentBox>
-      <Link href="/">수정</Link>
-      <Link href="/">삭제</Link>
+      <p onClick={() => handleEditClick(feedId)}>수정</p>
+      <p>삭제</p>
     </PopoverContentBox>
   );
 
@@ -168,7 +180,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
 
               <MeatBallFrame>
                 {feed.createdByme && (
-                  <CustomPopover content={content}>
+                  <CustomPopover content={content(feed.id)}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
                 )}
@@ -222,6 +234,13 @@ export default function FeedPage({ feeds }: FeedPageProps) {
               </TagBox>
             ) : (
               ''
+            )}
+            {isModalOpen && editFeedId !== null && (
+              <FeedModify
+                feedId={editFeedId}
+                modalOpenState={isModalOpen}
+                setter={setIsModalOpen}
+              />
             )}
           </div>
         ))}

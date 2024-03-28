@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 import meatballs from '@/public/meatballs.svg';
-import { useRef } from 'react';
+import Avatars from '@/src/components/shared/Avatar';
+import FeedModify from '@/src/components/feeds/FeedModify';
+import { useRef, useState } from 'react';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { Carousel } from 'antd';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
-import Avatars from '@/src/components/shared/Avatar';
+import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -231,14 +233,22 @@ const TextWrapper = styled.div`
 `;
 
 export default function FeedDetail({ feedData }: any) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { editFeedId, setEditFeedId } = useFeedIdStore();
+
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
 
+  const handleEditClick = (feedId: number) => {
+    setEditFeedId(feedId);
+    setIsModalOpen(!isModalOpen);
+  };
+
   const content = (
     <PopoverContentBox>
-      <Link href="/">수정</Link>
-      <Link href="/">삭제</Link>
+      <p onClick={() => handleEditClick(feedData.feedId)}>수정</p>
+      <p>삭제</p>
     </PopoverContentBox>
   );
   const inputRef = useRef<HTMLInputElement>(null);
@@ -322,6 +332,13 @@ export default function FeedDetail({ feedData }: any) {
           </CommentBarContainer>
         </InfoContainer>
       </ContentsContainer>
+      {isModalOpen && editFeedId !== null && (
+        <FeedModify
+          feedId={editFeedId}
+          modalOpenState={isModalOpen}
+          setter={setIsModalOpen}
+        />
+      )}
     </>
   );
 }
