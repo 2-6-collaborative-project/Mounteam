@@ -3,14 +3,15 @@ import { PlusOutlined } from '@ant-design/icons';
 import type { InputRef } from 'antd';
 import { Flex, Input, Tag, theme, Tooltip } from 'antd';
 import { colors } from '@/app/styles/colors';
+import useReviewWriteStore from '@/src/store/useReviewWriteStore';
 
 export default function Tags() {
   const { token } = theme.useToken();
-  const [tags, setTags] = useState<string[]>([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [editInputIndex, setEditInputIndex] = useState(-1);
   const [editInputValue, setEditInputValue] = useState('');
+  const { tags, setTags } = useReviewWriteStore();
   const inputRef = useRef<InputRef>(null);
   const editInputRef = useRef<InputRef>(null);
 
