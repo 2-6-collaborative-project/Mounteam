@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
@@ -72,10 +73,6 @@ function SignInPage() {
   const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
-  const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
-
   useEffect(() => {
     const accessToken = document.cookie
       .split('; ')
@@ -94,11 +91,12 @@ function SignInPage() {
         </Logo>
         <Dsecription>SNS로 간편하게 로그인하기</Dsecription>
 
-        <KakaoLogin onClick={handleKakaoLogin}>
-          <Icon src="/kakaoLogo.svg" alt="카카오 로고" />
-          카카오로 로그인 하기
-        </KakaoLogin>
-
+        <Link href={`${KAKAO_AUTH_URL}`}>
+          <KakaoLogin>
+            <Icon src="/kakaoLogo.svg" alt="카카오 로고" />
+            카카오로 로그인 하기
+          </KakaoLogin>
+        </Link>
         <NaverLogin>
           <Icon src="/naverLogo.svg" alt="네이버 로고" />
           네이버로 로그인 하기
