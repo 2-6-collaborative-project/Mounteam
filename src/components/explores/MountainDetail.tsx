@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import KakaoMap from './ExplorePage/KakaoMap';
+import mountainDataProps from '@/src/types/mountainDataProps';
 
 const Container = styled.div`
   margin: 3.2rem 10.4rem;
@@ -59,7 +60,17 @@ const CourseContent = styled(CourseTitle)`
   font-size: 1.3rem;
   font-weight: 600;
 `;
-export default function MountainDetail() {
+
+interface MountainDetailProps {
+  exploreId: number;
+  list: mountainDataProps[];
+}
+export default function MountainDetail({
+  exploreId,
+  list,
+}: MountainDetailProps) {
+  const clickedMountain = list.find((mountain) => mountain.X좌표 === exploreId); // 예시로 X좌표로 비교
+
   return (
     <>
       <Container>
@@ -82,7 +93,7 @@ export default function MountainDetail() {
           >
             브레드 크럼블이 들어갈 자리입니다.
           </div>
-          <MainTitle>산 이름</MainTitle>
+          <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
           {/* <KakaoMap /> */}
         </div>
         <ActivityTabs>
@@ -90,110 +101,14 @@ export default function MountainDetail() {
           <ActivityTab>등반 후기 n개</ActivityTab>
         </ActivityTabs>
         <CourseInfoArea>
-          <CourseTotalCount>관악산 코스: 4개</CourseTotalCount>
           <CourseGrid>
             <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
-            </CourseInfo>
-            <CourseInfo>
-              <CourseTitle>코스 1</CourseTitle>
-              <CourseContent>
-                수순은 있기 환기통에서 때와 글과, 때의 그래 지난다. 나에 업무로
-                마침내 뻗는데 밀집되어서 가깝는 가치를, 위기와 지나고 있습니다.
-              </CourseContent>
-              <CourseContent>난이도: 하</CourseContent>
-              <CourseContent>
-                소요시간: 정상까지 편도 1시간~1시간30분
-              </CourseContent>
+              <CourseContent>{clickedMountain?.명산_소재지}</CourseContent>
+              <CourseContent>{clickedMountain?.명산_높이}</CourseContent>
+              <CourseContent>난이도</CourseContent>
             </CourseInfo>
           </CourseGrid>
         </CourseInfoArea>
-        <footer>푸터가 들어갈 자리입니다.</footer>
       </Container>
     </>
   );

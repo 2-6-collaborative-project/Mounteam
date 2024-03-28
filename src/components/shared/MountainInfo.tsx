@@ -1,6 +1,7 @@
 import mountainDataProps from '@/src/types/mountainDataProps';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 const MountainItem = styled.div`
@@ -46,8 +47,10 @@ const MountainHeight = styled(MountainStatus)`
 `;
 
 export default function MountainInfo({ list }: { list: mountainDataProps }) {
+  const exploreId = list.X좌표;
+
   return (
-    <Link href="/explore/course">
+    <Link href={`/explores/${exploreId}/details`}>
       <MountainItem>
         <Image
           layout="responsive"

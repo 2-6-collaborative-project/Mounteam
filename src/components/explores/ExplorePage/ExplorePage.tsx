@@ -11,7 +11,6 @@ import Tab from '@/src/components/shared/Tab';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
-import { List } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SearchMountainArea = styled.div``;
