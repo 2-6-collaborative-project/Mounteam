@@ -6,7 +6,7 @@ import useReviewWriteStore from '@/src/store/useReviewWriteStore';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-export default function ImgUpload({}) {
+export default function ImgUpload({ maxItem }: { maxItem: number }) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const { fileList, setFileList } = useReviewWriteStore();
@@ -38,20 +38,20 @@ export default function ImgUpload({}) {
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>업로드</div>
     </button>
   );
 
   return (
     <>
       <Upload
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleUploadChange}
       >
-        {fileList.length >= 4 ? null : uploadButton}
+        {fileList.length >= maxItem ? null : uploadButton}
       </Upload>
       <Modal
         open={previewOpen}
