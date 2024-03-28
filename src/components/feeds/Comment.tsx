@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '@/app/styles/colors';
-import Avatars from '../shared/Avatar';
+import Avatars from '@/src/components/shared/Avatar';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -40,20 +40,6 @@ const CommentHeader = styled.div`
     line-height: 16px;
     letter-spacing: -0.12px;
   }
-`;
-
-const AvatarWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-`;
-
-const AvatarImage = styled.img`
-  object-fit: cover;
-  width: 2rem;
-  height: 2rem;
-  background-color: ${colors.Grayscale[6]};
 `;
 
 const CommentBody = styled.div`

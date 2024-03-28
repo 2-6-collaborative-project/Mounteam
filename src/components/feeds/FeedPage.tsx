@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import meatballs from '@/public/meatballs.svg';
+import Avatars from '@/src/components/shared/Avatar';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
-import Avatars from '../shared/Avatar';
 
 interface FeedImgProps {
   imageUrl?: string;
