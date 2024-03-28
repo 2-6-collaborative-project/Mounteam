@@ -59,7 +59,7 @@ const CourseContent = styled(CourseTitle)`
   font-size: 1.3rem;
   font-weight: 600;
 `;
-export default function CourseDetail() {
+export default function MountainDetail() {
   return (
     <>
       <Container>
