@@ -23,8 +23,7 @@ export default function RegionFilter({
     '제주도',
   ];
 
-  const { handleCheckAllChange, handleCheckboxListChange } =
-    useExploreCheckbox();
+  const { handleCheckAllChange, handleCheckListChange } = useExploreCheckbox();
 
   return (
     <>
@@ -40,7 +39,7 @@ export default function RegionFilter({
         <Checkbox
           key={option}
           onChange={() =>
-            handleCheckboxListChange(
+            handleCheckListChange(
               option,
               regionCheckedList,
               setRegionCheckedList,

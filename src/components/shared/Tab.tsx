@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 
 type Variant = 'main' | 'explores' | 'feeds' | 'teams';
 
@@ -33,8 +34,14 @@ interface TabProps {
 
 // 엔드포인트 명에 맞게 링크명에 s 달았습니다.
 export default function Tab({ variant }: TabProps) {
+  const { setKeyword } = useSearchMountainStore();
+
+  const handelResetKeyword = () => {
+    setKeyword('');
+  };
+
   return (
-    <div>
+    <div onClick={handelResetKeyword}>
       <LinkCol>
         <Link href="/" passHref>
           <StyledParagraph $variant={variant === 'main' ? 'main' : undefined}>

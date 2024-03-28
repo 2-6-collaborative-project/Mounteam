@@ -1,7 +1,7 @@
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 export default function useExploreCheckbox() {
-  const handleCheckboxListChange = (
+  const handleCheckListChange = (
     option: string,
     checkedList: string[],
     setCheckedList: (list: string[]) => void,
@@ -28,6 +28,6 @@ export default function useExploreCheckbox() {
 
   return {
     handleCheckAllChange,
-    handleCheckboxListChange,
+    handleCheckListChange,
   };
 }

@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AutoComplete, Input } from 'antd';
 import styled from 'styled-components';
 import getMountainData from '@/src/components/explores/api/getMountainData';
 import { colors } from '@/app/styles/colors';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
+import mountainDataProps from '@/src/types/mountainDataProps';
 
 const SearchContainer = styled.div`
   padding: 0 0.8rem;
@@ -28,13 +29,11 @@ const SearchContainer = styled.div`
   }
 `;
 
-interface AutoSearchBarProps {
-  setSearchedMountain?: (list: string) => void;
-}
-
 export default function AutoSearchBar({
   setSearchedMountain,
-}: AutoSearchBarProps) {
+}: {
+  setSearchedMountain: (list: mountainDataProps) => void;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -61,7 +60,7 @@ export default function AutoSearchBar({
     setKeyword(value);
   };
 
-  const options = mountainList?.map((list: any) => ({
+  const options = mountainList?.map((list: mountainDataProps) => ({
     value: list.명산_이름,
   }));
 
@@ -78,17 +77,18 @@ export default function AutoSearchBar({
     setKeyword(value);
   };
 
-  const filteredOptions = options?.filter((option: any) =>
+  const filteredOptions = options?.filter((option: HTMLInputElement) =>
     option.value.includes(keyword),
   );
 
   useEffect(() => {
     if (initKeyword && setSearchedMountain) {
       const searched = mountainList?.find(
-        (list: any) => list.명산_이름 === initKeyword,
+        (list: mountainDataProps) => list.명산_이름 === initKeyword,
       );
 
       setSearchedMountain(searched);
+      setKeyword(initKeyword);
     }
   }, [initKeyword, mountainList]);
 
