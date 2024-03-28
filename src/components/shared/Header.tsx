@@ -52,13 +52,14 @@ export default function Header() {
           height={24}
           priority
         />
-        <Image
+        {/* 알림 아이콘 임시 삭제 */}
+        {/* <Image
           src="/bell.svg"
           alt="bell icon"
           width={24}
           height={24}
           priority
-        />
+        /> */}
         <Link href="/mypage">
           <Image
             src="/user.svg"

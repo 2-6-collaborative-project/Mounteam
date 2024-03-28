@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Collapse } from 'antd';
 import styled from 'styled-components';
-import RegionFilter from '../explores/ExplorePage/RegionFilter';
-import HeightFilter from '../explores/ExplorePage/HeightFilter';
+import AgeFilter from '@/src/components/teams/AgeFilter';
+import GenderFilter from '@/src/components/teams/GenderFilter';
 import { colors } from '@/app/styles/colors';
 
 const FilterHeader = styled.div`
@@ -80,12 +80,12 @@ const CheckboxGroupContainer = styled.div`
 `;
 
 export default function TeamFilterPanel() {
-  const [regionCheckedList, setRegionCheckedList] = useState<string[]>([]);
-  const [heightCheckedList, setHeightCheckedList] = useState<string[]>([]);
+  const [ageCheckedList, setAgeCheckedList] = useState<string[]>([]);
+  const [genderCheckedList, setGenderCheckedList] = useState<string[]>([]);
 
   const handleCheckReset = () => {
-    setRegionCheckedList([]);
-    setHeightCheckedList([]);
+    setAgeCheckedList([]);
+    setGenderCheckedList([]);
   };
 
   return (
@@ -104,30 +104,24 @@ export default function TeamFilterPanel() {
             ghost={true}
             expandIconPosition="end"
             defaultActiveKey={['1', '2']}
-            style={{
-              paddingBottom: '1.17rem',
-              fontSize: '1.3rem',
-              fontWeight: '700',
-              lineHeight: '3.2rem',
-            }}
             items={[
               {
                 key: '1',
-                label: '관심지역',
+                label: '나이',
                 children: (
-                  <RegionFilter
-                    regionCheckedList={regionCheckedList}
-                    setRegionCheckedList={setRegionCheckedList}
+                  <AgeFilter
+                    checkedList={ageCheckedList}
+                    setCheckedList={setAgeCheckedList}
                   />
                 ),
               },
               {
                 key: '2',
-                label: '높이',
+                label: '성별',
                 children: (
-                  <HeightFilter
-                    heightCheckedList={heightCheckedList}
-                    setHeightCheckedList={setHeightCheckedList}
+                  <GenderFilter
+                    checkedList={genderCheckedList}
+                    setCheckedList={setGenderCheckedList}
                   />
                 ),
               },

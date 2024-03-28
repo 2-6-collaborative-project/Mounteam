@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import typography from '@/app/styles/typography';
-import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import { colors } from '@/app/styles/colors';
+import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
-import { teamFeed } from '@/src/lib/mockData';
 import { SearchBar } from '@/src/components/shared/SearchBar';
+import { teamFeed } from '@/src/lib/mockData';
 
 const SearchTeamArea = styled.div``;
 
@@ -70,6 +70,23 @@ const TeamList = styled.div`
   gap: 2.1875rem;
 `;
 
+interface SortButtonProps {
+  active: boolean;
+}
+
+const SortButton = styled.button<SortButtonProps>`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${(props) =>
+    props.active ? colors.Grayscale[13] : colors.Grayscale[7]};
+  ${typography.Footnote14};
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 const Container = styled.div`
   @media (max-width: 768px) {
     ${MainTitle} {
@@ -88,20 +105,32 @@ const Container = styled.div`
 `;
 
 export default function TeamsPage() {
-  const [teams, setTeams] = useState<
-    {
-      teamId: number;
-      exploreId: string;
-      title: string;
-      departureDay: string;
-      ageRange: string[];
-      genderRange: string;
-    }[]
-  >([]);
+  const [teams, setTeams] = useState([...teamFeed]);
+  const [filteredTeams, setFilteredTeams] = useState(teams);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('createdAt');
 
   useEffect(() => {
-    setTeams(teamFeed);
-  }, []);
+    let updatedTeams = teams.filter((team) =>
+      team.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+
+    updatedTeams = updatedTeams.sort((a, b) => {
+      if (sortOrder === 'title') {
+        return a.title.localeCompare(b.title);
+      } else {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }
+    });
+
+    setFilteredTeams(updatedTeams);
+  }, [searchTerm, sortOrder, teams]);
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
 
   return (
     <>
@@ -110,7 +139,7 @@ export default function TeamsPage() {
         <SearchTeamArea>
           <MainTitle>전체 등산 모임</MainTitle>
           <SearchBarContainer>
-            <SearchBar placeholder="" />
+            <SearchBar placeholder="검색" onSearch={handleSearch} />
           </SearchBarContainer>
         </SearchTeamArea>
 
@@ -121,12 +150,22 @@ export default function TeamsPage() {
 
           <TeamListContainer>
             <TeamListHeader>
-              <p>가나다순</p>
+              <SortButton
+                onClick={() => setSortOrder('title')}
+                active={sortOrder === 'title'}
+              >
+                가나다순
+              </SortButton>
               <p> | </p>
-              <p>인기순</p>
+              <SortButton
+                onClick={() => setSortOrder('createdAt')}
+                active={sortOrder === 'createdAt'}
+              >
+                최신순
+              </SortButton>
             </TeamListHeader>
             <TeamList>
-              {teams.map((team) => (
+              {filteredTeams.map((team) => (
                 <TeamThumbnail key={team.teamId} team={team} />
               ))}
             </TeamList>

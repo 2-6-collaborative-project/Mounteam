@@ -19,8 +19,8 @@ const TeamBox = styled.div`
 `;
 
 const ImageSection = styled.div`
-  width: 6.875rem;
-  height: 6.875rem;
+  width: 12rem;
+  height: 12rem;
   border-radius: 100%;
   background: ${colors.Grayscale[5]};
 
