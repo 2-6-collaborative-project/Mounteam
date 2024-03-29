@@ -67,11 +67,12 @@ export default function MoutainSearchBar({
 
   const handleSearchChange = (value: string) => {
     setSearchInput(value);
-    console.log('handleSearchChange', value);
   };
 
   const onSelectMountain = (value: string) => {
     handleTeamCreationForm('mountain', value);
+    setIsMountainSelected(true);
+    setSearchInput(value);
   };
 
   useEffect(() => {
