@@ -296,6 +296,9 @@ export default function FeedDetail({ feedData }: any) {
               <div>
                 <h3 style={contentStyle}>4</h3>
               </div>
+              <div>
+                <h3 style={contentStyle}>5</h3>
+              </div>
             </Carousel>
           </CarouselConatiner>
         </ProfileCarouselContainer>
