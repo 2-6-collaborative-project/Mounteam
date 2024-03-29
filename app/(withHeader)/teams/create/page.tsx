@@ -80,6 +80,7 @@ export default function TeamCreationPage() {
   };
 
   const createTeam = () => {
+    // TODO: 모임 생성 api 적용
     console.log(teamCreationFormData);
   };
 
@@ -101,7 +102,11 @@ export default function TeamCreationPage() {
           <Title>산 선택하기</Title>
         </div>
 
-        <MoutainSearchBar placeholder="탐험하고 싶은 산 검색하기" />
+        <MoutainSearchBar
+          teamCreationFormData={teamCreationFormData}
+          handleTeamCreationForm={handleTeamCreationForm}
+          placeholder="탐험하고 싶은 산 검색하기"
+        />
 
         {/* 추후 코스 기능 사용 시 Custom Hook, type과 함께 주석 해제 */}
         {/* <div style={{ marginTop: '2.5rem', marginBottom: '2rem' }}>
@@ -145,9 +150,7 @@ export default function TeamCreationPage() {
           <GuideMessage>최소 10글자 이상 작성해주세요.</GuideMessage>
         </div>
         <CustomTextArea
-          onChange={(e) =>
-            handleTeamCreationForm('description', e.target.value)
-          }
+          onChange={(e) => handleTeamCreationForm('content', e.target.value)}
           maxLength={300}
           showCount={true}
         />
@@ -176,7 +179,7 @@ export default function TeamCreationPage() {
           <Title>오픈카톡방 링크</Title>
         </div>
         <CustomInput
-          onChange={(e) => handleTeamCreationForm('kakaoLink', e.target.value)}
+          onChange={(e) => handleTeamCreationForm('chatLink', e.target.value)}
         />
 
         <div style={{ marginTop: '3rem', marginBottom: '0.7rem' }}>
@@ -184,7 +187,7 @@ export default function TeamCreationPage() {
         </div>
         <CustomInput
           onChange={(e) =>
-            handleTeamCreationForm('kakaoPassword', e.target.value)
+            handleTeamCreationForm('chatPassword', e.target.value)
           }
         />
       </StepSection>
