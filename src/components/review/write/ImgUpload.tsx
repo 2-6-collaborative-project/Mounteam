@@ -2,14 +2,21 @@ import { useState } from 'react';
 import { Modal, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import useReviewWriteStore from '@/src/store/useReviewWriteStore';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-export default function ImgUpload({ maxItem }: { maxItem: number }) {
+interface ImgUploadProps {
+  maxItem: number;
+  fileList: UploadFile[];
+  setFileList: (state: UploadFile[]) => void;
+}
+export default function ImgUpload({
+  maxItem,
+  fileList,
+  setFileList,
+}: ImgUploadProps) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
-  const { fileList, setFileList } = useReviewWriteStore();
 
   const getBase64 = (file: FileType): Promise<string> =>
     new Promise((resolve, reject) => {
