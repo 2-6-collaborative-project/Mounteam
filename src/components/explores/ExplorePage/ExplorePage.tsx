@@ -168,7 +168,11 @@ export default function ExplorePage() {
             type="search"
             setSearchedMountain={setSearchedMountain}
           />
-          <KakaoMap mountainList={mountainList} filteredItems={filteredItems} />
+          <KakaoMap
+            type="explore"
+            mountainList={mountainList}
+            filteredItems={filteredItems}
+          />
         </SearchMountainArea>
 
         <SearchResultArea>

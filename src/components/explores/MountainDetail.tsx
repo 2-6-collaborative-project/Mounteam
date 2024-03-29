@@ -96,7 +96,10 @@ export default function MountainDetail({
             브레드 크럼블이 들어갈 자리입니다.
           </div>
           <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
-          {/* <KakaoMap /> */}
+          <KakaoMap
+            type="detail"
+            filteredItems={clickedMountain ? [clickedMountain] : []}
+          />
         </div>
         <ActivityTabs>
           <ActivityTab>등산 모임 n개</ActivityTab>

@@ -51,9 +51,14 @@ export default function MountainInfo({
 }: {
   list: mountainDataProps | string;
 }) {
+  let exploreId;
+  if (typeof list === 'object') {
+    exploreId = list.X좌표;
+  }
+
   return (
     typeof list === 'object' && (
-      <Link href="/explore/course">
+      <Link href={`/explores/${exploreId}/details`}>
         <MountainItem>
           <Image
             layout="responsive"
