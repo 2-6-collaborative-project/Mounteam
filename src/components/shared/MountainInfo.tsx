@@ -46,29 +46,33 @@ const MountainHeight = styled(MountainStatus)`
   }
 `;
 
-export default function MountainInfo({ list }: { list: mountainDataProps }) {
-  const exploreId = list.X좌표;
-
+export default function MountainInfo({
+  list,
+}: {
+  list: mountainDataProps | string;
+}) {
   return (
-    <Link href={`/explores/${exploreId}/details`}>
-      <MountainItem>
-        <Image
-          layout="responsive"
-          width={260}
-          height={260}
-          objectFit="contain"
-          src="/sample.jpg"
-          alt="산 이미지"
-        />
-        <div>
-          <MountainName>{list?.명산_이름}</MountainName>
-          <MountainLocation>{list?.명산_소재지}</MountainLocation>
-          <MountainDetail>
-            <MountainHeight>{list?.명산_높이}m</MountainHeight>
-            <MountainStatus>모임 개수: 15개</MountainStatus>
-          </MountainDetail>
-        </div>
-      </MountainItem>
-    </Link>
+    typeof list === 'object' && (
+      <Link href="/explore/course">
+        <MountainItem>
+          <Image
+            layout="responsive"
+            width={260}
+            height={260}
+            objectFit="contain"
+            src="/sample.jpg"
+            alt="산 이미지"
+          />
+          <div>
+            <MountainName>{list?.명산_이름}</MountainName>
+            <MountainLocation>{list?.명산_소재지}</MountainLocation>
+            <MountainDetail>
+              <MountainHeight>{list?.명산_높이}m</MountainHeight>
+              <MountainStatus>모임 개수: 15개</MountainStatus>
+            </MountainDetail>
+          </div>
+        </MountainItem>
+      </Link>
+    )
   );
 }

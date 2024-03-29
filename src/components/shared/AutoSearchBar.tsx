@@ -31,7 +31,7 @@ const SearchContainer = styled.div`
 
 interface AutoSearchBarProps {
   type: 'create' | 'search';
-  setSearchedMountain?: (list: string) => void;
+  setSearchedMountain?: (list: mountainDataProps | string) => void;
 }
 
 export default function AutoSearchBar({
@@ -99,13 +99,11 @@ export default function AutoSearchBar({
   );
 
   useEffect(() => {
-    if (type === 'search') {
-      if (initKeyword && setSearchedMountain) {
-        const searched = mountainList?.find(
-          (list: mountainDataProps) => list.명산_이름 === initKeyword,
-        );
-        setSearchedMountain(searched);
-      }
+    if (type === 'search' && initKeyword && setSearchedMountain) {
+      const searched = mountainList?.find(
+        (list: mountainDataProps) => list.명산_이름 === initKeyword,
+      );
+      setSearchedMountain(searched);
     }
   }, [initKeyword, mountainList, keyword]);
 
