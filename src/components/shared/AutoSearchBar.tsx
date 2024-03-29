@@ -125,6 +125,7 @@ export default function AutoSearchBar({
               ? '탐험하고 싶은 산을 찾아보세요.'
               : '다녀오셨던 산을 검색해보세요:)'
           }
+          variant="borderless"
         />
       </AutoComplete>
     </SearchContainer>
