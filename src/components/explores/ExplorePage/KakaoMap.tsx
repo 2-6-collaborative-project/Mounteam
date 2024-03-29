@@ -15,7 +15,7 @@ export default function KakaoMap({
   filteredItems,
 }: {
   type: 'explore' | 'detail';
-  mountainList?: mountainDataProps[];
+  mountainList: mountainDataProps[];
   filteredItems: mountainDataProps[];
 }) {
   const searchParams = useSearchParams().get('mountain');
@@ -51,44 +51,42 @@ export default function KakaoMap({
         }
         const map = new window.kakao.maps.Map(container, options);
 
-        if (mountainList !== undefined) {
-          let positions;
+        let positions;
 
-          if (filteredItems.length > 0) {
-            positions = filteredItems?.map((list: mountainDataProps) => ({
-              title: list.명산_이름,
-              latlng: new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
-            }));
-          } else {
-            positions = mountainList?.map((list: mountainDataProps) => ({
-              title: list.명산_이름,
-              latlng:
-                typeof searchedMountain === 'object' && searchParams
-                  ? new window.kakao.maps.LatLng(
-                      searchedMountain.X좌표,
-                      searchedMountain.Y좌표,
-                    )
-                  : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
-            }));
-          }
+        if (filteredItems.length > 0) {
+          positions = filteredItems?.map((list: mountainDataProps) => ({
+            title: list.명산_이름,
+            latlng: new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
+          }));
+        } else {
+          positions = mountainList?.map((list: mountainDataProps) => ({
+            title: list.명산_이름,
+            latlng:
+              typeof searchedMountain === 'object' && searchParams
+                ? new window.kakao.maps.LatLng(
+                    searchedMountain.X좌표,
+                    searchedMountain.Y좌표,
+                  )
+                : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
+          }));
+        }
 
-          const imageSrc = '/markerSuccess.svg';
+        const imageSrc = '/markerSuccess.svg';
 
-          for (let i = 0; i < positions?.length; i++) {
-            const imageSize = new window.kakao.maps.Size(24, 35);
+        for (let i = 0; i < positions?.length; i++) {
+          const imageSize = new window.kakao.maps.Size(24, 35);
 
-            const markerImage = new window.kakao.maps.MarkerImage(
-              imageSrc,
-              imageSize,
-            );
+          const markerImage = new window.kakao.maps.MarkerImage(
+            imageSrc,
+            imageSize,
+          );
 
-            const marker = new window.kakao.maps.Marker({
-              map: map,
-              position: positions[i].latlng,
-              title: positions[i].title,
-              image: markerImage,
-            });
-          }
+          const marker = new window.kakao.maps.Marker({
+            map: map,
+            position: positions[i].latlng,
+            title: positions[i].title,
+            image: markerImage,
+          });
         }
       });
     }

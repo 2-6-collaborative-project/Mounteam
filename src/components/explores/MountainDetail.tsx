@@ -142,6 +142,7 @@ export default function MountainDetail({
         <MapContainer>
           <KakaoMap
             type="detail"
+            mountainList={list}
             filteredItems={clickedMountain ? [clickedMountain] : []}
           />
         </MapContainer>
