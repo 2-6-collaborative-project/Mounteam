@@ -29,11 +29,15 @@ const SearchContainer = styled.div`
   }
 `;
 
+interface AutoSearchBarProps {
+  type: 'create' | 'search';
+  setSearchedMountain?: (list: string) => void;
+}
+
 export default function AutoSearchBar({
+  type,
   setSearchedMountain,
-}: {
-  setSearchedMountain: (list: mountainDataProps) => void;
-}) {
+}: AutoSearchBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -64,17 +68,30 @@ export default function AutoSearchBar({
     value: list.명산_이름,
   }));
 
-  const handleSearch = (value: string) => {
-    const searchLink =
-      pathname === '/'
-        ? pathname + 'explores?' + createQueryString('mountain', value)
-        : pathname === '/explores'
-          ? pathname + '?' + createQueryString('mountain', value)
-          : '';
+  const handleSearch = (
+    value: string,
+    option: {
+      value: string;
+    },
+  ) => {
+    if (type === 'search') {
+      const searchLink =
+        pathname === '/'
+          ? pathname + 'explores?' + createQueryString('mountain', value)
+          : pathname === '/explores'
+            ? pathname + '?' + createQueryString('mountain', value)
+            : '';
 
-    router.push(`${searchLink}`);
+      router.push(`${searchLink}`);
 
-    setKeyword(value);
+      setKeyword(value);
+    } else {
+      if (setSearchedMountain !== undefined) {
+        const selectedOption = option?.value;
+        setSearchedMountain(selectedOption);
+        setKeyword('');
+      }
+    }
   };
 
   const filteredOptions = options?.filter((option: HTMLInputElement) =>
@@ -82,15 +99,15 @@ export default function AutoSearchBar({
   );
 
   useEffect(() => {
-    if (initKeyword && setSearchedMountain) {
-      const searched = mountainList?.find(
-        (list: mountainDataProps) => list.명산_이름 === initKeyword,
-      );
-
-      setSearchedMountain(searched);
-      setKeyword(initKeyword);
+    if (type === 'search') {
+      if (initKeyword && setSearchedMountain) {
+        const searched = mountainList?.find(
+          (list: mountainDataProps) => list.명산_이름 === initKeyword,
+        );
+        setSearchedMountain(searched);
+      }
     }
-  }, [initKeyword, mountainList]);
+  }, [initKeyword, mountainList, keyword]);
 
   return (
     <SearchContainer>
@@ -105,7 +122,11 @@ export default function AutoSearchBar({
           prefix={
             <Image width={20} height={20} src="/feedSearch.svg" alt="검색" />
           }
-          placeholder="탐험하고 싶은 산을 찾아보세요."
+          placeholder={
+            type === 'search'
+              ? '탐험하고 싶은 산을 찾아보세요.'
+              : '다녀오셨던 산을 검색해보세요:)'
+          }
         />
       </AutoComplete>
     </SearchContainer>
