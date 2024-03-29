@@ -159,7 +159,10 @@ export default function ExplorePage() {
 
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
-          <AutoSearchBar setSearchedMountain={setSearchedMountain} />
+          <AutoSearchBar
+            type="search"
+            setSearchedMountain={setSearchedMountain}
+          />
           <KakaoMap mountainList={mountainList} filteredItems={filteredItems} />
         </SearchMountainArea>
 

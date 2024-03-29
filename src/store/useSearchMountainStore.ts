@@ -3,9 +3,9 @@ import mountainDataProps from '@/src/types/mountainDataProps';
 
 interface StoreState {
   keyword: string;
-  searchedMountain: mountainDataProps;
+  searchedMountain: string | mountainDataProps;
   setKeyword: (list: string) => void;
-  setSearchedMountain: (list: mountainDataProps) => void;
+  setSearchedMountain: (list: string | mountainDataProps) => void;
 }
 
 const useSearchMountainStore = create<StoreState>((set) => ({
@@ -18,7 +18,7 @@ const useSearchMountainStore = create<StoreState>((set) => ({
     명산_이름: '',
   },
   setKeyword: (state: string) => set({ keyword: state }),
-  setSearchedMountain: (state: mountainDataProps) =>
+  setSearchedMountain: (state: string | mountainDataProps) =>
     set({ searchedMountain: state }),
 }));
 
