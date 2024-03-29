@@ -1,9 +1,10 @@
-import { Modal } from 'antd';
+import { Modal, UploadFile } from 'antd';
 import styled from 'styled-components';
 import { colors } from '@/app/styles/colors';
 import ImgUpload from '../review/write/ImgUpload';
 import TextArea from 'antd/es/input/TextArea';
 import Tags from '../review/write/Tag';
+import { useState } from 'react';
 
 interface ModalProps {
   feedId: number;
@@ -44,6 +45,7 @@ export default function FeedModify({
   modalOpenState,
   confirmFunc,
 }: ModalProps) {
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const onOkFunc = () => {
     if (confirmFunc !== undefined) {
       confirmFunc();
@@ -69,7 +71,11 @@ export default function FeedModify({
       >
         <Sector>
           <Label>이미지 수정</Label>
-          <ImgUpload maxItem={5} />
+          <ImgUpload
+            maxItem={5}
+            fileList={fileList}
+            setFileList={setFileList}
+          />
         </Sector>
         <Sector>
           <Label>내용</Label>
