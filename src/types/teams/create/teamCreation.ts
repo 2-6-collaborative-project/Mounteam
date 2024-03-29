@@ -1,7 +1,7 @@
 export default interface TeamCreationForm {
   exploreId: string;
-  isCourseSelected: boolean | null;
-  course: string;
+  // isCourseSelectNow: boolean | null;
+  // course: string;
   title: string;
   description: string;
   departureDay: string;
@@ -16,5 +16,5 @@ export default interface TeamCreationForm {
     | ''
   )[];
   kakaoLink: string;
-  kakaoPasword: string;
+  kakaoPassword: string;
 }

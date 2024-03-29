@@ -5,15 +5,15 @@ export default function useTeamCreationForm() {
   const [teamCreationFormData, setTeamCreationFormData] =
     useState<TeamCreationForm>({
       exploreId: '',
-      isCourseSelected: null,
-      course: '',
+      // isCourseSelectNow: null,
+      // course: '',
       title: '',
       description: '',
       departureDay: '',
       ageRange: [],
       genderRange: '',
       kakaoLink: '',
-      kakaoPasword: '',
+      kakaoPassword: '',
     });
 
   const handleTeamCreationForm = useCallback(
