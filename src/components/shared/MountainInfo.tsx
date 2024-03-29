@@ -1,3 +1,4 @@
+import mountainDataProps from '@/src/types/mountainDataProps';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -44,7 +45,7 @@ const MountainHeight = styled(MountainStatus)`
   }
 `;
 
-export default function MountainInfo({ list }: any) {
+export default function MountainInfo({ list }: { list: mountainDataProps }) {
   return (
     <Link href="/explore/course">
       <MountainItem>
@@ -61,7 +62,7 @@ export default function MountainInfo({ list }: any) {
           <MountainLocation>{list?.명산_소재지}</MountainLocation>
           <MountainDetail>
             <MountainHeight>{list?.명산_높이}m</MountainHeight>
-            <MountainStatus>코스 개수: 15개</MountainStatus>
+            <MountainStatus>모임 개수: 15개</MountainStatus>
           </MountainDetail>
         </div>
       </MountainItem>
