@@ -79,7 +79,7 @@ function SignInPage() {
       .find((row) => row.startsWith('accessToken='))
       ?.split('=')[1];
 
-    console.log('끼얏호우', accessToken);
+    console.log(accessToken);
     // if (accessToken) return redirect('/');
   }, []);
 
