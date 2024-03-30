@@ -25,7 +25,8 @@ export const feedMockData = (): Feed[] => {
       id: 1,
       exploreId: 1,
       author: {
-        profileImageUrl: '',
+        profileImageUrl:
+          'https://www.forest.go.kr/kfsweb/cmm/fms/getImage.do?atchFileId=FILE_000000000424235&fileSn=4',
         nickname: 'John Doe',
         id: 1,
         level: 1,
@@ -40,7 +41,7 @@ export const feedMockData = (): Feed[] => {
       isSaved: true,
       tags: ['#mock', '#data'],
       mainText:
-        '안녕하세요 이 편지는 바다건너 뉴욕에서 왔습니다. 제 친구의 이름은 john Doe 입니다.',
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industrys. Lorem Ipsum has been hi my name hi hihihihihi hi hi hi hiasdasda sdasdasd asdazxc 가가다 나 다라마잡사 ',
     },
     {
       id: 2,
@@ -61,7 +62,7 @@ export const feedMockData = (): Feed[] => {
       isSaved: false,
       tags: ['#mock', '#data'],
       mainText:
-        '안녕하세요 이 편지는 바다건너 뉴욕에서 왔습니다. 제 친구의 이름은 john Doe 입니다.',
+        '3주 전에, 이 세상에서 가장 긴 지명에 관한 글을 쓰다가 갈무리해둔 게 있다. 그러면 이 세상에서 가장 긴 단어는 뭔지 그런 걸 좀 찾아서 한번 쓰는 것도 재미있겠구나 하는 생각이었다. 자료를 뒤지고 검색하는 동안 우리말은 별로 긴 게 없을 거라고 지레짐작했다. 아무리 길어봤자 20자도 안 되겠지 뭐 실제로 우리말은 그리 길지 않다. 가장 긴 단어가 청자양인각연당초ㆍ상감모란문은구대접',
     },
     {
       id: 3,

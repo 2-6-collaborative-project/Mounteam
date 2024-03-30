@@ -1,12 +1,15 @@
-import Image from 'next/image';
-import { CustomPopover } from '@/src/components/shared/CustomPopover';
-import user from '@/public/user.svg';
-import meatballs from '@/public/meatballs.svg';
 import styled from 'styled-components';
-import { InfoBox } from '../shared/InfoBox';
+import Image from 'next/image';
 import Link from 'next/link';
+import meatballs from '@/public/meatballs.svg';
+import Avatars from '@/src/components/shared/Avatar';
+import FeedModify from '@/src/components/feeds/FeedModify';
+import { useState } from 'react';
+import { CustomPopover } from '@/src/components/shared/CustomPopover';
+import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
+import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 
 interface FeedImgProps {
   imageUrl?: string;
@@ -43,8 +46,7 @@ const FeedHead = styled.div`
 
 const HeadWrapper = styled.div`
   position: relative;
-  width: 3.5rem;
-  height: 3.5rem;
+
   background-color: ${colors.Grayscale[3]};
   border-radius: 50%;
   overflow: hidden;
@@ -56,14 +58,6 @@ const FeedImg = styled.div<FeedImgProps>`
   height: 3rem;
   background-image: url(${(props) => props.imageUrl});
   background-size: cover;
-`;
-
-const AvatarImage = styled.img`
-  position: absolute;
-  width: 2rem;
-  height: 2rem;
-  top: 0.75rem;
-  left: 0.75rem;
 `;
 
 const HeadFont = styled.div`
@@ -94,8 +88,10 @@ const PictureBox = styled.div`
   width: 31.5rem;
   height: 31.5rem;
   position: relative;
+
   & img {
     object-fit: contain;
+    background-color: ${colors.Grayscale[4]};
   }
 `;
 
@@ -109,6 +105,10 @@ const TextBox = styled.div`
     font-weight: 400;
     line-height: 2.1rem;
     letter-spacing: -0.14px;
+    height: 3.3em;
+    overflow: hidden;
+    text-overflow: elipsis;
+    -webkit-line-clamp: 2;
   }
 `;
 
@@ -127,10 +127,10 @@ const TagWrapper = styled.div`
   gap: 0.3rem;
   border: 1px solid ${colors.Primary[500]};
   border-radius: 3px;
-  background-color: colors[Grayscale].1;
+  background-color: ${colors.Grayscale[1]};
 
   & p {
-    color: colors[Primary].500;
+    color: ${colors.Primary[500]};
   }
 `;
 
@@ -144,13 +144,22 @@ const PopoverContentBox = styled.div`
 
 // 후기 컴포넌트
 export default function FeedPage({ feeds }: FeedPageProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { editFeedId, setEditFeedId } = useFeedIdStore();
+
   const router = useRouter();
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
-  const content = (
+
+  const handleEditClick = (feedId: number) => {
+    setEditFeedId(feedId);
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const content = (feedId: number) => (
     <PopoverContentBox>
-      <Link href="/">수정</Link>
-      <Link href="/">삭제</Link>
+      <p onClick={() => handleEditClick(feedId)}>수정</p>
+      <p>삭제</p>
     </PopoverContentBox>
   );
 
@@ -161,14 +170,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
           <div key={feed.id}>
             <FeedHead>
               <HeadWrapper>
-                <AvatarImage
-                  src={
-                    feed.author.profileImageUrl
-                      ? feed.author.profileImageUrl
-                      : user.src
-                  }
-                  alt="User"
-                />
+                <Avatars type="" img={feed.author.profileImageUrl} />
               </HeadWrapper>
 
               <HeadFont>
@@ -178,7 +180,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
 
               <MeatBallFrame>
                 {feed.createdByme && (
-                  <CustomPopover content={content}>
+                  <CustomPopover content={content(feed.id)}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
                 )}
@@ -232,6 +234,13 @@ export default function FeedPage({ feeds }: FeedPageProps) {
               </TagBox>
             ) : (
               ''
+            )}
+            {isModalOpen && editFeedId !== null && (
+              <FeedModify
+                feedId={editFeedId}
+                modalOpenState={isModalOpen}
+                setter={setIsModalOpen}
+              />
             )}
           </div>
         ))}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import Avatars from '../shared/Avatar';
+import Avatars from '@/src/components/shared/Avatar';
 import EditProfile from './EditProfile';
 
 const FlexContainer = styled.div`
