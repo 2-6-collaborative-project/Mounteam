@@ -35,16 +35,18 @@ export default function FeedSearch() {
   const handleSearch = (value: string) => {
     if (value.trim() === '') {
       setIsSearching(false);
-      setFilteredFeeds([]);
+      setFilteredFeeds([]); // 여기 고쳐보기
     } else {
       const filtered = feedMockData().filter((feed: Feed) =>
         feed.mainText.toLowerCase().includes(value.toLowerCase()),
       );
       setIsSearching(true);
-      setFilteredFeeds(filtered);
+      setFilteredFeeds(filtered); // 여기 고쳐보기
     }
   };
-
+  // const [keyword, setKeyword] = useState("");
+  // const filteredFeed = feeds.filter((item)=> item.name.includes(keyword))
+  // Best => const filteredFeeds = useMemo(()=> feeds.filter(item)=>item.name.includes(keyword),[keyword, feeds]);
   return (
     <FeedConatiner>
       <SearchBar
