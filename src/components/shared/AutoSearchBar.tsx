@@ -31,7 +31,7 @@ const SearchContainer = styled.div`
 
 interface AutoSearchBarProps {
   type: 'create' | 'search';
-  setSearchedMountain?: (list: string) => void;
+  setSearchedMountain?: (list: mountainDataProps | string) => void;
 }
 
 export default function AutoSearchBar({
@@ -99,13 +99,11 @@ export default function AutoSearchBar({
   );
 
   useEffect(() => {
-    if (type === 'search') {
-      if (initKeyword && setSearchedMountain) {
-        const searched = mountainList?.find(
-          (list: mountainDataProps) => list.명산_이름 === initKeyword,
-        );
-        setSearchedMountain(searched);
-      }
+    if (type === 'search' && initKeyword && setSearchedMountain) {
+      const searched = mountainList?.find(
+        (list: mountainDataProps) => list.명산_이름 === initKeyword,
+      );
+      setSearchedMountain(searched);
     }
   }, [initKeyword, mountainList, keyword]);
 
@@ -127,6 +125,7 @@ export default function AutoSearchBar({
               ? '탐험하고 싶은 산을 찾아보세요.'
               : '다녀오셨던 산을 검색해보세요:)'
           }
+          variant="borderless"
         />
       </AutoComplete>
     </SearchContainer>
