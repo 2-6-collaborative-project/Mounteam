@@ -25,7 +25,9 @@ export default function TeamDatePicker({
   };
 
   useEffect(() => {
-    setDepartureDay(date + ' ' + time);
+    if (date.length > 0 && time.length > 0) {
+      setDepartureDay(date + ' ' + time);
+    }
   }, [date, time]);
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function TeamDatePicker({
           width: '100%',
           padding: '1.2rem 2.1rem',
           borderRadius: '3px',
+          marginBottom: '1.5rem',
         }}
       />
 

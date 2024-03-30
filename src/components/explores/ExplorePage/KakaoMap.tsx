@@ -3,15 +3,18 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { useSearchParams } from 'next/navigation';
+
 const Map = styled.div`
   width: 100%;
   height: 400px;
 `;
 
 export default function KakaoMap({
+  type,
   mountainList,
   filteredItems,
 }: {
+  type: 'explore' | 'detail';
   mountainList: mountainDataProps[];
   filteredItems: mountainDataProps[];
 }) {
@@ -24,17 +27,28 @@ export default function KakaoMap({
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
 
-        const options = {
-          center:
-            searchedMountain && keyword !== ''
-              ? new window.kakao.maps.LatLng(
-                  searchedMountain.X좌표,
-                  searchedMountain.Y좌표,
-                )
-              : new window.kakao.maps.LatLng(36.71069, 127.97434),
-          level: searchedMountain && keyword !== '' ? 7 : 13,
-        };
+        let options;
 
+        if (type === 'explore') {
+          options = {
+            center:
+              typeof searchedMountain === 'object' && keyword !== ''
+                ? new window.kakao.maps.LatLng(
+                    searchedMountain.X좌표,
+                    searchedMountain.Y좌표,
+                  )
+                : new window.kakao.maps.LatLng(36.71069, 127.97434),
+            level: searchedMountain && keyword !== '' ? 7 : 13,
+          };
+        } else {
+          options = {
+            center: new window.kakao.maps.LatLng(
+              filteredItems[0]?.X좌표,
+              filteredItems[0]?.Y좌표,
+            ),
+            level: 7,
+          };
+        }
         const map = new window.kakao.maps.Map(container, options);
 
         let positions;
@@ -48,7 +62,7 @@ export default function KakaoMap({
           positions = mountainList?.map((list: mountainDataProps) => ({
             title: list.명산_이름,
             latlng:
-              searchedMountain && searchParams
+              typeof searchedMountain === 'object' && searchParams
                 ? new window.kakao.maps.LatLng(
                     searchedMountain.X좌표,
                     searchedMountain.Y좌표,
