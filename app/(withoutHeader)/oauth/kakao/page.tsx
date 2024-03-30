@@ -18,8 +18,6 @@ export default function KakaoLogin() {
           },
         );
 
-        console.log(res.data.data.accessToken, res.data.data.refreshToken);
-
         localStorage.setItem('accessToken', res.data.data.accessToken);
         localStorage.setItem('refreshToken', res.data.data.refreshToken);
       } catch (e) {

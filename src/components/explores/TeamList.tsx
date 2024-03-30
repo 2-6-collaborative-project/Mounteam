@@ -3,10 +3,6 @@
 import styled from 'styled-components';
 import KakaoMap from '@/src/components/explores/ExplorePage/KakaoMap';
 
-const Container = styled.div`
-  margin: 3.2rem 10.4rem;
-`;
-
 const MainTitle = styled.h2`
   font-size: 3rem;
   font-weight: 600;
@@ -34,6 +30,7 @@ const TeamItem = styled.div`
   background-color: #d9d9d9;
 `;
 
+const Container = styled.div``;
 export default function TeamList() {
   return (
     <>
