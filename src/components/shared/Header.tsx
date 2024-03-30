@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { CustomPopover } from './CustomPopover';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -45,13 +46,30 @@ export default function Header() {
         </Link>
       </LogoContainer>
       <IconGap>
-        <Image
-          src="/edit.svg"
-          alt="edit icon"
-          width={24}
-          height={24}
-          priority
-        />
+        <CustomPopover
+          content={
+            <div>
+              <p>
+                <Link href="/teams/create">모임 생성</Link>
+              </p>
+              <p>
+                <Link href="/teams/write">모임 후기 등록</Link>
+              </p>
+              <p>
+                <Link href="/explores/reviews">등반 후기 등록</Link>
+              </p>
+            </div>
+          }
+        >
+          <Image
+            src="/edit.svg"
+            alt="edit icon"
+            width={24}
+            height={24}
+            priority
+          />
+        </CustomPopover>
+
         {/* 알림 아이콘 임시 삭제 */}
         {/* <Image
           src="/bell.svg"
@@ -60,7 +78,17 @@ export default function Header() {
           height={24}
           priority
         /> */}
-        <Link href="/mypage">
+
+        <CustomPopover
+          content={
+            <div>
+              <p>로그아웃</p>
+              <p>
+                <Link href="/mypage">마이페이지</Link>
+              </p>
+            </div>
+          }
+        >
           <Image
             src="/user.svg"
             alt="user icon"
@@ -68,7 +96,7 @@ export default function Header() {
             height={24}
             priority
           />
-        </Link>
+        </CustomPopover>
       </IconGap>
     </HeaderBox>
   );
