@@ -22,7 +22,7 @@ const ImageSection = styled.div`
   width: 12rem;
   height: 12rem;
   border-radius: 100%;
-  background: ${colors.Grayscale[5]};
+  background: ${colors.Primary[500]};
 
   @media (max-width: 768px) {
     width: 7.5rem;
