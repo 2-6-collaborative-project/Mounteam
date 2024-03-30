@@ -11,7 +11,7 @@ const HeaderBox = styled.div`
   width: 82%;
   margin: 0 auto;
   max-width: 1200px;
-  padding: 2rem 0rem 3.75rem 0rem;
+  padding: 4rem 0rem 3.75rem 0rem;
   align-items: center;
 
   @media (max-width: 768px) {
