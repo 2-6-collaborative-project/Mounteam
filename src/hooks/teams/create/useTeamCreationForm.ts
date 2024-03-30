@@ -4,16 +4,16 @@ import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 export default function useTeamCreationForm() {
   const [teamCreationFormData, setTeamCreationFormData] =
     useState<TeamCreationForm>({
-      exploreId: '',
-      isCourseSelected: null,
-      course: '',
+      mountain: '',
+      // isCourseSelectNow: null,
+      // course: '',
       title: '',
-      description: '',
+      content: '',
       departureDay: '',
       ageRange: [],
-      genderRange: '',
-      kakaoLink: '',
-      kakaoPasword: '',
+      gender: '',
+      chatLink: '',
+      chatPassword: '',
     });
 
   const handleTeamCreationForm = useCallback(

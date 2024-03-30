@@ -40,7 +40,7 @@ export default function MemberCollapse({
           {
             label: '성별',
             children: (
-              <Radio.Group name="genderRange" onChange={onChangeRadio}>
+              <Radio.Group name="gender" onChange={onChangeRadio}>
                 <Space
                   direction="vertical"
                   style={{
