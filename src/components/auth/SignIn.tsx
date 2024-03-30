@@ -73,16 +73,6 @@ function SignInPage() {
   const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
-  useEffect(() => {
-    const accessToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('accessToken='))
-      ?.split('=')[1];
-
-    console.log(accessToken);
-    // if (accessToken) return redirect('/');
-  }, []);
-
   return (
     <>
       <GlobalStyle />
