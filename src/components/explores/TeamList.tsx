@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import KakaoMap from '@/src/components/explores/ExplorePage/KakaoMap';
+import Tab from '@/src/components/shared/Tab';
 
 const MainTitle = styled.h2`
   font-size: 3rem;
@@ -35,15 +36,7 @@ export default function TeamList() {
   return (
     <>
       <Container>
-        <div
-          style={{
-            height: '5.7rem',
-            backgroundColor: '#ddd',
-            marginBottom: '0.4rem',
-          }}
-        >
-          헤더가 들어갈 자리입니다.
-        </div>
+        <Tab variant="explores" />
         <div
           style={{
             height: '4.6rem',
