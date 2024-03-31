@@ -109,7 +109,7 @@ export default function Home() {
       <Body>
         <Tab variant="main" />
         <SearchBarContainer>
-          <AutoSearchBar />
+          <AutoSearchBar type="search" />
         </SearchBarContainer>
         <CarouselSection />
 

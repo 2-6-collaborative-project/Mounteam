@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { CustomPopover } from './CustomPopover';
+import { colors } from '@/app/styles/colors';
+import typography from '@/app/styles/typography';
+import { HeaderPopover } from '../main/HeaderPopover';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -30,7 +32,18 @@ const IconGap = styled.div`
   gap: 1.25rem;
 `;
 
-// 추후 popover 컴포넌트 edit icon에 연결 필요
+const StyledLink = styled(Link)`
+  display: flex;
+  padding: 0.5rem 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: ${colors.Grayscale[1]};
+  box-shadow: 0px -1px 0px 0px ${colors.Grayscale[4]} inset;
+  color: ${colors.Grayscale[13]};
+  ${typography.Footnote14};
+`;
+
 export default function Header() {
   return (
     <HeaderBox>
@@ -46,18 +59,14 @@ export default function Header() {
         </Link>
       </LogoContainer>
       <IconGap>
-        <CustomPopover
+        <HeaderPopover
           content={
             <div>
-              <p>
-                <Link href="/teams/create">모임 생성</Link>
-              </p>
-              <p>
-                <Link href="/teams/write">모임 후기 등록</Link>
-              </p>
-              <p>
-                <Link href="/explores/reviews">등반 후기 등록</Link>
-              </p>
+              <StyledLink href="/teams/create">
+                <p>모임 생성</p>
+              </StyledLink>
+              <StyledLink href="/teams/write">모임 후기 등록</StyledLink>
+              <StyledLink href="/explores/reviews">등반 후기 등록</StyledLink>
             </div>
           }
         >
@@ -68,7 +77,7 @@ export default function Header() {
             height={24}
             priority
           />
-        </CustomPopover>
+        </HeaderPopover>
 
         {/* 알림 아이콘 임시 삭제 */}
         {/* <Image
@@ -79,13 +88,12 @@ export default function Header() {
           priority
         /> */}
 
-        <CustomPopover
+        <HeaderPopover
           content={
             <div>
-              <p>로그아웃</p>
-              <p>
-                <Link href="/mypage">마이페이지</Link>
-              </p>
+              {/* 로그아웃 기능 구현 전에는 메인페이지로 연결되게 링크를 걸어뒀습니다 */}
+              <StyledLink href="/">로그아웃</StyledLink>
+              <StyledLink href="/mypage">마이페이지</StyledLink>
             </div>
           }
         >
@@ -96,7 +104,7 @@ export default function Header() {
             height={24}
             priority
           />
-        </CustomPopover>
+        </HeaderPopover>
       </IconGap>
     </HeaderBox>
   );
