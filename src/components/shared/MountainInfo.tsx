@@ -1,7 +1,6 @@
 import mountainDataProps from '@/src/types/mountainDataProps';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 const MountainItem = styled.div`

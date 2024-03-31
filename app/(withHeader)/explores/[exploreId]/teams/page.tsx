@@ -73,13 +73,9 @@ const TeamItem = styled.div`
   background-color: ${colors.Grayscale[5]};
 `;
 
-interface MountainDetailProps {
-  exploreId: number;
-  list: mountainDataProps[];
-}
-
 const Container = styled.div``;
-export default function TeamList({
+
+export default function ExploreTeamList({
   params,
 }: {
   params: { exploreId: number };
