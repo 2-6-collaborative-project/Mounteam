@@ -36,12 +36,16 @@ const StyledLink = styled(Link)`
   display: flex;
   padding: 0.5rem 1rem;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 0.5rem;
   background: ${colors.Grayscale[1]};
   box-shadow: 0px -1px 0px 0px ${colors.Grayscale[4]} inset;
   color: ${colors.Grayscale[13]};
   ${typography.Footnote14};
+
+  &:last-child {
+    box-shadow: none;
+  }
 `;
 
 export default function Header() {
@@ -62,11 +66,9 @@ export default function Header() {
         <HeaderPopover
           content={
             <div>
-              <StyledLink href="/teams/create">
-                <p>모임 생성</p>
-              </StyledLink>
-              <StyledLink href="/teams/write">모임 후기 등록</StyledLink>
-              <StyledLink href="/explores/reviews">등반 후기 등록</StyledLink>
+              <StyledLink href="/teams/create">모임 생성</StyledLink>
+              <StyledLink href="/teams/write">모임후기 등록</StyledLink>
+              <StyledLink href="/explores/reviews">등반후기 등록</StyledLink>
             </div>
           }
         >
@@ -91,7 +93,6 @@ export default function Header() {
         <HeaderPopover
           content={
             <div>
-              {/* 로그아웃 기능 구현 전에는 메인페이지로 연결되게 링크를 걸어뒀습니다 */}
               <StyledLink href="/">로그아웃</StyledLink>
               <StyledLink href="/mypage">마이페이지</StyledLink>
             </div>

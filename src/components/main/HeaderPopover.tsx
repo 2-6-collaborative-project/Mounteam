@@ -1,7 +1,16 @@
-import { Popover } from 'antd';
+import { ConfigProvider, Popover } from 'antd';
+import { createGlobalStyle } from 'styled-components';
 import { colors } from '@/app/styles/colors';
-import styled from 'styled-components';
-import typography from '@/app/styles/typography';
+
+const GlobalStyle = createGlobalStyle`
+  .custom-popover-class .ant-popover-inner {
+    padding: 0 !important;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15) !important;
+  }
+  a:hover{
+    color: ${colors.Primary[500]} !important;
+  }
+`;
 
 interface CustomPopoverProps {
   title?: string;
@@ -9,26 +18,28 @@ interface CustomPopoverProps {
   children?: React.ReactNode;
 }
 
-const PopoverParagraph = styled.div`
-  display: flex;
-  padding: 0.5rem 1rem;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  background: ${colors.Grayscale[1]};
-  box-shadow: 0px -1px 0px 0px ${colors.Grayscale[4]} inset;
-  color: ${colors.Grayscale[13]};
-  ${typography.Footnote14};
-`;
-
 export const HeaderPopover: React.FC<CustomPopoverProps> = ({
   title,
   content,
   children,
 }) => {
   return (
-    <Popover content={content} title={title}>
-      <PopoverParagraph>{children}</PopoverParagraph>
-    </Popover>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontWeightStrong: 600,
+          borderRadiusLG: 1.25,
+        },
+      }}
+    >
+      <GlobalStyle />
+      <Popover
+        content={content}
+        title={title}
+        overlayClassName="custom-popover-class"
+      >
+        {children}
+      </Popover>
+    </ConfigProvider>
   );
 };
