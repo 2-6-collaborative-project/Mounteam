@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Form, DatePicker, Checkbox, ConfigProvider } from 'antd';
-import type { GetProp, UploadFile, UploadProps } from 'antd';
+import { Input, Form, DatePicker, Checkbox, Tag } from 'antd';
+import type { DatePickerProps } from 'antd';
+import type { Dayjs } from 'dayjs';
 import ko from 'antd/es/date-picker/locale/ko_KR';
 import 'dayjs/locale/zh-cn';
 import Tags from '@/src/components/review/write/Tag';
@@ -12,18 +13,37 @@ import Tab from '@/src/components/shared/Tab';
 import useReviewWriteStore from '@/src/store/useReviewWriteStore';
 import ImgUpload from '@/src/components/review/write/ImgUpload';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
+import { colors } from '@/app/styles/colors';
+
 const TabContainer = styled.div`
+  margin-bottom: 3rem;
+`;
+
+const MainTitle = styled.p`
   margin-bottom: 8rem;
+
+  color: ${colors.Grayscale[13]};
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 4.2rem;
 `;
 
 const ContentContainer = styled.div`
-  width: 100%;
+  width: 50%;
+  margin: 0 auto;
   margin-bottom: 20rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10rem;
+  @media (max-width: 768px) {
+    width: 70%;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const FlexContainer = styled.div`
@@ -41,9 +61,25 @@ const CheckBoxText = styled.p`
   line-height: 2.4rem;
 `;
 
-export default function Review() {
+const tagStyle: React.CSSProperties = {
+  width: 'auto',
+  height: '3.8rem',
+  padding: '0.9rem  1.5rem 0.9rem  1.5rem',
+  textAlign: 'center',
+  position: 'absolute',
+  top: '4rem',
+  background: colors.Primary[50],
+  color: colors.Primary[500],
+  marginInlineEnd: 8,
+  verticalAlign: 'top',
+  borderRadius: '0.3rem',
+  border: `1px solid ${colors.Primary[500]}`,
+};
+
+export default function ReviewWrite() {
   const {
     fileList,
+    setFileList,
     description,
     setDescription,
     place,
@@ -51,7 +87,9 @@ export default function Review() {
     date,
     setDate,
     tags,
+    setTags,
   } = useReviewWriteStore();
+  const [isChecked, setIsChecked] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { TextArea } = Input;
 
@@ -61,21 +99,37 @@ export default function Review() {
     setDescription(event.currentTarget.value);
   };
 
-  const handleChecked = () => {
-    setIsButtonDisabled(!isButtonDisabled);
+  const handleSetDate = (_: any, dateString: string | string[]) => {
+    setDate(dateString);
   };
 
-  console.log(fileList);
+  const handleChecked = () => {
+    setIsChecked(!isChecked);
+  };
+
+  useEffect(() => {
+    const isPlaced = /^.+$/.test(place);
+    const isDated = /^.+$/.test(date);
+    const isDescription = /^.+$/.test(description);
+
+    if (isPlaced && isDated && isDescription && isChecked) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [date, place, description, isChecked]);
+
   return (
     <>
       <TabContainer>
         <Tab variant="explores" />
       </TabContainer>
+      <MainTitle>등산 후기 작성하기</MainTitle>
       <ContentContainer>
         <Form
           layout="vertical"
           style={{
-            width: '48.4rem',
+            width: '100%',
             fontSize: '1.6rem',
             fontWeight: '700',
             lineHeight: '3.2rem',
@@ -85,13 +139,10 @@ export default function Review() {
             gap: '5rem',
           }}
         >
-          <Form.Item
-            label="Field A"
-            style={{ width: '100%', marginBottom: '0' }}
-          >
+          <Form.Item label="내용" style={{ width: '100%', marginBottom: '0' }}>
             <TextArea
               rows={3}
-              placeholder="나중에 수정하기"
+              placeholder="내용을 적어주세요"
               style={{ width: '100%' }}
               onChange={handleTextAreaChange}
             />
@@ -100,14 +151,23 @@ export default function Review() {
             label="이미지 업로드"
             style={{ width: '100%', marginBottom: '0' }}
           >
-            <ImgUpload />
+            <ImgUpload
+              maxItem={5}
+              fileList={fileList}
+              setFileList={setFileList}
+            />
           </Form.Item>
-          <Form.Item label="장소" style={{ width: '100%', marginBottom: '0' }}>
-            <AutoSearchBar />
+          <Form.Item
+            label="장소"
+            style={{ width: '100%', marginBottom: '0', position: 'relative' }}
+          >
+            <AutoSearchBar setSearchedMountain={setPlace} />
+            {place !== '' ? <Tag style={tagStyle}>{place}</Tag> : ''}
           </Form.Item>
           <Form.Item label="날짜" style={{ width: '100%', marginBottom: '0' }}>
             <DatePicker
               placeholder="날짜 선택"
+              onChange={handleSetDate}
               style={{
                 width: '100%',
                 height: '6.6rem',
@@ -115,14 +175,14 @@ export default function Review() {
             />
           </Form.Item>
           <Form.Item label="태그" style={{ width: '100%', marginBottom: '0' }}>
-            <Tags />
+            <Tags tags={tags} setTags={setTags} />
           </Form.Item>
         </Form>
         <FlexContainer>
           <Checkbox onChange={handleChecked}>
             <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
           </Checkbox>
-          <Buttons width="48.4rem" height="6.6rem" disabled={isButtonDisabled}>
+          <Buttons width="100%" height="6.6rem" disabled={isButtonDisabled}>
             인증하기
           </Buttons>
         </FlexContainer>
