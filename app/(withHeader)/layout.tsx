@@ -9,7 +9,6 @@ import { colors } from '@/app/styles/colors';
 import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
 import QueryProvider from '@/app/queryProvider/QueryProvider';
-import Auth from '@/src/utils/auth';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',

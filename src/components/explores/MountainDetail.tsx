@@ -14,7 +14,7 @@ const MainTitle = styled.h2`
 `;
 
 const MapContainer = styled.div`
-  margin-top: 2rem;
+  margin-top: 6.67rem;
 `;
 
 const ActivityTabs = styled.div`
@@ -140,7 +140,7 @@ export default function MountainDetail({
         <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
         <MapContainer>
           <KakaoMap
-            type="detail"
+            type="exploreSub"
             mountainList={list}
             filteredItems={clickedMountain ? [clickedMountain] : []}
           />
