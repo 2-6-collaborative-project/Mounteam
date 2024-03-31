@@ -8,23 +8,23 @@ interface ReviewWriteStore {
   setFileList: (state: UploadFile[]) => void;
   place: string;
   setPlace: (state: string) => void;
-  date: string;
-  setDate: (state: string) => void;
+  date: string | string[];
+  setDate: (state: string | string[]) => void;
   tags: string[];
   setTags: (state: string[]) => void;
 }
 
 const useReviewWriteStore = create<ReviewWriteStore>((set) => ({
   description: '',
-  setDescription: (state: string) => set({ description: state }),
+  setDescription: (state) => set({ description: state }),
   fileList: [],
-  setFileList: (state: UploadFile[]) => set({ fileList: state }),
+  setFileList: (state) => set({ fileList: state }),
   place: '',
-  setPlace: (state: string) => set({ place: state }),
+  setPlace: (state) => set({ place: state }),
   date: '',
-  setDate: (state: string) => set({ date: state }),
+  setDate: (state) => set({ date: state }),
   tags: [],
-  setTags: (state: string[]) => set({ tags: state }),
+  setTags: (state) => set({ tags: state }),
 }));
 
 export default useReviewWriteStore;
