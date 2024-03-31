@@ -11,7 +11,6 @@ import Tab from '@/src/components/shared/Tab';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
-import { List } from 'antd';
 import { useEffect, useState } from 'react';
 
 const SearchMountainArea = styled.div``;
@@ -115,39 +114,45 @@ export default function ExplorePage() {
 
   const [isSorting, setIsSorting] = useState(true);
 
+  const sortListByName = (list: mountainDataProps[]) => {
+    return [...list].sort((a, b) =>
+      isSorting
+        ? b.명산_이름.localeCompare(a.명산_이름)
+        : a.명산_이름.localeCompare(b.명산_이름),
+    );
+  };
+
+  const sortListByTeamNumber = (list: mountainDataProps[]) => {
+    return [...list].sort((a, b) =>
+      isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이,
+    );
+  };
+
   const handleSortByName = () => {
-    const sortedList = [...mountainList].sort((a, b) => {
-      if (a.명산_이름 < b.명산_이름) return isSorting ? 1 : -1;
-      if (a.명산_이름 > b.명산_이름) return isSorting ? -1 : 1;
-      return 0;
-    });
+    const sortedList = sortListByName(allMountainList);
 
     setAllMountainList(sortedList);
 
-    const filteredSortedList = [...filteredItems].sort((a, b) => {
-      if (a.명산_이름 < b.명산_이름) return isSorting ? 1 : -1;
-      if (a.명산_이름 > b.명산_이름) return isSorting ? -1 : 1;
-      return 0;
-    });
+    if (filteredItems.length > 0) {
+      const sortedFilterList = sortListByName(filteredItems);
 
-    setFilteredItems(filteredSortedList);
+      setFilteredItems(sortedFilterList);
+    }
 
     setIsSorting(!isSorting);
   };
 
   // 추후 API 연동시에 모임 개수로 대체될 예정입니다.
   const handleSortByTeamNumber = () => {
-    const sortedList = [...allMountainList].sort((a, b) => {
-      return isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이;
-    });
+    const sortedList = sortListByTeamNumber(allMountainList);
 
     setAllMountainList(sortedList);
 
-    const filteredSortedList = [...filteredItems].sort((a, b) => {
-      return isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이;
-    });
+    if (filteredItems.length > 0) {
+      const filteredSortedList = sortListByTeamNumber(filteredItems);
 
-    setFilteredItems(filteredSortedList);
+      setFilteredItems(filteredSortedList);
+    }
 
     setIsSorting(!isSorting);
   };
@@ -159,8 +164,15 @@ export default function ExplorePage() {
 
         <SearchMountainArea>
           <MainTitle>대한민국 산 탐험하기</MainTitle>
-          <AutoSearchBar setSearchedMountain={setSearchedMountain} />
-          <KakaoMap mountainList={mountainList} filteredItems={filteredItems} />
+          <AutoSearchBar
+            type="search"
+            setSearchedMountain={setSearchedMountain}
+          />
+          <KakaoMap
+            type="explore"
+            mountainList={mountainList}
+            filteredItems={filteredItems}
+          />
         </SearchMountainArea>
 
         <SearchResultArea>

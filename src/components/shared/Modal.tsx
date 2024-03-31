@@ -75,14 +75,11 @@ export default function Modals({
         setIsOKDisabled(true);
         setTitle('모임을 열기 전, 한번 더 확인해주세요');
         setContent(
-          <>
-            <Text>모임 취소는 모임 시작 전 3일 전까지만 가능합니다.</Text>
-            <Text>
-              연령대, 성별, 선정방법은 모임을 열고 난 후는 수정할 수 없습니다.
-            </Text>
-          </>,
+          <Text>
+            연령대, 성별, 선정방법은 모임을 열고 난 후는 수정할 수 없습니다.
+          </Text>,
         );
-        setOkText('모임만들기');
+        setOkText('모임 만들기');
         setcancelText('좀 더 수정하기');
 
         break;

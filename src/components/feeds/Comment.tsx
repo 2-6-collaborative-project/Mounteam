@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import user from '@/public/user.svg';
 import { colors } from '@/app/styles/colors';
+import Avatars from '@/src/components/shared/Avatar';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -42,20 +42,6 @@ const CommentHeader = styled.div`
   }
 `;
 
-const AvatarWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-`;
-
-const AvatarImage = styled.img`
-  padding: 0.4rem;
-  width: 2rem;
-  height: 2rem;
-  background-color: ${colors.Grayscale[6]};
-`;
-
 const CommentBody = styled.div`
   width: 315px;
   border: 1px solid ${colors.Grayscale[13]};
@@ -70,17 +56,11 @@ export default function Comment({ feedData }: any) {
     <>
       <CommentContainer>
         <CommentHeader>
-          <AvatarWrapper>
-            <AvatarImage
-              src={
-                feedData.author.profileImageUrl
-                  ? feedData.author.profileImageUrl
-                  : user.src
-              }
-              alt="Profile Image"
-            />
-          </AvatarWrapper>
-          <p>{feedData.author.nickname}</p>
+          <Avatars
+            type="comment"
+            img={feedData.author.profileImageUrl}
+            name={feedData.author.nickname}
+          />
         </CommentHeader>
         <CommentBody>
           {feedData.comments.map((comment: string[], index: number) => (

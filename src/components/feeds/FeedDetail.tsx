@@ -1,13 +1,15 @@
-import { useRef } from 'react';
-import Image from 'next/image';
 import styled from 'styled-components';
-import { Carousel } from 'antd';
-import meatballs from '@/public/meatballs.svg';
-import user from '@/public/user.svg';
-import { CustomPopover } from '../shared/CustomPopover';
 import Link from 'next/link';
-import { InfoBox } from '../shared/InfoBox';
+import Image from 'next/image';
+import meatballs from '@/public/meatballs.svg';
+import Avatars from '@/src/components/shared/Avatar';
+import FeedModify from '@/src/components/feeds/FeedModify';
+import { useRef, useState } from 'react';
+import { CustomPopover } from '@/src/components/shared/CustomPopover';
+import { Carousel } from 'antd';
+import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
+import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -16,6 +18,27 @@ const contentStyle: React.CSSProperties = {
   textAlign: 'center',
   background: '#d9d9d9',
 };
+
+const ContentsContainer = styled.div`
+  width: 100%;
+  max-width: 99.2rem;
+  height: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  padding-bottom: 10rem;
+
+  @media (max-width: 768px) {
+    max-width: 63.9rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 
 const ProfileCarouselContainer = styled.div`
   display: flex;
@@ -36,19 +59,12 @@ const ProfileWrapper = styled.div`
   gap: 9px;
 `;
 
-const AvatarWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  overflow: hidden;
-  border-radius: 50%;
-`;
-
 const AvatarImage = styled.img`
-  padding: 1rem;
+  padding: 0rem;
   width: 4.8rem;
   height: 4.8rem;
   background-color: ${colors.Grayscale[6]};
+  object-fit: cover;
 `;
 
 const HeadFont = styled.div`
@@ -94,27 +110,43 @@ const CarouselConatiner = styled.div`
   width: 39.9rem;
   height: 39.9rem;
   flex-shrink: 0;
-
   background: ${colors.Grayscale[5]};
 `;
 
 const InfoContainer = styled.div`
+  max-width: 56.9rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 35px;
+  gap: 3.5rem;
+
+  @media (max-width: 768px) {
+    max-width: 39.9rem;
+  }
+  @media (max-width: 480px) {
+    max-width: 39.9rem;
+  }
 `;
 
 const InfoWrapper = styled.div`
+  width: 100%;
   display: flex;
-  width: 569px;
+  max-width: 56.9rem;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const TagContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
@@ -139,7 +171,8 @@ const TagWrapper = styled.div`
 `;
 
 const TextBox = styled.div`
-  width: 56.9rem;
+  width: 100%;
+  max-width: 56.9rem;
   padding-top: 1rem;
 
   & p {
@@ -147,16 +180,31 @@ const TextBox = styled.div`
     font-size: 16px;
     font-weight: 400;
     line-height: 30px;
+
+    @media (max-width: 768px) {
+      max-width: 39.9rem;
+    }
+    @media (max-width: 480px) {
+      max-width: 39.9rem;
+    }
   }
 `;
 const CommentBarContainer = styled.div`
   display: flex;
-  width: 484px;
+  width: 100%;
+  max-width: 48.4rem;
   padding: 10px;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
   border-bottom: 1px solid ${colors.Grayscale[13]};
+
+  @media (max-width: 768px) {
+    max-width: 39.9rem;
+  }
+  @media (max-width: 480px) {
+    max-width: 39.9rem;
+  }
 `;
 
 const CommentBarWrapper = styled.div`
@@ -185,14 +233,22 @@ const TextWrapper = styled.div`
 `;
 
 export default function FeedDetail({ feedData }: any) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { editFeedId, setEditFeedId } = useFeedIdStore();
+
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
 
+  const handleEditClick = (feedId: number) => {
+    setEditFeedId(feedId);
+    setIsModalOpen(!isModalOpen);
+  };
+
   const content = (
     <PopoverContentBox>
-      <Link href="/">수정</Link>
-      <Link href="/">삭제</Link>
+      <p onClick={() => handleEditClick(feedData.feedId)}>수정</p>
+      <p>삭제</p>
     </PopoverContentBox>
   );
   const inputRef = useRef<HTMLInputElement>(null);
@@ -207,96 +263,85 @@ export default function FeedDetail({ feedData }: any) {
 
   return (
     <>
-      <ProfileCarouselContainer>
-        <ProfileContainer>
-          <ProfileWrapper>
-            <AvatarWrapper>
-              <AvatarImage
-                src={
-                  feedData.author.profileImageUrl
-                    ? feedData.author.profileImageUrl
-                    : user.src
-                }
-                alt="Profile Image"
-              />
-            </AvatarWrapper>
+      <ContentsContainer>
+        <ProfileCarouselContainer>
+          <ProfileContainer>
+            <ProfileWrapper>
+              <Avatars type="comment" img={feedData.author.profileImageUrl} />
+              <HeadFont>
+                {<p style={{ fontWeight: 400 }}>Lv. {feedData.author.level}</p>}
+                {<p>{feedData.author.nickname}</p>}
+              </HeadFont>
 
-            <HeadFont>
-              {<p style={{ fontWeight: 400 }}>Lv. {feedData.author.level}</p>}
-              {<p>{feedData.author.nickname}</p>}
-            </HeadFont>
+              <MeatBallFrame>
+                {feedData.createdByme && (
+                  <CustomPopover content={content}>
+                    <Image src={meatballs} alt="미트볼" />
+                  </CustomPopover>
+                )}
+              </MeatBallFrame>
+            </ProfileWrapper>
+          </ProfileContainer>
+          <CarouselConatiner>
+            <Carousel afterChange={onChange}>
+              <div>
+                <h3 style={contentStyle}>1</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>2</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>3</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>4</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>5</h3>
+              </div>
+            </Carousel>
+          </CarouselConatiner>
+        </ProfileCarouselContainer>
+        <InfoContainer>
+          <InfoWrapper>
+            <TagContainer>
+              {feedData.tags.map((tag: any, index: number) => (
+                <TagWrapper key={index}>
+                  <p>{tag}</p>
+                </TagWrapper>
+              )) || <p>태그가 없습니다.</p>}
+            </TagContainer>
+            {feedData.mainText ? (
+              <TextBox>
+                <p>{feedData.mainText}</p>
+              </TextBox>
+            ) : (
+              '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
+            )}
 
-            <MeatBallFrame>
-              {feedData.createdByme && (
-                <CustomPopover content={content}>
-                  <Image src={meatballs} alt="미트볼" />
-                </CustomPopover>
-              )}
-            </MeatBallFrame>
-          </ProfileWrapper>
-        </ProfileContainer>
-        <CarouselConatiner>
-          <Carousel afterChange={onChange}>
-            <div>
-              <h3 style={contentStyle}>1</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>2</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>3</h3>
-            </div>
-            <div>
-              <h3 style={contentStyle}>4</h3>
-            </div>
-          </Carousel>
-        </CarouselConatiner>
-      </ProfileCarouselContainer>
-      <InfoContainer>
-        <InfoWrapper>
-          <TagContainer>
-            {feedData.tags.map((tag: any, index: number) => (
-              <TagWrapper key={index}>
-                <p>{tag}</p>
-              </TagWrapper>
-            )) || <p>태그가 없습니다.</p>}
-          </TagContainer>
-          {feedData.mainText ? (
-            <TextBox>
-              <p>{feedData.mainText}</p>
-            </TextBox>
-          ) : (
-            '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
-          )}
-
-          <InfoBox feed={feedData} $paddingleft="0rem" />
-        </InfoWrapper>
-        <CommentBarContainer onClick={handleClick}>
-          <CommentBarWrapper>
-            <AvatarImage
-              src={
-                feedData.author.profileImageUrl
-                  ? feedData.author.profileImageUrl
-                  : user.src
-              }
-              style={{
-                borderRadius: '100%',
-                width: '2.4rem',
-                height: '2.4rem',
-                padding: '0.5rem',
-              }}
-              alt="Profile Image"
-            />
-            <TextWrapper>
-              <input
-                placeholder="댓글 쓰기"
-                ref={inputRef}
-                onChange={handleInputChange}
-              />
-            </TextWrapper>
-          </CommentBarWrapper>
-        </CommentBarContainer>
-      </InfoContainer>
+            <InfoBox feed={feedData} $paddingleft="0rem" />
+          </InfoWrapper>
+          <CommentBarContainer onClick={handleClick}>
+            <CommentBarWrapper>
+              <Avatars type="comment" img={feedData.author.profileImageUrl} />
+              <TextWrapper>
+                <input
+                  placeholder="댓글 쓰기"
+                  ref={inputRef}
+                  onChange={handleInputChange}
+                />
+              </TextWrapper>
+            </CommentBarWrapper>
+          </CommentBarContainer>
+        </InfoContainer>
+      </ContentsContainer>
+      {isModalOpen && editFeedId !== null && (
+        <FeedModify
+          feedId={editFeedId}
+          modalOpenState={isModalOpen}
+          setter={setIsModalOpen}
+        />
+      )}
     </>
   );
 }

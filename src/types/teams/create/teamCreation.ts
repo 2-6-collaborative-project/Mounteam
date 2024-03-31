@@ -1,11 +1,11 @@
 export default interface TeamCreationForm {
-  exploreId: string;
-  isCourseSelected: boolean | null;
-  course: string;
+  mountain: string;
+  // isCourseSelectNow: boolean | null;
+  // course: string;
   title: string;
-  description: string;
+  content: string;
   departureDay: string;
-  genderRange: 'male' | 'female' | 'all' | '';
+  gender: 'male' | 'female' | 'all' | '';
   ageRange: (
     | 'teenager'
     | 'twenties'
@@ -15,6 +15,6 @@ export default interface TeamCreationForm {
     | 'sixties'
     | ''
   )[];
-  kakaoLink: string;
-  kakaoPasword: string;
+  chatLink: string;
+  chatPassword: string;
 }
