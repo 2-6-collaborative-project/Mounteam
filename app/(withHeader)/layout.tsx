@@ -58,7 +58,6 @@ export default function RootLayout({
                 <Header />
                 <InnerLayout>
                   <GlobalStyle />
-                  <Auth />
                   {children}
                 </InnerLayout>
               </StyledComponentsRegistry>

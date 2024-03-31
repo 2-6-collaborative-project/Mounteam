@@ -7,8 +7,14 @@ import mountainDataProps from '@/src/types/mountainDataProps';
 import Tab from '@/src/components/shared/Tab';
 import Link from 'next/link';
 
+const MainTitle = styled.h2`
+  margin-top: 4.8rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+`;
+
 const MapContainer = styled.div`
-  margin-top: 9rem;
+  margin-top: 2rem;
 `;
 
 const ActivityTabs = styled.div`
@@ -36,8 +42,11 @@ const ActivityTab = styled.div<{ $team?: boolean }>`
   font-weight: 600;
   line-height: 2.66667rem;
   text-align: center;
-
-  background-color: ${({ $team }) => ($team ? '#D9D9D9;' : '#EED7D7;')};
+  transition: background-color 0.3s ease;
+  border-radius: 30px;
+  &:hover {
+    background-color: ${({ $team }) => ($team ? '#D9D9D9;' : '#EED7D7;')};
+  }
 `;
 
 const DetailsContainer = styled.div`
@@ -128,17 +137,7 @@ export default function MountainDetail({
     <>
       <Container>
         <Tab variant="explores" />
-
-        <div
-          style={{
-            height: '5.7rem',
-            backgroundColor: '#ddd',
-            marginTop: '0.4rem',
-          }}
-        >
-          브레드 크럼블이 들어갈 자리입니다.
-        </div>
-
+        <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
         <MapContainer>
           <KakaoMap
             type="detail"
