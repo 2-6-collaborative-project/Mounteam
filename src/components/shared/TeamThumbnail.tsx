@@ -3,6 +3,16 @@
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
+import { IBM } from '@/app/styles/.fonts';
+
+interface TeamFeedType {
+  teamId: number;
+  mountain: string;
+  title: string;
+  departureDay: string;
+  ageRange: string[];
+  gender: string;
+}
 
 const TeamBox = styled.div`
   display: flex;
@@ -19,20 +29,28 @@ const TeamBox = styled.div`
 `;
 
 const ImageSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 12rem;
   height: 12rem;
   border-radius: 100%;
   background: ${colors.Primary[500]};
+  color: ${colors.Grayscale[1]};
+  font-size: 2rem;
+  line-height: 1.75rem;
 
   @media (max-width: 768px) {
     width: 7.5rem;
     height: 7.5rem;
     flex-shrink: 0;
+    font-size: 1.6rem;
   }
 
   @media (max-width: 480px) {
     width: 6.875rem;
     height: 6.875rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -76,16 +94,7 @@ const TeamRange = styled.div`
   ${typography.Footnote14};
 `;
 
-interface TeamFeedType {
-  teamId: number;
-  exploreId: string;
-  title: string;
-  departureDay: string;
-  ageRange: string[];
-  genderRange: string;
-}
-
-// 클릭 시 상세페이지로 이동하는 기능 추가, 산 아이디에 따른 이름 변환 필요
+// 클릭 시 상세페이지로 이동하는 기능 추가 필요
 
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   const formatDate = (dateStr: any) => {
@@ -104,7 +113,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   const { formattedDate, formattedTime } = formatDate(team.departureDay);
 
   const renderGenderText = () => {
-    switch (team.genderRange) {
+    switch (team.gender) {
       case 'male':
         return '남성만';
       case 'female':
@@ -115,6 +124,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
         return '';
     }
   };
+
   const renderAgeRangeText = () => {
     const ageRanges = Array.isArray(team.ageRange)
       ? team.ageRange
@@ -143,11 +153,11 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
 
   return (
     <TeamBox>
-      <ImageSection />
+      <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
       <TeamCol>
         <TeamInfo>
           <Title>{team.title}</Title>
-          <p>{`${team.exploreId} | ${formattedDate} | ${formattedTime}`}</p>
+          <p>{`${team.mountain} | ${formattedDate} | ${formattedTime}`}</p>
         </TeamInfo>
         <TeamChips>
           <TeamRange>
