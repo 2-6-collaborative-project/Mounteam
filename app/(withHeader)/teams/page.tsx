@@ -8,9 +8,7 @@ import { colors } from '@/app/styles/colors';
 import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import { SearchBar } from '@/src/components/shared/SearchBar';
-import { teamFeed } from '@/src/lib/mockData';
-
-const SearchTeamArea = styled.div``;
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 const SearchBarContainer = styled.div`
   padding: 5rem 0 3.75rem 0;
@@ -57,12 +55,9 @@ const TeamListHeader = styled.div`
   color: ${colors.Grayscale[7]};
   ${typography.Footnote14};
   gap: 0.5rem;
-  margin-left: auto; // TeamList 정렬 변경에 따라 오른쪽 정렬 방식 변경
-
-  // 정렬 선택 시 색상 ${colors.Grayscale[13]}으로 변경 필요
+  margin-left: auto;
 `;
 
-// 모임 리스트 렌더링하는 부분이라 탐험페이지와 다릅니다
 const TeamList = styled.div`
   display: flex;
   flex-direction: column;
@@ -71,7 +66,7 @@ const TeamList = styled.div`
 `;
 
 interface SortButtonProps {
-  active: boolean;
+  $active: boolean;
 }
 
 const SortButton = styled.button<SortButtonProps>`
@@ -79,7 +74,7 @@ const SortButton = styled.button<SortButtonProps>`
   border: none;
   cursor: pointer;
   color: ${(props) =>
-    props.active ? colors.Grayscale[13] : colors.Grayscale[7]};
+    props.$active ? colors.Grayscale[13] : colors.Grayscale[7]};
   ${typography.Footnote14};
 
   &:focus {
@@ -104,11 +99,34 @@ const Container = styled.div`
   }
 `;
 
+interface Team {
+  teamId: number;
+  mountain: string;
+  title: string;
+  departureDay: string;
+  ageRange: string[];
+  gender: string;
+  createdDate: number;
+}
+
 export default function TeamsPage() {
-  const [teams, setTeams] = useState([...teamFeed]);
-  const [filteredTeams, setFilteredTeams] = useState(teams);
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('createdAt');
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const response = await defaultInstance.get('/teams');
+        setTeams(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTeams();
+  }, []);
 
   useEffect(() => {
     let updatedTeams = teams.filter((team) =>
@@ -120,7 +138,7 @@ export default function TeamsPage() {
         return a.title.localeCompare(b.title);
       } else {
         return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
         );
       }
     });
@@ -136,12 +154,11 @@ export default function TeamsPage() {
     <>
       <Container>
         <Tab variant="teams" />
-        <SearchTeamArea>
-          <MainTitle>전체 등산 모임</MainTitle>
-          <SearchBarContainer>
-            <SearchBar placeholder="검색" onSearch={handleSearch} />
-          </SearchBarContainer>
-        </SearchTeamArea>
+
+        <MainTitle>전체 등산 모임</MainTitle>
+        <SearchBarContainer>
+          <SearchBar placeholder="검색" onSearch={handleSearch} />
+        </SearchBarContainer>
 
         <SearchResultArea>
           <FilterContainer>
@@ -152,14 +169,14 @@ export default function TeamsPage() {
             <TeamListHeader>
               <SortButton
                 onClick={() => setSortOrder('title')}
-                active={sortOrder === 'title'}
+                $active={sortOrder === 'title'}
               >
                 가나다순
               </SortButton>
               <p> | </p>
               <SortButton
                 onClick={() => setSortOrder('createdAt')}
-                active={sortOrder === 'createdAt'}
+                $active={sortOrder === 'createdAt'}
               >
                 최신순
               </SortButton>

@@ -7,9 +7,9 @@ import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
 import NavButton from '@/src/components/main/NavButton';
 import CarouselSection from '@/src/components/main/CarouselSection';
-import { teamFeed } from '@/src/lib/mockData';
-import typography from '@/app/styles/typography';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
+import typography from '@/app/styles/typography';
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 const Body = styled.div`
   display: flex;
@@ -83,11 +83,33 @@ const TeamThumbnailContainer = styled.div`
   }
 `;
 
+interface Team {
+  teamId: number;
+  mountain: string;
+  title: string;
+  departureDay: string;
+  ageRange: string[];
+  gender: string;
+}
+
 export default function Home() {
+  const [teams, setTeams] = useState<Team[]>([]);
   const [numItems, setNumItems] = useState(6);
 
   useEffect(() => {
-    function handleResize() {
+    const fetchTeams = async () => {
+      try {
+        const response = await defaultInstance.get('/teams');
+        console.log(response.data.data);
+        setTeams(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTeams();
+
+    const handleResize = () => {
       if (window.innerWidth <= 480) {
         setNumItems(4);
       } else if (window.innerWidth <= 768) {
@@ -95,7 +117,7 @@ export default function Home() {
       } else {
         setNumItems(6);
       }
-    }
+    };
 
     window.addEventListener('resize', handleResize);
     handleResize();
@@ -104,6 +126,7 @@ export default function Home() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
   return (
     <>
       <Body>
@@ -139,7 +162,7 @@ export default function Home() {
           </StyledLink>
         </Between>
         <TeamThumbnailContainer>
-          {teamFeed.slice(0, numItems).map((team) => (
+          {teams.slice(0, numItems).map((team) => (
             <TeamThumbnail key={team.teamId} team={team} />
           ))}
         </TeamThumbnailContainer>
