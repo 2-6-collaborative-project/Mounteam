@@ -9,7 +9,7 @@ import { colors } from '@/app/styles/colors';
 import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
 import QueryProvider from '@/app/queryProvider/QueryProvider';
-import Auth from '@/src/utils/auth';
+import CheckValidAuth from '@/src/utils/CheckValidAuth';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
@@ -58,7 +58,7 @@ export default function RootLayout({
                 <Header />
                 <InnerLayout>
                   <GlobalStyle />
-                  <Auth />
+                  <CheckValidAuth />
                   {children}
                 </InnerLayout>
               </StyledComponentsRegistry>

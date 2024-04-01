@@ -2,8 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import axios from 'axios';
-import Auth from '@/src/utils/auth';
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 export default function KakaoLogin() {
   const router = useRouter();
@@ -14,16 +13,13 @@ export default function KakaoLogin() {
 
     const fetchData = async () => {
       try {
-        const res = await axios.post('https://www.mounteam.site/api/kakao', {
+        const res = await defaultInstance.post('/kakao', {
           authorizationCode: AUTHORIZATION_CODE,
         });
 
         if (res.data.statusCode === 200) {
-          const accessToken = res.data.data.accessToken;
-          const refreshToken = res.data.data.refreshToken;
-
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
+          localStorage.setItem('accessToken', res.data.data.accessToken);
+          localStorage.setItem('refreshToken', res.data.data.refreshToken);
 
           if (!res.data.data.isNewUser) router.push('/');
 
