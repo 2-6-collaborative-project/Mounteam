@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import typography from '@/app/styles/typography';
@@ -111,7 +111,6 @@ interface Team {
 
 export default function TeamsPage() {
   const [teams, setTeams] = useState<Team[]>([]);
-  const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('createdAt');
 
@@ -128,23 +127,24 @@ export default function TeamsPage() {
     fetchTeams();
   }, []);
 
-  useEffect(() => {
-    let updatedTeams = teams.filter((team) =>
-      team.title.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+  const sortedTeams = useMemo(() => {
+    const sorted = [...teams]
+      .filter((team) =>
+        team.title.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+      .sort((a, b) => {
+        if (sortOrder === 'title') {
+          return a.title.localeCompare(b.title);
+        } else {
+          return (
+            new Date(b.createdDate).getTime() -
+            new Date(a.createdDate).getTime()
+          );
+        }
+      });
 
-    updatedTeams = updatedTeams.sort((a, b) => {
-      if (sortOrder === 'title') {
-        return a.title.localeCompare(b.title);
-      } else {
-        return (
-          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
-        );
-      }
-    });
-
-    setFilteredTeams(updatedTeams);
-  }, [searchTerm, sortOrder, teams]);
+    return sorted;
+  }, [teams, searchTerm, sortOrder]);
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
@@ -154,17 +154,14 @@ export default function TeamsPage() {
     <>
       <Container>
         <Tab variant="teams" />
-
         <MainTitle>전체 등산 모임</MainTitle>
         <SearchBarContainer>
           <SearchBar placeholder="검색" onSearch={handleSearch} />
         </SearchBarContainer>
-
         <SearchResultArea>
           <FilterContainer>
             <TeamFilterPanel />
           </FilterContainer>
-
           <TeamListContainer>
             <TeamListHeader>
               <SortButton
@@ -182,7 +179,7 @@ export default function TeamsPage() {
               </SortButton>
             </TeamListHeader>
             <TeamList>
-              {filteredTeams.map((team) => (
+              {sortedTeams.map((team) => (
                 <TeamThumbnail key={team.teamId} team={team} />
               ))}
             </TeamList>
