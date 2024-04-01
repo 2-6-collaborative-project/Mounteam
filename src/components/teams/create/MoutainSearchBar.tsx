@@ -90,10 +90,6 @@ export default function MoutainSearchBar({
     }
   }, [isMountainSelected, searchInput, handleTeamCreationForm]);
 
-  useEffect(() => {
-    console.log(teamCreationFormData);
-  }, [teamCreationFormData]);
-
   return (
     <>
       <Container>

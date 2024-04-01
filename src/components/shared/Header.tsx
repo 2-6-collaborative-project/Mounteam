@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { colors } from '@/app/styles/colors';
+import typography from '@/app/styles/typography';
+import { HeaderPopover } from '../main/HeaderPopover';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -10,7 +13,7 @@ const HeaderBox = styled.div`
   width: 82%;
   margin: 0 auto;
   max-width: 1200px;
-  padding: 2rem 0rem 3.75rem 0rem;
+  padding: 4rem 0rem 3.75rem 0rem;
   align-items: center;
 
   @media (max-width: 768px) {
@@ -29,7 +32,22 @@ const IconGap = styled.div`
   gap: 1.25rem;
 `;
 
-// 추후 popover 컴포넌트 edit icon에 연결 필요
+const StyledLink = styled(Link)`
+  display: flex;
+  padding: 0.5rem 1rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  background: ${colors.Grayscale[1]};
+  box-shadow: 0px -1px 0px 0px ${colors.Grayscale[4]} inset;
+  color: ${colors.Grayscale[13]};
+  ${typography.Footnote14};
+
+  &:last-child {
+    box-shadow: none;
+  }
+`;
+
 export default function Header() {
   return (
     <HeaderBox>
@@ -45,13 +63,24 @@ export default function Header() {
         </Link>
       </LogoContainer>
       <IconGap>
-        <Image
-          src="/edit.svg"
-          alt="edit icon"
-          width={24}
-          height={24}
-          priority
-        />
+        <HeaderPopover
+          content={
+            <div>
+              <StyledLink href="/teams/create">모임 생성</StyledLink>
+              <StyledLink href="/explores/reviews">등반후기 등록</StyledLink>
+              <StyledLink href="/teams/write">모임후기 등록</StyledLink>
+            </div>
+          }
+        >
+          <Image
+            src="/edit.svg"
+            alt="edit icon"
+            width={24}
+            height={24}
+            priority
+          />
+        </HeaderPopover>
+
         {/* 알림 아이콘 임시 삭제 */}
         {/* <Image
           src="/bell.svg"
@@ -60,7 +89,15 @@ export default function Header() {
           height={24}
           priority
         /> */}
-        <Link href="/mypage">
+
+        <HeaderPopover
+          content={
+            <div>
+              <StyledLink href="/">로그아웃</StyledLink>
+              <StyledLink href="/mypage">마이페이지</StyledLink>
+            </div>
+          }
+        >
           <Image
             src="/user.svg"
             alt="user icon"
@@ -68,7 +105,7 @@ export default function Header() {
             height={24}
             priority
           />
-        </Link>
+        </HeaderPopover>
       </IconGap>
     </HeaderBox>
   );
