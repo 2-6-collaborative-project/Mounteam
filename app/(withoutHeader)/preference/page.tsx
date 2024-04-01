@@ -3,12 +3,14 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Radio, Checkbox } from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { ConfigProvider } from 'antd';
 import typography from '@/app/styles/typography';
 import { colors } from '../../styles/colors';
+import { authInstance } from '@/src/lib/axiosInstance';
 
 interface ButtonProps {
   $isActive: boolean;
@@ -70,7 +72,10 @@ const RadioLabel = styled.div`
 `;
 
 const RegionCol = styled.div`
-  gap: 0.44rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4375rem;
 `;
 
 const CheckboxCol = styled.div`
@@ -81,7 +86,6 @@ const CheckboxCol = styled.div`
   ${typography.Heading16}
 `;
 
-// antd button or 버튼 컴포넌트로 변경하기
 const Button = styled.div<ButtonProps>`
   display: flex;
   width: 30.25rem;
@@ -105,9 +109,11 @@ const Button = styled.div<ButtonProps>`
 `;
 
 export default function Preference() {
-  const [gender, setGender] = useState(false);
-  const [age, setAge] = useState(false);
-  const [region, setRegion] = useState(false);
+  const router = useRouter();
+
+  const [gender, setGender] = useState<string | null>(null);
+  const [age, setAge] = useState<string | null>(null);
+  const [region, setRegion] = useState<string | null>(null);
   const [locationConsent, setLocationConsent] = useState(false);
   const [personalInfoConsent, setPersonalInfoConsent] = useState(false);
 
@@ -132,7 +138,25 @@ export default function Preference() {
   };
 
   const isButtonActive =
-    gender && age && region && locationConsent && personalInfoConsent;
+    !!gender && !!age && !!region && locationConsent && personalInfoConsent;
+
+  const handleSubmit = async () => {
+    if (isButtonActive) {
+      try {
+        const response = await authInstance.post('/user/preferences', {
+          gender,
+          ageRange: age,
+          areaInterest: region,
+          locationAgree: locationConsent.toString(),
+          privacyAgree: personalInfoConsent.toString(),
+        });
+        console.log(response.data);
+        router.push('/mypage');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <ConfigProvider
@@ -166,55 +190,53 @@ export default function Preference() {
         <RadioCol>
           <RadioLabel>성별</RadioLabel>
           <Radio.Group onChange={onGenderChange} value={gender}>
-            <Radio value={1}>여성</Radio>
-            <Radio value={2}>남성</Radio>
+            <Radio value="1">여성</Radio>
+            <Radio value="2">남성</Radio>
           </Radio.Group>
           <RadioLabel>연령대</RadioLabel>
           <Radio.Group onChange={onAgeChange} value={age}>
-            <Radio value={1}>10대</Radio>
-            <Radio value={2}>20대</Radio>
-            <Radio value={3}>30대</Radio>
-            <Radio value={4}>40대</Radio>
-            <Radio value={5}>50대</Radio>
-            <Radio value={6}>60대 이상</Radio>
+            <Radio value="1">10대</Radio>
+            <Radio value="2">20대</Radio>
+            <Radio value="3">30대</Radio>
+            <Radio value="4">40대</Radio>
+            <Radio value="5">50대</Radio>
+            <Radio value="6">60대 이상</Radio>
           </Radio.Group>
 
           <RadioLabel>관심지역</RadioLabel>
           <RegionCol>
             <div>
               <Radio.Group onChange={onRegionChange} value={region}>
-                <Radio value={1}>서울</Radio>
-                <Radio value={2}>경기도</Radio>
-                <Radio value={3}>강원도</Radio>
-                <Radio value={4}>충청북도</Radio>
-                <Radio value={5}>충청남도</Radio>
+                <Radio value="1">서울</Radio>
+                <Radio value="2">경기도</Radio>
+                <Radio value="3">강원도</Radio>
+                <Radio value="4">충청북도</Radio>
+                <Radio value="5">충청남도</Radio>
               </Radio.Group>
             </div>
             <div>
               <Radio.Group onChange={onRegionChange} value={region}>
-                <Radio value={6}>전라북도</Radio>
-                <Radio value={7}>전라남도</Radio>
-                <Radio value={8}>경상북도</Radio>
-                <Radio value={9}>경상남도</Radio>
-                <Radio value={10}>제주도</Radio>
+                <Radio value="6">전라북도</Radio>
+                <Radio value="7">전라남도</Radio>
+                <Radio value="8">경상북도</Radio>
+                <Radio value="9">경상남도</Radio>
+                <Radio value="10">제주도</Radio>
               </Radio.Group>
             </div>
           </RegionCol>
         </RadioCol>
 
         <CheckboxCol>
-          <div>
-            <Checkbox onChange={onLocationConsentChange}>
-              위치 기능 동의 여부
-            </Checkbox>
-          </div>
-          <div>
-            <Checkbox onChange={onPersonalInfoConsentChange}>
-              개인 정보 사용 동의 여부
-            </Checkbox>
-          </div>
+          <Checkbox onChange={onLocationConsentChange}>
+            위치 정보 사용 동의 여부
+          </Checkbox>
+          <Checkbox onChange={onPersonalInfoConsentChange}>
+            개인 정보 사용 동의 여부
+          </Checkbox>
         </CheckboxCol>
-        <Button $isActive={isButtonActive}>시작하기</Button>
+        <Button $isActive={isButtonActive} onClick={handleSubmit}>
+          시작하기
+        </Button>
       </Body>
     </ConfigProvider>
   );
