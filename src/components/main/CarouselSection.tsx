@@ -2,6 +2,7 @@
 
 import { Carousel } from 'antd';
 import styled from 'styled-components';
+import Image from 'next/image';
 
 const StyledSlideContent = styled.h3`
   margin: 0;
