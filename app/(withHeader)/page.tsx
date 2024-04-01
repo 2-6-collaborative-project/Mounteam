@@ -33,9 +33,18 @@ const Between = styled.div`
 const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
   padding: 2.5rem 0rem 7.81rem 0rem;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 768px) {
+    gap: 0.625rem;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -117,7 +126,7 @@ export default function Home() {
             <p>지도 보기</p>
           </NavButton>
           <NavButton href="/">
-            <p>추천 코스</p>
+            <p>계절별 명산</p>
           </NavButton>
           <NavButton href="/">
             <p>초심자 추천</p>
