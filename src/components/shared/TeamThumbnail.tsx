@@ -18,8 +18,8 @@ const TeamBox = styled.div`
   display: flex;
   width: 100%;
   padding: 1.125rem 0.9375rem;
-  align-items: center;
-  gap: 1.875rem;
+  align-items: flex-start;
+  gap: 1.5625rem;
   box-sizing: border-box;
 
   &:hover {
@@ -37,20 +37,18 @@ const ImageSection = styled.div`
   border-radius: 100%;
   background: ${colors.Primary[500]};
   color: ${colors.Grayscale[1]};
-  font-size: 2rem;
+  font-size: 1.25rem;
   line-height: 1.75rem;
 
   @media (max-width: 768px) {
     width: 7.5rem;
     height: 7.5rem;
     flex-shrink: 0;
-    font-size: 1.6rem;
   }
 
   @media (max-width: 480px) {
     width: 6.875rem;
     height: 6.875rem;
-    font-size: 1.5rem;
   }
 `;
 
@@ -65,6 +63,9 @@ const Title = styled.div`
   color: ${colors.Grayscale[13]};
   ${typography.Heading20};
   padding-bottom: 0.31rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const TeamCol = styled.div`
@@ -97,7 +98,11 @@ const TeamRange = styled.div`
 // 클릭 시 상세페이지로 이동하는 기능 추가 필요
 
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
-  const formatDate = (dateStr: any) => {
+  const truncateTitle = (title: string) => {
+    return title.length > 15 ? `${title.substring(0, 15)}...` : title;
+  };
+
+  const formatDate = (dateStr: string) => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const date = new Date(dateStr);
     const month = date.getMonth() + 1;
@@ -156,7 +161,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
       <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
       <TeamCol>
         <TeamInfo>
-          <Title>{team.title}</Title>
+          <Title>{truncateTitle(team.title)}</Title>
           <p>{`${team.mountain} | ${formattedDate} | ${formattedTime}`}</p>
         </TeamInfo>
         <TeamChips>

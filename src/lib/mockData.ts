@@ -65,7 +65,7 @@ export const teamFeed = [
   {
     teamId: 8,
     mountain: '천마산',
-    title: '천마산 가자',
+    title: '94년제가처음으로천마산에갔을때낯선음식낯선거리낯선사람들',
     departureDay: '2024-03-27 17:00',
     ageRange: ['fifties', 'sixties'],
     gender: 'female',
