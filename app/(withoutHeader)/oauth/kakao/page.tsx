@@ -21,15 +21,13 @@ export default function KakaoLogin() {
         if (res.data.statusCode === 200) {
           const accessToken = res.data.data.accessToken;
           const refreshToken = res.data.data.refreshToken;
-          const expiresInSeconds = res.data.data.expiresIn;
-          const expirationDate = new Date(Date.now() + expiresInSeconds * 1000);
-
-          // document.cookie = `accessToken=${res.data.data.accessToken}; expires=${expirationDate.toUTCString()};`;
 
           localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('expire', expirationDate.toString());
           localStorage.setItem('refreshToken', refreshToken);
-          router.push('/');
+
+          if (!res.data.data.isNewUser) router.push('/');
+
+          router.push('/preference');
         }
       } catch (e) {
         throw new Error(`${e}`);
