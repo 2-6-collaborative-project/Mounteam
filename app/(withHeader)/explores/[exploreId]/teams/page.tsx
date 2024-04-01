@@ -63,18 +63,32 @@ const TeamTotalCount = styled.p`
   line-height: 2.5rem;
 `;
 
-const TeamContainer = styled.div`
+const TeamListContainer = styled.div``;
+
+const TeamItem = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2rem;
   row-gap: 3rem;
-`;
-
-const TeamItem = styled.div`
   cursor: pointer;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  @media (max-width: 768px) {
+    ${CreateTeam} {
+      width: 65%;
+    }
+    ${TeamItem} {
+      grid-template-columns: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    ${CreateTeam} {
+      font-size: 1.8rem;
+    }
+  }
+`;
 
 export default function TeamList({
   params,
@@ -126,21 +140,20 @@ export default function TeamList({
           </CreateTeam>
         </CreateTeamContainer>
 
-        <div className="mountainTeamList">
+        <TeamListContainer>
           <TeamTotalCount>
             {clickedMountain?.명산_이름} 등산모임 : {mountainTeams?.length}개
           </TeamTotalCount>
-          <TeamContainer>
-            {mountainTeams?.map((team: any) => (
-              <TeamItem
-                key={team.teamId}
-                onClick={() => router.push(`/teams/${team.teamId}`)}
-              >
-                <TeamThumbnail team={team} />
-              </TeamItem>
-            ))}
-          </TeamContainer>
-        </div>
+
+          {mountainTeams?.map((team: any) => (
+            <TeamItem
+              key={team.teamId}
+              onClick={() => router.push(`/teams/${team.teamId}`)}
+            >
+              <TeamThumbnail team={team} />
+            </TeamItem>
+          ))}
+        </TeamListContainer>
       </Container>
     </>
   );
