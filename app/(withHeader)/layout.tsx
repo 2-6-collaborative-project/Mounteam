@@ -9,6 +9,7 @@ import { colors } from '@/app/styles/colors';
 import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
 import QueryProvider from '@/app/queryProvider/QueryProvider';
+import Footer from '@/src/components/shared/footer';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
@@ -59,6 +60,7 @@ export default function RootLayout({
                   <GlobalStyle />
                   {children}
                 </InnerLayout>
+                <Footer />
               </StyledComponentsRegistry>
             </QueryProvider>
           </ConfigProvider>
