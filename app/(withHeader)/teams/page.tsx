@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
-import typography from '@/app/styles/typography';
-import { colors } from '@/app/styles/colors';
 import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import { SearchBar } from '@/src/components/shared/SearchBar';
 import { teamFeed } from '@/src/lib/mockData';
+import typography from '@/app/styles/typography';
+import { colors } from '@/app/styles/colors';
 
 const SearchTeamArea = styled.div``;
 

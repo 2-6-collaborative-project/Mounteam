@@ -3,13 +3,23 @@
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
+import { IBM } from '@/app/styles/.fonts';
+
+interface TeamFeedType {
+  teamId: number;
+  mountain: string;
+  title: string;
+  departureDay: string;
+  ageRange: string[];
+  gender: string;
+}
 
 const TeamBox = styled.div`
   display: flex;
   width: 100%;
   padding: 1.125rem 0.9375rem;
-  align-items: center;
-  gap: 1.875rem;
+  align-items: flex-start;
+  gap: 1.5625rem;
   box-sizing: border-box;
 
   &:hover {
@@ -19,10 +29,16 @@ const TeamBox = styled.div`
 `;
 
 const ImageSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 12rem;
   height: 12rem;
   border-radius: 100%;
   background: ${colors.Primary[500]};
+  color: ${colors.Grayscale[1]};
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 
   @media (max-width: 768px) {
     width: 7.5rem;
@@ -47,6 +63,9 @@ const Title = styled.div`
   color: ${colors.Grayscale[13]};
   ${typography.Heading20};
   padding-bottom: 0.31rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const TeamCol = styled.div`
@@ -76,19 +95,14 @@ const TeamRange = styled.div`
   ${typography.Footnote14};
 `;
 
-interface TeamFeedType {
-  teamId: number;
-  exploreId: string;
-  title: string;
-  departureDay: string;
-  ageRange: string[];
-  genderRange: string;
-}
-
-// 클릭 시 상세페이지로 이동하는 기능 추가, 산 아이디에 따른 이름 변환 필요
+// 클릭 시 상세페이지로 이동하는 기능 추가 필요
 
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
-  const formatDate = (dateStr: any) => {
+  const truncateTitle = (title: string) => {
+    return title.length > 15 ? `${title.substring(0, 15)}...` : title;
+  };
+
+  const formatDate = (dateStr: string) => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const date = new Date(dateStr);
     const month = date.getMonth() + 1;
@@ -104,7 +118,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   const { formattedDate, formattedTime } = formatDate(team.departureDay);
 
   const renderGenderText = () => {
-    switch (team.genderRange) {
+    switch (team.gender) {
       case 'male':
         return '남성만';
       case 'female':
@@ -115,6 +129,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
         return '';
     }
   };
+
   const renderAgeRangeText = () => {
     const ageRanges = Array.isArray(team.ageRange)
       ? team.ageRange
@@ -143,11 +158,11 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
 
   return (
     <TeamBox>
-      <ImageSection />
+      <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
       <TeamCol>
         <TeamInfo>
-          <Title>{team.title}</Title>
-          <p>{`${team.exploreId} | ${formattedDate} | ${formattedTime}`}</p>
+          <Title>{truncateTitle(team.title)}</Title>
+          <p>{`${team.mountain} | ${formattedDate} | ${formattedTime}`}</p>
         </TeamInfo>
         <TeamChips>
           <TeamRange>
