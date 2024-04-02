@@ -14,7 +14,7 @@ const axiosApi = (baseURL: string, options?: AxiosRequestConfig) => {
 const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
   // TODO: 토큰 관리 로직 추가
   const token =
-    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjIyIiwiZXhwIjoxNzExOTkxNjE2fQ.vMKcDdCjxp72pTMeajPMXWJ5jRJu2MZ1NiyzK8ogj8o';
+    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMzQ0IiwiZXhwIjoxNzEyMDc0MDA4fQ.6rhUVdtUdKatzad6BUCmtczDRD_LwHXwFqSF94aJO3Q';
 
   const instance = axios.create({
     baseURL: baseURL,

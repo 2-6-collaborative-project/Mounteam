@@ -10,6 +10,7 @@ import CarouselSection from '@/src/components/main/CarouselSection';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 import typography from '@/app/styles/typography';
 import { defaultInstance } from '@/src/lib/axiosInstance';
+import FeedThumbnail from '@/src/components/main/FeedThumbnail';
 
 const Body = styled.div`
   display: flex;
@@ -77,6 +78,27 @@ const TeamThumbnailContainer = styled.div`
   }
 `;
 
+const FeedThumbnailContainer = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, auto);
+  column-gap: 1.5rem;
+  row-gap: 2.1875rem;
+  padding-bottom: 7.5rem;
+
+  @media (max-width: 720px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(2, auto);
+    row-gap: 4.375rem;
+  }
+`;
+
 interface Team {
   teamId: number;
   mountain: string;
@@ -86,8 +108,22 @@ interface Team {
   gender: string;
 }
 
+interface Author {
+  profileImageUrl: string;
+  level: number;
+  nickname: string;
+}
+
+interface Feed {
+  author: Author;
+  imageUrl?: string;
+  createdByme: boolean;
+  id: number;
+}
+
 export default function Home() {
   const [teams, setTeams] = useState<Team[]>([]);
+  const [feeds, setFeeds] = useState<Feed[]>([]);
   const [numItems, setNumItems] = useState(6);
 
   useEffect(() => {
@@ -101,7 +137,36 @@ export default function Home() {
       }
     };
 
+    const fetchFeeds = async () => {
+      try {
+        const response = await defaultInstance.get('/feeds', {
+          params: {
+            pageNumber: 0,
+            pageSize: 9,
+          },
+        });
+        if (response.status === 200 && response.data.data.content) {
+          const feeds = response.data.data.content.map((feed: any) => ({
+            author: {
+              profileImageUrl: feed.author.profileImageUrl,
+              level: feed.author.level,
+              nickname: feed.author.nickname,
+            },
+            imageUrl: feed.imageUrl,
+            id: feed.feedId,
+            createdByme: feed.createdByMe,
+          }));
+          setFeeds(feeds);
+        } else {
+          console.error('Unexpected response status or structure:', response);
+        }
+      } catch (error) {
+        console.error('Failed to fetch reviews:', error);
+      }
+    };
+
     fetchTeams();
+    fetchFeeds();
 
     const handleResize = () => {
       if (window.innerWidth <= 480) {
@@ -128,22 +193,21 @@ export default function Home() {
         </SearchBarContainer>
         <CarouselSection />
 
-        {/* 추후 NavButton 디자인 변경 예정 */}
         <NavBar>
-          <NavButton href="/teams">
+          <NavButton href="/teams" imageSrc="/adventure.svg">
             <p>전체 모임</p>
           </NavButton>
-          <NavButton href="/teams">
+          <NavButton href="/teams" imageSrc="/mountains.svg">
             <p>100대 명산</p>
           </NavButton>
           {/* 아래 3개는 추후 페이지 제작 후 링크연결 */}
-          <NavButton href="/">
+          <NavButton href="/" imageSrc="/map.svg">
             <p>지도 보기</p>
           </NavButton>
-          <NavButton href="/">
+          <NavButton href="/curation/season" imageSrc="/fan.svg">
             <p>계절별 명산</p>
           </NavButton>
-          <NavButton href="/">
+          <NavButton href="/" imageSrc="/rainbow.svg">
             <p>초심자 추천</p>
           </NavButton>
         </NavBar>
@@ -164,7 +228,11 @@ export default function Home() {
             <p>전체보기</p>
           </StyledLink>
         </Between>
-        <footer></footer>
+        <FeedThumbnailContainer>
+          {feeds.slice(0, 3).map((feed) => (
+            <FeedThumbnail key={feed.id} feed={feed} />
+          ))}
+        </FeedThumbnailContainer>
       </Body>
     </>
   );
