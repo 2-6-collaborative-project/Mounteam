@@ -113,9 +113,9 @@ export default function Home() {
       if (window.innerWidth <= 480) {
         setNumItems(4);
       } else if (window.innerWidth <= 768) {
-        setNumItems(3);
-      } else {
         setNumItems(6);
+      } else {
+        setNumItems(9);
       }
     };
 

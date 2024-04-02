@@ -59,10 +59,11 @@ const TeamListHeader = styled.div`
 `;
 
 const TeamList = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1.5rem;
+  row-gap: 1.5625rem;
   align-items: flex-start;
-  gap: 2.1875rem;
 `;
 
 interface SortButtonProps {
