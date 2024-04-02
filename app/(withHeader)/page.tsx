@@ -7,9 +7,9 @@ import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import Tab from '@/src/components/shared/Tab';
 import NavButton from '@/src/components/main/NavButton';
 import CarouselSection from '@/src/components/main/CarouselSection';
-import { teamFeed } from '@/src/lib/mockData';
-import typography from '@/app/styles/typography';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
+import typography from '@/app/styles/typography';
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 const Body = styled.div`
   display: flex;
@@ -33,9 +33,18 @@ const Between = styled.div`
 const NavBar = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
   padding: 2.5rem 0rem 7.81rem 0rem;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 768px) {
+    gap: 0.625rem;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -58,35 +67,49 @@ const TeamThumbnailContainer = styled.div`
   width: 100%;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
-  gap: 2.19rem;
+  column-gap: 1.5rem;
+  row-gap: 1.5625rem;
   padding-bottom: 7.5rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: 1.875rem;
-  }
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, auto);
-    gap: 0.9375rem;
   }
 `;
 
+interface Team {
+  teamId: number;
+  mountain: string;
+  title: string;
+  departureDay: string;
+  ageRange: string[];
+  gender: string;
+}
+
 export default function Home() {
+  const [teams, setTeams] = useState<Team[]>([]);
   const [numItems, setNumItems] = useState(6);
 
   useEffect(() => {
-    function handleResize() {
+    const fetchTeams = async () => {
+      try {
+        const response = await defaultInstance.get('/teams');
+        console.log(response.data.data);
+        setTeams(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTeams();
+
+    const handleResize = () => {
       if (window.innerWidth <= 480) {
         setNumItems(4);
-      } else if (window.innerWidth <= 768) {
-        setNumItems(3);
       } else {
         setNumItems(6);
       }
-    }
+    };
 
     window.addEventListener('resize', handleResize);
     handleResize();
@@ -95,6 +118,7 @@ export default function Home() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
   return (
     <>
       <Body>
@@ -117,7 +141,7 @@ export default function Home() {
             <p>지도 보기</p>
           </NavButton>
           <NavButton href="/">
-            <p>추천 코스</p>
+            <p>계절별 명산</p>
           </NavButton>
           <NavButton href="/">
             <p>초심자 추천</p>
@@ -130,7 +154,7 @@ export default function Home() {
           </StyledLink>
         </Between>
         <TeamThumbnailContainer>
-          {teamFeed.slice(0, numItems).map((team) => (
+          {teams.slice(0, numItems).map((team) => (
             <TeamThumbnail key={team.teamId} team={team} />
           ))}
         </TeamThumbnailContainer>

@@ -1,28 +1,54 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
+import { IBM } from '@/app/styles/.fonts';
+
+interface TeamFeedType {
+  teamId: number;
+  mountain: string;
+  title: string;
+  departureDay: string;
+  ageRange: string[];
+  gender: string;
+}
 
 const TeamBox = styled.div`
   display: flex;
   width: 100%;
-  padding: 1.125rem 0.9375rem;
-  align-items: center;
-  gap: 1.875rem;
+  padding: 0.88819rem;
+  align-items: flex-start;
+  gap: 1.23356rem;
   box-sizing: border-box;
 
   &:hover {
     border-radius: 0.1875rem;
     box-shadow: 0 0 0 1px ${colors.Primary[500]} inset;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.86844rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1.5625rem;
+    padding: 1.125rem 0.9375rem;
+  }
 `;
 
 const ImageSection = styled.div`
-  width: 12rem;
-  height: 12rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7.105rem;
+  height: 7.105rem;
   border-radius: 100%;
-  background: ${colors.Grayscale[5]};
+  background: ${colors.Primary[500]};
+  color: ${colors.Grayscale[1]};
+  font-size: 1.6rem;
+  line-height: 1.75rem;
 
   @media (max-width: 768px) {
     width: 7.5rem;
@@ -31,8 +57,9 @@ const ImageSection = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 6.875rem;
-    height: 6.875rem;
+    width: 11rem;
+    height: 11rem;
+    font-size: 2rem;
   }
 `;
 
@@ -47,6 +74,9 @@ const Title = styled.div`
   color: ${colors.Grayscale[13]};
   ${typography.Heading20};
   padding-bottom: 0.31rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const TeamCol = styled.div`
@@ -76,19 +106,18 @@ const TeamRange = styled.div`
   ${typography.Footnote14};
 `;
 
-interface TeamFeedType {
-  teamId: number;
-  exploreId: string;
-  title: string;
-  departureDay: string;
-  ageRange: string[];
-  genderRange: string;
-}
-
-// 클릭 시 상세페이지로 이동하는 기능 추가, 산 아이디에 따른 이름 변환 필요
-
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
-  const formatDate = (dateStr: any) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/teams/${team.teamId}`);
+  };
+
+  const truncateTitle = (title: string) => {
+    return title.length > 10 ? `${title.substring(0, 10)}...` : title;
+  };
+
+  const formatDate = (dateStr: string) => {
     const days = ['일', '월', '화', '수', '목', '금', '토'];
     const date = new Date(dateStr);
     const month = date.getMonth() + 1;
@@ -104,7 +133,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   const { formattedDate, formattedTime } = formatDate(team.departureDay);
 
   const renderGenderText = () => {
-    switch (team.genderRange) {
+    switch (team.gender) {
       case 'male':
         return '남성만';
       case 'female':
@@ -115,6 +144,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
         return '';
     }
   };
+
   const renderAgeRangeText = () => {
     const ageRanges = Array.isArray(team.ageRange)
       ? team.ageRange
@@ -142,12 +172,12 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   };
 
   return (
-    <TeamBox>
-      <ImageSection />
+    <TeamBox onClick={handleClick}>
+      <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
       <TeamCol>
         <TeamInfo>
-          <Title>{team.title}</Title>
-          <p>{`${team.exploreId} | ${formattedDate} | ${formattedTime}`}</p>
+          <Title>{truncateTitle(team.title)}</Title>
+          <p>{`${team.mountain} | ${formattedDate} | ${formattedTime}`}</p>
         </TeamInfo>
         <TeamChips>
           <TeamRange>

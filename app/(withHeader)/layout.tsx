@@ -8,7 +8,7 @@ import InnerLayout from '@/src/components/shared/InnerLayout';
 import { colors } from '@/app/styles/colors';
 import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
-import QueryProvider from '@/app/QueryProvider/QueryProvider';
+import QueryProvider from '@/app/queryProvider/QueryProvider';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',

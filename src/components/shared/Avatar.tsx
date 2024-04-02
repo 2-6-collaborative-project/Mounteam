@@ -45,7 +45,7 @@ export default function Avatars({ type, img, name }: AvatarProps) {
       {img ? (
         <Avatar size={imgSize} src={img} />
       ) : (
-        <Avatar size={imgSize} icon={img !== '' ? img : <UserOutlined />} />
+        <Avatar size={imgSize} icon={img ? img : <UserOutlined />} />
       )}
       {type === 'comment' ? <Name type={type}>{name}</Name> : ''}
     </AvatarContainer>
