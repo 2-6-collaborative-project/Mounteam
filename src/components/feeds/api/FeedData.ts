@@ -3,10 +3,12 @@ import axios from 'axios';
 
 const BASE_URL = 'https://www.mounteam.site/api/feeds';
 
+const accessToken =
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzMyIiwiZXhwIjoxNzEyMDY5NjkxfQ.5TNea_bAvzJ72z9TwqHUbPhmbJrD6kcGIPxXQ9PIhUA';
 // 피드 전체 조회
 export async function getFeedData(
   pageNumber = 0,
-  pageSize = 9,
+  pageSize = 20,
   accessToken: string,
 ) {
   const url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
@@ -27,9 +29,13 @@ export async function getFeedData(
 export async function getFeedSelect(feedId: number) {
   const url = `${BASE_URL}/${feedId}`;
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-    return response.data;
+    return response.data.data;
   } catch (e) {
     console.log(e);
   }

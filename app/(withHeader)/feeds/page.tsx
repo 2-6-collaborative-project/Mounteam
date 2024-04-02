@@ -29,15 +29,15 @@ const FeedHomeInner = styled.div`
   align-items: center;
 `;
 const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzMyIiwiZXhwIjoxNzExOTgyMjY2fQ.ZCOtn10RFxP_d9Fu8wy1VNvuF-xvNUstPpFa0CvhX0U';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzMyIiwiZXhwIjoxNzEyMDY5NjkxfQ.5TNea_bAvzJ72z9TwqHUbPhmbJrD6kcGIPxXQ9PIhUA';
 export default function FeedHome() {
   const { data: feedData, isLoading } = useQuery<FeedData[]>({
     queryKey: ['FeedData'],
     queryFn: () => getFeedData(0, 9, accessToken),
   });
-  // const feeds = feedMockData();
+
   if (isLoading) {
-    return <div>Loading...</div>; // 로딩 중인 경우 로딩 인디케이터 표시
+    return <div>Loading...</div>;
   }
   return (
     <FeedHomeLayer>

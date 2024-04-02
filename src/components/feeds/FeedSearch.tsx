@@ -36,7 +36,6 @@ export default function FeedSearch({ feedData }: FeedSearchProps) {
   const [isSearching, setIsSearching] = useState(false); // 검색 상태
   const [filteredFeeds, setFilteredFeeds] = useState<FeedData[]>([]); // 피드 저장
 
-  console.log(feedData);
   const handleSearch = (value: string) => {
     if (value.trim() === '') {
       setIsSearching(false);
@@ -46,7 +45,7 @@ export default function FeedSearch({ feedData }: FeedSearchProps) {
         feedData?.filter((feed: FeedData) =>
           feed.mainText.toLowerCase().includes(value.toLowerCase()),
         ) ?? [];
-      console.log(filtered);
+      // console.log(filtered);
       setIsSearching(true);
       setFilteredFeeds(filtered); // 여기 고쳐보기
     }

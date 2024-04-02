@@ -11,6 +11,8 @@ import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
+import { useQuery } from '@tanstack/react-query';
+import { getFeedSelect } from './api/FeedData';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -241,7 +243,7 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
   const { editFeedId, setEditFeedId } = useFeedIdStore();
 
   const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+    // console.log(currentSlide);
   };
 
   const handleEditClick = (feedId: number) => {
@@ -264,7 +266,7 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value; // setvalue 아직 안해줌
   };
-
+  console.log(feedData);
   return (
     <>
       <ContentsContainer>
@@ -287,7 +289,7 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
             </ProfileWrapper>
           </ProfileContainer>
           <CarouselConatiner>
-            <Carousel afterChange={onChange} autoplay>
+            <Carousel afterChange={onChange}>
               <div>
                 <h3 style={contentStyle}>1</h3>
               </div>
