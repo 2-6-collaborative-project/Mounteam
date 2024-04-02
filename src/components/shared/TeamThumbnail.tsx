@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
@@ -17,14 +18,23 @@ interface TeamFeedType {
 const TeamBox = styled.div`
   display: flex;
   width: 100%;
-  padding: 1.125rem 0.9375rem;
+  padding: 0.88819rem;
   align-items: flex-start;
-  gap: 1.5625rem;
+  gap: 1.23356rem;
   box-sizing: border-box;
 
   &:hover {
     border-radius: 0.1875rem;
     box-shadow: 0 0 0 1px ${colors.Primary[500]} inset;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.86844rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1.5625rem;
+    padding: 1.125rem 0.9375rem;
   }
 `;
 
@@ -32,12 +42,12 @@ const ImageSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 12rem;
-  height: 12rem;
+  width: 7.105rem;
+  height: 7.105rem;
   border-radius: 100%;
   background: ${colors.Primary[500]};
   color: ${colors.Grayscale[1]};
-  font-size: 1.25rem;
+  font-size: 1.6rem;
   line-height: 1.75rem;
 
   @media (max-width: 768px) {
@@ -47,8 +57,9 @@ const ImageSection = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 6.875rem;
-    height: 6.875rem;
+    width: 11rem;
+    height: 11rem;
+    font-size: 2rem;
   }
 `;
 
@@ -95,11 +106,15 @@ const TeamRange = styled.div`
   ${typography.Footnote14};
 `;
 
-// 클릭 시 상세페이지로 이동하는 기능 추가 필요
-
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/teams/${team.teamId}`);
+  };
+
   const truncateTitle = (title: string) => {
-    return title.length > 15 ? `${title.substring(0, 15)}...` : title;
+    return title.length > 10 ? `${title.substring(0, 10)}...` : title;
   };
 
   const formatDate = (dateStr: string) => {
@@ -157,7 +172,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   };
 
   return (
-    <TeamBox>
+    <TeamBox onClick={handleClick}>
       <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
       <TeamCol>
         <TeamInfo>
