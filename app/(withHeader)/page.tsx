@@ -139,12 +139,7 @@ export default function Home() {
 
     const fetchFeeds = async () => {
       try {
-        const response = await defaultInstance.get('/feeds', {
-          params: {
-            pageNumber: 0,
-            pageSize: 9,
-          },
-        });
+        const response = await defaultInstance.get('/feeds');
         if (response.status === 200 && response.data.data.content) {
           const feeds = response.data.data.content.map((feed: any) => ({
             author: {
@@ -161,7 +156,7 @@ export default function Home() {
           console.error('Unexpected response status or structure:', response);
         }
       } catch (error) {
-        console.error('Failed to fetch reviews:', error);
+        console.error('Failed to fetch feeds:', error);
       }
     };
 
