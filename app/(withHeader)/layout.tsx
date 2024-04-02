@@ -11,6 +11,7 @@ import Script from 'next/script';
 import QueryProvider from '@/app/queryProvider/QueryProvider';
 import CheckValidAuth from '@/src/utils/CheckValidAuth';
 
+
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
   display: 'swap',
