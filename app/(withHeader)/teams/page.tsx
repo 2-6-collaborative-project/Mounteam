@@ -64,6 +64,10 @@ const TeamList = styled.div`
   column-gap: 1.5rem;
   row-gap: 1.5625rem;
   align-items: flex-start;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 interface SortButtonProps {

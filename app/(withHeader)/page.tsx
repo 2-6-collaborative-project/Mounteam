@@ -67,19 +67,13 @@ const TeamThumbnailContainer = styled.div`
   width: 100%;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, auto);
-  gap: 2.19rem;
+  column-gap: 1.5rem;
+  row-gap: 1.5625rem;
   padding-bottom: 7.5rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: 1.875rem;
-  }
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, auto);
-    gap: 0.9375rem;
   }
 `;
 
@@ -112,10 +106,8 @@ export default function Home() {
     const handleResize = () => {
       if (window.innerWidth <= 480) {
         setNumItems(4);
-      } else if (window.innerWidth <= 768) {
-        setNumItems(6);
       } else {
-        setNumItems(9);
+        setNumItems(6);
       }
     };
 

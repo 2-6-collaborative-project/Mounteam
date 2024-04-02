@@ -114,7 +114,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   };
 
   const truncateTitle = (title: string) => {
-    return title.length > 15 ? `${title.substring(0, 15)}...` : title;
+    return title.length > 10 ? `${title.substring(0, 10)}...` : title;
   };
 
   const formatDate = (dateStr: string) => {
