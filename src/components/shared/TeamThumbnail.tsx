@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
@@ -32,12 +33,12 @@ const ImageSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 12rem;
-  height: 12rem;
+  width: 11rem;
+  height: 11rem;
   border-radius: 100%;
   background: ${colors.Primary[500]};
   color: ${colors.Grayscale[1]};
-  font-size: 1.25rem;
+  font-size: 2rem;
   line-height: 1.75rem;
 
   @media (max-width: 768px) {
@@ -95,9 +96,13 @@ const TeamRange = styled.div`
   ${typography.Footnote14};
 `;
 
-// 클릭 시 상세페이지로 이동하는 기능 추가 필요
-
 export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/teams/${team.teamId}`);
+  };
+
   const truncateTitle = (title: string) => {
     return title.length > 15 ? `${title.substring(0, 15)}...` : title;
   };
@@ -157,7 +162,7 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
   };
 
   return (
-    <TeamBox>
+    <TeamBox onClick={handleClick}>
       <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
       <TeamCol>
         <TeamInfo>
