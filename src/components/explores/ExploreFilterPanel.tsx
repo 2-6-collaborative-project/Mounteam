@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Collapse } from 'antd';
 import styled from 'styled-components';
-import RegionFilter from './RegionFilter';
-import HeightFilter from './HeightFilter';
+import RegionFilter from '@/src/components/explores/RegionFilter';
+import HeightFilter from '@/src/components/explores/HeightFilter';
 
 const FilterHeader = styled.div`
   display: flex;
