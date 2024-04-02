@@ -16,8 +16,9 @@ export default function CheckValidAuth() {
     const checkTokenValidity = async () => {
       try {
         if (accessToken && refreshToken) {
-          await authInstance.get('/user/profile');
+          const res = await authInstance.get('/user/profile');
 
+          console.log(res);
           return true;
         } else {
           return router.push('/signin');
