@@ -10,13 +10,13 @@ import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
+import FeedData from '@/src/types/feeds/FeedData';
 
 interface FeedImgProps {
   imageUrl?: string;
 }
-
 export interface FeedPageProps {
-  feeds: any;
+  feedData: FeedData[];
 }
 
 const FeedGrid = styled.div`
@@ -143,10 +143,10 @@ const PopoverContentBox = styled.div`
 `;
 
 // 후기 컴포넌트
-export default function FeedPage({ feeds }: FeedPageProps) {
+export default function FeedPage({ feedData }: FeedPageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { editFeedId, setEditFeedId } = useFeedIdStore();
-
+  console.log(feedData);
   const router = useRouter();
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
@@ -166,8 +166,8 @@ export default function FeedPage({ feeds }: FeedPageProps) {
   return (
     <>
       <FeedGrid>
-        {feeds.map((feed: any) => (
-          <div key={feed.id}>
+        {feedData.map((feed: FeedData) => (
+          <div key={feed.feedId}>
             <FeedHead>
               <HeadWrapper>
                 <Avatars type="" img={feed.author.profileImageUrl} />
@@ -179,8 +179,8 @@ export default function FeedPage({ feeds }: FeedPageProps) {
               </HeadFont>
 
               <MeatBallFrame>
-                {feed.createdByme && (
-                  <CustomPopover content={content(feed.id)}>
+                {feed.createdByMe && (
+                  <CustomPopover content={content(feed.feedId)}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
                 )}
@@ -188,7 +188,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
             </FeedHead>
 
             {feed.imageUrl ? (
-              <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
+              <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
                 <Image
                   src={feed.imageUrl}
                   alt="image"
@@ -197,7 +197,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
                 />
               </PictureBox>
             ) : (
-              <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
+              <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
                 <div
                   style={{
                     display: 'flex',
@@ -244,6 +244,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
             )}
           </div>
         ))}
+        {feedData.length === 0 && <div>표시할 피드가 없습니다.</div>}
       </FeedGrid>
     </>
   );

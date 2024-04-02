@@ -6,10 +6,10 @@ import message from '@/public/message.svg';
 import bookmark from '@/public/bookmark.svg';
 import fillBookmark from '@/public/fillBookmark.svg';
 import Image from 'next/image';
-import { Feed } from '@/src/components/feeds/mock';
+import FeedData from '@/src/types/feeds/FeedData';
 
 interface InfoBoxProps {
-  feed: Feed;
+  feed: FeedData;
   $paddingleft?: string;
 }
 
@@ -20,6 +20,7 @@ interface LikeComponentProps {
 
 interface CommentComponentProps {
   comments: string[];
+  commentCnt: number;
 }
 
 interface BookmarkComponentProps {
@@ -89,10 +90,10 @@ const LikeComponent: React.FC<LikeComponentProps> = ({
   </LikeBox>
 );
 
-const CommentComponent: React.FC<CommentComponentProps> = ({ comments }) => (
+const CommentComponent: React.FC<CommentComponentProps> = ({ commentCnt }) => (
   <CommentBox>
     <Image src={message} alt="코멘트 갯수 확인 아이콘" />
-    <p>{comments.length}</p>
+    <p>{commentCnt}</p>
   </CommentBox>
 );
 
@@ -112,7 +113,7 @@ const BookmarkComponent: React.FC<BookmarkComponentProps> = ({
 export const InfoBox: React.FC<InfoBoxProps> = ({ feed, $paddingleft }) => (
   <InfoContainer>
     <LikeComponent isLiked={feed.isLiked} likesCount={feed.likesCount} />
-    <CommentComponent comments={feed.comments} />
+    <CommentComponent comments={feed.comments} commentCnt={feed.commentCnt} />
     <BookmarkComponent isSaved={feed.isSaved} $paddingleft={$paddingleft} />
   </InfoContainer>
 );

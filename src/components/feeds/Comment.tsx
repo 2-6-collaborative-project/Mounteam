@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '@/app/styles/colors';
 import Avatars from '@/src/components/shared/Avatar';
+import FeedData from '@/src/types/feeds/FeedData';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -51,7 +52,12 @@ const CommentBody = styled.div`
   line-height: 20px;
   letter-spacing: -0.12px;
 `;
-export default function Comment({ feedData }: any) {
+
+interface CommentProps {
+  feedData: FeedData;
+}
+
+export default function Comment({ feedData }: CommentProps) {
   return (
     <>
       <CommentContainer>
@@ -63,7 +69,7 @@ export default function Comment({ feedData }: any) {
           />
         </CommentHeader>
         <CommentBody>
-          {feedData.comments.map((comment: string[], index: number) => (
+          {feedData.comments?.map((comment, index) => (
             <p key={index}>{comment}</p>
           ))}
         </CommentBody>

@@ -10,6 +10,7 @@ import { Carousel } from 'antd';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
+import FeedData from '@/src/types/feeds/FeedData';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -232,7 +233,10 @@ const TextWrapper = styled.div`
   }
 `;
 
-export default function FeedDetail({ feedData }: any) {
+interface FeedDetailProps {
+  feedData: FeedData;
+}
+export default function FeedDetail({ feedData }: FeedDetailProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { editFeedId, setEditFeedId } = useFeedIdStore();
 
@@ -274,7 +278,7 @@ export default function FeedDetail({ feedData }: any) {
               </HeadFont>
 
               <MeatBallFrame>
-                {feedData.createdByme && (
+                {feedData.createdByMe && (
                   <CustomPopover content={content}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
@@ -283,7 +287,7 @@ export default function FeedDetail({ feedData }: any) {
             </ProfileWrapper>
           </ProfileContainer>
           <CarouselConatiner>
-            <Carousel afterChange={onChange}>
+            <Carousel afterChange={onChange} autoplay>
               <div>
                 <h3 style={contentStyle}>1</h3>
               </div>
@@ -305,7 +309,7 @@ export default function FeedDetail({ feedData }: any) {
         <InfoContainer>
           <InfoWrapper>
             <TagContainer>
-              {feedData.tags.map((tag: any, index: number) => (
+              {feedData.tags.map((tag, index) => (
                 <TagWrapper key={index}>
                   <p>{tag}</p>
                 </TagWrapper>
