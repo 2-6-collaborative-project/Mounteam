@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import Avatars from '@/src/components/shared/Avatar';
 import EditProfile from './EditProfile';
+import Link from 'next/link';
+import { colors } from '@/app/styles/colors';
 
 const FlexContainer = styled.div`
   width: 100%;
@@ -151,35 +153,63 @@ const Badges = styled.div`
 
 const Badge = styled.div``;
 
+const NobadgeText = styled.p`
+  color: ${colors.Grayscale[13]};
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 3rem;
+`;
+
 interface ProfileProps {
   level?: number;
   name?: string;
   img?: string;
   preference?: string[] | undefined;
   description?: string;
-  age?: number | string;
-  region?: number | string;
+  age?: string;
+  region?: string;
   clickShowAll?: () => void;
-  clickVerify?: () => void;
 }
 
 export default function Profile({
   level,
   name,
   img,
-  preference,
   description,
   age,
   region,
   clickShowAll,
-  clickVerify,
 }: ProfileProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ages, setAges] = useState('');
 
   const handleEditProfile = () => {
     setIsModalOpen(!isModalOpen);
   };
-
+  useEffect(() => {
+    switch (age) {
+      case 'teens':
+        setAges('10대');
+        break;
+      case 'twenties':
+        setAges('20대');
+        break;
+      case 'thirties':
+        setAges('30대');
+        break;
+      case 'forties':
+        setAges('40대');
+        break;
+      case 'fifties':
+        setAges('50대');
+        break;
+      case 'sixties':
+        setAges('60대 이상');
+        break;
+      default:
+        break;
+    }
+  }, []);
   return (
     <>
       <FlexContainer>
@@ -188,20 +218,13 @@ export default function Profile({
             <Avatars type="profile" img={img} />
             <TagsAndName>
               <Preferences>
-                {preference ? (
-                  <>
-                    {preference.map((item: string, index: number) => (
-                      <Preference key={'preference' + index}>{item}</Preference>
-                    ))}
-                  </>
-                ) : (
-                  ''
-                )}
+                <Preference>{age}</Preference>
+                <Preference>{region}</Preference>
               </Preferences>
               <LevelAndNickname>
-                <Level>{'Lv.' + level}</Level>
+                <Level>{level !== undefined ? 'Lv.' + level : ''}</Level>
                 <NicknameContainer>
-                  <Nickname>{name + 'd'}</Nickname>
+                  <Nickname>{name}</Nickname>
                   <Image
                     alt="프로필수정"
                     src="/edit.svg"
@@ -213,22 +236,27 @@ export default function Profile({
               </LevelAndNickname>
             </TagsAndName>
           </AvatarContainer>
-          <Description>
-            {description +
-              '615615561156615615661561556115661561561561561556115661561561561561556115661561561561561556115661561561515'}
-          </Description>
+          <Description>{description}</Description>
         </ProfileContainer>
         <BadgeContainer>
           <BadgeTitleContainer>
             <BadgeTitle>내 뱃지</BadgeTitle>
             <OptionContainer>
               <Option onClick={clickShowAll}>전체보기</Option>
-              <Option onClick={clickVerify}>인증하기</Option>
+              <Link href={'/certification'}>
+                <Option>인증하기</Option>
+              </Link>
             </OptionContainer>
           </BadgeTitleContainer>
-          <Badges>
+          {/* <Badges>
             <Badge></Badge>
-          </Badges>
+          </Badges> */}
+          <div>
+            <NobadgeText>아직 얻은 배지가 없습니다. </NobadgeText>
+            <NobadgeText>
+              인증하기를 통해 다녀온 산을 인증하고 배지를 추가해보세요!
+            </NobadgeText>
+          </div>
         </BadgeContainer>
       </FlexContainer>
       <EditProfile

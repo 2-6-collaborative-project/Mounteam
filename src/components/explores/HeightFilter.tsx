@@ -1,7 +1,7 @@
 import { Checkbox } from 'antd';
 import useExploreCheckbox from '@/src/hooks/explore/useExploreCheckbox';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
-import getMountainData from '../api/getMountainData';
+import getMountainData from './api/getMountainData';
 import { useQuery } from '@tanstack/react-query';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';

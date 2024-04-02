@@ -14,7 +14,7 @@ export default function KakaoMap({
   mountainList,
   filteredItems,
 }: {
-  type: 'explore' | 'detail';
+  type: 'exploreMain' | 'exploreSub';
   mountainList: mountainDataProps[];
   filteredItems: mountainDataProps[];
 }) {
@@ -29,7 +29,7 @@ export default function KakaoMap({
 
         let options;
 
-        if (type === 'explore') {
+        if (type === 'exploreMain') {
           options = {
             center:
               typeof searchedMountain === 'object' && keyword !== ''
