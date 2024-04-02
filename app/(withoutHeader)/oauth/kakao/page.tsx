@@ -21,9 +21,9 @@ export default function KakaoLogin() {
           localStorage.setItem('accessToken', res.data.data.accessToken);
           localStorage.setItem('refreshToken', res.data.data.refreshToken);
 
-          if (!res.data.data.isNewUser) router.push('/');
+          if (!res.data.data.isNewUser) return router.push('/');
 
-          router.push('/preference');
+          return router.push('/preference');
         }
       } catch (e) {
         throw new Error(`${e}`);
