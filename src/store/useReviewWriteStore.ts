@@ -8,7 +8,7 @@ interface ReviewWriteStore {
   setFileList: (state: UploadFile[]) => void;
   place: string;
   setPlace: (state: string) => void;
-  date: string | string[];
+  date: string | string[] | any;
   setDate: (state: string | string[]) => void;
   tags: string[];
   setTags: (state: string[]) => void;

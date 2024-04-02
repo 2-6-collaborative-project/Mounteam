@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Input, Form, DatePicker, Checkbox, Tag } from 'antd';
 import type { DatePickerProps } from 'antd';
@@ -92,6 +93,11 @@ export default function ReviewWrite() {
   const [isChecked, setIsChecked] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { TextArea } = Input;
+
+  // const { data: userData } = useQuery({
+  //   queryKey: ['userData'],
+  //   queryFn: ,
+  // });
 
   const handleTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
