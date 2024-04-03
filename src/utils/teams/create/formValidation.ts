@@ -1,17 +1,6 @@
 import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 
 export default function teamCreationFormValidation(formData: TeamCreationForm) {
-  // for (const value of Object.values(formData)) {
-  //   if (
-  //     value === '' ||
-  //     value.length === 0 ||
-  //     value === undefined ||
-  //     value === null
-  //   ) {
-  //     return false;
-  //   }
-  // }
-
   for (const [key, value] of Object.entries(formData)) {
     if (
       value === '' ||

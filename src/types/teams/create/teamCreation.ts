@@ -5,7 +5,7 @@ export default interface TeamCreationForm {
   title: string;
   content: string;
   departureDay: string;
-  gender: 'male' | 'female' | 'all';
+  gender: 'male' | 'female' | 'all' | '';
   ageRange: (
     | 'teenager'
     | 'twenties'

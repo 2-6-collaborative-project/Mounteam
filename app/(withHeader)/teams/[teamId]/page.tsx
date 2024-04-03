@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import CustomButton from '@/src/components/shared/CustomButton';
@@ -124,8 +124,11 @@ interface AgeMap {
 
 export default function TeamDetailsPage() {
   const [detailsData, setDetailsData] = useState<TeamDetails>();
+  const [isMine, setIsMine] = useState(false);
 
   const params = useParams();
+  const router = useRouter();
+
   const teamId = params.teamId as string;
 
   const getDetailsData = async (teamId: string) => {
@@ -181,9 +184,32 @@ export default function TeamDetailsPage() {
     return text;
   };
 
+  const handleEditButton = (teamId: string) => {
+    console.log('수정!!!');
+    console.log(detailsData);
+  };
+
+  const handleDeleteButton = async (teamId: string) => {
+    if (detailsData?.createByMe !== true) {
+      alert('주최자만이 삭제할 수 있습니다.');
+      return;
+    }
+
+    try {
+      const res = await authInstance.delete(`${TEAMS_URL}/${teamId}`);
+
+      if (res.status === 200) {
+        router.push('/teams/');
+      }
+    } catch (error) {
+      throw new Error();
+    }
+  };
+
   const handleApplyButton = () => {
     // 로그인된 유저 정보와 참여 조건 비교 로직 추가
     console.log('click');
+    console.log(detailsData);
   };
 
   useEffect(() => {
@@ -204,11 +230,12 @@ export default function TeamDetailsPage() {
             <InfoTitle style={{ marginBottom: '2rem' }}>주최자 정보</InfoTitle>
             {detailsData && (
               <UserProfile
-                img={detailsData?.author.profileImageUrl}
-                preference1="경기도"
-                preference2="20대"
-                level={detailsData?.author.level}
-                nickname={detailsData?.author.nickname}
+                img={detailsData.author.profileImageUrl}
+                level={detailsData.author.level}
+                nickname={detailsData.author.nickname}
+                authorGender={detailsData.author.authorGender}
+                authorAgeRange={detailsData.author.authorAgeRange}
+                areaInterest={detailsData.author.areaInterest}
               />
             )}
           </AuthorInfo>
@@ -216,10 +243,17 @@ export default function TeamDetailsPage() {
           <TeamInfo>
             <TeamInfoTopLabel>
               <InfoTitle>모임 정보</InfoTitle>
-              <TeamInfoButtonsGroup>
-                <TeamInfoButton>수정</TeamInfoButton> |
-                <TeamInfoButton>삭제</TeamInfoButton>
-              </TeamInfoButtonsGroup>
+              {detailsData?.createByMe === true && (
+                <TeamInfoButtonsGroup>
+                  <TeamInfoButton onClick={() => handleEditButton(teamId)}>
+                    수정
+                  </TeamInfoButton>
+                  |
+                  <TeamInfoButton onClick={() => handleDeleteButton(teamId)}>
+                    삭제
+                  </TeamInfoButton>
+                </TeamInfoButtonsGroup>
+              )}
             </TeamInfoTopLabel>
 
             <TeamInfoLinesGorup>

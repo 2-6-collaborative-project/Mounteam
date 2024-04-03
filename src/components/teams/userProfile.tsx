@@ -51,29 +51,33 @@ const Nickname = styled.p`
 
 interface UserProfileProps {
   img: string | null;
-  preference1: string;
-  preference2: string;
-  level: string | null;
+  level: number;
   nickname: string;
+  authorGender: string;
+  authorAgeRange: string;
+  areaInterest: string;
 }
 export default function UserProfile({
   img,
-  preference1,
-  preference2,
   level,
   nickname,
+  authorGender,
+  authorAgeRange,
+  areaInterest,
 }: UserProfileProps) {
+  // TODO: 유저 선호 정보 기능 완성 시 데이터 가공 후 렌더링 처리 필요
   return (
     <>
       <Container>
         <Avatar icon={img ? img : <UserOutlined />} size={80} />
         <NamePreference>
           <Preferences>
-            <Preference>{preference1}</Preference>
-            <Preference>{preference2}</Preference>
+            {authorGender && <Preference>{authorGender}</Preference>}
+            {authorAgeRange && <Preference>{authorAgeRange}</Preference>}
+            {areaInterest && <Preference>{areaInterest}</Preference>}
           </Preferences>
           <LevelNickname>
-            <Level>{level ? 'Lv.' + level : 'Lv.0'}</Level>
+            <Level>{`Lv. ${level}`}</Level>
             <Nickname>{nickname}</Nickname>
           </LevelNickname>
         </NamePreference>
