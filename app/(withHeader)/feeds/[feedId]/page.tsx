@@ -7,7 +7,10 @@ import Comment from '@/src/components/feeds/Comment';
 import { useParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import FeedData from '@/src/types/feeds/FeedData';
-import { getFeedSelect } from '@/src/components/feeds/api/FeedData';
+import {
+  getFeedComments,
+  getFeedSelect,
+} from '@/src/components/feeds/api/FeedData';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -24,8 +27,8 @@ const ContentWrapper = styled.div`
 export default function Page() {
   const routerParams = useParams();
   const feedId = Array.isArray(routerParams.feedId)
-    ? routerParams.feedId[0]
-    : routerParams.feedId;
+    ? Number(routerParams.feedId[0])
+    : Number(routerParams.feedId);
 
   const {
     data: feedDetailData,
@@ -34,6 +37,15 @@ export default function Page() {
   } = useQuery<FeedData>({
     queryKey: ['FeedData', feedId],
     queryFn: () => getFeedSelect(feedId),
+  });
+
+  const {
+    data: commentsData,
+    isPending,
+    isPlaceholderData,
+  } = useQuery({
+    queryKey: ['FeedData', feedId],
+    queryFn: () => getFeedComments(feedId),
   });
 
   if (isLoading) {
@@ -51,7 +63,6 @@ export default function Page() {
       </TabContainer>
       <ContentWrapper>
         <FeedDetail feedData={feedDetailData} />
-        <Comment feedData={feedDetailData} />
       </ContentWrapper>
     </>
   );

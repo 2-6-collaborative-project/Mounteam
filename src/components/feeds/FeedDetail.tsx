@@ -11,8 +11,14 @@ import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
-import { useQuery } from '@tanstack/react-query';
-import { getFeedSelect } from './api/FeedData';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  deleteFeedData,
+  getFeedSelect,
+  postFeedComments,
+  postFeedData,
+} from './api/FeedData';
+import Comment from './Comment';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -113,7 +119,17 @@ const CarouselConatiner = styled.div`
   width: 39.9rem;
   height: 39.9rem;
   flex-shrink: 0;
+
   background: ${colors.Grayscale[5]};
+`;
+
+const CarouselWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  & img {
+    object-fit: cover;
+  }
 `;
 
 const InfoContainer = styled.div`
@@ -196,7 +212,7 @@ const CommentBarContainer = styled.div`
   display: flex;
   width: 100%;
   max-width: 48.4rem;
-  padding: 10px;
+  padding: 0 15rem 0 0;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
@@ -218,12 +234,10 @@ const CommentBarWrapper = styled.div`
 
 const TextWrapper = styled.div`
   width: 100%;
-
   & input {
     width: 100%;
     height: 3rem;
     border: none;
-    padding-left: 1rem;
 
     ::placeholder {
       color: ${colors.Grayscale[5]};
@@ -240,14 +254,46 @@ interface FeedDetailProps {
 }
 export default function FeedDetail({ feedData }: FeedDetailProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { editFeedId, setEditFeedId } = useFeedIdStore();
+  const [comment, setComment] = useState('');
+  const queryClient = useQueryClient();
+
+  const addCommentMutation = useMutation({
+    mutationFn: () => postFeedComments(feedData.feedId, { content: comment }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comment'] });
+      setComment('');
+    },
+  });
+
+  // const deleteFeedMutation = useMutation(
+  //   () => deleteFeedData(feedData.feedId),
+  // {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(['feedData']);
+  //     // 삭제 성공 메시지 표시, 모달 닫기 등의 추가 동작 가능
+  //     alert("피드가 성공적으로 삭제되었습니다.");
+  //     setIsModalOpen(false); // 모달을 닫는 경우
+  //   },
+  //   // 오류 처리
+  //   onError: () => {
+  //     alert("피드 삭제 중 오류가 발생했습니다.");
+  //     console.error("오류발생");
+  //   },
+  // }
+  // )
+
+  // const handleDeleteClick = () => {
+  //   const isConfirmed = window.confirm("피드를 삭제하시겠습니까?");
+  //   if (isConfirmed) {
+  //     deleteFeedMutation.mutate(feedData.feedId);
+  //   }
+  // };
 
   const onChange = (currentSlide: number) => {
     // console.log(currentSlide);
   };
 
   const handleEditClick = (feedId: number) => {
-    setEditFeedId(feedId);
     setIsModalOpen(!isModalOpen);
   };
 
@@ -263,9 +309,11 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
     if (inputRef.current) inputRef.current.focus();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.value; // setvalue 아직 안해줌
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addCommentMutation.mutate();
   };
+
   console.log(feedData);
   return (
     <>
@@ -290,21 +338,17 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
           </ProfileContainer>
           <CarouselConatiner>
             <Carousel afterChange={onChange}>
-              <div>
-                <h3 style={contentStyle}>1</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>5</h3>
-              </div>
+              {feedData.imageUrls.map((url, index) => (
+                <CarouselWrapper key={index}>
+                  <Image
+                    width={'100'}
+                    height={'100'}
+                    src={url}
+                    alt={`img-${index}`}
+                    objectFit="cover" // 이미지가 컨테이너를 꽉 채우도록 조정
+                  />
+                </CarouselWrapper>
+              ))}
             </Carousel>
           </CarouselConatiner>
         </ProfileCarouselContainer>
@@ -327,23 +371,26 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
 
             <InfoBox feed={feedData} $paddingleft="0rem" />
           </InfoWrapper>
-          <CommentBarContainer onClick={handleClick}>
-            <CommentBarWrapper>
-              <Avatars type="comment" img={feedData.author.profileImageUrl} />
-              <TextWrapper>
-                <input
-                  placeholder="댓글 쓰기"
-                  ref={inputRef}
-                  onChange={handleInputChange}
-                />
-              </TextWrapper>
-            </CommentBarWrapper>
-          </CommentBarContainer>
+          <form onSubmit={handleSubmit}>
+            <CommentBarContainer onClick={handleClick}>
+              <CommentBarWrapper>
+                <Avatars type="comment" img={feedData.author.profileImageUrl} />
+                <TextWrapper>
+                  <input
+                    placeholder="댓글을 작성해주세요"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                </TextWrapper>
+              </CommentBarWrapper>
+            </CommentBarContainer>
+          </form>
+          <Comment feedData={feedData} />
         </InfoContainer>
       </ContentsContainer>
-      {isModalOpen && editFeedId !== null && (
+      {isModalOpen && feedData.feedId !== null && (
         <FeedModify
-          feedId={editFeedId}
+          feedId={feedData.feedId}
           modalOpenState={isModalOpen}
           setter={setIsModalOpen}
         />

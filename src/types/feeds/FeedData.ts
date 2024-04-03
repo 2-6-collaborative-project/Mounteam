@@ -14,6 +14,6 @@ export default interface FeedData {
   likesCount: number;
   mainText: string;
   tags: string[];
-  imageUrl: string[];
+  imageUrls: `https://${string}`[];
   isSaved: boolean | undefined;
 }

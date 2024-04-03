@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { colors } from '@/app/styles/colors';
 import Avatars from '@/src/components/shared/Avatar';
 import FeedData from '@/src/types/feeds/FeedData';
+import { useEffect, useState } from 'react';
+import { getUserProfile } from './api/FeedData';
+import Image from 'next/image';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -45,6 +48,7 @@ const CommentHeader = styled.div`
 
 const CommentBody = styled.div`
   width: 315px;
+  padding-left: 1rem;
   border: 1px solid ${colors.Grayscale[13]};
   color: ${colors.Grayscale[13]};
   font-size: 12px;
@@ -58,6 +62,22 @@ interface CommentProps {
 }
 
 export default function Comment({ feedData }: CommentProps) {
+  const [nickname, setNickname] = useState('');
+  const [profileImg, setProfileImg] = useState('');
+
+  useEffect(() => {
+    async function fetchUserProfile() {
+      try {
+        const profileData = await getUserProfile();
+        setNickname(profileData.data.nickname);
+        setProfileImg(profileData.data.profileImage);
+      } catch (error) {
+        console.error('프로필 정보 조회 실패:', error);
+      }
+    }
+
+    fetchUserProfile();
+  }, []);
   return (
     <>
       <CommentContainer>
@@ -70,7 +90,10 @@ export default function Comment({ feedData }: CommentProps) {
         </CommentHeader>
         <CommentBody>
           {feedData.comments?.map((comment, index) => (
-            <p key={index}>{comment}</p>
+            <p key={index}>
+              {/* <Image src={profileImg} alt={'프로필 이미지'} /> */}
+              {nickname}: {comment}
+            </p>
           ))}
         </CommentBody>
       </CommentContainer>

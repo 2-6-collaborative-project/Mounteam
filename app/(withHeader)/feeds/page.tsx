@@ -29,7 +29,7 @@ const FeedHomeInner = styled.div`
   align-items: center;
 `;
 const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzMyIiwiZXhwIjoxNzEyMDY5NjkxfQ.5TNea_bAvzJ72z9TwqHUbPhmbJrD6kcGIPxXQ9PIhUA';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MzAiLCJleHAiOjE3MTIxNTM3MTN9.xvP-ziGWuqB698OGQNycTMFBpR9vFlnlX9xGM1ZfdUY';
 export default function FeedHome() {
   const { data: feedData, isLoading } = useQuery<FeedData[]>({
     queryKey: ['FeedData'],
