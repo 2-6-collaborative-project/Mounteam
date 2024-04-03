@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { colors } from '@/app/styles/colors';
-import { Input, Modal, Radio, Upload, Button, Avatar } from 'antd';
-import type { RadioChangeEvent } from 'antd';
+import Image from 'next/image';
+import { Input, Modal, Popover, Radio, Upload } from 'antd';
+import type { GetProp, UploadFile, UploadProps, RadioChangeEvent } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { colors } from '@/app/styles/colors';
 import Avatars from '@/src/components/shared/Avatar';
+import { postUserData } from './api/postUserData';
+import type { NextRouter } from 'next/router';
 
 const Title = styled.p`
   font-size: 1.6rem;
@@ -20,10 +23,24 @@ const FlexContainer = styled.div`
 `;
 
 const AvatarContainer = styled.div`
+  position: relative;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CameraIcon = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  padding: 1rem;
+  align-items: flex-start;
+  gap: 1rem;
+  border-radius: 2.8rem;
+  border: 1px solid var(--MDS-GrayScale-6, #bfbfbf);
+  background: #fff;
 `;
 const Sector = styled.div`
   width: 100%;
@@ -41,6 +58,16 @@ const Label = styled.p`
   line-height: 2rem;
 `;
 
+const PopoverText = styled.p`
+  color: ${colors.Grayscale[13]};
+  font-size: '1.6rem';
+  font-weight: 400;
+  line-height: '3rem';
+  &:hover {
+    color: ${colors.Primary[400]};
+  }
+`;
+
 const inputStyle = {
   color: colors.Grayscale[13],
   fontSize: '1.6rem',
@@ -50,16 +77,18 @@ const inputStyle = {
   padding: 0,
 };
 
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+type ProfileImg = null | string;
 interface ModalProps {
   defaultProfileImg: any;
   defaultNickname: string | any;
-  defaultDescription: string | undefined;
-  defaultAge: any; //number;
-  defaultRegion: any; //number;
-  confirmFunc?: () => void;
+  defaultDescription: string | any;
+  defaultAge: any;
+  defaultRegion: any;
   modalOpenState: boolean;
   setter: (value: boolean) => void;
 }
+
 export default function EditProfile({
   defaultProfileImg,
   defaultNickname,
@@ -68,17 +97,21 @@ export default function EditProfile({
   defaultRegion,
   modalOpenState,
   setter,
-  confirmFunc,
 }: ModalProps) {
   const [nickname, setNickname] = useState('');
+  const [description, setDescription] = useState('');
   const [age, setAge] = useState(0);
   const [region, setRegion] = useState(0);
   const [fileList, setFileList] = useState([]);
-  const [profileImg, setProfileImg] = useState(
-    'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  );
+  const [profileImg, setProfileImg] = useState<ProfileImg>(null);
   const { TextArea } = Input;
 
+  const handleNicknameChange = (e: any) => {
+    setNickname(e.target.value);
+  };
+  const handleDescriptionChange = (e: any) => {
+    setDescription(e.target.value);
+  };
   const handleAgeChange = (e: RadioChangeEvent) => {
     setAge(e.target.value);
   };
@@ -88,44 +121,80 @@ export default function EditProfile({
   };
 
   const onOkFunc = () => {
-    if (confirmFunc !== undefined) {
-      confirmFunc();
-    }
     setter(false);
+    window.location.reload();
   };
 
   const onCancelFunc = () => {
+    setNickname(defaultNickname);
+    setDescription(defaultDescription);
+    setAge(defaultAge);
+    setRegion(defaultRegion);
+    setProfileImg(defaultProfileImg);
     setter(false);
   };
 
-  const handleFileChange = ({ fileList }: any) => {
+  const getBase64 = (file: FileType): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as FileType);
+    }
+  };
+
+  const handleFileChange = async ({ fileList }: any) => {
     console.log('Uploaded files:', fileList);
+    console.log('Thumb', fileList[0].thumbUrl);
+    console.log('url', fileList[0].url);
+    setFileList(fileList);
+    if (fileList.length > 0) {
+      const file = fileList[0];
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj as FileType);
+      }
+      setProfileImg(file.preview);
+    }
     setFileList(fileList);
   };
 
-  // const handleUpload = () => {
-  //   const formData = new FormData();
-  //   fileList.forEach((file) => {
-  //     formData.append('files', file.originFileObj);
-  //   });
-  //   axios
-  //     .post('your_upload_endpoint', formData)
-  //     .then((response) => {
-  //       console.log('Upload successful:', response);
-
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error uploading:', error);
-
-  //     });
-  // };
+  useEffect(() => {
+    if (fileList.length > 0) {
+    }
+  }, [fileList]);
 
   useEffect(() => {
     setNickname(defaultNickname);
+    setDescription(defaultDescription);
     setAge(defaultAge);
     setRegion(defaultRegion);
-  }, [defaultProfileImg, defaultNickname, defaultAge, defaultRegion]);
+    setProfileImg(defaultProfileImg);
+  }, [
+    defaultProfileImg,
+    defaultNickname,
+    defaultAge,
+    defaultRegion,
+    defaultDescription,
+  ]);
+
   console.log(fileList);
+  console.table([
+    {
+      nickname: nickname,
+      description: description,
+      age: age,
+      region: region,
+      profileImg: profileImg,
+    },
+  ]);
+  const popoverContent = (
+    <PopoverText onClick={() => setProfileImg('')}>아바타 제거</PopoverText>
+  );
   return (
     <Modal
       width={416}
@@ -140,16 +209,49 @@ export default function EditProfile({
       <FlexContainer>
         <Sector>
           <AvatarContainer>
-            <Upload
-              listType="picture-circle"
-              maxCount={1}
-              onChange={handleFileChange}
-              fileList={fileList}
-              showUploadList={false}
-              style={{ width: 'fit-content', height: 'fit-content' }}
-            >
-              <Avatars type="profile" img={profileImg} />
-            </Upload>
+            {profileImg ? (
+              <Popover content={popoverContent}>
+                <Avatars type="profile" img={profileImg} />
+                <Upload
+                  maxCount={1}
+                  onPreview={handlePreview}
+                  onChange={handleFileChange}
+                  fileList={fileList}
+                  showUploadList={false}
+                  style={{ width: 'fit-content', height: 'fit-content' }}
+                >
+                  <CameraIcon>
+                    <Image
+                      src={'/Camera.svg'}
+                      alt="이미지업로드"
+                      width="36"
+                      height="36"
+                    />
+                  </CameraIcon>
+                </Upload>
+              </Popover>
+            ) : (
+              <>
+                <Avatars type="profile" img={profileImg} />
+                <Upload
+                  maxCount={1}
+                  onPreview={handlePreview}
+                  onChange={handleFileChange}
+                  fileList={fileList}
+                  showUploadList={false}
+                  style={{ width: 'fit-content', height: 'fit-content' }}
+                >
+                  <CameraIcon>
+                    <Image
+                      src={'/Camera.svg'}
+                      alt="이미지업로드"
+                      width="36"
+                      height="36"
+                    />
+                  </CameraIcon>
+                </Upload>
+              </>
+            )}
           </AvatarContainer>
         </Sector>
         <Sector>
@@ -159,6 +261,7 @@ export default function EditProfile({
             variant="borderless"
             style={inputStyle}
             defaultValue={nickname}
+            onChange={handleNicknameChange}
           />
         </Sector>
         <Sector>
@@ -169,35 +272,62 @@ export default function EditProfile({
             rows={2}
             style={inputStyle}
             defaultValue={defaultDescription}
+            onChange={handleDescriptionChange}
           />
         </Sector>
         <Sector>
           <Label>연령대</Label>
           <Radio.Group onChange={handleAgeChange} value={age}>
-            <Radio value={1}>10대</Radio>
-            <Radio value={2}>20대</Radio>
-            <Radio value={3}>30대</Radio>
-            <Radio value={4}>40대</Radio>
-            <Radio value={5}>50대</Radio>
-            <Radio value={6}>60대 이상</Radio>
+            <Radio value={'teens'}>10대</Radio>
+            <Radio value={'twenties'}>20대</Radio>
+            <Radio value={'thirties'}>30대</Radio>
+            <Radio value={'forties'}>40대</Radio>
+            <Radio value={'fifties'}>50대</Radio>
+            <Radio value={'sixties'}>60대 이상</Radio>
           </Radio.Group>
         </Sector>
         <Sector>
           <Label>관심지역</Label>
           <Radio.Group onChange={handleRegionChange} value={region}>
-            <Radio value={1}>서울</Radio>
-            <Radio value={2}>경기도</Radio>
-            <Radio value={3}>강원도</Radio>
-            <Radio value={4}>충청북도</Radio>
-            <Radio value={5}>충청남도</Radio>
-            <Radio value={6}>전라북도</Radio>
-            <Radio value={7}>전라남도</Radio>
-            <Radio value={8}>경상북도</Radio>
-            <Radio value={9}>경상남도</Radio>
-            <Radio value={10}>제주도</Radio>
+            <Radio value={'서울'}>서울</Radio>
+            <Radio value={'경기도'}>경기도</Radio>
+            <Radio value={'강원도'}>강원도</Radio>
+            <Radio value={'충청북도'}>충청북도</Radio>
+            <Radio value={'충청남도'}>충청남도</Radio>
+            <Radio value={'전라북도'}>전라북도</Radio>
+            <Radio value={'전라남도'}>전라남도</Radio>
+            <Radio value={'경상북도'}>경상북도</Radio>
+            <Radio value={'경상남도'}>경상남도</Radio>
+            <Radio value={'제주도'}>제주도</Radio>
           </Radio.Group>
         </Sector>
       </FlexContainer>
     </Modal>
   );
 }
+
+// {
+//   request: {
+//     nickname: nickname,
+//     introduction: description,
+//     ageRange: age,
+//     areaInterest: region,
+//   },
+//   imgUrl:
+//     'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+// }
+
+// const handleUpload = () => {
+//   const formData = new FormData();
+//   fileList.forEach((file) => {
+//     formData.append('files', file.originFileObj);
+//   });
+//   axios
+//     .post('your_upload_endpoint', formData)
+//     .then((response) => {
+//       console.log('Upload successful:', response);
+//     })
+//     .catch((error) => {
+//       console.error('Error uploading:', error);
+//     });
+// };

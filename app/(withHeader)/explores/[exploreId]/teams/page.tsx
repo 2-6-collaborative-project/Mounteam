@@ -8,6 +8,8 @@ import Tab from '@/src/components/shared/Tab';
 import getMountainData from '@/src/components/explores/api/getMountainData';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { colors } from '@/app/styles/colors';
+import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
+import { authInstance } from '@/src/lib/axiosInstance';
 
 const MainTitle = styled.h2`
   margin-top: 4.8rem;
@@ -61,35 +63,61 @@ const TeamTotalCount = styled.p`
   line-height: 2.5rem;
 `;
 
-const TeamContainer = styled.div`
+const TeamListContainer = styled.div``;
+
+const TeamItem = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(0, 26.25rem));
+  grid-template-columns: repeat(2, 1fr);
   column-gap: 2rem;
   row-gap: 3rem;
-`;
-const TeamItem = styled.div`
-  width: 26.25rem;
-  height: 33.5rem;
-  background-color: ${colors.Grayscale[5]};
+  cursor: pointer;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  @media (max-width: 768px) {
+    ${CreateTeam} {
+      width: 65%;
+    }
+    ${TeamItem} {
+      grid-template-columns: none;
+    }
+  }
 
-export default function ExploreTeamList({
+  @media (max-width: 480px) {
+    ${CreateTeam} {
+      font-size: 1.8rem;
+    }
+  }
+`;
+
+export default function TeamList({
   params,
 }: {
   params: { exploreId: number };
 }) {
+  const router = useRouter();
   const exploreId = params.exploreId;
+
   const { data: mountainList } = useQuery({
-    queryKey: ['mountainList1'],
+    queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 
-  const router = useRouter();
+  const { data: teamData } = useQuery({
+    queryKey: ['teamList'],
+    queryFn: () => authInstance.get('/teams'),
+  });
+
+  const teamList = teamData?.data.data;
+
   const clickedMountain = mountainList?.find(
     (list: mountainDataProps) => list.X좌표 === exploreId,
   );
+
+  const mountainTeams = teamList?.filter(
+    (list: any) => list.mountain === clickedMountain?.명산_이름,
+  );
+
   return (
     <>
       <Container>
@@ -112,14 +140,20 @@ export default function ExploreTeamList({
           </CreateTeam>
         </CreateTeamContainer>
 
-        <div className="mountainTeamList">
+        <TeamListContainer>
           <TeamTotalCount>
-            {clickedMountain?.명산_이름} 등산모임 : 4개
+            {clickedMountain?.명산_이름} 등산모임 : {mountainTeams?.length}개
           </TeamTotalCount>
-          <TeamContainer>
-            <TeamItem>모임 관련 정보가 들어갈 자리입니다.</TeamItem>
-          </TeamContainer>
-        </div>
+
+          {mountainTeams?.map((team: any) => (
+            <TeamItem
+              key={team.teamId}
+              onClick={() => router.push(`/teams/${team.teamId}`)}
+            >
+              <TeamThumbnail team={team} />
+            </TeamItem>
+          ))}
+        </TeamListContainer>
       </Container>
     </>
   );

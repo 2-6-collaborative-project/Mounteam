@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import useTeamCreationForm from '@/src/hooks/teams/create/useTeamCreationForm';
+import { authInstance } from '@/src/lib/axiosInstance';
 import MoutainSearchBar from '@/src/components/teams/create/MoutainSearchBar';
 import CustomInput from '@/src/components/shared/CustomInput';
 import CustomTextArea from '@/src/components/shared/CustomTextArea';
@@ -14,6 +16,7 @@ import Modals from '@/src/components/shared/Modal';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 import teamCreationFormValidation from '@/src/utils/teams/create/formValidation';
+import { TEAMS_URL } from '@/src/utils/apiUrl';
 
 const Layout = styled.div`
   width: 50%;
@@ -72,6 +75,8 @@ export default function TeamCreationPage() {
   const [isValid, setIsValid] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const router = useRouter();
+
   const { teamCreationFormData, handleTeamCreationForm } =
     useTeamCreationForm();
 
@@ -79,9 +84,14 @@ export default function TeamCreationPage() {
     setIsModalOpen((prev) => !prev);
   };
 
-  const createTeam = () => {
-    // TODO: 모임 생성 api 적용
-    console.log(teamCreationFormData);
+  const createTeam = async () => {
+    const result = await authInstance.post(TEAMS_URL, teamCreationFormData);
+
+    if (result.status === 200) {
+      return router.push(`/teams/${result.data.data}`);
+    }
+
+    console.log(result);
   };
 
   useEffect(() => {
