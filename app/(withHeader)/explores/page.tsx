@@ -117,14 +117,16 @@ export default function ExplorePage() {
   const sortListByName = (list: mountainDataProps[]) => {
     return [...list].sort((a, b) =>
       isSorting
-        ? b.명산_이름.localeCompare(a.명산_이름)
-        : a.명산_이름.localeCompare(b.명산_이름),
+        ? b.mountain.localeCompare(a.mountain)
+        : a.mountain.localeCompare(b.mountain),
     );
   };
 
   const sortListByTeamNumber = (list: mountainDataProps[]) => {
     return [...list].sort((a, b) =>
-      isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이,
+      isSorting
+        ? Number(b.m_height) - Number(a.m_height)
+        : Number(a.m_height) - Number(b.m_height),
     );
   };
 
@@ -158,51 +160,49 @@ export default function ExplorePage() {
   };
 
   return (
-    <>
-      <Container>
-        <Tab variant="explores" />
+    <Container>
+      <Tab variant="explores" />
 
-        <SearchMountainArea>
-          <MainTitle>대한민국 산 탐험하기</MainTitle>
-          <AutoSearchBar
-            type="search"
-            setSearchedMountain={setSearchedMountain}
-          />
-          <KakaoMap
-            type="exploreMain"
-            mountainList={mountainList}
-            filteredItems={filteredItems}
-          />
-        </SearchMountainArea>
+      <SearchMountainArea>
+        <MainTitle>대한민국 산 탐험하기</MainTitle>
+        <AutoSearchBar
+          type="search"
+          setSearchedMountain={setSearchedMountain}
+        />
+        <KakaoMap
+          type="exploreMain"
+          mountainList={mountainList}
+          filteredItems={filteredItems}
+        />
+      </SearchMountainArea>
 
-        <SearchResultArea>
-          <FilterContainer>
-            <ExploreFilterPanel />
-          </FilterContainer>
+      <SearchResultArea>
+        <FilterContainer>
+          <ExploreFilterPanel />
+        </FilterContainer>
 
-          <MountainListContainer>
-            <MountainSortHeader>
-              <SortItem onClick={handleSortByName}>가나다순</SortItem>
-              <SortItem onClick={handleSortByTeamNumber}>인기순</SortItem>
-            </MountainSortHeader>
-            <MountainList>
-              {keyword === '' ? (
-                filteredItems.length > 0 ? (
-                  filteredItems.map((item) => (
-                    <MountainInfo key={item.X좌표} list={item} />
-                  ))
-                ) : (
-                  allMountainList?.map((list) => (
-                    <MountainInfo key={list.X좌표} list={list} />
-                  ))
-                )
+        <MountainListContainer>
+          <MountainSortHeader>
+            <SortItem onClick={handleSortByName}>가나다순</SortItem>
+            <SortItem onClick={handleSortByTeamNumber}>인기순</SortItem>
+          </MountainSortHeader>
+          <MountainList>
+            {keyword === '' ? (
+              filteredItems.length > 0 ? (
+                filteredItems.map((item) => (
+                  <MountainInfo key={item.X좌표} list={item} />
+                ))
               ) : (
-                <MountainInfo list={searchedMountain} />
-              )}
-            </MountainList>
-          </MountainListContainer>
-        </SearchResultArea>
-      </Container>
-    </>
+                allMountainList?.map((list) => (
+                  <MountainInfo key={list.X좌표} list={list} />
+                ))
+              )
+            ) : (
+              <MountainInfo list={searchedMountain} />
+            )}
+          </MountainList>
+        </MountainListContainer>
+      </SearchResultArea>
+    </Container>
   );
 }

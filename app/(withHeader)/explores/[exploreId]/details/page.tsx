@@ -129,7 +129,7 @@ export default function MountainDetail({
 }) {
   const exploreId = params.exploreId;
   const { data: mountainList } = useQuery({
-    queryKey: ['mountainList1'],
+    queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 

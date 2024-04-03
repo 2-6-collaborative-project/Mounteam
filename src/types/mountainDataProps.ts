@@ -5,4 +5,6 @@ export default interface mountainDataProps {
   m_location: string;
   mountain: string;
   teamCnt: number;
+  X좌표: number;
+  Y좌표: number;
 }
