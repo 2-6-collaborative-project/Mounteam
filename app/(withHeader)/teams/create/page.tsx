@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import useTeamCreationForm from '@/src/hooks/teams/create/useTeamCreationForm';
 import { authInstance } from '@/src/lib/axiosInstance';
@@ -74,6 +75,8 @@ export default function TeamCreationPage() {
   const [isValid, setIsValid] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const router = useRouter();
+
   const { teamCreationFormData, handleTeamCreationForm } =
     useTeamCreationForm();
 
@@ -85,7 +88,7 @@ export default function TeamCreationPage() {
     const result = await authInstance.post(TEAMS_URL, teamCreationFormData);
 
     if (result.status === 200) {
-      // 모임 상세 페이지 완성 후 해당 페이지로 이동시키는 로직
+      return router.push(`/teams/${result.data.data}`);
     }
 
     console.log(result);

@@ -1,12 +1,13 @@
 'use client';
 
-import FeedPage from '@/src/components/feeds/FeedPage';
-import { feedMockData } from '@/src/components/feeds/mock';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+import { getUserData } from '@/src/components/mypage/api/getUserData';
+import MyFeeds from '@/src/components/mypage/MyFeeds';
 import MyTeamList from '@/src/components/mypage/MyTeamList';
 import Profile from '@/src/components/mypage/Profile';
 import Tab from '@/src/components/shared/Tab';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -75,7 +76,12 @@ interface StyledProps {
 
 export default function Mypage() {
   const [selector, setSelector] = useState(1);
-  const feeds = feedMockData();
+  const { data: userData } = useQuery({
+    queryKey: ['userData'],
+    queryFn: getUserData,
+  });
+
+  console.log('userData', userData);
   return (
     <>
       <TabContainer>
@@ -83,14 +89,13 @@ export default function Mypage() {
       </TabContainer>
       <ContentsContainer>
         <Profile
-          level={12}
-          name={''}
-          img={''}
-          description={''}
-          age={''}
-          region={''}
+          level={userData?.userLevel}
+          name={userData?.nickname}
+          img={userData?.profileImage}
+          description={userData?.introduction}
+          age={userData?.ageRange}
+          region={userData?.areaInterest}
           clickShowAll={() => {}}
-          clickVerify={() => {}}
         />
         <FlexContainer>
           <Selector>
@@ -121,7 +126,7 @@ export default function Mypage() {
           </Selector>
           {selector === 1 ? (
             <>
-              <FeedPage feeds={feeds} />
+              <MyFeeds />
             </>
           ) : selector === 2 ? (
             ''

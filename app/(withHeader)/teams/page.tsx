@@ -7,8 +7,8 @@ import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import { SearchBar } from '@/src/components/shared/SearchBar';
 import { defaultInstance } from '@/src/lib/axiosInstance';
-import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
+import typography from '@/app/styles/typography';
 
 const SearchBarContainer = styled.div`
   padding: 5rem 0 3.75rem 0;
