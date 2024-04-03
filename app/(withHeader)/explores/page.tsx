@@ -12,6 +12,8 @@ import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { useEffect, useState } from 'react';
+import { colors } from '@/app/styles/colors';
+import typography from '@/app/styles/typography';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -57,8 +59,16 @@ const MountainSortHeader = styled.div`
   }
 `;
 
-const SortItem = styled.span`
+const SortItem = styled.span<{ $active: boolean }>`
   cursor: pointer;
+
+  color: ${(props) =>
+    props.$active ? colors.Grayscale[13] : colors.Grayscale[7]};
+  ${typography.Footnote14};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const MountainList = styled.div`
@@ -93,18 +103,18 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const { keyword, searchedMountain, setSearchedMountain } =
-    useSearchMountainStore();
-  const { filteredItems, setFilteredItems } = useFilterMountainStore();
-
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 
+  const { keyword, searchedMountain, setSearchedMountain } =
+    useSearchMountainStore();
+  const { filteredItems, setFilteredItems } = useFilterMountainStore();
   const [allMountainList, setAllMountainList] = useState<mountainDataProps[]>(
     [],
   );
+  const [sortOrder, setSortOrder] = useState('name');
 
   useEffect(() => {
     if (mountainList) {
@@ -112,22 +122,14 @@ export default function ExplorePage() {
     }
   }, [mountainList]);
 
-  const [isSorting, setIsSorting] = useState(true);
-
   const sortListByName = (list: mountainDataProps[]) => {
-    return [...list].sort((a, b) =>
-      isSorting
-        ? b.mountain.localeCompare(a.mountain)
-        : a.mountain.localeCompare(b.mountain),
-    );
+    setSortOrder('name');
+    return [...list].sort((a, b) => a.명산_이름.localeCompare(b.명산_이름));
   };
 
   const sortListByTeamNumber = (list: mountainDataProps[]) => {
-    return [...list].sort((a, b) =>
-      isSorting
-        ? Number(b.m_height) - Number(a.m_height)
-        : Number(a.m_height) - Number(b.m_height),
-    );
+    setSortOrder('teamNum');
+    return [...list].sort((a, b) => Number(a.명산_높이) - Number(b.명산_높이));
   };
 
   const handleSortByName = () => {
@@ -140,8 +142,6 @@ export default function ExplorePage() {
 
       setFilteredItems(sortedFilterList);
     }
-
-    setIsSorting(!isSorting);
   };
 
   // 추후 API 연동시에 모임 개수로 대체될 예정입니다.
@@ -155,8 +155,6 @@ export default function ExplorePage() {
 
       setFilteredItems(filteredSortedList);
     }
-
-    setIsSorting(!isSorting);
   };
 
   return (
@@ -183,8 +181,15 @@ export default function ExplorePage() {
 
         <MountainListContainer>
           <MountainSortHeader>
-            <SortItem onClick={handleSortByName}>가나다순</SortItem>
-            <SortItem onClick={handleSortByTeamNumber}>인기순</SortItem>
+            <SortItem $active={sortOrder === 'name'} onClick={handleSortByName}>
+              가나다순
+            </SortItem>
+            <SortItem
+              $active={sortOrder === 'teamNum'}
+              onClick={handleSortByTeamNumber}
+            >
+              인기순
+            </SortItem>
           </MountainSortHeader>
           <MountainList>
             {keyword === '' ? (

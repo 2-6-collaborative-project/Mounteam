@@ -81,12 +81,10 @@ export default function AutoSearchBar({
       router.push(`${searchLink}`);
 
       setKeyword(value);
-    } else {
-      if (setSearchedMountain !== undefined) {
-        const selectedOption: any = option?.value;
-        setSearchedMountain(selectedOption);
-        setKeyword('');
-      }
+    } else if (setSearchedMountain !== undefined) {
+      const selectedOption: any = option?.value;
+      setSearchedMountain(selectedOption);
+      setKeyword('');
     }
   };
 
