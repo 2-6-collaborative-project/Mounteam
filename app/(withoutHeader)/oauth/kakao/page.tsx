@@ -2,8 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import axios from 'axios';
-import Auth from '@/src/utils/auth';
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 export default function KakaoLogin() {
   const router = useRouter();
@@ -14,22 +13,17 @@ export default function KakaoLogin() {
 
     const fetchData = async () => {
       try {
-        const res = await axios.post('https://www.mounteam.site/api/kakao', {
+        const res = await defaultInstance.post('/kakao', {
           authorizationCode: AUTHORIZATION_CODE,
         });
 
         if (res.data.statusCode === 200) {
-          const accessToken = res.data.data.accessToken;
-          const refreshToken = res.data.data.refreshToken;
-          const expiresInSeconds = res.data.data.expiresIn;
-          const expirationDate = new Date(Date.now() + expiresInSeconds * 1000);
+          localStorage.setItem('accessToken', res.data.data.accessToken);
+          localStorage.setItem('refreshToken', res.data.data.refreshToken);
 
-          // document.cookie = `accessToken=${res.data.data.accessToken}; expires=${expirationDate.toUTCString()};`;
+          if (!res.data.data.isNewUser) return router.push('/');
 
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('expire', expirationDate.toString());
-          localStorage.setItem('refreshToken', refreshToken);
-          router.push('/');
+          return router.push('/preference');
         }
       } catch (e) {
         throw new Error(`${e}`);
