@@ -28,12 +28,11 @@ const FeedHomeInner = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MzAiLCJleHAiOjE3MTIxNTM3MTN9.xvP-ziGWuqB698OGQNycTMFBpR9vFlnlX9xGM1ZfdUY';
+
 export default function FeedHome() {
   const { data: feedData, isLoading } = useQuery<FeedData[]>({
     queryKey: ['FeedData'],
-    queryFn: () => getFeedData(0, 9, accessToken),
+    queryFn: () => getFeedData(0, 9),
   });
 
   if (isLoading) {

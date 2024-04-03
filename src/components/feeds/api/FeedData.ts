@@ -1,23 +1,13 @@
+import { authInstance } from '@/src/lib/axiosInstance';
 import FeedData from '@/src/types/feeds/FeedData';
-import axios from 'axios';
 
 const BASE_URL = 'https://www.mounteam.site/api/feeds';
 
-const accessToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MzAiLCJleHAiOjE3MTIxNDI1Njl9.PNH_I5wiy7QtaLixoA2Sbv4HxlmMkUfS87GE0rJ6OJI"';
 // 피드 전체 조회
-export async function getFeedData(
-  pageNumber = 0,
-  pageSize = 20,
-  accessToken: string,
-) {
+export async function getFeedData(pageNumber = 0, pageSize = 20) {
   const url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
   try {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.get(url);
 
     return response.data.data.content;
   } catch (e) {
@@ -29,11 +19,7 @@ export async function getFeedData(
 export async function getFeedSelect(feedId: number) {
   const url = `${BASE_URL}/${feedId}`;
   try {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.get(url);
 
     return response.data.data;
   } catch (e) {
@@ -45,9 +31,7 @@ export async function getFeedSelect(feedId: number) {
 export async function postFeedData(feedData: FeedData[]) {
   const url = `${BASE_URL}`;
   try {
-    const response = await axios.post(url, feedData, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await authInstance.post(url, feedData);
 
     return response.data;
   } catch (e) {
@@ -59,7 +43,7 @@ export async function postFeedData(feedData: FeedData[]) {
 export async function putFeedData(feedId: number) {
   const url = `${BASE_URL}/${feedId}`;
   try {
-    const response = await axios.put(url);
+    const response = await authInstance.put(url);
 
     return response.data;
   } catch (e) {
@@ -71,11 +55,7 @@ export async function putFeedData(feedId: number) {
 export async function deleteFeedData(feedId: number) {
   const url = `${BASE_URL}/${feedId}`;
   try {
-    const response = await axios.delete(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.delete(url);
 
     return response.data;
   } catch (e) {
@@ -90,11 +70,7 @@ export async function postFeedComments(
 ) {
   const url = `${BASE_URL}/${feedId}/comments`;
   try {
-    const response = await axios.post(url, comment, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.post(url, comment);
 
     return response.data.data;
   } catch (e) {
@@ -106,7 +82,7 @@ export async function postFeedComments(
 export async function getFeedComments(feedId: number) {
   const url = `${BASE_URL}/${feedId}/comments`;
   try {
-    const response = await axios.get(url);
+    const response = await authInstance.get(url);
 
     return response.data;
   } catch (e) {
@@ -118,11 +94,7 @@ export async function getFeedComments(feedId: number) {
 export async function postLikes(feedId: number) {
   const url = `${BASE_URL}/${feedId}/likes`;
   try {
-    const response = await axios.post(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.post(url);
 
     return response.data;
   } catch (e) {
@@ -134,11 +106,7 @@ export async function postLikes(feedId: number) {
 export async function deleteLikes(feedId: number) {
   const url = `${BASE_URL}/${feedId}/likes`;
   try {
-    const response = await axios.delete(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.delete(url);
 
     return response.data;
   } catch (e) {
@@ -150,11 +118,7 @@ export async function deleteLikes(feedId: number) {
 export async function getUserProfile() {
   const url = 'https://www.mounteam.site/api/user/profile';
   try {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authInstance.get(url);
 
     return response.data;
   } catch (e) {
