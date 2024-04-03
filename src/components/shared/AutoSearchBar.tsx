@@ -64,10 +64,6 @@ export default function AutoSearchBar({
     setKeyword(value);
   };
 
-  const options = mountainList?.map((list: mountainDataProps) => ({
-    value: list.mountain,
-  }));
-
   const handleSearch = (
     value: string,
     option: {
@@ -94,6 +90,10 @@ export default function AutoSearchBar({
     }
   };
 
+  const options = mountainList?.map((list: mountainDataProps) => ({
+    value: list.명산_이름,
+  }));
+
   const filteredOptions = options?.filter((option: HTMLInputElement) =>
     option.value.includes(keyword),
   );
@@ -101,7 +101,7 @@ export default function AutoSearchBar({
   useEffect(() => {
     if (type === 'search' && initKeyword && setSearchedMountain) {
       const searched = mountainList?.find(
-        (list: mountainDataProps) => list.mountain === initKeyword,
+        (list: mountainDataProps) => list.명산_이름 === initKeyword,
       );
       setSearchedMountain(searched);
     }
