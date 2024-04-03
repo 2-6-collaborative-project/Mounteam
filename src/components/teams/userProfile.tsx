@@ -50,10 +50,10 @@ const Nickname = styled.p`
 `;
 
 interface UserProfileProps {
-  img: string | null; //나중에 null 빼기
+  img: string | null;
   preference1: string;
   preference2: string;
-  level: string;
+  level: string | null;
   nickname: string;
 }
 export default function UserProfile({
@@ -73,7 +73,7 @@ export default function UserProfile({
             <Preference>{preference2}</Preference>
           </Preferences>
           <LevelNickname>
-            <Level>{level ? 'Lv.' + level : ''}</Level>
+            <Level>{level ? 'Lv.' + level : 'Lv.0'}</Level>
             <Nickname>{nickname}</Nickname>
           </LevelNickname>
         </NamePreference>
