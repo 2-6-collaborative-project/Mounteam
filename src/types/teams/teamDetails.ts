@@ -1,4 +1,5 @@
-export default interface TeamCreationForm {
+export default interface TeamDetails {
+  teamId: number;
   mountain: string;
   // isCourseSelectNow: boolean | null;
   // course: string;
@@ -16,4 +17,10 @@ export default interface TeamCreationForm {
   )[];
   chatLink: string;
   chatPassword: string;
+  author: {
+    authorId: number;
+    nickname: string;
+    profileImageUrl: string | null;
+    level: string | null;
+  };
 }

@@ -10,6 +10,7 @@ import { defaultInstance } from '@/src/lib/axiosInstance';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 
+
 const SearchBarContainer = styled.div`
   padding: 5rem 0 3.75rem 0;
 `;
