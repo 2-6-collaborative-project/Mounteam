@@ -68,6 +68,23 @@ const TeamInfo = styled.div`
   flex-direction: column;
   color: ${colors.Grayscale[7]};
   ${typography.Body16}
+
+  .team-date-time {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media (max-width: 999px) {
+    .team-date-time {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .team-date-time {
+      flex-direction: row;
+    }
+  }
 `;
 
 const Title = styled.div`
@@ -89,9 +106,26 @@ const TeamCol = styled.div`
 
 const TeamChips = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 0.6875rem;
-  flex-shrink: 0;
+  flex-direction: row;
+
+  @media (max-width: 999px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+  }
+
+  @media (max-width: 692px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: row;
+  }
 `;
 
 const TeamRange = styled.div`
@@ -145,30 +179,54 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
     }
   };
 
+  type AgeRange =
+    | 'teenager'
+    | 'twenties'
+    | 'thirties'
+    | 'fourties'
+    | 'fifties'
+    | 'sixties';
+
+  const ageMapping: { [K in AgeRange]: number } = {
+    teenager: 10,
+    twenties: 20,
+    thirties: 30,
+    fourties: 40,
+    fifties: 50,
+    sixties: 60,
+  };
+
   const renderAgeRangeText = () => {
-    const ageRanges = Array.isArray(team.ageRange)
-      ? team.ageRange
-      : [team.ageRange];
-    return ageRanges
-      .map((age) => {
-        switch (age) {
-          case 'teenager':
-            return '10대';
-          case 'twenties':
-            return '20대';
-          case 'thirties':
-            return '30대';
-          case 'fourties':
-            return '40대';
-          case 'fifties':
-            return '50대';
-          case 'sixties':
-            return '60대 이상';
-          default:
-            return '';
-        }
-      })
-      .join(', ');
+    const ageRanges: AgeRange[] = Array.isArray(team.ageRange)
+      ? (team.ageRange as AgeRange[])
+      : [team.ageRange as AgeRange];
+
+    const sortedAges = ageRanges.sort((a, b) => ageMapping[a] - ageMapping[b]);
+
+    const ageRangeTexts = sortedAges.map((age) => {
+      switch (age) {
+        case 'teenager':
+          return '10대';
+        case 'twenties':
+          return '20대';
+        case 'thirties':
+          return '30대';
+        case 'fourties':
+          return '40대';
+        case 'fifties':
+          return '50대';
+        case 'sixties':
+          return '60대 이상';
+        default:
+          return '';
+      }
+    });
+
+    if (ageRangeTexts.length > 3) {
+      return `${ageRangeTexts.slice(0, 3).join(', ')}...`;
+    } else {
+      return ageRangeTexts.join(', ');
+    }
   };
 
   return (
@@ -177,7 +235,10 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
       <TeamCol>
         <TeamInfo>
           <Title>{truncateTitle(team.title)}</Title>
-          <p>{`${team.mountain} | ${formattedDate} | ${formattedTime}`}</p>
+          <div className="team-date-time">
+            <p>{`${team.mountain} | ${formattedDate} | `}</p>
+            <p>{`${formattedTime}`}</p>
+          </div>
         </TeamInfo>
         <TeamChips>
           <TeamRange>

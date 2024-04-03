@@ -49,33 +49,53 @@ const MountainHeight = styled(MountainStatus)`
 
 export default function MountainInfo({ list }: { list: mountainDataProps }) {
   let exploreId;
-  if (typeof list === 'object') {
-    exploreId = list.exploredId;
-  }
 
-  console.log('list', list?.imgUrl);
+  exploreId = list.X좌표;
+
   return (
-    typeof list === 'object' && (
-      <Link href={`/explores/${exploreId}/details`}>
-        <MountainItem>
-          <Image
-            layout="responsive"
-            width={260}
-            height={260}
-            objectFit="contain"
-            src={list?.imgUrl}
-            alt="산 이미지"
-          />
-          <div>
-            <MountainName>{list?.mountain}</MountainName>
-            <MountainLocation>{list?.m_location}</MountainLocation>
-            <MountainDetail>
-              <MountainHeight>{list?.m_height}m</MountainHeight>
-              <MountainStatus>모임 개수: {list.teamCnt}</MountainStatus>
-            </MountainDetail>
-          </div>
-        </MountainItem>
-      </Link>
-    )
+    <Link href={`/explores/${exploreId}/details`}>
+      <MountainItem>
+        <Image
+          layout="responsive"
+          width={260}
+          height={260}
+          objectFit="contain"
+          src={'/sample.jpg'}
+          alt="산 이미지"
+        />
+        <div>
+          <MountainName>{list?.명산_이름}</MountainName>
+          <MountainLocation>{list?.명산_소재지}</MountainLocation>
+          <MountainDetail>
+            <MountainHeight>{list?.명산_높이}m</MountainHeight>
+            <MountainStatus>모임 개수: </MountainStatus>
+          </MountainDetail>
+        </div>
+      </MountainItem>
+    </Link>
   );
+  // exploreId = list.exploredId;
+
+  // return (
+  //   <Link href={`/explores/${exploreId}/details`}>
+  //     <MountainItem>
+  //       <Image
+  //         layout="responsive"
+  //         width={260}
+  //         height={260}
+  //         objectFit="contain"
+  //         src={list?.imgUrl}
+  //         alt="산 이미지"
+  //       />
+  //       <div>
+  //         <MountainName>{list?.mountain}</MountainName>
+  //         <MountainLocation>{list?.m_location}</MountainLocation>
+  //         <MountainDetail>
+  //           <MountainHeight>{list?.m_height}m</MountainHeight>
+  //           <MountainStatus>모임 개수: {list.teamCnt}</MountainStatus>
+  //         </MountainDetail>
+  //       </div>
+  //     </MountainItem>
+  //   </Link>
+  // );
 }

@@ -15,10 +15,10 @@ export default function CheckValidAuth() {
 
     const checkTokenValidity = async () => {
       try {
-        if (accessToken && refreshToken) {
+        if (pathname === '/' || pathname === '/curation/season') {
+          return true;
+        } else if (accessToken && refreshToken) {
           const res = await authInstance.get('/user/profile');
-
-          console.log(res);
           return true;
         } else {
           return router.push('/signin');
