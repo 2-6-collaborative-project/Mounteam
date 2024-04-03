@@ -29,26 +29,11 @@ export default function KakaoMap({
 
         let options;
 
-        if (type === 'exploreMain') {
-          options = {
-            center:
-              typeof searchedMountain === 'object' && keyword !== ''
-                ? new window.kakao.maps.LatLng(
-                    searchedMountain.X좌표,
-                    searchedMountain.Y좌표,
-                  )
-                : new window.kakao.maps.LatLng(36.71069, 127.97434),
-            level: searchedMountain && keyword !== '' ? 7 : 13,
-          };
-        } else {
-          options = {
-            center: new window.kakao.maps.LatLng(
-              filteredItems[0]?.X좌표,
-              filteredItems[0]?.Y좌표,
-            ),
-            level: 7,
-          };
-        }
+        options = {
+          center: new window.kakao.maps.LatLng(36.71069, 127.97434),
+          level: 13,
+        };
+
         const map = new window.kakao.maps.Map(container, options);
 
         let positions;
@@ -61,13 +46,12 @@ export default function KakaoMap({
         } else {
           positions = mountainList?.map((list: mountainDataProps) => ({
             title: list.명산_이름,
-            latlng:
-              typeof searchedMountain === 'object' && searchParams
-                ? new window.kakao.maps.LatLng(
-                    searchedMountain.X좌표,
-                    searchedMountain.Y좌표,
-                  )
-                : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
+            latlng: searchParams
+              ? new window.kakao.maps.LatLng(
+                  searchedMountain.X좌표,
+                  searchedMountain.Y좌표,
+                )
+              : new window.kakao.maps.LatLng(list.X좌표, list.Y좌표),
           }));
         }
 
@@ -90,7 +74,7 @@ export default function KakaoMap({
         }
       });
     }
-  }, [mountainList, , searchParams, searchedMountain, filteredItems]);
+  }, [mountainList, searchParams, searchedMountain, filteredItems]);
 
   return <Map id="map" />;
 }
