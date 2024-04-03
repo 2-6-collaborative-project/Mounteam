@@ -37,26 +37,14 @@ const FilterContainer = styled.div`
 const MountainListContainer = styled.div``;
 
 const MountainSortHeader = styled.div`
-  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
   margin-bottom: 2rem;
-  text-align: right;
-  color: var(--MDS-GrayScale-13, #000);
-  font-size: 1.16667rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  line-height: 1.66667rem;
-
-  span:first-child {
-    padding-right: 1.75rem;
-  }
-  &:before {
-    content: '';
-    width: 0.1rem;
-    height: 1.5rem;
-    background-color: var(--MDS-GrayScale-5, #d9d9d9);
-    position: absolute;
-    top: 0.1rem;
-    right: 4.5rem;
-  }
+  line-height: 2rem;
+  color: ${colors.Grayscale[7]};
 `;
 
 const SortItem = styled.span<{ $active: boolean }>`
@@ -184,6 +172,7 @@ export default function ExplorePage() {
             <SortItem $active={sortOrder === 'name'} onClick={handleSortByName}>
               가나다순
             </SortItem>
+            <p> | </p>
             <SortItem
               $active={sortOrder === 'teamNum'}
               onClick={handleSortByTeamNumber}

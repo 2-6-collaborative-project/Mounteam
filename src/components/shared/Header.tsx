@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import { HeaderPopover } from '../main/HeaderPopover';
+import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -49,10 +50,12 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Header() {
+  const { setKeyword } = useSearchMountainStore();
+
   return (
     <HeaderBox>
       <LogoContainer>
-        <Link href="/" passHref>
+        <Link href="/" passHref onClick={() => setKeyword('')}>
           <Image
             src="/logo.svg"
             alt="logo icon"
