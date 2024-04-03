@@ -10,6 +10,7 @@ import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
 import QueryProvider from '@/app/queryProvider/QueryProvider';
 import CheckValidAuth from '@/src/utils/CheckValidAuth';
+import Footer from '@/src/components/shared/Footer';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
@@ -61,6 +62,7 @@ export default function RootLayout({
                   <CheckValidAuth />
                   {children}
                 </InnerLayout>
+                <Footer />
               </StyledComponentsRegistry>
             </QueryProvider>
           </ConfigProvider>
