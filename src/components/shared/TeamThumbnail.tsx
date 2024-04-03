@@ -145,11 +145,31 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
     }
   };
 
+  type AgeRange =
+    | 'teenager'
+    | 'twenties'
+    | 'thirties'
+    | 'fourties'
+    | 'fifties'
+    | 'sixties';
+
+  const ageMapping: { [K in AgeRange]: number } = {
+    teenager: 10,
+    twenties: 20,
+    thirties: 30,
+    fourties: 40,
+    fifties: 50,
+    sixties: 60,
+  };
+
   const renderAgeRangeText = () => {
-    const ageRanges = Array.isArray(team.ageRange)
-      ? team.ageRange
-      : [team.ageRange];
-    return ageRanges
+    const ageRanges: AgeRange[] = Array.isArray(team.ageRange)
+      ? (team.ageRange as AgeRange[])
+      : [team.ageRange as AgeRange];
+
+    const sortedAges = ageRanges.sort((a, b) => ageMapping[a] - ageMapping[b]);
+
+    return sortedAges
       .map((age) => {
         switch (age) {
           case 'teenager':

@@ -7,6 +7,8 @@ import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
 import { SearchBar } from '@/src/components/shared/SearchBar';
 import { defaultInstance } from '@/src/lib/axiosInstance';
+import typography from '@/app/styles/typography';
+import { colors } from '@/app/styles/colors';
 
 const SearchBarContainer = styled.div`
   padding: 5rem 0 3.75rem 0;
@@ -63,6 +65,10 @@ const TeamList = styled.div`
   row-gap: 1.5625rem;
   align-items: flex-start;
 
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   @media (max-width: 480px) {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -86,6 +92,7 @@ const SortButton = styled.button<SortButtonProps>`
 `;
 
 const Container = styled.div`
+  padding-bottom: 5rem;
   @media (max-width: 768px) {
     ${MainTitle} {
       font-size: 2rem;
