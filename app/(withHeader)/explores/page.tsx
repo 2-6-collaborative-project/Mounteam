@@ -14,6 +14,7 @@ import mountainDataProps from '@/src/types/mountainDataProps';
 import { useEffect, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -96,6 +97,14 @@ export default function ExplorePage() {
     queryFn: () => getMountainData(),
   });
 
+  // const { data: mountainData } = useQuery({
+  //   queryKey: ['mountainData'],
+  //   queryFn: () => defaultInstance.get('/explores'),
+  // });
+
+  // const mountainList = mountainData?.data.data;
+
+  // console.log("mountainList", mountainList)
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
   const { filteredItems, setFilteredItems } = useFilterMountainStore();
@@ -184,15 +193,15 @@ export default function ExplorePage() {
             {keyword === '' ? (
               filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
-                  <MountainInfo key={item.X좌표} list={item} />
+                  <MountainInfo key={item.X좌표} type="explore" list={item} />
                 ))
               ) : (
                 allMountainList?.map((list) => (
-                  <MountainInfo key={list.X좌표} list={list} />
+                  <MountainInfo key={list.X좌표} type="explore" list={list} />
                 ))
               )
             ) : (
-              <MountainInfo list={searchedMountain} />
+              <MountainInfo type="explore" list={searchedMountain} />
             )}
           </MountainList>
         </MountainListContainer>
