@@ -21,9 +21,9 @@ const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
   });
 
   instance.interceptors.request.use((config) => {
-    // const token = `${localStorage.getItem('accessToken')}`; 개발 완료 후 주석 제거
-    const token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MzgiLCJleHAiOjE3MTI4MTIwMTR9.0UiKu9DKWdUymOcY-1Dy6DcVyDDGVjdXFtEPLY12MJk';
+    const token = `${localStorage.getItem('accessToken')}`;
+    // const token =
+    //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjAiLCJleHAiOjE3MTIyMzcwMTV9.iGoAQkUYagdpRwUjeXOYgkbBR81NZpswcJvFCPCwXBU';
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

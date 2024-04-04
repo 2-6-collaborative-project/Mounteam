@@ -34,12 +34,18 @@ const HeadFont = styled.div`
 const PictureBox = styled.div`
   cursor: pointer;
   width: 100%;
-  height: 100%;
+  height: 0; // 높이를 0으로 설정
+  padding-top: 100%; // 상단 패딩을 너비의 100%로 설정
   position: relative;
+  overflow: hidden;
   background-color: ${colors.Grayscale[3]};
 
-  & img {
-    object-fit: contain;
+  & > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -100,7 +106,8 @@ export default function FeedThumbnail({ feed }: { feed: Feed }) {
           <Image
             src={feed.imageUrls}
             alt="feed image"
-            fill
+            layout="fill"
+            objectFit="cover"
             unoptimized={true}
           />
         </PictureBox>

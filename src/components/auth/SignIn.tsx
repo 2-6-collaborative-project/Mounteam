@@ -58,6 +58,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 8rem;
 
   ${Dsecription} {
     margin: 10rem 0 2.5rem 0;
