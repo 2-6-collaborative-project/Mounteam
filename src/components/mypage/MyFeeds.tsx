@@ -1,3 +1,4 @@
+import { colors } from '@/app/styles/colors';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -34,6 +35,13 @@ const ImgContainer = styled.div`
     width: 41.5rem;
     height: 41.5rem;
   }
+`;
+
+const Text = styled.p`
+  color: ${colors.Grayscale[13]};
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3.6rem;
 `;
 interface FeedAuthor {
   profileImageUrl: string | null;
@@ -97,8 +105,9 @@ interface MyFeedsProps {
 export default function MyFeeds({ myFeedData }: any) {
   return (
     <>
-      <ImgGrid>
-        {/* {myFeedData?.map((myFeedPages: any) =>
+      {myFeedData.length > 0 ? (
+        <ImgGrid>
+          {/* {myFeedData?.map((myFeedPages: any) =>
           myFeedPages?.map((feed: Feed, index: number) => (
             <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
               <ImgContainer>
@@ -111,14 +120,17 @@ export default function MyFeeds({ myFeedData }: any) {
             </Link>
           )),
         )} */}
-        {myFeedData?.map((feed: any, index: number) => (
-          <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
-            <ImgContainer>
-              <Image src={feed.imageUrls} alt="image" fill unoptimized />
-            </ImgContainer>
-          </Link>
-        ))}
-      </ImgGrid>
+          {myFeedData?.map((feed: any, index: number) => (
+            <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
+              <ImgContainer>
+                <Image src={feed.imageUrls} alt="image" fill unoptimized />
+              </ImgContainer>
+            </Link>
+          ))}
+        </ImgGrid>
+      ) : (
+        <Text>아직 작성한 피드가 없습니다.</Text>
+      )}
     </>
   );
 }
