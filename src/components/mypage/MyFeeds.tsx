@@ -105,9 +105,8 @@ interface MyFeedsProps {
 export default function MyFeeds({ myFeedData }: any) {
   return (
     <>
-      {myFeedData.length > 0 ? (
-        <ImgGrid>
-          {/* {myFeedData?.map((myFeedPages: any) =>
+      <ImgGrid>
+        {/* {myFeedData?.map((myFeedPages: any) =>
           myFeedPages?.map((feed: Feed, index: number) => (
             <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
               <ImgContainer>
@@ -120,17 +119,14 @@ export default function MyFeeds({ myFeedData }: any) {
             </Link>
           )),
         )} */}
-          {myFeedData?.map((feed: any, index: number) => (
-            <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
-              <ImgContainer>
-                <Image src={feed.imageUrls} alt="image" fill unoptimized />
-              </ImgContainer>
-            </Link>
-          ))}
-        </ImgGrid>
-      ) : (
-        <Text>아직 작성한 피드가 없습니다.</Text>
-      )}
+        {myFeedData?.map((feed: any, index: number) => (
+          <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
+            <ImgContainer>
+              <Image src={feed.imageUrls} alt="image" fill unoptimized />
+            </ImgContainer>
+          </Link>
+        ))}
+      </ImgGrid>
     </>
   );
 }

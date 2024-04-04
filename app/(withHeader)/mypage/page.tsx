@@ -212,9 +212,13 @@ export default function Mypage() {
             </Text3>
           </Selector>
           {selector === 1 ? (
-            <>
-              <MyFeeds myFeedData={myFeedData?.data.reviews} />
-            </>
+            myFeedData?.data?.reviews.length > 0 ? (
+              <>
+                <MyFeeds myFeedData={myFeedData?.data.reviews} />
+              </>
+            ) : (
+              <NoText>아직 작성한 피드가 없습니다.</NoText>
+            )
           ) : selector === 2 ? (
             <NoText>저장된 피드가 없습니다.</NoText>
           ) : (
