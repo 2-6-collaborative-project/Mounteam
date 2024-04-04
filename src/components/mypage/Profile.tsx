@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
@@ -45,6 +47,7 @@ const TagsAndName = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 26rem;
 `;
 
 const Preferences = styled.div`
@@ -98,17 +101,18 @@ const Nickname = styled.p`
 const Description = styled.p`
   width: 100%;
   max-width: 65.3rem;
-  min-width: 36.2rem;
 
   color: var(--black-000000);
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 3.2rem;
   word-wrap: break-word;
+  text-align: right;
 
   @media (max-width: 480px) {
     max-width: none;
     min-width: 0;
+    text-align: left;
   }
 `;
 
@@ -169,8 +173,12 @@ interface ProfileProps {
   age?: string;
   region?: string;
   clickShowAll?: () => void;
+  refetch: () => void;
 }
 
+interface AgeMap {
+  [key: string]: number;
+}
 export default function Profile({
   level,
   name,
@@ -179,6 +187,7 @@ export default function Profile({
   age,
   region,
   clickShowAll,
+  refetch,
 }: ProfileProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ages, setAges] = useState('');
@@ -186,30 +195,27 @@ export default function Profile({
   const handleEditProfile = () => {
     setIsModalOpen(!isModalOpen);
   };
+
+  const ageMap: AgeMap = {
+    teenager: 10,
+    twenties: 20,
+    thirties: 30,
+    fourties: 40,
+    fifties: 50,
+    sixties: 60,
+  };
+
   useEffect(() => {
-    switch (age) {
-      case 'teens':
-        setAges('10대');
-        break;
-      case 'twenties':
-        setAges('20대');
-        break;
-      case 'thirties':
-        setAges('30대');
-        break;
-      case 'forties':
-        setAges('40대');
-        break;
-      case 'fifties':
-        setAges('50대');
-        break;
-      case 'sixties':
-        setAges('60대 이상');
-        break;
-      default:
-        break;
+    if (age) {
+      const mapAge = ageMap[age];
+      if (mapAge === 60) {
+        setAges(mapAge + '대 이상');
+      } else {
+        setAges(mapAge + '대');
+      }
     }
-  }, []);
+  }, [age]);
+
   return (
     <>
       <FlexContainer>
@@ -218,7 +224,7 @@ export default function Profile({
             <Avatars type="profile" img={img} />
             <TagsAndName>
               <Preferences>
-                <Preference>{age}</Preference>
+                <Preference>{ages}</Preference>
                 <Preference>{region}</Preference>
               </Preferences>
               <LevelAndNickname>
@@ -262,6 +268,7 @@ export default function Profile({
       <EditProfile
         modalOpenState={isModalOpen}
         setter={setIsModalOpen}
+        refetch={refetch}
         defaultProfileImg={img}
         defaultNickname={name}
         defaultDescription={description}

@@ -1,13 +1,13 @@
 import { authInstance } from '@/src/lib/axiosInstance';
 
-export async function getUserData() {
+export async function getMyFeedData() {
   const BASE_URL = 'https://www.mounteam.site/api';
-  const url = `${BASE_URL}/user/profile`;
+  const url = `${BASE_URL}/user/feeds?page=0&size=1000&sort=string`;
 
   try {
     const response = await authInstance.get(url);
 
-    return response.data.data;
+    return response.data;
   } catch (e) {
     console.log(e);
   }
