@@ -112,10 +112,11 @@ export default function Season() {
       <MainTitle>계절별 추천</MainTitle>
       <ImageSection>
         <Image
-          src="/season.png"
+          src="/season.jpg"
           alt="메인 배경 이미지"
-          width={1200}
-          height={527.42}
+          width={992}
+          height={436}
+          layout="responsive"
           priority
         />
       </ImageSection>
