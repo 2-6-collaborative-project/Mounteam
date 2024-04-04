@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import useTeamCreationForm from '@/src/hooks/teams/create/useTeamCreationForm';
 import { authInstance } from '@/src/lib/axiosInstance';
@@ -12,11 +12,11 @@ import TeamDatePicker from '@/src/components/teams/create/TeamDatePicker';
 import MemberCollapse from '@/src/components/teams/create/MemberCollapse';
 // import CourseRadio from '@/src/components/teams/create/CourseRadio';
 import CustomButton from '@/src/components/shared/CustomButton';
-import Modals from '@/src/components/shared/Modal';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 import teamCreationFormValidation from '@/src/utils/teams/create/formValidation';
 import { TEAMS_URL } from '@/src/utils/apiUrl';
+import TeamDetails from '@/src/types/teams/teamDetails';
 
 const Layout = styled.div`
   width: 50%;
@@ -71,24 +71,34 @@ const GuideMessage = styled.div`
   ${typography.Footnote12};
 `;
 
-export default function TeamCreationPage() {
+export default function TeamEditPage() {
+  const [detailsData, setDetailsData] = useState<TeamDetails>();
   const [isValid, setIsValid] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const params = useParams();
   const router = useRouter();
+
+  const teamId = params.teamId as string;
 
   const { teamCreationFormData, handleTeamCreationForm } =
     useTeamCreationForm();
 
-  const handleCreateButton = () => {
-    setIsModalOpen((prev) => !prev);
+  const getDetailsData = async (teamId: string) => {
+    const response = await authInstance.get(`${TEAMS_URL}/${teamId}`);
+
+    if (response.status === 200) {
+      setDetailsData(response.data.data);
+    }
   };
 
-  const createTeam = async () => {
-    const result = await authInstance.post(TEAMS_URL, teamCreationFormData);
+  const editTeam = async (teamId: string) => {
+    const result = await authInstance.put(
+      `${TEAMS_URL}/${teamId}`,
+      teamCreationFormData,
+    );
 
     if (result.status === 200) {
-      return router.push(`/teams/${result.data.data}`);
+      return router.push(`/teams/${teamId}`);
     }
   };
 
@@ -97,6 +107,14 @@ export default function TeamCreationPage() {
       setIsValid(true);
     } else setIsValid(false);
   }, [teamCreationFormData]);
+
+  useEffect(() => {
+    getDetailsData(teamId);
+  }, [teamId]);
+
+  // useEffect(() => {
+  //   console.log(detailsData);
+  // }, [detailsData]);
 
   return (
     <Layout>
@@ -115,16 +133,6 @@ export default function TeamCreationPage() {
           handleTeamCreationForm={handleTeamCreationForm}
           placeholder="탐험하고 싶은 산 검색하기"
         />
-
-        {/* 추후 코스 기능 사용 시 Custom Hook, type과 함께 주석 해제 */}
-        {/* <div style={{ marginTop: '2.5rem', marginBottom: '2rem' }}>
-          <Title>코스 선택하기</Title>
-        </div>
-
-        <CourseRadio
-          teamCreationFormData={teamCreationFormData}
-          handleTeamCreationForm={handleTeamCreationForm}
-        /> */}
       </StepSection>
 
       <StepSection>
@@ -175,7 +183,6 @@ export default function TeamCreationPage() {
 
         <TeamDatePicker handleTeamCreationForm={handleTeamCreationForm} />
       </StepSection>
-
       <StepSection>
         <Title>4. 어떤 멤버들과 함께 할까요?</Title>
         <Description>
@@ -184,7 +191,6 @@ export default function TeamCreationPage() {
 
         <MemberCollapse handleTeamCreationForm={handleTeamCreationForm} />
       </StepSection>
-
       <StepSection>
         <div style={{ marginBottom: '0.7rem' }}>
           <Title>오픈카톡방 링크</Title>
@@ -205,22 +211,15 @@ export default function TeamCreationPage() {
 
       <ButtonWrapper>
         <CustomButton
-          onClick={handleCreateButton}
+          onClick={() => editTeam(teamId)}
           type="primary"
           size="large"
           block
           disabled={!isValid}
         >
-          모임 만들기
+          모임 수정하기
         </CustomButton>
       </ButtonWrapper>
-
-      <Modals
-        type="check"
-        modalOpenState={isModalOpen}
-        setter={setIsModalOpen}
-        confirmFunc={createTeam}
-      />
     </Layout>
   );
 }

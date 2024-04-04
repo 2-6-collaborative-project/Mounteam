@@ -14,7 +14,7 @@ export default function teamCreationFormValidation(formData: TeamCreationForm) {
     if (key === 'title' && value.length < 5) {
       return false;
     }
-    if (key === 'description' && value.length < 10) {
+    if (key === 'content' && value.length < 10) {
       return false;
     }
   }

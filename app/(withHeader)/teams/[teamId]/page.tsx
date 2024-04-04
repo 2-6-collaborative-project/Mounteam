@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
+import UserProfile from '@/src/components/teams/userProfile';
 import CustomButton from '@/src/components/shared/CustomButton';
 import typography from '@/app/styles/typography';
 import { authInstance } from '@/src/lib/axiosInstance';
-import { TEAMS_URL } from '@/src/utils/apiUrl';
+import { TEAMS_URL, USER_URL } from '@/src/utils/apiUrl';
 import TeamDetails from '@/src/types/teams/teamDetails';
-import UserProfile from '@/src/components/teams/userProfile';
+import { LoggedInUser } from '@/src/types/auth';
+import AlertModal from '@/src/components/teams/AlertModal';
 
 const Container = styled.div`
   margin-top: 8rem;
@@ -124,7 +126,7 @@ interface AgeMap {
 
 export default function TeamDetailsPage() {
   const [detailsData, setDetailsData] = useState<TeamDetails>();
-  const [isMine, setIsMine] = useState(false);
+  const [loggedInUserData, setLoggedInUserData] = useState<LoggedInUser>();
 
   const params = useParams();
   const router = useRouter();
@@ -137,6 +139,46 @@ export default function TeamDetailsPage() {
     if (response.status === 200) {
       setDetailsData(response.data.data);
     }
+  };
+
+  const getLoggedInUserData = async () => {
+    const response = await authInstance.get(`${USER_URL}/profile`);
+
+    if (response.status === 200) {
+      setLoggedInUserData(response.data.data);
+    }
+  };
+
+  const checkApplyCondition = () => {
+    const teamCondition = {
+      gender: detailsData?.gender,
+      ageRange: detailsData?.ageRange,
+    };
+
+    const myCondition = {
+      gender: loggedInUserData?.gender,
+      ageRange: loggedInUserData?.ageRange,
+    };
+
+    console.log(detailsData, loggedInUserData);
+
+    // console.log(teamCondition, myCondition);
+
+    if (
+      teamCondition.gender !== 'all' &&
+      teamCondition.gender !== myCondition.gender
+    ) {
+      return false;
+    }
+
+    if (
+      myCondition.ageRange &&
+      !teamCondition.ageRange?.includes(myCondition.ageRange)
+    ) {
+      return false;
+    }
+
+    return true;
   };
 
   const handleAgeRage = (ageRange: string[]) => {
@@ -185,8 +227,12 @@ export default function TeamDetailsPage() {
   };
 
   const handleEditButton = (teamId: string) => {
-    console.log('수정!!!');
-    console.log(detailsData);
+    if (detailsData?.createByMe !== true) {
+      alert('주최자만이 수정할 수 있습니다.');
+      return;
+    }
+
+    router.push(`/teams/edit/${teamId}`);
   };
 
   const handleDeleteButton = async (teamId: string) => {
@@ -208,13 +254,24 @@ export default function TeamDetailsPage() {
 
   const handleApplyButton = () => {
     // 로그인된 유저 정보와 참여 조건 비교 로직 추가
-    console.log('click');
-    console.log(detailsData);
+    if (checkApplyCondition() === true) {
+      alert(
+        `오픈카톡방 링크: ${detailsData?.chatLink}\n오픈카톡방 비밀번호: ${detailsData?.chatPassword}`,
+      );
+      return;
+    } else {
+      alert('모임 참여 조건에 맞지 않습니다.');
+      return;
+    }
   };
 
   useEffect(() => {
     getDetailsData(teamId);
   }, [teamId]);
+
+  useEffect(() => {
+    getLoggedInUserData();
+  }, []);
 
   return (
     <>
@@ -287,6 +344,12 @@ export default function TeamDetailsPage() {
             >
               모임 신청하기
             </CustomButton>
+            {/* {detailsData && (
+              <AlertModal
+                chatLink={detailsData?.chatLink}
+                chatPassword={detailsData?.chatPassword}
+              />
+            )} */}
           </ApplyButtonWrapper>
         </InfoSection>
       </Container>

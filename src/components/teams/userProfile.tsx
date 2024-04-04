@@ -66,6 +66,23 @@ export default function UserProfile({
   areaInterest,
 }: UserProfileProps) {
   // TODO: 유저 선호 정보 기능 완성 시 데이터 가공 후 렌더링 처리 필요
+  const handleAuthorAge = (authorAgeRange: string) => {
+    switch (authorAgeRange) {
+      case 'teenager':
+        return '10대';
+      case 'twenties':
+        return '20대';
+      case 'thirties':
+        return '30대';
+      case 'fourties':
+        return '40대';
+      case 'fifties':
+        return '50대';
+      case 'sixties':
+        return '60대 이상';
+    }
+  };
+
   return (
     <>
       <Container>
@@ -73,7 +90,9 @@ export default function UserProfile({
         <NamePreference>
           <Preferences>
             {authorGender && <Preference>{authorGender}</Preference>}
-            {authorAgeRange && <Preference>{authorAgeRange}</Preference>}
+            {authorAgeRange && (
+              <Preference>{handleAuthorAge(authorAgeRange)}</Preference>
+            )}
             {areaInterest && <Preference>{areaInterest}</Preference>}
           </Preferences>
           <LevelNickname>
