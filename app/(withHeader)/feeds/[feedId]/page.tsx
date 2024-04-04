@@ -11,7 +11,9 @@ import {
   getFeedData,
   getFeedSelect,
 } from '@/src/components/feeds/api/FeedData';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -27,11 +29,16 @@ const ContentWrapper = styled.div`
 
 export default function Page() {
   const [pageType, setPageType] = useState<string>();
-  const [feedDetailData, setFeedDetailData] = useState();
+  const [feedDetailData, setFeedDetailData] = useState<FeedData>();
+
   const routerParams = useParams();
+  const searchParams = useSearchParams();
+
   const feedId = Array.isArray(routerParams.feedId)
     ? Number(routerParams.feedId[0])
     : Number(routerParams.feedId);
+
+  const feedType = searchParams.get('feedType');
 
   // const {
   //   data: feedDetailData,
@@ -46,29 +53,38 @@ export default function Page() {
   //   refetch();
   // };
 
-  const { data: feedData } = useQuery<FeedData>({
-    queryKey: ['FeedData'],
-    queryFn: () => getFeedData(0, 10),
-  });
-  console.log(feedData);
+  // const { data: feedData } = useQuery<FeedData>({
+  //   queryKey: ['FeedData'],
+  //   queryFn: () => getFeedData(0, 10),
+  // });
+
   /* const data =getdata() const parsedType = data.data.reviews.filter((item)=>(item.reviewId === feedid))*/
 
-  const getData = async () => {
-    const data = await getFeedSelect(pageType, feedId);
+  const getData = useCallback(async () => {
+    const data = await getFeedSelect(feedType, feedId);
+    console.log('처음 get', data);
     setFeedDetailData(data);
-  };
+  }, [feedId, feedType]);
 
   useEffect(() => {
-    const filterdData = feedData?.filter(
-      (item: any) => item.reviewId === feedId,
-    );
-    const parsedType = filterdData?.type;
-    setPageType(parsedType);
     getData();
-    console.table({ parsedType: parsedType, feedId: feedId });
-    console.log('feedDetailData', feedDetailData);
-    console.log('feedDataMain', feedData);
-  }, [feedData, pageType, feedDetailData]);
+  }, [getData]);
+
+  useEffect(() => {
+    console.log('해당 피드의 데이터:', feedDetailData);
+  }, [feedDetailData]);
+
+  // useEffect(() => {
+  //   const filterdData = feedData?.filter(
+  //     (item: any) => item.reviewId === feedId,
+  //   );
+  //   const parsedType = filterdData?.type;
+  //   setPageType(parsedType);
+  //   getData();
+  //   console.table({ parsedType: parsedType, feedId: feedId });
+  //   console.log('feedDetailData', feedDetailData);
+  //   console.log('feedDataMain', feedData);
+  // }, [feedData, pageType, feedDetailData]);
 
   // if (isLoading) {
   //   return <div>Loading...</div>;
@@ -84,7 +100,7 @@ export default function Page() {
         <Tab variant="feeds" />
       </TabContainer>
       <ContentWrapper>
-        <FeedDetail feedData={feedDetailData} />
+        {/* <FeedDetail feedData={feedDetailData} /> */}
       </ContentWrapper>
     </>
   );

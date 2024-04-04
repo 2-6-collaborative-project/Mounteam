@@ -22,6 +22,7 @@ const Body = styled.div`
   align-items: flex-start;
   margin: 0 auto;
   margin-bottom: 10rem;
+  padding-top: 8rem;
 
   @media (max-width: 768px) {
     padding: 0 3.44rem;
@@ -118,14 +119,17 @@ export default function Preference() {
   const [personalInfoConsent, setPersonalInfoConsent] = useState(false);
 
   const onGenderChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     setGender(e.target.value);
   };
 
   const onAgeChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     setAge(e.target.value);
   };
 
   const onRegionChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     setRegion(e.target.value);
   };
 

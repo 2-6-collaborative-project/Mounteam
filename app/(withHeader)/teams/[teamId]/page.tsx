@@ -11,7 +11,7 @@ import { authInstance } from '@/src/lib/axiosInstance';
 import { TEAMS_URL, USER_URL } from '@/src/utils/apiUrl';
 import TeamDetails from '@/src/types/teams/teamDetails';
 import { LoggedInUser } from '@/src/types/auth';
-import AlertModal from '@/src/components/teams/AlertModal';
+import { Modal } from 'antd';
 
 const Container = styled.div`
   margin-top: 8rem;
@@ -252,16 +252,41 @@ export default function TeamDetailsPage() {
     }
   };
 
-  const handleApplyButton = () => {
-    // 로그인된 유저 정보와 참여 조건 비교 로직 추가
-    if (checkApplyCondition() === true) {
-      alert(
-        `오픈카톡방 링크: ${detailsData?.chatLink}\n오픈카톡방 비밀번호: ${detailsData?.chatPassword}`,
-      );
-      return;
-    } else {
-      alert('모임 참여 조건에 맞지 않습니다.');
-      return;
+  const handleApplyButton = async () => {
+    const res = await authInstance.get(`${TEAMS_URL}/${teamId}/join`);
+
+    if (res.status === 200) {
+      if (res.data.statusCode === 200) {
+        Modal.info({
+          title: '오픈 카톡에 입장하여 인사를 나눠보세요.',
+          content: (
+            <div>
+              <br />
+              <p>
+                <span style={{ fontWeight: 'bold' }}>링크: </span>
+                {`${detailsData?.chatLink}`}
+              </p>
+              <br />
+              <p>
+                <span style={{ fontWeight: 'bold' }}>비밀번호: </span>
+                {`${detailsData?.chatPassword}`}
+              </p>
+            </div>
+          ),
+          onOk() {},
+        });
+
+        return;
+      }
+
+      if (res.data.statusCode !== 200) {
+        // alert(`${res.data.msg}`);
+        Modal.error({
+          title: `${res.data.msg}`,
+        });
+
+        return;
+      }
     }
   };
 

@@ -350,18 +350,13 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
     setTimeout(refetch, 70);
   };
 
-  console.log('feedData', feedData);
-
   return (
     <>
       <ContentsContainer>
         <ProfileCarouselContainer>
           <ProfileContainer>
             <ProfileWrapper>
-              <Avatars
-                type="comment"
-                img={feedData?.data.author.profileImageUrl}
-              />
+              <Avatars type="comment" img={feedData?.author.profileImageUrl} />
               <HeadFont>
                 {
                   <p style={{ fontWeight: 400 }}>

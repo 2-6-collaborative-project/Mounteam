@@ -65,7 +65,12 @@ export default function UserProfile({
   authorAgeRange,
   areaInterest,
 }: UserProfileProps) {
-  // TODO: 유저 선호 정보 기능 완성 시 데이터 가공 후 렌더링 처리 필요
+  const handleGender = (gender: string) => {
+    if (gender === 'male') {
+      return '남성';
+    } else return '여성';
+  };
+
   const handleAuthorAge = (authorAgeRange: string) => {
     switch (authorAgeRange) {
       case 'teenager':
@@ -86,10 +91,16 @@ export default function UserProfile({
   return (
     <>
       <Container>
-        <Avatar icon={img ? img : <UserOutlined />} size={80} />
+        {img !== null && img !== '' ? (
+          <Avatar src={img} size={80} />
+        ) : (
+          <Avatar icon={<UserOutlined />} size={80} />
+        )}
         <NamePreference>
           <Preferences>
-            {authorGender && <Preference>{authorGender}</Preference>}
+            {authorGender && (
+              <Preference>{handleGender(authorGender)}</Preference>
+            )}
             {authorAgeRange && (
               <Preference>{handleAuthorAge(authorAgeRange)}</Preference>
             )}

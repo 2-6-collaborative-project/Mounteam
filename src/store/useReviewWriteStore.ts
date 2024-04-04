@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import type { UploadFile } from 'antd';
+import mountainDataProps from '@/src/types/mountainDataProps';
 
 interface ReviewWriteStore {
   description: string;
   setDescription: (state: string) => void;
   fileList: UploadFile[];
   setFileList: (state: UploadFile[]) => void;
-  place: string;
-  setPlace: (state: string) => void;
+  place: any;
+  setPlace: (state: mountainDataProps | string) => void;
   date: string | string[] | any;
   setDate: (state: string | string[]) => void;
   tags: string[];

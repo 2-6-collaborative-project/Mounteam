@@ -3,6 +3,18 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { defaultInstance } from '@/src/lib/axiosInstance';
+import { Spin } from 'antd';
+import styled from 'styled-components';
+import Image from 'next/image';
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100vh;
+`;
 
 export default function KakaoLogin() {
   const router = useRouter();
@@ -33,5 +45,16 @@ export default function KakaoLogin() {
     fetchData();
   }, []);
 
-  return <div>로그인 중입니다.</div>;
+  return (
+    <SpinnerContainer>
+      <Image
+        src="/logo.svg"
+        alt="logo icon"
+        width={105.625}
+        height={35.505}
+        priority
+      />
+      <Spin size="large" />
+    </SpinnerContainer>
+  );
 }

@@ -130,7 +130,7 @@ export default function Home() {
     const fetchTeams = async () => {
       try {
         const response = await defaultInstance.get('/teams');
-        console.log(response.data.data); // PR 업로드 전 삭제
+        console.log(response.data.data);
         setTeams(response.data.data);
       } catch (error) {
         console.error(error);
@@ -140,26 +140,82 @@ export default function Home() {
     const fetchFeeds = async () => {
       try {
         const response = await defaultInstance.get('/feeds/main');
-        if (response.status === 200 && response.data.data.content) {
-          const feeds = response.data.data.content.map((feed: any) => ({
+        console.log(response);
+        if (
+          response.status === 200 &&
+          response.data &&
+          response.data.data &&
+          response.data.data.reviews
+        ) {
+          const feeds = response.data.data.reviews.map((feed: any) => ({
             author: {
-              profileImageUrl: feed.author.profileImageUrl,
-              level: feed.author.level,
-              nickname: feed.author.nickname,
+              profileImageUrl: feed.author?.profileImageUrl,
+              level: feed.author?.level,
+              nickname: feed.author?.nickname,
             },
-            imageUrl: feed.imageUrl,
-            id: feed.feedId,
-            createdByme: feed.createdByMe,
+            imageUrls: feed.imageUrls,
+            id: feed.reviewId,
           }));
-          console.log(feeds); // PR 업로드 전 삭제
           setFeeds(feeds);
         } else {
-          console.error('Unexpected response status or structure:', response);
+          console.error('Unexpected response structure:', response);
         }
       } catch (error) {
         console.error('Failed to fetch feeds:', error);
       }
     };
+
+    // const fetchFeeds = async () => {
+    //   try {
+    //     const response = await defaultInstance.get('/feeds/main');
+    //     console.log(response); // 응답 구조 확인을 위한 콘솔 로그
+    //     if (
+    //       response.status === 200 &&
+    //       response.data &&
+    //       response.data.data &&
+    //       response.data.data.content
+    //     ) {
+    //       const feeds = response.data.data.content.map((feed: any) => ({
+    //         author: {
+    //           profileImageUrl: feed.author?.profileImageUrl,
+    //           level: feed.author?.level,
+    //           nickname: feed.author?.nickname,
+    //         },
+    //         imageUrls: feed.imageUrls,
+    //         id: feed.id,
+    //       }));
+    //       setFeeds(feeds);
+    //     } else {
+    //       console.error('Unexpected response structure:', response);
+    //     }
+    //   } catch (error) {
+    //     console.error('Failed to fetch feeds:', error);
+    //   }
+    // };
+
+    // const fetchFeeds = async () => {
+    //   try {
+    //     const response = await defaultInstance.get('/feeds/main');
+    //     if (response.status === 200 && response.data.data.content) {
+    //       const feeds = response.data.data.content.map((feed: any) => ({
+    //         author: {
+    //           profileImageUrl: feed.author.profileImageUrl,
+    //           level: feed.author.level,
+    //           nickname: feed.author.nickname,
+    //         },
+    //         imageUrl: feed.imageUrl,
+    //         id: feed.feedId,
+    //         createdByme: feed.createdByMe,
+    //       }));
+    //       console.log(feeds); // PR 업로드 전 삭제
+    //       setFeeds(feeds);
+    //     } else {
+    //       console.error('Unexpected response status or structure:', response);
+    //     }
+    //   } catch (error) {
+    //     console.error('Failed to fetch feeds:', error);
+    //   }
+    // };
 
     fetchTeams();
     fetchFeeds();

@@ -4,12 +4,13 @@ import { Tag } from 'antd';
 import styled from 'styled-components';
 import Buttons from '../review/write/Buttons';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { IBM } from '@/app/styles/.fonts';
+import TeamCancelModal from './TeamCancelModal';
+import Link from 'next/link';
 
 const ContentConainer = styled.div`
   width: 48.4rem;
   height: 23.8rem;
-  background-color: #f1f1f1;
 
   display: flex;
   flex-direction: column;
@@ -29,6 +30,32 @@ const ContentConainer = styled.div`
 const Sector = styled.div`
   display: flex;
   gap: 2.4rem;
+`;
+const ImageSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14.6rem;
+  height: 14.6rem;
+  border-radius: 100%;
+  background: ${colors.Grayscale[6]};
+  /*${colors.Primary[500]}*/
+  color: ${colors.Grayscale[1]};
+  font-size: 2.2rem;
+  line-height: 1.75rem;
+
+  @media (max-width: 768px) {
+    width: 22rem;
+    height: 22rem;
+    font-size: 2.7rem;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    width: 14.6rem;
+    height: 14.6rem;
+    font-size: 2rem;
+  }
 `;
 
 const Imgs = styled.div`
@@ -96,21 +123,27 @@ const ButtonContainer = styled.div`
   gap: 2.3rem;
 `;
 interface MyteamProps {
-  img: string;
+  img?: string;
   title: string;
   mountainInfo?: string;
-  sort: string;
+  date: string;
+  teamId: number;
+  refetch: () => void;
 }
-
 export default function MyTeam({
   img,
   title,
   mountainInfo,
-  sort,
+  date,
+  teamId,
+  refetch,
 }: MyteamProps) {
   const [pageWidth, setPageWidth] = useState<number>(1300);
   const [shortButtonWidth, setShortButtonWidth] = useState('23rem');
   const [longButtonWidth, setLongButtonWidth] = useState('23rem');
+  const [parsedDate, setParsedDate] = useState('');
+  const [isExpired, setIsExpired] = useState(false);
+  const [ismodalOpen, setIsmodalOpen] = useState(false);
 
   const tagStyle = {
     width: 'fit-content',
@@ -118,11 +151,22 @@ export default function MyTeam({
     fontSize: '1.4rem',
     fontWeight: '600',
     lineHeight: '2.6rem',
-    color: colors.System.Warning,
-    backgroundColor: colors.System.Warning_bg,
+    color: isExpired ? colors.System.Complete : colors.System.Warning,
+    backgroundColor: isExpired
+      ? colors.System.Complete_bg
+      : colors.System.Warning_bg,
     border: 0,
   };
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    const parsedDates = date?.substring(2).split(' ')[0].split('-').join('.');
+    setParsedDate(parsedDates);
+    if (new Date(date) < new Date()) {
+      setIsExpired(true);
+    } else {
+      setIsExpired(false);
+    }
+  }, [date]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -153,33 +197,52 @@ export default function MyTeam({
     <>
       <ContentConainer>
         <Sector>
-          <Imgs>{img ? <Image src={img} alt="모임이미지" fill /> : ''}</Imgs>
+          <ImageSection className={IBM.className}>{mountainInfo}</ImageSection>
+          {/* <Imgs>{img ? <Image src={img} alt="모임이미지" fill /> : ''}</Imgs> */}
           <Description>
-            <Tag style={tagStyle}>{}</Tag>
-            <Title>
-              {title}해는 수비도 허리가 지적한 낙향하다 최근에 노예로 아닌
-              대하여야지.
-            </Title>
-            <div>
-              <MountainInfo>
-                {'산이름'} | {'시간'}
-              </MountainInfo>
-              <MountainInfo>{'코스'}</MountainInfo>
-            </div>
+            <Tag style={tagStyle}>{isExpired ? '모임완료' : '모집중'}</Tag>
+            <Title>{title}</Title>
+            <MountainInfo>
+              {mountainInfo} | {parsedDate}
+            </MountainInfo>
           </Description>
         </Sector>
         <ButtonContainer>
-          {/* <Buttons width={shortButtonWidth} height="6.6rem" disabled={false}>
-            모임 취소하기
-          </Buttons>
-          <Buttons width={shortButtonWidth} height="6.6rem" disabled={false}>
-            모임 수정하기
-          </Buttons> */}
-          <Buttons width={longButtonWidth} height="6.6rem" disabled={false}>
-            모임 후기 남기기
-          </Buttons>
+          {isExpired ? (
+            <Link href={'/teams/write'}>
+              <Buttons width={longButtonWidth} height="6.6rem" disabled={false}>
+                모임 후기 남기기
+              </Buttons>
+            </Link>
+          ) : (
+            <>
+              <Buttons
+                width={shortButtonWidth}
+                height="6.6rem"
+                disabled={false}
+                onClick={() => {
+                  setIsmodalOpen(true);
+                }}
+              >
+                모임 취소하기
+              </Buttons>
+              <Buttons
+                width={shortButtonWidth}
+                height="6.6rem"
+                disabled={false}
+              >
+                모임 수정하기
+              </Buttons>
+            </>
+          )}
         </ButtonContainer>
       </ContentConainer>
+      <TeamCancelModal
+        modalOpenState={ismodalOpen}
+        setter={setIsmodalOpen}
+        id={teamId}
+        refetch={refetch}
+      />
     </>
   );
 }

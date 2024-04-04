@@ -1,11 +1,12 @@
 import { authInstance } from '@/src/lib/axiosInstance';
 
-export async function postRevieWrite() {
-  const BASE_URL = 'https://www.mounteam.site/api/';
-  const url = `${BASE_URL}user/profile`;
+export async function postRevieWrite(formData: any) {
+  const BASE_URL = 'https://www.mounteam.site/api';
+  const url = `${BASE_URL}/reviews
+  `;
 
   try {
-    const response = await authInstance.get(url);
+    const response = await authInstance.post(url, formData);
 
     return response.data.data;
   } catch (e) {

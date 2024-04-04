@@ -31,8 +31,9 @@ interface TeamsSearchBarProps {
   teamList: teamsData;
 }
 
-export default function TeamsSearchBar({ teamsList }: TeamsSearchBarProps) {
-  const { setTitle, setPlace, setDate, setSearchResult } = useTeamsWriteStore();
+export default function TeamsSearchBar({ teamsList }: any) {
+  const { setTitle, setPlace, setDate, setTeamId, setSearchResult } =
+    useTeamsWriteStore();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -58,6 +59,7 @@ export default function TeamsSearchBar({ teamsList }: TeamsSearchBarProps) {
     key: index.toString(),
     date: list.departureDay,
     mountain: list.mountain,
+    teamId: list.teamId,
   }));
 
   const handleSearch = (
@@ -67,6 +69,7 @@ export default function TeamsSearchBar({ teamsList }: TeamsSearchBarProps) {
       key: string;
       date: string;
       mountain: string;
+      teamId: number;
     },
   ) => {
     const date = option.date.split(' ')[0].split('-');
@@ -75,6 +78,7 @@ export default function TeamsSearchBar({ teamsList }: TeamsSearchBarProps) {
     setTitle(selectedOption);
     setPlace(option.mountain);
     setDate(option.date.split(' ')[0]);
+    setTeamId(option.teamId);
     setSearchResult(`${dateResult}_${option.mountain}_${selectedOption}`);
     setKeyword('');
   };
@@ -82,6 +86,9 @@ export default function TeamsSearchBar({ teamsList }: TeamsSearchBarProps) {
   const filteredOptions = options?.filter((option: HTMLInputElement) =>
     option.value?.includes(keyword),
   );
+  if (teamsList) {
+    console.log(teamsList[0]?.departureDay);
+  }
 
   return (
     <SearchContainer>
