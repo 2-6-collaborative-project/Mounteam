@@ -11,11 +11,22 @@ const MountainItem = styled.div`
   gap: 1.2rem;
 `;
 
+const MountainContent = styled.div`
+  width: 26rem;
+`;
+
+const MountainImage = styled.div`
+  position: relative;
+  width: 26rem;
+  height: 26rem;
+`;
+
 const MountainName = styled.p`
   color: var(--MDS-Grayscale-13, #000);
   font-size: 2.4rem;
   font-weight: 600;
   line-height: 3.2rem;
+}
 `;
 
 const MountainDetail = styled.div`
@@ -47,34 +58,19 @@ const MountainHeight = styled(MountainStatus)`
   }
 `;
 
-export default function MountainInfo({ list }: { list: mountainDataProps }) {
+interface MountainType {
+  exploredId: number;
+  mountain: string;
+  imageUrls: string;
+  m_location: string;
+  m_height: string;
+  teamCnt: number;
+}
+
+export default function MountainInfo({ list }: { list: MountainType }) {
   let exploreId;
 
-  exploreId = list.X좌표;
-
-  return (
-    <Link href={`/explores/${exploreId}/details`}>
-      <MountainItem>
-        <Image
-          layout="responsive"
-          width={260}
-          height={260}
-          objectFit="contain"
-          src={'/sample.jpg'}
-          alt="산 이미지"
-        />
-        <div>
-          <MountainName>{list?.명산_이름}</MountainName>
-          <MountainLocation>{list?.명산_소재지}</MountainLocation>
-          <MountainDetail>
-            <MountainHeight>{list?.명산_높이}m</MountainHeight>
-            <MountainStatus>모임 개수: </MountainStatus>
-          </MountainDetail>
-        </div>
-      </MountainItem>
-    </Link>
-  );
-  // exploreId = list.exploredId;
+  // exploreId = list.X좌표;
 
   // return (
   //   <Link href={`/explores/${exploreId}/details`}>
@@ -84,18 +80,37 @@ export default function MountainInfo({ list }: { list: mountainDataProps }) {
   //         width={260}
   //         height={260}
   //         objectFit="contain"
-  //         src={list?.imgUrl}
+  //         src={'/sample.jpg'}
   //         alt="산 이미지"
   //       />
   //       <div>
-  //         <MountainName>{list?.mountain}</MountainName>
-  //         <MountainLocation>{list?.m_location}</MountainLocation>
+  //         <MountainName>{list?.명산_이름}</MountainName>
+  //         <MountainLocation>{list?.명산_소재지}</MountainLocation>
   //         <MountainDetail>
-  //           <MountainHeight>{list?.m_height}m</MountainHeight>
-  //           <MountainStatus>모임 개수: {list.teamCnt}</MountainStatus>
+  //           <MountainHeight>{list?.명산_높이}m</MountainHeight>
+  //           <MountainStatus>모임 개수: </MountainStatus>
   //         </MountainDetail>
   //       </div>
   //     </MountainItem>
   //   </Link>
   // );
+  exploreId = list.exploredId;
+
+  return (
+    <Link href={`/explores/${exploreId}/details`}>
+      <MountainItem>
+        <MountainImage>
+          <Image fill objectFit="cover" src={list?.imageUrls} alt="산 이미지" />
+        </MountainImage>
+        <MountainContent>
+          <MountainName>{list?.mountain}</MountainName>
+          <MountainLocation>{list?.m_location}</MountainLocation>
+          <MountainDetail>
+            <MountainHeight>{list?.m_height}m</MountainHeight>
+            <MountainStatus>모임 개수: {list.teamCnt}</MountainStatus>
+          </MountainDetail>
+        </MountainContent>
+      </MountainItem>
+    </Link>
+  );
 }
