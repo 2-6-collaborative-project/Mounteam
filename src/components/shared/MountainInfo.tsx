@@ -12,21 +12,19 @@ const MountainItem = styled.div`
   gap: 1.2rem;
 `;
 
-const MountainContent = styled.div`
-  width: 26rem;
-`;
+const MountainContent = styled.div``;
 
 const MountainImage = styled.div`
-  position: relative;
-  width: 26rem;
-  height: 26rem;
+  & > img {
+    max-width: 100%;
+    max-height: auto;
+  }
 `;
 
 const MountainName = styled.p`
   font-size: 2.4rem;
   font-weight: 600;
   line-height: 3.2rem;
-}
 `;
 
 const MountainDetail = styled.div`
@@ -103,7 +101,8 @@ export default function MountainInfo({
         <MountainItem>
           <MountainImage>
             <Image
-              fill
+              width={300}
+              height={300}
               objectFit="cover"
               src={list?.imageUrls}
               alt="산 이미지"
