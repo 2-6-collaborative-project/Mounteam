@@ -49,7 +49,6 @@ export default function FeedHome() {
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.hasMore ? lastPageParam + 1 : undefined,
   });
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

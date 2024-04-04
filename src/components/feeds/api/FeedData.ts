@@ -9,8 +9,8 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
   const url = `/feeds?pageNumber=${pageNumber}&pageSize=${pageSize}`;
   try {
     const response = await authInstance.get(url);
-    console.log(response.data.data.review);
-    return response.data.data.review;
+
+    return response.data.data.reviews;
   } catch (e) {
     console.log(e);
   }

@@ -55,10 +55,7 @@ export default function FeedSearch({ feedData }: FeedSearchProps) {
   // Best => const filteredFeeds = useMemo(()=> feeds.filter(item)=>item.name.includes(keyword),[keyword, feeds]);
   return (
     <FeedConatiner>
-      <SearchBar
-        placeholder="찾고싶은 피드를 본문글로 검색해주세요 (초기화: 지우고 다시 Enter 누르기)"
-        onSearch={handleSearch}
-      />
+      <SearchBar placeholder="" onSearch={handleSearch} />
       {/* chip이 들어갈 공간 */}
       {/* 피드가 들어갈 공간 */}
       <FilteredInner>
