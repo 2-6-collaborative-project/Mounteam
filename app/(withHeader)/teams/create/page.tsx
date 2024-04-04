@@ -90,8 +90,6 @@ export default function TeamCreationPage() {
     if (result.status === 200) {
       return router.push(`/teams/${result.data.data}`);
     }
-
-    console.log(result);
   };
 
   useEffect(() => {
@@ -128,6 +126,7 @@ export default function TeamCreationPage() {
           handleTeamCreationForm={handleTeamCreationForm}
         /> */}
       </StepSection>
+
       <StepSection>
         <Title>2. 모임을 소개해 주세요 :{')'}</Title>
         <Description>이 모임의 핵심을 간략히 적어주세요 :{')'}</Description>
@@ -176,6 +175,7 @@ export default function TeamCreationPage() {
 
         <TeamDatePicker handleTeamCreationForm={handleTeamCreationForm} />
       </StepSection>
+
       <StepSection>
         <Title>4. 어떤 멤버들과 함께 할까요?</Title>
         <Description>
@@ -184,6 +184,7 @@ export default function TeamCreationPage() {
 
         <MemberCollapse handleTeamCreationForm={handleTeamCreationForm} />
       </StepSection>
+
       <StepSection>
         <div style={{ marginBottom: '0.7rem' }}>
           <Title>오픈카톡방 링크</Title>
@@ -201,6 +202,7 @@ export default function TeamCreationPage() {
           }
         />
       </StepSection>
+
       <ButtonWrapper>
         <CustomButton
           onClick={handleCreateButton}
@@ -212,6 +214,7 @@ export default function TeamCreationPage() {
           모임 만들기
         </CustomButton>
       </ButtonWrapper>
+
       <Modals
         type="check"
         modalOpenState={isModalOpen}

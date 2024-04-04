@@ -46,7 +46,6 @@ interface OptionType {
 
 export default function MoutainSearchBar({
   placeholder,
-  teamCreationFormData,
   handleTeamCreationForm,
 }: MoutainSearchBarProps) {
   const [searchInput, setSearchInput] = useState('');

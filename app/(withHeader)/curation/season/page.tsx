@@ -69,9 +69,14 @@ const MountainInfoContainer = styled.div`
 `;
 
 interface MountainType {
+  X좌표: number;
+  Y좌표: number;
+  명산_높이: number;
+  명산_소재지: string;
+  명산_이름: string;
   exploredId: number;
   mountain: string;
-  imgUrl: string;
+  imageUrls: string;
   m_location: string;
   m_height: string;
   teamCnt: number;
@@ -112,10 +117,11 @@ export default function Season() {
       <MainTitle>계절별 추천</MainTitle>
       <ImageSection>
         <Image
-          src="/season.png"
+          src="/season.jpg"
           alt="메인 배경 이미지"
-          width={1200}
-          height={527.42}
+          width={992}
+          height={436}
+          layout="responsive"
           priority
         />
       </ImageSection>
@@ -124,7 +130,11 @@ export default function Season() {
           <SeasonTitle>봄에 가기 좋은 산</SeasonTitle>
           <MountainInfoContainer>
             {springMountains.map((mountain) => (
-              <MountainInfo key={mountain.exploredId} list={mountain} />
+              <MountainInfo
+                key={mountain.exploredId}
+                type="curation"
+                list={mountain}
+              />
             ))}
           </MountainInfoContainer>
         </SeasonSection>
@@ -132,7 +142,11 @@ export default function Season() {
           <SeasonTitle>여름에 가기 좋은 산</SeasonTitle>
           <MountainInfoContainer>
             {summerMountains.map((mountain) => (
-              <MountainInfo key={mountain.exploredId} list={mountain} />
+              <MountainInfo
+                key={mountain.exploredId}
+                type="curation"
+                list={mountain}
+              />
             ))}
           </MountainInfoContainer>
         </SeasonSection>
@@ -140,7 +154,11 @@ export default function Season() {
           <SeasonTitle>가을에 가기 좋은 산</SeasonTitle>
           <MountainInfoContainer>
             {autumnMountains.map((mountain) => (
-              <MountainInfo key={mountain.exploredId} list={mountain} />
+              <MountainInfo
+                key={mountain.exploredId}
+                type="curation"
+                list={mountain}
+              />
             ))}
           </MountainInfoContainer>
         </SeasonSection>
@@ -148,7 +166,11 @@ export default function Season() {
           <SeasonTitle>겨울에 가기 좋은 산</SeasonTitle>
           <MountainInfoContainer>
             {winterMountains.map((mountain) => (
-              <MountainInfo key={mountain.exploredId} list={mountain} />
+              <MountainInfo
+                key={mountain.exploredId}
+                type="curation"
+                list={mountain}
+              />
             ))}
           </MountainInfoContainer>
         </SeasonSection>
