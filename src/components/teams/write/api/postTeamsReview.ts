@@ -1,11 +1,11 @@
 import { authInstance } from '@/src/lib/axiosInstance';
 
-export async function getTeamsData() {
+export async function postTeamsRevieWrite(formData: any) {
   const BASE_URL = 'https://www.mounteam.site/api';
-  const url = `${BASE_URL}/teams?page=0&size=100000&sort=string`;
+  const url = `${BASE_URL}/team-reviews`;
 
   try {
-    const response = await authInstance.get(url);
+    const response = await authInstance.post(url, formData);
 
     return response.data.data;
   } catch (e) {

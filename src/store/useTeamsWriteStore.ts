@@ -12,6 +12,8 @@ interface TeamsWriteStore {
   setDate: (state: string) => void;
   tags: string[];
   setTags: (state: string[]) => void;
+  teamId: number;
+  setTeamId: (state: number) => void;
   fileList: UploadFile[];
   setFileList: (state: UploadFile[]) => void;
   searchResult: string;
@@ -29,6 +31,8 @@ export const useTeamsWriteStore = create<TeamsWriteStore>((set) => ({
   setPlace: (state: string) => set({ place: state }),
   tags: [],
   setTags: (state: string[]) => set({ tags: state }),
+  teamId: 0,
+  setTeamId: (state: number) => set({ teamId: state }),
   fileList: [],
   setFileList: (state) => set({ fileList: state }),
   searchResult: '',
