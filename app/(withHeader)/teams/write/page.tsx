@@ -3,21 +3,18 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Input, Form, DatePicker, Checkbox, Tag } from 'antd';
-import type { DatePickerProps } from 'antd';
-import type { Dayjs } from 'dayjs';
-import ko from 'antd/es/date-picker/locale/ko_KR';
+import { Input, Form, Checkbox, Tag } from 'antd';
 import 'dayjs/locale/zh-cn';
 import Tags from '@/src/components/review/write/Tag';
 import Buttons from '@/src/components/review/write/Buttons';
 import Tab from '@/src/components/shared/Tab';
-import useReviewWriteStore from '@/src/store/useReviewWriteStore';
 import ImgUpload from '@/src/components/review/write/ImgUpload';
-import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 import { colors } from '@/app/styles/colors';
 import TeamsSearchBar from '@/src/components/teams/write/TeamsSearchBar';
 import { getTeamsData } from '@/src/components/teams/write/api/getTeamsData';
 import { useTeamsWriteStore } from '@/src/store/useTeamsWriteStore';
+import { postTeamsRevieWrite } from '@/src/components/teams/write/api/postTeamsReview';
+import { useRouter } from 'next/navigation';
 
 const TabContainer = styled.div`
   margin-bottom: 3rem;
@@ -100,11 +97,14 @@ export default function TeamsWrite() {
     date,
     tags,
     setTags,
+    teamId,
     searchResult,
   } = useTeamsWriteStore();
   const [isChecked, setIsChecked] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [filteredList, setFilteredList] = useState();
   const { TextArea } = Input;
+  const router = useRouter();
 
   const { data: teamsList } = useQuery({
     queryKey: ['teamsList'],
@@ -121,17 +121,51 @@ export default function TeamsWrite() {
     setIsChecked(!isChecked);
   };
 
+  const postTeamsReview = () => {
+    const teamsReviewData = {
+      teamId: teamId,
+      mainText: description,
+      hashTags: tags,
+      agree: true,
+    };
+
+    const jsonTeamsReviewData = JSON.stringify(teamsReviewData);
+    const teamsReviewPostData = new Blob([jsonTeamsReviewData]);
+    const formData = new FormData();
+
+    formData.append('teamReviewRequest', teamsReviewPostData);
+
+    fileList.map((item: any) => {
+      formData.append('imageUrl', item.originFileObj);
+    });
+    postTeamsRevieWrite(formData);
+    router.push('/feeds');
+  };
+
+  useEffect(() => {
+    if (teamsList) {
+      const filteredData = teamsList.filter(
+        (team: any) => new Date(team.departureDay) < new Date(),
+      );
+      setFilteredList(filteredData);
+      console.log('teamsLfilteredDataist', filteredData);
+    }
+  }, [teamsList]);
+
   useEffect(() => {
     const isPlaced = /^.+$/.test(place);
     const isDated = /^.+$/.test(date);
     const isDescription = /^.+$/.test(description);
     const isImg = fileList.length > 0;
+
     if (isPlaced && isDated && isDescription && isChecked && isImg) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
     }
   }, [date, place, description, isChecked, fileList]);
+
+  console.log('teamId', teamId);
 
   return (
     <>
@@ -157,7 +191,7 @@ export default function TeamsWrite() {
             label="장소"
             style={{ width: '100%', marginBottom: '0', position: 'relative' }}
           >
-            <TeamsSearchBar teamsList={teamsList} />
+            <TeamsSearchBar teamsList={filteredList} />
             {searchResult !== '' ? (
               <Tag style={tagStyle}>{searchResult}</Tag>
             ) : (
@@ -195,7 +229,7 @@ export default function TeamsWrite() {
           </Form.Item>
           <Form.Item label="날짜" style={{ width: '100%', marginBottom: '0' }}>
             <Input
-              placeholder={place}
+              placeholder={date}
               variant="filled"
               style={inputStyle}
               disabled
@@ -209,7 +243,12 @@ export default function TeamsWrite() {
           <Checkbox onChange={handleChecked}>
             <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
           </Checkbox>
-          <Buttons width="100%" height="6.6rem" disabled={isButtonDisabled}>
+          <Buttons
+            width="100%"
+            height="6.6rem"
+            disabled={isButtonDisabled}
+            onClick={postTeamsReview}
+          >
             인증하기
           </Buttons>
         </FlexContainer>

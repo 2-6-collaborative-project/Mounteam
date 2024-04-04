@@ -23,6 +23,14 @@ const Title = styled.p`
   line-height: 2.4rem;
 `;
 
+const NoTeamText = styled.p`
+  padding-left: 2rem;
+  color: ${colors.Grayscale[13]};
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+`;
+
 const Teams = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -41,20 +49,35 @@ const Teams = styled.div`
   }
 `;
 
-export default function MyTeamList() {
+export default function MyTeamList({ data, refetch }: any) {
+  console.log('dataaAAAA', data);
+  console.log('data.length', data.length);
   return (
     <>
       <MyteamContainer>
         <TeamsContainer>
           <Title>내가 만든 모임</Title>
           <Teams>
-            <MyTeam></MyTeam>
+            {data.length === 0 ? (
+              <NoTeamText>내가 만든 모임이 없습니다.</NoTeamText>
+            ) : (
+              data?.map((item: any, index: number) => (
+                <MyTeam
+                  title={item.title}
+                  mountainInfo={item.mountain}
+                  date={item.departureDay}
+                  teamId={item.teamId}
+                  refetch={refetch}
+                  key={item.teamId}
+                />
+              ))
+            )}
           </Teams>
         </TeamsContainer>
         <TeamsContainer>
           <Title>내가 참여한 모임</Title>
           <Teams>
-            <MyTeam></MyTeam>
+            <NoTeamText>참여한 모임이 없습니다.</NoTeamText>
           </Teams>
         </TeamsContainer>
       </MyteamContainer>

@@ -35,21 +35,89 @@ const ImgContainer = styled.div`
     height: 41.5rem;
   }
 `;
-interface MyFeedData {
-  MyFeedData: MyFeedData;
+interface FeedAuthor {
+  profileImageUrl: string | null;
+  nickname: string;
+  authorId: number;
+  level: number | null;
 }
 
-interface MyFeedDataProps {
-  MyFeedData: MyFeedData;
+interface Feed {
+  feedId: number;
+  author: FeedAuthor;
+  tags: string[];
+  mainText: string;
+  likesCount: number;
+  commentCnt: number;
+  createdByMe: boolean;
+  createdAt: string;
+  isLiked: boolean;
+  imageUrl: string | null;
 }
 
-export default function MyFeeds({ MyFeedData }: MyFeedDataProps) {
+interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: {
+    sorted: boolean;
+    empty: boolean;
+    unsorted: boolean;
+  };
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+}
+
+interface FeedResponse {
+  msg: string;
+  statusCode: number;
+  data: {
+    content: Feed[];
+    pageable: Pageable;
+    totalPages: number;
+    totalElements: number;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      sorted: boolean;
+      empty: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    empty: boolean;
+  };
+}
+
+interface MyFeedsProps {
+  myFeedData: FeedResponse[];
+}
+
+export default function MyFeeds({ myFeedData }: any) {
   return (
     <>
       <ImgGrid>
-        <ImgContainer>
-          <Image src={'/bell.svg'} alt="image" fill unoptimized={true} />
-        </ImgContainer>
+        {/* {myFeedData?.map((myFeedPages: any) =>
+          myFeedPages?.map((feed: Feed, index: number) => (
+            <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
+              <ImgContainer>
+                <Image
+                  src={feed.imageUrl ? feed.imageUrl : '/bell.svg'}
+                  alt="image"
+                  fill
+                />
+              </ImgContainer>
+            </Link>
+          )),
+        )} */}
+        {myFeedData?.map((feed: any, index: number) => (
+          <Link key={`${index}-feed`} href={`/feeds/${feed.feedId}`}>
+            <ImgContainer>
+              <Image src={feed.imageUrls} alt="image" fill unoptimized />
+            </ImgContainer>
+          </Link>
+        ))}
       </ImgGrid>
     </>
   );
