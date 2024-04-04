@@ -7,6 +7,7 @@ import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import { HeaderPopover } from '../main/HeaderPopover';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
+import { useEffect, useState } from 'react';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -51,7 +52,12 @@ const StyledLink = styled(Link)`
 
 export default function Header() {
   const { setKeyword } = useSearchMountainStore();
-  const token = localStorage.getItem('accessToken');
+
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setToken(localStorage.getItem('accessToken'));
+  }, []);
 
   return (
     <HeaderBox>
