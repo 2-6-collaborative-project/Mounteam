@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import { defaultInstance } from '@/src/lib/axiosInstance';
+import getMountainList from '@/src/components/explores/api/getMountainList';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -94,20 +95,14 @@ const Container = styled.div`
 export default function ExplorePage() {
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+    queryFn: () => getMountainList(0, 100),
   });
+  console.log('mountainList', mountainList);
 
-  // const { data: mountainData } = useQuery({
-  //   queryKey: ['mountainData'],
-  //   queryFn: () => defaultInstance.get('/explores'),
-  // });
-
-  // const mountainList = mountainData?.data.data;
-
-  // console.log("mountainList", mountainList)
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
   const { filteredItems, setFilteredItems } = useFilterMountainStore();
+
   const [allMountainList, setAllMountainList] = useState<mountainDataProps[]>(
     [],
   );
@@ -193,11 +188,19 @@ export default function ExplorePage() {
             {keyword === '' ? (
               filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
-                  <MountainInfo key={item.X좌표} type="explore" list={item} />
+                  <MountainInfo
+                    key={item.exploredId}
+                    type="explore"
+                    list={item}
+                  />
                 ))
               ) : (
-                allMountainList?.map((list) => (
-                  <MountainInfo key={list.X좌표} type="explore" list={list} />
+                mountainList?.map((list: mountainDataProps) => (
+                  <MountainInfo
+                    key={list.exploredId}
+                    type="explore"
+                    list={list}
+                  />
                 ))
               )
             ) : (

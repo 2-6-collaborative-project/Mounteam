@@ -46,29 +46,16 @@ const MountainStatus = styled.p`
   line-height: 2rem;
 `;
 
-interface MountainType {
-  X좌표: number;
-  Y좌표: number;
-  명산_높이: number;
-  명산_소재지: string;
-  명산_이름: string;
-  exploredId: number;
-  mountain: string;
-  imageUrls: string;
-  m_location: string;
-  m_height: string;
-  teamCnt: number;
-}
-
 export default function MountainInfo({
   type,
   list,
 }: {
   type: 'explore' | 'curation';
-  list: MountainType;
+  list: mountainDataProps;
 }) {
+  // console.log('list', list);
   if (type === 'explore') {
-    const exploreId = list.X좌표;
+    const exploreId = list.exploredId;
 
     return (
       <Link href={`/explores/${exploreId}/details`}>
@@ -82,12 +69,12 @@ export default function MountainInfo({
             alt="산 이미지"
           />
           <div>
-            <MountainName>{list?.명산_이름}</MountainName>
-            <MountainLocation>{list?.명산_소재지}</MountainLocation>
+            <MountainName>{list?.mountain}</MountainName>
+            <MountainLocation>{list?.m_location}</MountainLocation>
             <MountainDetail>
-              <MountainStatus>{list?.명산_높이}m</MountainStatus>
+              <MountainStatus>{list?.m_height}m</MountainStatus>
               <p> | </p>
-              <MountainStatus>모임 개수: 0개</MountainStatus>
+              <MountainStatus>모임 개수: {list?.teamCnt}개</MountainStatus>
             </MountainDetail>
           </div>
         </MountainItem>

@@ -7,7 +7,12 @@ export default interface mountainDataProps {
   exploredId: number;
   mountain: string;
   imageUrls: string;
-  m_location: string;
   m_height: string;
+  m_location: string;
+  difficulty: string;
   teamCnt: number;
+  reveiwCnt: number;
+  hasNext: boolean;
+  xdata: string;
+  ydata: string;
 }

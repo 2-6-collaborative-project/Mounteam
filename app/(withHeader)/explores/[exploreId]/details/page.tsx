@@ -8,6 +8,7 @@ import KakaoMap from '@/src/components/explores/KakaoMap';
 import Tab from '@/src/components/shared/Tab';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import getMountainData from '@/src/components/explores/api/getMountainData';
+import { defaultInstance } from '@/src/lib/axiosInstance';
 
 const MainTitle = styled.h2`
   margin-top: 4.8rem;
@@ -66,10 +67,7 @@ const DetailsContainer = styled.div`
 `;
 const MountaineImage = styled.div``;
 
-const StyledImage = styled(Image)`
-  width: 26rem;
-  hwight: 26rem;
-`;
+const StyledImage = styled(Image)``;
 
 const MountainContents = styled.div`
   display: flex;
@@ -134,24 +132,26 @@ export default function MountainDetail({
   params: { exploreId: number };
 }) {
   const exploreId = params.exploreId;
-  const { data: mountainList } = useQuery({
-    queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+  const { data: clickedMountainData } = useQuery({
+    queryKey: ['clickedMountainList'],
+    queryFn: () => defaultInstance.get(`/explores/${exploreId}`),
   });
 
-  const clickedMountain = mountainList?.find(
-    (list: mountainDataProps) => list.X좌표 === exploreId,
-  ); // 예시로 X좌표로 비교
+  const clickedMountain = clickedMountainData?.data.data;
+
+  // const clickedMountain = mountainList?.find(
+  //   (list: mountainDataProps) => list.X좌표 === exploreId,
+  // ); // 예시로 X좌표로 비교
 
   return (
     <>
       <Container>
         <Tab variant="explores" />
-        <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
+        <MainTitle>{clickedMountain?.mountain}</MainTitle>
         <MapContainer>
           <KakaoMap
             type="exploreSub"
-            mountainList={mountainList}
+            mountainList={[]}
             filteredItems={clickedMountain ? [clickedMountain] : []}
           />
         </MapContainer>
@@ -160,7 +160,7 @@ export default function MountainDetail({
             <ActivityTab>
               <ActivityText>
                 등산 모임 <br />
-                6개
+                {clickedMountain?.teamCnt}개
               </ActivityText>
             </ActivityTab>
           </StyledLink>
@@ -168,7 +168,7 @@ export default function MountainDetail({
             <LastChildActivityTab>
               <ActivityText>
                 등반 후기 <br />
-                5개
+                {clickedMountain?.reveiwCnt}개
               </ActivityText>
             </LastChildActivityTab>
           </StyledLink>
@@ -179,35 +179,26 @@ export default function MountainDetail({
               width={260}
               height={260}
               objectFit="cover"
-              src="/sample.jpg"
+              src={clickedMountain?.imageUrls}
               alt="산 이미지"
             />
           </MountaineImage>
           <MountainContents>
             <MountainContent $outline>
               <Title>개요</Title>
-              <Content>
-                지니고 자신에 셈 또 누리다. 엄중의 출발하라고 신은 기업을 괴력에
-                파악하다. 서로 사람의 이러하여 싫은 중간을 것 듯이 보아요.
-                콘크리트가 손도 논의가 면봉을 수 커집니다, 주문하게 없는 경우를
-                않다. 확대되다 지식에 당연히 이어받지요 때문 끊으네. 지 지니고
-                자신에 셈 또 누리다. 엄중의 출발하라고 신은 기업을 괴력에
-                파악하다. 서로 사람의 이러하여 싫은 중간을 것 듯이 보아요.
-                콘크리트가 손도 논의가 면봉을 수 커집니다, 주문하게 없는 경우를
-                않다. 확대되다 지식에 당연히 이어받지요 때문 끊으
-              </Content>
+              <Content>{clickedMountain?.explanation}</Content>
             </MountainContent>
             <MountainContent>
               <Title>산 높이</Title>
-              <Content>{clickedMountain?.명산_높이}m</Content>
+              <Content>{clickedMountain?.m_height}m</Content>
             </MountainContent>
             <MountainContent>
               <Title>위치</Title>
-              <Content>{clickedMountain?.명산_소재지}</Content>
+              <Content>{clickedMountain?.m_location}</Content>
             </MountainContent>
             <MountainContent>
               <Title>산 난이도</Title>
-              <Content>중</Content>
+              <Content>{clickedMountain?.difficulty}</Content>
             </MountainContent>
           </MountainContents>
         </DetailsContainer>

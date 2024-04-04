@@ -7,6 +7,7 @@ import mountainDataProps from '@/src/types/mountainDataProps';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import getMountainList from './api/getMountainList';
 
 interface HeightFilterProps {
   heightCheckedList: string[];
@@ -28,7 +29,7 @@ export default function HeightFilter({
   const { filteredItems, setFilteredItems } = useFilterMountainStore();
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+    queryFn: () => getMountainList(0, 100),
   });
 
   const { handleCheckAllChange, handleCheckListChange } = useExploreCheckbox();
