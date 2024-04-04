@@ -12,7 +12,9 @@ const MountainItem = styled.div`
   gap: 1.2rem;
 `;
 
-const MountainContent = styled.div``;
+const MountainContent = styled.div`
+  width: 30rem;
+`;
 
 const MountainImage = styled.div`
   & > img {

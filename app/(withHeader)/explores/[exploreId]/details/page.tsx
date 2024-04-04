@@ -160,7 +160,7 @@ export default function MountainDetail({
             <ActivityTab>
               <ActivityText>
                 등산 모임 <br />
-                n개
+                6개
               </ActivityText>
             </ActivityTab>
           </StyledLink>
@@ -168,7 +168,7 @@ export default function MountainDetail({
             <LastChildActivityTab>
               <ActivityText>
                 등반 후기 <br />
-                n개
+                5개
               </ActivityText>
             </LastChildActivityTab>
           </StyledLink>
