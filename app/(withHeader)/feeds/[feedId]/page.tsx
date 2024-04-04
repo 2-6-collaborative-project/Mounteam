@@ -8,9 +8,10 @@ import { useParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import FeedData from '@/src/types/feeds/FeedData';
 import {
-  getFeedComments,
+  getFeedData,
   getFeedSelect,
 } from '@/src/components/feeds/api/FeedData';
+import { useState, useEffect } from 'react';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -25,41 +26,65 @@ const ContentWrapper = styled.div`
 `;
 
 export default function Page() {
+  const [pageType, setPageType] = useState<string>();
+  const [feedDetailData, setFeedDetailData] = useState();
   const routerParams = useParams();
   const feedId = Array.isArray(routerParams.feedId)
     ? Number(routerParams.feedId[0])
     : Number(routerParams.feedId);
 
-  const {
-    data: feedDetailData,
-    refetch,
-    isLoading,
-    isSuccess,
-  } = useQuery<FeedData>({
-    queryKey: ['FeedData', feedId],
-    queryFn: () => getFeedSelect(feedId),
-  });
+  // const {
+  //   data: feedDetailData,
+  //   refetch,
+  //   isLoading,
+  //   isSuccess,
+  // } = useQuery<FeedData>({
+  //   queryKey: ['FeedData', feedId],
+  //   queryFn: () => getFeedSelect(feedId),
+  // });
+  // const testFn = () => {
+  //   refetch();
+  // };
 
-  const testFn = async () => {
-    return await refetch();
+  const { data: feedData } = useQuery<FeedData>({
+    queryKey: ['FeedData'],
+    queryFn: () => getFeedData(0, 10),
+  });
+  console.log(feedData);
+  /* const data =getdata() const parsedType = data.data.reviews.filter((item)=>(item.reviewId === feedid))*/
+
+  const getData = async () => {
+    const data = await getFeedSelect(pageType, feedId);
+    setFeedDetailData(data);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    const filterdData = feedData?.filter(
+      (item: any) => item.reviewId === feedId,
+    );
+    const parsedType = filterdData?.type;
+    setPageType(parsedType);
+    getData();
+    console.table({ parsedType: parsedType, feedId: feedId });
+    console.log('feedDetailData', feedDetailData);
+    console.log('feedDataMain', feedData);
+  }, [feedData, pageType, feedDetailData]);
 
-  if (!isSuccess) {
-    return <div>error</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  console.log(typeof refetch);
+  // if (!isSuccess) {
+  //   return <div>error</div>;
+  // }
+
   return (
     <>
       <TabContainer>
         <Tab variant="feeds" />
       </TabContainer>
       <ContentWrapper>
-        <FeedDetail feedData={feedDetailData} refetch={testFn} />
+        <FeedDetail feedData={feedDetailData} />
       </ContentWrapper>
     </>
   );
