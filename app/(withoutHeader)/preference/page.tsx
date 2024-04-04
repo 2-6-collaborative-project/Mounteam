@@ -22,6 +22,7 @@ const Body = styled.div`
   align-items: flex-start;
   margin: 0 auto;
   margin-bottom: 10rem;
+  padding-top: 8rem;
 
   @media (max-width: 768px) {
     padding: 0 3.44rem;
