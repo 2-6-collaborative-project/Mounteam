@@ -10,6 +10,7 @@ import Profile from '@/src/components/mypage/Profile';
 import Tab from '@/src/components/shared/Tab';
 import { getMyFeedData } from '@/src/components/mypage/api/getMyFeedData';
 import { getMyTeamData } from '@/src/components/mypage/api/getMyTeamsData';
+import { colors } from '@/app/styles/colors';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -70,6 +71,13 @@ const Text3 = styled.p<StyledProps>`
   line-height: 3.6rem;
 
   border-bottom: ${(props) => (props.selector === 3 ? '1px solid #000;' : '')};
+`;
+
+const NoText = styled.p`
+  color: ${colors.Grayscale[13]};
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3.6rem;
 `;
 
 interface StyledProps {
@@ -208,7 +216,7 @@ export default function Mypage() {
               <MyFeeds myFeedData={myFeedData?.data.reviews} />
             </>
           ) : selector === 2 ? (
-            ''
+            <NoText>저장된 피드가 없습니다.</NoText>
           ) : (
             <>
               <MyTeamList
