@@ -4,8 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import GlobalStyle from '@/app/styles/globals';
-import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
 
 const Logo = styled.div`
   position: relative;

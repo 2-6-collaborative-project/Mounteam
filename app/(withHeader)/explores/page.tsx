@@ -12,6 +12,8 @@ import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import { useEffect, useState } from 'react';
+import { colors } from '@/app/styles/colors';
+import typography from '@/app/styles/typography';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -35,30 +37,26 @@ const FilterContainer = styled.div`
 const MountainListContainer = styled.div``;
 
 const MountainSortHeader = styled.div`
-  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
   margin-bottom: 2rem;
-  text-align: right;
-  color: var(--MDS-GrayScale-13, #000);
-  font-size: 1.16667rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  line-height: 1.66667rem;
-
-  span:first-child {
-    padding-right: 1.75rem;
-  }
-  &:before {
-    content: '';
-    width: 0.1rem;
-    height: 1.5rem;
-    background-color: var(--MDS-GrayScale-5, #d9d9d9);
-    position: absolute;
-    top: 0.1rem;
-    right: 4.5rem;
-  }
+  line-height: 2rem;
+  color: ${colors.Grayscale[7]};
 `;
 
-const SortItem = styled.span`
+const SortItem = styled.span<{ $active: boolean }>`
   cursor: pointer;
+
+  color: ${(props) =>
+    props.$active ? colors.Grayscale[13] : colors.Grayscale[7]};
+  ${typography.Footnote14};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const MountainList = styled.div`
@@ -93,18 +91,18 @@ const Container = styled.div`
 `;
 
 export default function ExplorePage() {
-  const { keyword, searchedMountain, setSearchedMountain } =
-    useSearchMountainStore();
-  const { filteredItems, setFilteredItems } = useFilterMountainStore();
-
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 
+  const { keyword, searchedMountain, setSearchedMountain } =
+    useSearchMountainStore();
+  const { filteredItems, setFilteredItems } = useFilterMountainStore();
   const [allMountainList, setAllMountainList] = useState<mountainDataProps[]>(
     [],
   );
+  const [sortOrder, setSortOrder] = useState('name');
 
   useEffect(() => {
     if (mountainList) {
@@ -112,20 +110,14 @@ export default function ExplorePage() {
     }
   }, [mountainList]);
 
-  const [isSorting, setIsSorting] = useState(true);
-
   const sortListByName = (list: mountainDataProps[]) => {
-    return [...list].sort((a, b) =>
-      isSorting
-        ? b.명산_이름.localeCompare(a.명산_이름)
-        : a.명산_이름.localeCompare(b.명산_이름),
-    );
+    setSortOrder('name');
+    return [...list].sort((a, b) => a.명산_이름.localeCompare(b.명산_이름));
   };
 
   const sortListByTeamNumber = (list: mountainDataProps[]) => {
-    return [...list].sort((a, b) =>
-      isSorting ? b.명산_높이 - a.명산_높이 : a.명산_높이 - b.명산_높이,
-    );
+    setSortOrder('teamNum');
+    return [...list].sort((a, b) => Number(a.명산_높이) - Number(b.명산_높이));
   };
 
   const handleSortByName = () => {
@@ -138,8 +130,6 @@ export default function ExplorePage() {
 
       setFilteredItems(sortedFilterList);
     }
-
-    setIsSorting(!isSorting);
   };
 
   // 추후 API 연동시에 모임 개수로 대체될 예정입니다.
@@ -153,56 +143,60 @@ export default function ExplorePage() {
 
       setFilteredItems(filteredSortedList);
     }
-
-    setIsSorting(!isSorting);
   };
 
   return (
-    <>
-      <Container>
-        <Tab variant="explores" />
+    <Container>
+      <Tab variant="explores" />
 
-        <SearchMountainArea>
-          <MainTitle>대한민국 산 탐험하기</MainTitle>
-          <AutoSearchBar
-            type="search"
-            setSearchedMountain={setSearchedMountain}
-          />
-          <KakaoMap
-            type="exploreMain"
-            mountainList={mountainList}
-            filteredItems={filteredItems}
-          />
-        </SearchMountainArea>
+      <SearchMountainArea>
+        <MainTitle>대한민국 산 탐험하기</MainTitle>
+        <AutoSearchBar
+          type="search"
+          setSearchedMountain={setSearchedMountain}
+        />
+        <KakaoMap
+          type="exploreMain"
+          mountainList={mountainList}
+          filteredItems={filteredItems}
+        />
+      </SearchMountainArea>
 
-        <SearchResultArea>
-          <FilterContainer>
-            <ExploreFilterPanel />
-          </FilterContainer>
+      <SearchResultArea>
+        <FilterContainer>
+          <ExploreFilterPanel />
+        </FilterContainer>
 
-          <MountainListContainer>
-            <MountainSortHeader>
-              <SortItem onClick={handleSortByName}>가나다순</SortItem>
-              <SortItem onClick={handleSortByTeamNumber}>인기순</SortItem>
-            </MountainSortHeader>
-            <MountainList>
-              {keyword === '' ? (
-                filteredItems.length > 0 ? (
-                  filteredItems.map((item) => (
-                    <MountainInfo key={item.X좌표} list={item} />
-                  ))
-                ) : (
-                  allMountainList?.map((list) => (
-                    <MountainInfo key={list.X좌표} list={list} />
-                  ))
-                )
+        <MountainListContainer>
+          <MountainSortHeader>
+            <SortItem $active={sortOrder === 'name'} onClick={handleSortByName}>
+              가나다순
+            </SortItem>
+            <p> | </p>
+            <SortItem
+              $active={sortOrder === 'teamNum'}
+              onClick={handleSortByTeamNumber}
+            >
+              인기순
+            </SortItem>
+          </MountainSortHeader>
+          <MountainList>
+            {keyword === '' ? (
+              filteredItems.length > 0 ? (
+                filteredItems.map((item) => (
+                  <MountainInfo key={item.X좌표} list={item} />
+                ))
               ) : (
-                <MountainInfo list={searchedMountain} />
-              )}
-            </MountainList>
-          </MountainListContainer>
-        </SearchResultArea>
-      </Container>
-    </>
+                allMountainList?.map((list) => (
+                  <MountainInfo key={list.X좌표} list={list} />
+                ))
+              )
+            ) : (
+              <MountainInfo list={searchedMountain} />
+            )}
+          </MountainList>
+        </MountainListContainer>
+      </SearchResultArea>
+    </Container>
   );
 }

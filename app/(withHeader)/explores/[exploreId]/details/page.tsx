@@ -31,24 +31,30 @@ const StyledLink = styled(Link)`
   width: 100%;
 `;
 
-const ActivityTab = styled.div<{ $team?: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 14rem;
-
+const ActivityText = styled.p`
   color: #000;
   font-size: 2rem;
   font-weight: 600;
   line-height: 2.66667rem;
   text-align: center;
-  transition: background-color 0.3s ease;
-  border-radius: 30px;
-  &:hover {
-    background-color: ${({ $team }) => ($team ? '#D9D9D9;' : '#EED7D7;')};
+  transition: transform 0.3s ease;
+`;
+
+const ActivityTab = styled.div<{ $team?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 14rem;
+  border-right: 1px solid #000;
+
+  &:hover ${ActivityText} {
+    transform: translateY(-1rem);
   }
+`;
+
+const LastChildActivityTab = styled(ActivityTab)`
+  border-right: none;
 `;
 
 const DetailsContainer = styled.div`
@@ -129,7 +135,7 @@ export default function MountainDetail({
 }) {
   const exploreId = params.exploreId;
   const { data: mountainList } = useQuery({
-    queryKey: ['mountainList1'],
+    queryKey: ['mountainList'],
     queryFn: () => getMountainData(),
   });
 
@@ -151,18 +157,20 @@ export default function MountainDetail({
         </MapContainer>
         <ActivityTabs>
           <StyledLink href={`/explores/${exploreId}/teams`}>
-            <ActivityTab $team>
-              등산 모임
-              <br />
-              n개
+            <ActivityTab>
+              <ActivityText>
+                등산 모임 <br />
+                n개
+              </ActivityText>
             </ActivityTab>
           </StyledLink>
           <StyledLink href={`/explores/${exploreId}/reviews`}>
-            <ActivityTab>
-              등반 후기
-              <br />
-              n개
-            </ActivityTab>
+            <LastChildActivityTab>
+              <ActivityText>
+                등반 후기 <br />
+                n개
+              </ActivityText>
+            </LastChildActivityTab>
           </StyledLink>
         </ActivityTabs>
         <DetailsContainer>

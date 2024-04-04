@@ -15,16 +15,23 @@ export default function CheckValidAuth() {
 
     const checkTokenValidity = async () => {
       try {
-        if (accessToken && refreshToken) {
+        if (pathname === '/' || pathname === '/curation/season') {
+          return true;
+        } else if (accessToken && refreshToken) {
           const res = await authInstance.get('/user/profile');
-
-          console.log(res);
           return true;
         } else {
-          return router.push('/signin');
+          const confirmResult = window.confirm(
+            '토큰이 만료되어 로그인 페이지로 이동합니다. 다시 로그인 해주세요.',
+          );
+
+          if (confirmResult) return router.push('/signin');
         }
       } catch (e) {
-        return router.push('/signin');
+        const confirmResult = window.confirm(
+          '토큰이 만료되어 로그인 페이지로 이동합니다. 다시 로그인 해주세요.',
+        );
+        if (confirmResult) return router.push('/signin');
       }
     };
 
