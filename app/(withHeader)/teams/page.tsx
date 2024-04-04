@@ -10,7 +10,6 @@ import { defaultInstance } from '@/src/lib/axiosInstance';
 import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 
-
 const SearchBarContainer = styled.div`
   padding: 5rem 0 3.75rem 0;
 `;
@@ -167,7 +166,10 @@ export default function TeamsPage() {
         <Tab variant="teams" />
         <MainTitle>전체 등산 모임</MainTitle>
         <SearchBarContainer>
-          <SearchBar placeholder="검색" onSearch={handleSearch} />
+          <SearchBar
+            placeholder="함께 등산할 모임을 찾아보세요."
+            onSearch={handleSearch}
+          />
         </SearchBarContainer>
         <SearchResultArea>
           <FilterContainer>
