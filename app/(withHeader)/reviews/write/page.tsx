@@ -132,7 +132,7 @@ export default function ReviewWrite() {
       formData.append('imageUrl', item.originFileObj);
     });
     postRevieWrite(formData);
-    // router.push('/feeds');
+    router.push('/feeds');
   };
 
   useEffect(() => {
