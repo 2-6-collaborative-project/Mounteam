@@ -21,6 +21,11 @@ export default interface TeamDetails {
     authorId: number;
     nickname: string;
     profileImageUrl: string | null;
-    level: string | null;
+    level: number;
+    areaInterest: string;
+    authorAgeRange: string;
+    authorGender: string;
   };
+  createByMe: boolean;
+  createDate: string;
 }

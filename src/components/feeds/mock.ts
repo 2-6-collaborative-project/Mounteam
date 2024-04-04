@@ -1,6 +1,5 @@
 export interface Feed {
   id: number; // 게시글 아이디
-  exploreId: number; // 산 아이디
   author: {
     // 작성자
     profileImageUrl: string; // 작성자 프로필 사진
@@ -10,7 +9,7 @@ export interface Feed {
   };
   createdByme: boolean; // 내가 생성했는지
   createdAt: string; // 피드 생성일
-  imageUrl: string; // 피드 사진
+  imageUrl: string; // 피드 사진 (여러개받을때는 어떻게?)
   comments: string[]; // 피드 댓글
   likesCount: number; // 피드 좋아요 갯수
   isLiked: boolean; // 내가 좋아요 눌렀는지
@@ -23,7 +22,6 @@ export const feedMockData = (): Feed[] => {
   return [
     {
       id: 1,
-      exploreId: 1,
       author: {
         profileImageUrl:
           'https://www.forest.go.kr/kfsweb/cmm/fms/getImage.do?atchFileId=FILE_000000000424235&fileSn=4',
@@ -45,7 +43,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 2,
-      exploreId: 2,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -66,7 +63,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 3,
-      exploreId: 3,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -86,7 +82,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 4,
-      exploreId: 4,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -106,7 +101,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 5,
-      exploreId: 5,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -126,7 +120,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 6,
-      exploreId: 6,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -146,7 +139,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 7,
-      exploreId: 7,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -166,7 +158,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 8,
-      exploreId: 8,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -186,7 +177,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 9,
-      exploreId: 9,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',
@@ -206,7 +196,6 @@ export const feedMockData = (): Feed[] => {
     },
     {
       id: 10,
-      exploreId: 10,
       author: {
         profileImageUrl: '',
         nickname: 'John Doe',

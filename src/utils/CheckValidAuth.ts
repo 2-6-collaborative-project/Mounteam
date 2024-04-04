@@ -21,10 +21,17 @@ export default function CheckValidAuth() {
           const res = await authInstance.get('/user/profile');
           return true;
         } else {
-          return router.push('/signin');
+          const confirmResult = window.confirm(
+            '토큰이 만료되어 로그인 페이지로 이동합니다. 다시 로그인 해주세요.',
+          );
+
+          if (confirmResult) return router.push('/signin');
         }
       } catch (e) {
-        return router.push('/signin');
+        const confirmResult = window.confirm(
+          '토큰이 만료되어 로그인 페이지로 이동합니다. 다시 로그인 해주세요.',
+        );
+        if (confirmResult) return router.push('/signin');
       }
     };
 

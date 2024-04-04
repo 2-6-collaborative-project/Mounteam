@@ -6,24 +6,27 @@ import message from '@/public/message.svg';
 import bookmark from '@/public/bookmark.svg';
 import fillBookmark from '@/public/fillBookmark.svg';
 import Image from 'next/image';
-import { Feed } from '@/src/components/feeds/mock';
+import FeedData from '@/src/types/feeds/FeedData';
 
 interface InfoBoxProps {
-  feed: Feed;
+  feed: FeedData;
   $paddingleft?: string;
+  toggleLike?: () => void;
 }
 
 interface LikeComponentProps {
   isLiked: boolean;
   likesCount: number;
+  toggleLike?: () => void;
 }
 
 interface CommentComponentProps {
   comments: string[];
+  commentCnt: number;
 }
 
 interface BookmarkComponentProps {
-  isSaved: boolean;
+  isSaved?: boolean;
   $paddingleft?: string;
 }
 
@@ -78,21 +81,26 @@ const BookmarkBox = styled.div<{ $paddingleft?: string }>`
 const LikeComponent: React.FC<LikeComponentProps> = ({
   isLiked,
   likesCount,
+  toggleLike,
 }) => (
   <LikeBox>
     {isLiked ? (
-      <Image src={fillHeart} alt="좋아요 갯수 확인 아이콘" />
+      <Image
+        src={fillHeart}
+        alt="좋아요 갯수 확인 아이콘"
+        onClick={toggleLike}
+      />
     ) : (
-      <Image src={heart} alt="좋아요 갯수 확인 아이콘" />
+      <Image src={heart} alt="좋아요 갯수 확인 아이콘" onClick={toggleLike} />
     )}
     <p>{likesCount}</p>
   </LikeBox>
 );
 
-const CommentComponent: React.FC<CommentComponentProps> = ({ comments }) => (
+const CommentComponent: React.FC<CommentComponentProps> = ({ commentCnt }) => (
   <CommentBox>
     <Image src={message} alt="코멘트 갯수 확인 아이콘" />
-    <p>{comments.length}</p>
+    <p>{commentCnt}</p>
   </CommentBox>
 );
 
@@ -109,10 +117,18 @@ const BookmarkComponent: React.FC<BookmarkComponentProps> = ({
   </BookmarkBox>
 );
 
-export const InfoBox: React.FC<InfoBoxProps> = ({ feed, $paddingleft }) => (
+export const InfoBox: React.FC<InfoBoxProps> = ({
+  feed,
+  $paddingleft,
+  toggleLike,
+}) => (
   <InfoContainer>
-    <LikeComponent isLiked={feed.isLiked} likesCount={feed.likesCount} />
-    <CommentComponent comments={feed.comments} />
+    <LikeComponent
+      isLiked={feed.isLiked}
+      likesCount={feed.likesCount}
+      toggleLike={toggleLike}
+    />
+    <CommentComponent comments={feed.comments} commentCnt={feed.commentCnt} />
     <BookmarkComponent isSaved={feed.isSaved} $paddingleft={$paddingleft} />
   </InfoContainer>
 );
