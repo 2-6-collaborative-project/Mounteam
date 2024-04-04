@@ -2,26 +2,27 @@ import { authInstance } from '@/src/lib/axiosInstance';
 import FeedData from '@/src/types/feeds/FeedData';
 
 const BASE_URL = 'https://www.mounteam.site/api/feeds';
+const BASE_URL1 = 'https://www.mounteam.site/api';
 
 // 피드 전체 조회
-export async function getFeedData(pageNumber = 0, pageSize = 22) {
-  const url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${22}`;
+export async function getFeedData(pageNumber = 0, pageSize = 9) {
+  const url = `/feeds?pageNumber=${pageNumber}&pageSize=${pageSize}`;
   try {
     const response = await authInstance.get(url);
-
-    return response.data.data.content;
+    console.log(response.data.data.review);
+    return response.data.data.review;
   } catch (e) {
     console.log(e);
   }
 }
 
 // 피드 선택 조회
-export async function getFeedSelect(feedId: number) {
-  const url = `${BASE_URL}/${feedId}`;
+export async function getFeedSelect(type: string | undefined, feedId: number) {
+  const url = `${BASE_URL1}/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}`;
   try {
     const response = await authInstance.get(url);
 
-    return response.data.data;
+    return response.data.data.reviews;
   } catch (e) {
     console.log(e);
   }

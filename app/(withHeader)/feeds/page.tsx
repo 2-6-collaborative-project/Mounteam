@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import FeedSearch from '@/src/components/feeds/FeedSearch';
 import { getFeedData } from '@/src/components/feeds/api/FeedData';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import FeedData from '@/src/types/feeds/FeedData';
 
 const TabContainer = styled.div`
@@ -30,21 +30,37 @@ const FeedHomeInner = styled.div`
 `;
 
 export default function FeedHome() {
-  const { data: feedData, isLoading } = useQuery<FeedData[]>({
-    queryKey: ['FeedData'],
-    queryFn: () => getFeedData(0, 9),
+  // const { data: feedData, isLoading } = useQuery<FeedData[]>({
+  //   queryKey: ['FeedData'],
+  //   queryFn: () => getFeedData(0, 9),
+  // });
+
+  const {
+    data: feedData,
+    isPending,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['posts'],
+    queryFn: ({ pageParam }) => getFeedData(0, 9),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
+      lastPage.hasMore ? lastPageParam + 1 : undefined,
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  console.log(feedData);
   return (
     <FeedHomeLayer>
       <TabContainer>
         <Tab variant="feeds" />
       </TabContainer>
       <FeedFlex>
-        <FeedSearch feedData={feedData} />
+        <FeedSearch feedData={feedData?.pages} />
       </FeedFlex>
     </FeedHomeLayer>
   );
