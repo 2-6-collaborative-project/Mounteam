@@ -51,7 +51,7 @@ const StyledLink = styled(Link)`
 
 export default function Header() {
   const { setKeyword } = useSearchMountainStore();
-  const token = localStorage.getItem('accessToken');
+  // const token = localStorage.getItem('accessToken');
 
   return (
     <HeaderBox>
@@ -67,29 +67,27 @@ export default function Header() {
         </Link>
       </LogoContainer>
       <IconGap>
-        {token ? (
-          <>
-            <HeaderPopover
-              content={
-                <div>
-                  <StyledLink href="/teams/create">모임 생성</StyledLink>
-                  <StyledLink href="/explores/reviews">
-                    등반후기 등록
-                  </StyledLink>
-                  <StyledLink href="/teams/write">모임후기 등록</StyledLink>
-                </div>
-              }
-            >
-              <Image
-                src="/edit.svg"
-                alt="edit icon"
-                width={24}
-                height={24}
-                priority
-              />
-            </HeaderPopover>
+        {/* {token ? ( */}
+        <>
+          <HeaderPopover
+            content={
+              <div>
+                <StyledLink href="/teams/create">모임 생성</StyledLink>
+                <StyledLink href="/explores/reviews">등반후기 등록</StyledLink>
+                <StyledLink href="/teams/write">모임후기 등록</StyledLink>
+              </div>
+            }
+          >
+            <Image
+              src="/edit.svg"
+              alt="edit icon"
+              width={24}
+              height={24}
+              priority
+            />
+          </HeaderPopover>
 
-            {/* 알림 아이콘 임시 삭제
+          {/* 알림 아이콘 임시 삭제
             <Image
               src="/bell.svg"
               alt="bell icon"
@@ -98,24 +96,24 @@ export default function Header() {
               priority
             /> */}
 
-            <HeaderPopover
-              content={
-                <div>
-                  <StyledLink href="/">로그아웃</StyledLink>
-                  <StyledLink href="/mypage">마이페이지</StyledLink>
-                </div>
-              }
-            >
-              <Image
-                src="/user.svg"
-                alt="user icon"
-                width={24}
-                height={24}
-                priority
-              />
-            </HeaderPopover>
-          </>
-        ) : (
+          <HeaderPopover
+            content={
+              <div>
+                <StyledLink href="/">로그아웃</StyledLink>
+                <StyledLink href="/mypage">마이페이지</StyledLink>
+              </div>
+            }
+          >
+            <Image
+              src="/user.svg"
+              alt="user icon"
+              width={24}
+              height={24}
+              priority
+            />
+          </HeaderPopover>
+        </>
+        {/* ) : (
           <Link href="/signin">
             <Image
               src="/login.png"
@@ -125,7 +123,7 @@ export default function Header() {
               priority
             />
           </Link>
-        )}
+        )} */}
       </IconGap>
     </HeaderBox>
   );

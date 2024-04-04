@@ -32,6 +32,7 @@ export default function Page() {
 
   const {
     data: feedDetailData,
+    refetch,
     isLoading,
     isSuccess,
   } = useQuery<FeedData>({
@@ -39,14 +40,9 @@ export default function Page() {
     queryFn: () => getFeedSelect(feedId),
   });
 
-  const {
-    data: commentsData,
-    isPending,
-    isPlaceholderData,
-  } = useQuery({
-    queryKey: ['FeedData', feedId],
-    queryFn: () => getFeedComments(feedId),
-  });
+  const testFn = () => {
+    refetch();
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -56,13 +52,14 @@ export default function Page() {
     return <div>error</div>;
   }
 
+  console.log(typeof refetch);
   return (
     <>
       <TabContainer>
         <Tab variant="feeds" />
       </TabContainer>
       <ContentWrapper>
-        <FeedDetail feedData={feedDetailData} />
+        <FeedDetail feedData={feedDetailData} refetch={testFn} />
       </ContentWrapper>
     </>
   );

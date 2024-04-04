@@ -162,7 +162,6 @@ export default function FeedPage({ feedData }: FeedPageProps) {
       <p>삭제</p>
     </PopoverContentBox>
   );
-
   return (
     <>
       <FeedGrid>
@@ -178,19 +177,19 @@ export default function FeedPage({ feedData }: FeedPageProps) {
                 {<p>{feed.author.nickname}</p>}
               </HeadFont>
 
-              <MeatBallFrame>
-                {feed.createdByMe && (
+              {/* <MeatBallFrame>
+                {feed.createByMe && (
                   <CustomPopover content={content(feed.feedId)}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
                 )}
-              </MeatBallFrame>
+              </MeatBallFrame> */}
             </FeedHead>
 
-            {feed.imageUrl ? (
+            {Array.isArray(feed.imageUrls) ? (
               <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
                 <Image
-                  src={feed.imageUrl}
+                  src={feed.imageUrls[0]}
                   alt="image"
                   fill
                   unoptimized={true}
@@ -198,19 +197,12 @@ export default function FeedPage({ feedData }: FeedPageProps) {
               </PictureBox>
             ) : (
               <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
-                <div
-                  style={{
-                    display: 'flex',
-                    width: '31.5rem',
-                    height: '31.5rem',
-                    backgroundColor: 'whitesmoke',
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <p>올린 이미지가 없습니다.</p>
-                </div>
+                <Image
+                  src={feed.imageUrls}
+                  alt="피드 이미지"
+                  layout="fill"
+                  unoptimized={true}
+                />
               </PictureBox>
             )}
 
@@ -237,7 +229,8 @@ export default function FeedPage({ feedData }: FeedPageProps) {
             )}
             {isModalOpen && editFeedId !== null && (
               <FeedModify
-                feedId={editFeedId}
+                content={feed.mainText}
+                feedId={feed.feedId}
                 modalOpenState={isModalOpen}
                 setter={setIsModalOpen}
               />

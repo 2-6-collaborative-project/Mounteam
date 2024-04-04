@@ -11,12 +11,21 @@ import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   deleteFeedData,
+  deleteLikes,
+  getFeedComments,
   getFeedSelect,
   postFeedComments,
   postFeedData,
+  postLikes,
 } from './api/FeedData';
 import Comment from './Comment';
 
@@ -229,13 +238,14 @@ const CommentBarContainer = styled.div`
 const CommentBarWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 11px;
+  padding: 0 0 0.5rem 0;
 `;
 
 const TextWrapper = styled.div`
   width: 100%;
   & input {
     width: 100%;
+    padding-left: 1rem;
     height: 3rem;
     border: none;
 
@@ -251,11 +261,22 @@ const TextWrapper = styled.div`
 
 interface FeedDetailProps {
   feedData: FeedData;
+  refetch: (
+    options?: RefetchOptions | undefined,
+  ) => Promise<QueryObserverResult<FeedData, Error>>;
 }
-export default function FeedDetail({ feedData }: FeedDetailProps) {
+export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [comment, setComment] = useState('');
   const queryClient = useQueryClient();
+
+  // const { data: feedDetailData } = useQuery({
+  //   queryKey: ['feedData'],
+  //   queryFn: () => {
+  //     getFeedComments(feedData.feedId);
+  //   },
+  // });
 
   const addCommentMutation = useMutation({
     mutationFn: () => postFeedComments(feedData.feedId, { content: comment }),
@@ -265,29 +286,34 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
     },
   });
 
-  // const deleteFeedMutation = useMutation(
-  //   () => deleteFeedData(feedData.feedId),
-  // {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(['feedData']);
-  //     // 삭제 성공 메시지 표시, 모달 닫기 등의 추가 동작 가능
-  //     alert("피드가 성공적으로 삭제되었습니다.");
-  //     setIsModalOpen(false); // 모달을 닫는 경우
-  //   },
-  //   // 오류 처리
-  //   onError: () => {
-  //     alert("피드 삭제 중 오류가 발생했습니다.");
-  //     console.error("오류발생");
-  //   },
-  // }
-  // )
+  const deleteFeedMutation = useMutation({
+    mutationFn: (feedId: number) => deleteFeedData(feedId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['feedData'] });
+    },
+  });
 
-  // const handleDeleteClick = () => {
-  //   const isConfirmed = window.confirm("피드를 삭제하시겠습니까?");
-  //   if (isConfirmed) {
-  //     deleteFeedMutation.mutate(feedData.feedId);
-  //   }
-  // };
+  const postLikeMutation = useMutation({
+    mutationFn: (feedId: number) => postLikes(feedId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['likeData', feedData.feedId],
+      });
+    },
+  });
+
+  const deleteLikeMutation = useMutation({
+    mutationFn: (feedId: number) => deleteLikes(feedId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['likeData', feedData.feedId],
+      });
+    },
+  });
+
+  const handleDeleteClick = (feedId: number) => {
+    deleteFeedMutation.mutate(feedId);
+  };
 
   const onChange = (currentSlide: number) => {
     // console.log(currentSlide);
@@ -297,10 +323,19 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
     setIsModalOpen(!isModalOpen);
   };
 
+  // 좋아요 상태를 토글하는 함수
+  const toggleLike = async () => {
+    if (feedData.isLiked) {
+      await deleteLikeMutation.mutate(feedData.feedId);
+    } else {
+      await postLikeMutation.mutate(feedData.feedId);
+    }
+  };
+
   const content = (
     <PopoverContentBox>
       <p onClick={() => handleEditClick(feedData.feedId)}>수정</p>
-      <p>삭제</p>
+      <p onClick={() => handleDeleteClick(feedData.feedId)}>삭제</p>
     </PopoverContentBox>
   );
   const inputRef = useRef<HTMLInputElement>(null);
@@ -312,9 +347,10 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     addCommentMutation.mutate();
+    setTimeout(refetch, 70);
   };
 
-  console.log(feedData);
+  // console.log(feedData);
   return (
     <>
       <ContentsContainer>
@@ -328,7 +364,7 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
               </HeadFont>
 
               <MeatBallFrame>
-                {feedData.createdByMe && (
+                {feedData.createByMe && (
                   <CustomPopover content={content}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
@@ -337,15 +373,15 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
             </ProfileWrapper>
           </ProfileContainer>
           <CarouselConatiner>
-            <Carousel afterChange={onChange}>
+            <Carousel afterChange={onChange} autoplay>
               {feedData.imageUrls.map((url, index) => (
                 <CarouselWrapper key={index}>
                   <Image
-                    width={'100'}
-                    height={'100'}
+                    width={'399'}
+                    height={'399'}
                     src={url}
                     alt={`img-${index}`}
-                    objectFit="cover" // 이미지가 컨테이너를 꽉 채우도록 조정
+                    objectFit="cover"
                   />
                 </CarouselWrapper>
               ))}
@@ -363,18 +399,25 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
             </TagContainer>
             {feedData.mainText ? (
               <TextBox>
-                <p>{feedData.mainText}</p>
+                <p>{feedData?.mainText}</p>
               </TextBox>
             ) : (
               '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
             )}
 
-            <InfoBox feed={feedData} $paddingleft="0rem" />
+            <InfoBox
+              feed={feedData}
+              $paddingleft="0rem"
+              toggleLike={toggleLike}
+            />
           </InfoWrapper>
           <form onSubmit={handleSubmit}>
             <CommentBarContainer onClick={handleClick}>
               <CommentBarWrapper>
-                <Avatars type="comment" img={feedData.author.profileImageUrl} />
+                <Avatars
+                  type="comment"
+                  img={feedData?.author.profileImageUrl}
+                />
                 <TextWrapper>
                   <input
                     placeholder="댓글을 작성해주세요"
@@ -387,14 +430,15 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
           </form>
           <Comment feedData={feedData} />
         </InfoContainer>
+        {isModalOpen && feedData.feedId !== null && (
+          <FeedModify
+            feedId={feedData.feedId}
+            content={feedData.mainText}
+            modalOpenState={isModalOpen}
+            setter={setIsModalOpen}
+          />
+        )}
       </ContentsContainer>
-      {isModalOpen && feedData.feedId !== null && (
-        <FeedModify
-          feedId={feedData.feedId}
-          modalOpenState={isModalOpen}
-          setter={setIsModalOpen}
-        />
-      )}
     </>
   );
 }

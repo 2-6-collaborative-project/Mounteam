@@ -11,11 +11,13 @@ import FeedData from '@/src/types/feeds/FeedData';
 interface InfoBoxProps {
   feed: FeedData;
   $paddingleft?: string;
+  toggleLike?: () => void;
 }
 
 interface LikeComponentProps {
   isLiked: boolean;
   likesCount: number;
+  toggleLike?: () => void;
 }
 
 interface CommentComponentProps {
@@ -24,7 +26,7 @@ interface CommentComponentProps {
 }
 
 interface BookmarkComponentProps {
-  isSaved: boolean;
+  isSaved?: boolean;
   $paddingleft?: string;
 }
 
@@ -79,12 +81,17 @@ const BookmarkBox = styled.div<{ $paddingleft?: string }>`
 const LikeComponent: React.FC<LikeComponentProps> = ({
   isLiked,
   likesCount,
+  toggleLike,
 }) => (
   <LikeBox>
     {isLiked ? (
-      <Image src={fillHeart} alt="좋아요 갯수 확인 아이콘" />
+      <Image
+        src={fillHeart}
+        alt="좋아요 갯수 확인 아이콘"
+        onClick={toggleLike}
+      />
     ) : (
-      <Image src={heart} alt="좋아요 갯수 확인 아이콘" />
+      <Image src={heart} alt="좋아요 갯수 확인 아이콘" onClick={toggleLike} />
     )}
     <p>{likesCount}</p>
   </LikeBox>
@@ -110,9 +117,17 @@ const BookmarkComponent: React.FC<BookmarkComponentProps> = ({
   </BookmarkBox>
 );
 
-export const InfoBox: React.FC<InfoBoxProps> = ({ feed, $paddingleft }) => (
+export const InfoBox: React.FC<InfoBoxProps> = ({
+  feed,
+  $paddingleft,
+  toggleLike,
+}) => (
   <InfoContainer>
-    <LikeComponent isLiked={feed.isLiked} likesCount={feed.likesCount} />
+    <LikeComponent
+      isLiked={feed.isLiked}
+      likesCount={feed.likesCount}
+      toggleLike={toggleLike}
+    />
     <CommentComponent comments={feed.comments} commentCnt={feed.commentCnt} />
     <BookmarkComponent isSaved={feed.isSaved} $paddingleft={$paddingleft} />
   </InfoContainer>

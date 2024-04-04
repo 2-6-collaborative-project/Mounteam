@@ -51,10 +51,14 @@ const CommentBody = styled.div`
   padding-left: 1rem;
   border: 1px solid ${colors.Grayscale[13]};
   color: ${colors.Grayscale[13]};
-  font-size: 12px;
+  font-size: 2rem;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.12px;
+
+  & div {
+    display: flex;
+  }
 `;
 
 interface CommentProps {
@@ -78,6 +82,7 @@ export default function Comment({ feedData }: CommentProps) {
 
     fetchUserProfile();
   }, []);
+
   return (
     <>
       <CommentContainer>
@@ -87,13 +92,14 @@ export default function Comment({ feedData }: CommentProps) {
             img={feedData.author.profileImageUrl}
             name={feedData.author.nickname}
           />
+          의 게시물 댓글
         </CommentHeader>
         <CommentBody>
           {feedData.comments?.map((comment, index) => (
-            <p key={index}>
-              {/* <Image src={profileImg} alt={'프로필 이미지'} /> */}
-              {nickname}: {comment}
-            </p>
+            <div key={index}>
+              👦<p style={{ paddingLeft: '0.5rem' }}>{nickname}:</p>
+              <p> {comment}</p>
+            </div>
           ))}
         </CommentBody>
       </CommentContainer>

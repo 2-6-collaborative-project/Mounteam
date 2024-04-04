@@ -1,3 +1,5 @@
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+
 export default interface FeedData {
   author: {
     authorId: number;
@@ -8,7 +10,7 @@ export default interface FeedData {
   comments: string[] | [];
   commentCnt: number;
   createdAt: string;
-  createdByMe: boolean;
+  createByMe: boolean;
   feedId: number;
   isLiked: boolean;
   likesCount: number;

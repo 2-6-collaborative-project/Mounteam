@@ -4,8 +4,8 @@ import FeedData from '@/src/types/feeds/FeedData';
 const BASE_URL = 'https://www.mounteam.site/api/feeds';
 
 // 피드 전체 조회
-export async function getFeedData(pageNumber = 0, pageSize = 20) {
-  const url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export async function getFeedData(pageNumber = 0, pageSize = 22) {
+  const url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${22}`;
   try {
     const response = await authInstance.get(url);
 
@@ -40,10 +40,10 @@ export async function postFeedData(feedData: FeedData[]) {
 }
 
 // 피드 수정
-export async function putFeedData(feedId: number) {
+export async function putFeedData(feedId: number, formData: FormData) {
   const url = `${BASE_URL}/${feedId}`;
   try {
-    const response = await authInstance.put(url);
+    const response = await authInstance.put(url, formData);
 
     return response.data;
   } catch (e) {
