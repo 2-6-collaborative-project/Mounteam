@@ -40,8 +40,8 @@ export default function Page() {
     queryFn: () => getFeedSelect(feedId),
   });
 
-  const testFn = () => {
-    refetch();
+  const testFn = async () => {
+    return await refetch();
   };
 
   if (isLoading) {

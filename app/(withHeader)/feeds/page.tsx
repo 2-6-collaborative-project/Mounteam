@@ -46,7 +46,6 @@ export default function FeedHome() {
       <FeedFlex>
         <FeedSearch feedData={feedData} />
       </FeedFlex>
-      <FeedHomeInner>{/* <FeedPage feeds={feeds} /> */}</FeedHomeInner>
     </FeedHomeLayer>
   );
 }
