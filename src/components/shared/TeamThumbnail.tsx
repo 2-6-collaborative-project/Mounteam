@@ -22,6 +22,7 @@ const TeamBox = styled.div`
   align-items: flex-start;
   gap: 1.23356rem;
   box-sizing: border-box;
+  cursor: pointer;
 
   &:hover {
     border-radius: 0.1875rem;
