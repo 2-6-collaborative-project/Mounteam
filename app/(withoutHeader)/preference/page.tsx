@@ -118,14 +118,17 @@ export default function Preference() {
   const [personalInfoConsent, setPersonalInfoConsent] = useState(false);
 
   const onGenderChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     setGender(e.target.value);
   };
 
   const onAgeChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     setAge(e.target.value);
   };
 
   const onRegionChange = (e: RadioChangeEvent) => {
+    console.log(e.target.value);
     setRegion(e.target.value);
   };
 
