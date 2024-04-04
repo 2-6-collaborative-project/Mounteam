@@ -11,15 +11,7 @@ const StyledSlideContent = styled.h3`
   text-align: center;
   background: #40a9ff;
   width: 100%;
-  height: 25.125rem;
-
-  @media (max-width: 768px) {
-    height: 16.1875rem;
-  }
-
-  @media (max-width: 480px) {
-    height: 10.5rem;
-  }
+  height: auto;
 `;
 
 const CarouselContainer = styled.div`
@@ -34,18 +26,42 @@ export default function CarouselSection() {
 
   return (
     <CarouselContainer>
-      <Carousel afterChange={onChange}>
+      <Carousel autoplay>
         <div>
-          <StyledSlideContent>1</StyledSlideContent>
+          <StyledSlideContent>
+            <Image
+              src={'/season.jpg'}
+              alt="계절별 추천 이미지"
+              layout="responsive"
+              width={1200}
+              height={527.42}
+              priority
+            />
+          </StyledSlideContent>
         </div>
         <div>
-          <StyledSlideContent>2</StyledSlideContent>
+          <StyledSlideContent>
+            <Image
+              src={'/beginner.jpg'}
+              alt="초심자 추천 이미지"
+              layout="responsive"
+              width={1200}
+              height={527.42}
+              priority
+            />
+          </StyledSlideContent>
         </div>
         <div>
-          <StyledSlideContent>3</StyledSlideContent>
-        </div>
-        <div>
-          <StyledSlideContent>4</StyledSlideContent>
+          <StyledSlideContent>
+            <Image
+              src={'/teamsample.jpg'}
+              alt="모임 추천 이미지"
+              layout="responsive"
+              width={1200}
+              height={527.42}
+              priority
+            />
+          </StyledSlideContent>
         </div>
       </Carousel>
     </CarouselContainer>

@@ -109,14 +109,14 @@ interface Team {
 }
 
 interface Author {
-  profileImageUrl: string;
+  profileImageUrls: string;
   level: number;
   nickname: string;
 }
 
 interface Feed {
   author: Author;
-  imageUrl?: string;
+  imageUrls?: string;
   createdByme: boolean;
   id: number;
 }

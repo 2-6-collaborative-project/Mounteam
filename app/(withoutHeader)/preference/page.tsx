@@ -190,37 +190,37 @@ export default function Preference() {
         <RadioCol>
           <RadioLabel>성별</RadioLabel>
           <Radio.Group onChange={onGenderChange} value={gender}>
-            <Radio value="1">여성</Radio>
-            <Radio value="2">남성</Radio>
+            <Radio value="female">여성</Radio>
+            <Radio value="male">남성</Radio>
           </Radio.Group>
           <RadioLabel>연령대</RadioLabel>
           <Radio.Group onChange={onAgeChange} value={age}>
-            <Radio value="1">10대</Radio>
-            <Radio value="2">20대</Radio>
-            <Radio value="3">30대</Radio>
-            <Radio value="4">40대</Radio>
-            <Radio value="5">50대</Radio>
-            <Radio value="6">60대 이상</Radio>
+            <Radio value="teenager">10대</Radio>
+            <Radio value="twenties">20대</Radio>
+            <Radio value="thirties">30대</Radio>
+            <Radio value="forties">40대</Radio>
+            <Radio value="fifties">50대</Radio>
+            <Radio value="sixties">60대 이상</Radio>
           </Radio.Group>
 
           <RadioLabel>관심지역</RadioLabel>
           <RegionCol>
             <div>
               <Radio.Group onChange={onRegionChange} value={region}>
-                <Radio value="1">서울</Radio>
-                <Radio value="2">경기도</Radio>
-                <Radio value="3">강원도</Radio>
-                <Radio value="4">충청북도</Radio>
-                <Radio value="5">충청남도</Radio>
+                <Radio value="서울">서울</Radio>
+                <Radio value="경기도">경기도</Radio>
+                <Radio value="강원도">강원도</Radio>
+                <Radio value="충청북도">충청북도</Radio>
+                <Radio value="충청남도">충청남도</Radio>
               </Radio.Group>
             </div>
             <div>
               <Radio.Group onChange={onRegionChange} value={region}>
-                <Radio value="6">전라북도</Radio>
-                <Radio value="7">전라남도</Radio>
-                <Radio value="8">경상북도</Radio>
-                <Radio value="9">경상남도</Radio>
-                <Radio value="10">제주도</Radio>
+                <Radio value="전라북도">전라북도</Radio>
+                <Radio value="전라남도">전라남도</Radio>
+                <Radio value="경상북도">경상북도</Radio>
+                <Radio value="경상남도">경상남도</Radio>
+                <Radio value="제주도">제주도</Radio>
               </Radio.Group>
             </div>
           </RegionCol>
