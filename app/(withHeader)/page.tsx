@@ -87,15 +87,15 @@ const FeedThumbnailContainer = styled.div`
   row-gap: 2.1875rem;
   padding-bottom: 7.5rem;
 
-  @media (max-width: 720px) {
+  @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, auto);
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(2, auto);
-    row-gap: 4.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4.375rem;
   }
 `;
 
@@ -123,7 +123,8 @@ interface Feed {
 export default function Home() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [feeds, setFeeds] = useState<Feed[]>([]);
-  const [numItems, setNumItems] = useState(6);
+  const [numTeams, setNumTeams] = useState(6);
+  const [numFeeds, setNumFeeds] = useState(3);
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -165,9 +166,14 @@ export default function Home() {
 
     const handleResize = () => {
       if (window.innerWidth <= 480) {
-        setNumItems(4);
+        setNumTeams(4);
+        setNumFeeds(2);
+      } else if (window.innerWidth <= 768) {
+        setNumTeams(6);
+        setNumFeeds(6);
       } else {
-        setNumItems(6);
+        setNumTeams(6);
+        setNumFeeds(3);
       }
     };
 
@@ -214,7 +220,7 @@ export default function Home() {
           </StyledLink>
         </Between>
         <TeamThumbnailContainer>
-          {teams.slice(0, numItems).map((team) => (
+          {teams.slice(0, numTeams).map((team) => (
             <TeamThumbnail key={team.teamId} team={team} />
           ))}
         </TeamThumbnailContainer>
@@ -225,7 +231,7 @@ export default function Home() {
           </StyledLink>
         </Between>
         <FeedThumbnailContainer>
-          {feeds.slice(0, 3).map((feed) => (
+          {feeds.slice(0, numFeeds).map((feed) => (
             <FeedThumbnail key={feed.id} feed={feed} />
           ))}
         </FeedThumbnailContainer>

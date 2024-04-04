@@ -33,10 +33,10 @@ const HeadFont = styled.div`
 
 const PictureBox = styled.div`
   cursor: pointer;
-  width: 31.5rem;
-  height: 31.5rem;
+  width: 100%;
+  height: 100%;
   position: relative;
-  background-color: ${colors.Grayscale[4]};
+  background-color: ${colors.Grayscale[3]};
 
   & img {
     object-fit: contain;
@@ -45,12 +45,22 @@ const PictureBox = styled.div`
 
 const NoImageBox = styled.div`
   display: flex;
-  width: 31.5rem;
-  height: 31.5rem;
-  background-color: whitesmoke;
+  width: 100%;
+  position: relative;
   text-align: center;
   justify-content: center;
   align-items: center;
+  background-color: ${colors.Grayscale[3]};
+
+  &::after {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+
+  > p {
+    position: absolute;
+  }
 `;
 
 interface Author {
@@ -68,6 +78,7 @@ interface Feed {
 export default function FeedThumbnail({ feed }: { feed: Feed }) {
   const router = useRouter();
 
+  // 이동 경로 판별 로직 수정 필요
   const handleClick = () => {
     router.push(`/feeds/${feed.id}`);
   };
