@@ -21,7 +21,9 @@ const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
   });
 
   instance.interceptors.request.use((config) => {
-    const token = `${localStorage.getItem('accessToken')}`;
+    // const token = `${localStorage.getItem('accessToken')}`; 개발 완료 후 주석 제거
+    const token =
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MzgiLCJleHAiOjE3MTI4MTIwMTR9.0UiKu9DKWdUymOcY-1Dy6DcVyDDGVjdXFtEPLY12MJk';
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -29,7 +31,6 @@ const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
 
     return config;
   });
-
   instance.interceptors.response.use(
     //성공적인 응답 처리
     (response) => {

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { colors } from '@/app/styles/colors';
 import Avatars from '@/src/components/shared/Avatar';
+import FeedData from '@/src/types/feeds/FeedData';
+import { useEffect, useState } from 'react';
+import { getUserProfile } from './api/FeedData';
+import Image from 'next/image';
 
 const CommentContainer = styled.div`
   display: flex;
@@ -44,14 +48,41 @@ const CommentHeader = styled.div`
 
 const CommentBody = styled.div`
   width: 315px;
+  padding-left: 1rem;
   border: 1px solid ${colors.Grayscale[13]};
   color: ${colors.Grayscale[13]};
-  font-size: 12px;
+  font-size: 2rem;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.12px;
+
+  & div {
+    display: flex;
+  }
 `;
-export default function Comment({ feedData }: any) {
+
+interface CommentProps {
+  feedData: FeedData;
+}
+
+export default function Comment({ feedData }: CommentProps) {
+  const [nickname, setNickname] = useState('');
+  const [profileImg, setProfileImg] = useState('');
+
+  useEffect(() => {
+    async function fetchUserProfile() {
+      try {
+        const profileData = await getUserProfile();
+        setNickname(profileData.data.nickname);
+        setProfileImg(profileData.data.profileImage);
+      } catch (error) {
+        console.error('프로필 정보 조회 실패:', error);
+      }
+    }
+
+    fetchUserProfile();
+  }, []);
+
   return (
     <>
       <CommentContainer>
@@ -61,10 +92,14 @@ export default function Comment({ feedData }: any) {
             img={feedData.author.profileImageUrl}
             name={feedData.author.nickname}
           />
+          의 게시물 댓글
         </CommentHeader>
         <CommentBody>
-          {feedData.comments.map((comment: string[], index: number) => (
-            <p key={index}>{comment}</p>
+          {feedData.comments?.map((comment, index) => (
+            <div key={index}>
+              👦<p style={{ paddingLeft: '0.5rem' }}>{nickname}:</p>
+              <p> {comment}</p>
+            </div>
           ))}
         </CommentBody>
       </CommentContainer>

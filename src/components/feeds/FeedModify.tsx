@@ -4,10 +4,13 @@ import { colors } from '@/app/styles/colors';
 import ImgUpload from '../review/write/ImgUpload';
 import TextArea from 'antd/es/input/TextArea';
 import Tags from '../review/write/Tag';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { getFeedSelect, putFeedData } from './api/FeedData';
+import { useQuery } from '@tanstack/react-query';
+import useFeedEditStore from '@/src/store/useFeedEditStore';
 interface ModalProps {
   feedId: number;
+  content: string;
   modalOpenState: boolean;
   confirmFunc?: () => void;
   setter: (value: boolean) => void;
@@ -43,13 +46,53 @@ export default function FeedModify({
   feedId,
   setter,
   modalOpenState,
-  confirmFunc,
+  content,
 }: ModalProps) {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const onOkFunc = () => {
-    if (confirmFunc !== undefined) {
-      confirmFunc();
+  const { tags, setTags, fileList, setFileList, contents, setContents } =
+    useFeedEditStore();
+
+  const { data: detailData } = useQuery({
+    queryKey: ['detailData'],
+    queryFn: () => getFeedSelect(feedId),
+  });
+  console.log(content);
+  console.log(contents);
+
+  useEffect(() => {
+    if (detailData) {
+      setTags(detailData.tags);
+      setContents(detailData.contents);
+      setFileList(
+        detailData.imageUrls.map((item: any, index: any) => ({
+          uid: index,
+          name: `image-${index}`,
+          status: 'done',
+          url: item,
+        })),
+      );
     }
+  }, [detailData]);
+
+  const editFeedDetailData = () => {
+    const feedDetailData = {
+      content: contents,
+      hashTags: tags,
+    };
+    const jsonFeedData = JSON.stringify(feedDetailData);
+    const feedPutData = new Blob([jsonFeedData]);
+    const formData = new FormData();
+
+    formData.append('feedUpdateRequest', feedPutData);
+
+    fileList.map((item: any) => {
+      formData.append('imageUrl', item.originFileObj);
+    });
+    putFeedData(feedId, formData);
+  };
+
+  const onOkFunc = async () => {
+    await editFeedDetailData();
+    window.location.reload();
     setter(false);
   };
 
@@ -79,11 +122,14 @@ export default function FeedModify({
         </Sector>
         <Sector>
           <Label>내용</Label>
-          <TextArea />
+          <TextArea
+            onChange={(e) => setContents(e.target.value)}
+            defaultValue={contents}
+          />
         </Sector>
         <Sector>
           <Label>태그</Label>
-          <Tags />
+          <Tags tags={tags} setTags={setTags} />
         </Sector>
       </Modal>
     </>

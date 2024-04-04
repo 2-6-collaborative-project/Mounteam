@@ -10,13 +10,13 @@ import { InfoBox } from '@/src/components/shared/InfoBox';
 import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
+import FeedData from '@/src/types/feeds/FeedData';
 
 interface FeedImgProps {
   imageUrl?: string;
 }
-
 export interface FeedPageProps {
-  feeds: any;
+  feedData: FeedData[];
 }
 
 const FeedGrid = styled.div`
@@ -143,11 +143,10 @@ const PopoverContentBox = styled.div`
 `;
 
 // 후기 컴포넌트
-export default function FeedPage({ feeds }: FeedPageProps) {
+export default function FeedPage({ feedData }: FeedPageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { editFeedId, setEditFeedId } = useFeedIdStore();
-
-  console.log(feeds);
+  console.log(feedData);
   const router = useRouter();
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
@@ -163,12 +162,11 @@ export default function FeedPage({ feeds }: FeedPageProps) {
       <p>삭제</p>
     </PopoverContentBox>
   );
-
   return (
     <>
       <FeedGrid>
-        {feeds.map((feed: any) => (
-          <div key={feed.id}>
+        {feedData.map((feed: FeedData) => (
+          <div key={feed.feedId}>
             <FeedHead>
               <HeadWrapper>
                 <Avatars type="" img={feed.author.profileImageUrl} />
@@ -179,41 +177,32 @@ export default function FeedPage({ feeds }: FeedPageProps) {
                 {<p>{feed.author.nickname}</p>}
               </HeadFont>
 
-              <MeatBallFrame>
-                {feed.createdByme && (
-                  <CustomPopover content={content(feed.id)}>
+              {/* <MeatBallFrame>
+                {feed.createByMe && (
+                  <CustomPopover content={content(feed.feedId)}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
                 )}
-              </MeatBallFrame>
+              </MeatBallFrame> */}
             </FeedHead>
 
-            {feed.imageUrl ? (
-              <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
+            {Array.isArray(feed.imageUrls) ? (
+              <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
                 <Image
-                  layout="responsive"
-                  width={260}
-                  height={260}
-                  src={feed.imageUrl}
+                  src={feed.imageUrls[0]}
                   alt="image"
+                  fill
                   unoptimized={true}
                 />
               </PictureBox>
             ) : (
-              <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
-                <div
-                  style={{
-                    display: 'flex',
-                    width: '31.5rem',
-                    height: '31.5rem',
-                    backgroundColor: 'whitesmoke',
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <p>올린 이미지가 없습니다.</p>
-                </div>
+              <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
+                <Image
+                  src={feed.imageUrls}
+                  alt="피드 이미지"
+                  layout="fill"
+                  unoptimized={true}
+                />
               </PictureBox>
             )}
 
@@ -240,13 +229,15 @@ export default function FeedPage({ feeds }: FeedPageProps) {
             )}
             {isModalOpen && editFeedId !== null && (
               <FeedModify
-                feedId={editFeedId}
+                content={feed.mainText}
+                feedId={feed.feedId}
                 modalOpenState={isModalOpen}
                 setter={setIsModalOpen}
               />
             )}
           </div>
         ))}
+        {feedData.length === 0 && <div>표시할 피드가 없습니다.</div>}
       </FeedGrid>
     </>
   );

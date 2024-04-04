@@ -59,7 +59,7 @@ export default function RootLayout({
                 <Header />
                 <InnerLayout>
                   <GlobalStyle />
-                  <CheckValidAuth />
+                  {/* <CheckValidAuth /> */}
                   {children}
                 </InnerLayout>
                 <Footer />
