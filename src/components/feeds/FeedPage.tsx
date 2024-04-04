@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
+import Router from 'next/router';
 
 interface FeedImgProps {
   imageUrl?: string;
@@ -20,7 +21,7 @@ export interface Feeds {
   feeds: FeedData[];
 }
 export interface FeedPageProps {
-  feedData: Feeds[];
+  feedData: FeedData[];
 }
 
 const FeedGrid = styled.div`
@@ -196,10 +197,13 @@ export default function FeedPage({ feedData }: FeedPageProps) {
                   </PictureBox>
                 </Link>
               ) : (
-                <Link href={`/feeds/${item.reviewId}`}>
-                  <PictureBox
-                    onClick={() => router.push(`/feeds/${item.reviewId}`)}
-                  >
+                <Link
+                  href={{
+                    pathname: `/feeds/${item.reviewId}`,
+                    query: { feedType: item.type },
+                  }}
+                >
+                  <PictureBox>
                     <Image
                       src={item.imageUrls}
                       alt="피드 이미지"

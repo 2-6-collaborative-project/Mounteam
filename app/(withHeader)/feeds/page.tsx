@@ -53,7 +53,7 @@ export default function FeedHome() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log(feedData);
+  // console.log('@@@', feedData);
   return (
     <FeedHomeLayer>
       <TabContainer>

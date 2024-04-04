@@ -9,20 +9,21 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
   const url = `/feeds?pageNumber=${pageNumber}&pageSize=${pageSize}`;
   try {
     const response = await authInstance.get(url);
-    console.log(response.data.data.review);
-    return response.data.data.review;
+    // console.log(response.data.data);
+    return response.data.data.reviews;
   } catch (e) {
     console.log(e);
   }
 }
 
 // 피드 선택 조회
-export async function getFeedSelect(type: string | undefined, feedId: number) {
-  const url = `${BASE_URL1}/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}`;
+export async function getFeedSelect(type: string | null, feedId: number) {
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}`;
+  console.log(url);
   try {
     const response = await authInstance.get(url);
 
-    return response.data.data.reviews;
+    return response.data.data;
   } catch (e) {
     console.log(e);
   }
