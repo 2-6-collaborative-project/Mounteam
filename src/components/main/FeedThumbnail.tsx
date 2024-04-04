@@ -61,7 +61,7 @@ interface Author {
 
 interface Feed {
   author: Author;
-  imageUrl?: string;
+  imageUrls?: string;
   id: number;
 }
 
@@ -69,7 +69,7 @@ export default function FeedThumbnail({ feed }: { feed: Feed }) {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/feed/${feed.id}`);
+    router.push(`/feeds/${feed.id}`);
   };
 
   return (
@@ -84,9 +84,14 @@ export default function FeedThumbnail({ feed }: { feed: Feed }) {
         </HeadFont>
       </FeedHead>
 
-      {feed.imageUrl ? (
+      {feed.imageUrls ? (
         <PictureBox>
-          <Image src={feed.imageUrl} alt="feed image" fill unoptimized={true} />
+          <Image
+            src={feed.imageUrls}
+            alt="feed image"
+            fill
+            unoptimized={true}
+          />
         </PictureBox>
       ) : (
         <NoImageBox>

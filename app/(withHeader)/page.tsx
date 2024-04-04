@@ -109,7 +109,7 @@ interface Team {
 }
 
 interface Author {
-  profileImageUrls: string;
+  profileImageUrl: string;
   level: number;
   nickname: string;
 }
@@ -117,7 +117,6 @@ interface Author {
 interface Feed {
   author: Author;
   imageUrls?: string;
-  createdByme: boolean;
   id: number;
 }
 
@@ -130,7 +129,7 @@ export default function Home() {
     const fetchTeams = async () => {
       try {
         const response = await defaultInstance.get('/teams');
-        console.log(response.data.data);
+        console.log(response.data.data); // PR 업로드 전 삭제
         setTeams(response.data.data);
       } catch (error) {
         console.error(error);
@@ -139,7 +138,7 @@ export default function Home() {
 
     const fetchFeeds = async () => {
       try {
-        const response = await defaultInstance.get('/feeds');
+        const response = await defaultInstance.get('/feeds/main');
         if (response.status === 200 && response.data.data.content) {
           const feeds = response.data.data.content.map((feed: any) => ({
             author: {
@@ -151,6 +150,7 @@ export default function Home() {
             id: feed.feedId,
             createdByme: feed.createdByMe,
           }));
+          console.log(feeds); // PR 업로드 전 삭제
           setFeeds(feeds);
         } else {
           console.error('Unexpected response status or structure:', response);
@@ -195,13 +195,14 @@ export default function Home() {
           <NavButton href="/teams" imageSrc="/mountains.svg">
             <p>100대 명산</p>
           </NavButton>
-          {/* 아래 3개는 추후 페이지 제작 후 링크연결 */}
+          {/*추후 페이지 제작 후 링크연결 */}
           <NavButton href="/" imageSrc="/map.svg">
             <p>지도 보기</p>
           </NavButton>
           <NavButton href="/curation/season" imageSrc="/fan.svg">
             <p>계절별 명산</p>
           </NavButton>
+          {/*추후 페이지 제작 후 링크연결 */}
           <NavButton href="/" imageSrc="/rainbow.svg">
             <p>초심자 추천</p>
           </NavButton>
