@@ -15,6 +15,8 @@ import useReviewWriteStore from '@/src/store/useReviewWriteStore';
 import ImgUpload from '@/src/components/review/write/ImgUpload';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 import { colors } from '@/app/styles/colors';
+import { postRevieWrite } from '@/src/components/review/write/api/postRevieWrite';
+import { useRouter } from 'next/navigation';
 
 const TabContainer = styled.div`
   margin-bottom: 3rem;
@@ -94,10 +96,7 @@ export default function ReviewWrite() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { TextArea } = Input;
 
-  // const { data: userData } = useQuery({
-  //   queryKey: ['userData'],
-  //   queryFn: ,
-  // });
+  const router = useRouter();
 
   const handleTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -113,6 +112,29 @@ export default function ReviewWrite() {
     setIsChecked(!isChecked);
   };
 
+  const postReview = () => {
+    const reviewData = {
+      mainText: description,
+      mountain: place,
+      departureDay: date,
+      agree: true,
+      hashTags: tags,
+    };
+    console.log(fileList);
+
+    const jsonReviewData = JSON.stringify(reviewData);
+    const reviewPostData = new Blob([jsonReviewData]);
+    const formData = new FormData();
+
+    formData.append('reviewCreateRequest', reviewPostData);
+
+    fileList.map((item: any) => {
+      formData.append('imageUrl', item.originFileObj);
+    });
+    postRevieWrite(formData);
+    router.push('/feeds');
+  };
+
   useEffect(() => {
     const isPlaced = /^.+$/.test(place);
     const isDated = /^.+$/.test(date);
@@ -124,6 +146,8 @@ export default function ReviewWrite() {
       setIsButtonDisabled(true);
     }
   }, [date, place, description, isChecked]);
+
+  console.log(description);
 
   return (
     <>
@@ -154,7 +178,7 @@ export default function ReviewWrite() {
             />
           </Form.Item>
           <Form.Item
-            label="이미지 업로드"
+            label="이미지 업로드 (최소 1장)"
             style={{ width: '100%', marginBottom: '0' }}
           >
             <ImgUpload
@@ -188,8 +212,13 @@ export default function ReviewWrite() {
           <Checkbox onChange={handleChecked}>
             <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
           </Checkbox>
-          <Buttons width="100%" height="6.6rem" disabled={isButtonDisabled}>
-            인증하기
+          <Buttons
+            width="100%"
+            height="6.6rem"
+            disabled={isButtonDisabled}
+            onClick={postReview}
+          >
+            작성하기
           </Buttons>
         </FlexContainer>
       </ContentContainer>

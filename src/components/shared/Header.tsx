@@ -79,7 +79,7 @@ export default function Header() {
             content={
               <div>
                 <StyledLink href="/teams/create">모임 생성</StyledLink>
-                <StyledLink href="/explores/reviews">등반후기 등록</StyledLink>
+                <StyledLink href="/reviews/write">등반후기 등록</StyledLink>
                 <StyledLink href="/teams/write">모임후기 등록</StyledLink>
               </div>
             }

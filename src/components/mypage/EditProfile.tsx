@@ -8,6 +8,7 @@ import { colors } from '@/app/styles/colors';
 import Avatars from '@/src/components/shared/Avatar';
 import { postUserData } from './api/postUserData';
 import type { NextRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const Title = styled.p`
   font-size: 1.6rem;
@@ -87,6 +88,7 @@ interface ModalProps {
   defaultRegion: any;
   modalOpenState: boolean;
   setter: (value: boolean) => void;
+  refetch: () => void;
 }
 
 export default function EditProfile({
@@ -97,14 +99,16 @@ export default function EditProfile({
   defaultRegion,
   modalOpenState,
   setter,
+  refetch,
 }: ModalProps) {
   const [nickname, setNickname] = useState('');
   const [description, setDescription] = useState('');
   const [age, setAge] = useState(0);
   const [region, setRegion] = useState(0);
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<any>([]);
   const [profileImg, setProfileImg] = useState<ProfileImg>(null);
   const { TextArea } = Input;
+  const router = useRouter();
 
   const handleNicknameChange = (e: any) => {
     setNickname(e.target.value);
@@ -120,9 +124,33 @@ export default function EditProfile({
     setRegion(e.target.value);
   };
 
-  const onOkFunc = () => {
+  const handlePostData = async () => {
+    const userData = {
+      nickname: nickname,
+      introduction: description,
+      ageRange: age,
+      areaInterest: region,
+    };
+
+    const jsonUserData = JSON.stringify(userData);
+    const userDataPostData = new Blob([jsonUserData]);
+    const formData = new FormData();
+
+    formData.append('request', userDataPostData);
+    formData.append('imgUrl', fileList[0].originFileObj);
+    // if (fileList.length !== 0) {
+    //   formData.append('imageUrl', fileList[0].originFileObj);
+    // }
+
+    await postUserData(formData);
+  };
+
+  const onOkFunc = async () => {
+    await handlePostData();
+    refetch();
     setter(false);
-    window.location.reload();
+
+    // window.location.reload();
   };
 
   const onCancelFunc = () => {
@@ -149,9 +177,6 @@ export default function EditProfile({
   };
 
   const handleFileChange = async ({ fileList }: any) => {
-    console.log('Uploaded files:', fileList);
-    console.log('Thumb', fileList[0].thumbUrl);
-    console.log('url', fileList[0].url);
     setFileList(fileList);
     if (fileList.length > 0) {
       const file = fileList[0];
@@ -182,7 +207,6 @@ export default function EditProfile({
     defaultDescription,
   ]);
 
-  console.log(fileList);
   console.table([
     {
       nickname: nickname,
@@ -260,7 +284,8 @@ export default function EditProfile({
             placeholder="닉네임"
             variant="borderless"
             style={inputStyle}
-            defaultValue={nickname}
+            defaultValue={defaultNickname}
+            value={nickname}
             onChange={handleNicknameChange}
           />
         </Sector>
@@ -272,16 +297,17 @@ export default function EditProfile({
             rows={2}
             style={inputStyle}
             defaultValue={defaultDescription}
+            value={description}
             onChange={handleDescriptionChange}
           />
         </Sector>
         <Sector>
           <Label>연령대</Label>
           <Radio.Group onChange={handleAgeChange} value={age}>
-            <Radio value={'teens'}>10대</Radio>
+            <Radio value={'teenager'}>10대</Radio>
             <Radio value={'twenties'}>20대</Radio>
             <Radio value={'thirties'}>30대</Radio>
-            <Radio value={'forties'}>40대</Radio>
+            <Radio value={'fourties'}>40대</Radio>
             <Radio value={'fifties'}>50대</Radio>
             <Radio value={'sixties'}>60대 이상</Radio>
           </Radio.Group>
@@ -296,7 +322,7 @@ export default function EditProfile({
             <Radio value={'충청남도'}>충청남도</Radio>
             <Radio value={'전라북도'}>전라북도</Radio>
             <Radio value={'전라남도'}>전라남도</Radio>
-            <Radio value={'경상북도'}>경상북도</Radio>
+            <Radio value={'경상북도'}>경상북도</Radio>z
             <Radio value={'경상남도'}>경상남도</Radio>
             <Radio value={'제주도'}>제주도</Radio>
           </Radio.Group>
