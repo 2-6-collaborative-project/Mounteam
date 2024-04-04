@@ -5,6 +5,7 @@ import Tab from '@/src/components/shared/Tab';
 import FeedPage from '@/src/components/feeds/FeedPage';
 import FeedSearch from '@/src/components/feeds/FeedSearch';
 import { feedMockData } from '@/src/components/feeds/mock';
+import KakaoMap from '@/src/components/explores/KakaoMap';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -39,7 +40,6 @@ export default function FeedHome() {
       <FeedFlex>
         <FeedSearch />
       </FeedFlex>
-      <FeedHomeInner>{/* <FeedPage feeds={feeds} /> */}</FeedHomeInner>
     </FeedHomeLayer>
   );
 }

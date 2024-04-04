@@ -147,6 +147,7 @@ export default function FeedPage({ feeds }: FeedPageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { editFeedId, setEditFeedId } = useFeedIdStore();
 
+  console.log(feeds);
   const router = useRouter();
   // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
   // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
@@ -190,9 +191,11 @@ export default function FeedPage({ feeds }: FeedPageProps) {
             {feed.imageUrl ? (
               <PictureBox onClick={() => router.push(`/feeds/${feed.id}`)}>
                 <Image
+                  layout="responsive"
+                  width={260}
+                  height={260}
                   src={feed.imageUrl}
                   alt="image"
-                  fill
                   unoptimized={true}
                 />
               </PictureBox>
