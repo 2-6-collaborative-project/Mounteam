@@ -53,21 +53,21 @@ export default function MountainInfo({
   type: 'explore' | 'curation';
   list: mountainDataProps;
 }) {
-  // console.log('list', list);
   if (type === 'explore') {
-    const exploreId = list.exploredId;
+    const exploreId = list.exploreId;
 
     return (
       <Link href={`/explores/${exploreId}/details`}>
         <MountainItem>
-          <Image
-            layout="responsive"
-            width={260}
-            height={260}
-            objectFit="contain"
-            src={'/sample.jpg'}
-            alt="산 이미지"
-          />
+          <MountainImage>
+            <Image
+              width={400}
+              height={300}
+              objectFit="contain"
+              src={list?.imageUrls}
+              alt="산 이미지"
+            />
+          </MountainImage>
           <div>
             <MountainName>{list?.mountain}</MountainName>
             <MountainLocation>{list?.m_location}</MountainLocation>
@@ -83,7 +83,7 @@ export default function MountainInfo({
   }
 
   if (type === 'curation') {
-    const exploreId = list.exploredId;
+    const exploreId = list.exploreId;
 
     return (
       <Link href={`/explores/${exploreId}/details`}>

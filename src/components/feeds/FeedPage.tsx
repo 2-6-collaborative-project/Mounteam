@@ -166,15 +166,15 @@ export default function FeedPage({ feedData }: FeedPageProps) {
     <>
       <FeedGrid>
         {feedData.map((feed: FeedData) => (
-          <div key={feed.feedId}>
+          <div key={feed?.feedId}>
             <FeedHead>
               <HeadWrapper>
-                <Avatars type="" img={feed.author.profileImageUrl} />
+                <Avatars type="" img={feed?.author.profileImageUrl} />
               </HeadWrapper>
 
               <HeadFont>
-                {<p style={{ fontWeight: 400 }}>Lv. {feed.author.level}</p>}
-                {<p>{feed.author.nickname}</p>}
+                {<p style={{ fontWeight: 400 }}>Lv. {feed?.author.level}</p>}
+                {<p>{feed?.author.nickname}</p>}
               </HeadFont>
 
               {/* <MeatBallFrame>
@@ -186,10 +186,10 @@ export default function FeedPage({ feedData }: FeedPageProps) {
               </MeatBallFrame> */}
             </FeedHead>
 
-            {Array.isArray(feed.imageUrls) ? (
+            {Array.isArray(feed?.imageUrls) ? (
               <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
                 <Image
-                  src={feed.imageUrls[0]}
+                  src={feed?.imageUrls[0]}
                   alt="image"
                   fill
                   unoptimized={true}
@@ -198,7 +198,7 @@ export default function FeedPage({ feedData }: FeedPageProps) {
             ) : (
               <PictureBox onClick={() => router.push(`/feeds/${feed.feedId}`)}>
                 <Image
-                  src={feed.imageUrls}
+                  src={feed?.imageUrls}
                   alt="피드 이미지"
                   layout="fill"
                   unoptimized={true}
@@ -208,15 +208,15 @@ export default function FeedPage({ feedData }: FeedPageProps) {
 
             <InfoBox feed={feed} />
 
-            {feed.mainText ? (
+            {feed?.mainText ? (
               <TextBox>
-                <p>{feed.mainText}</p>
+                <p>{feed?.mainText}</p>
               </TextBox>
             ) : (
               '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
             )}
 
-            {feed.tags ? (
+            {feed?.tags ? (
               <TagBox>
                 {feed.tags.map((tag: any, index: number) => (
                   <TagWrapper key={index}>

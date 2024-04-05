@@ -59,13 +59,17 @@ export default function HeightFilter({
     if (!e.target.checked) {
       const updatedItems = filteredItems.filter(
         (list: mountainDataProps) =>
-          !(optionRange[0] < list.명산_높이 && list.명산_높이 < optionRange[1]),
+          !(
+            optionRange[0] < Number(list.m_height) &&
+            Number(list.m_height) < optionRange[1]
+          ),
       );
       setFilteredItems(updatedItems);
     } else {
       const addFilteredItems = mountainList.filter(
         (list: mountainDataProps) =>
-          optionRange[0] < list.명산_높이 && list.명산_높이 < optionRange[1],
+          optionRange[0] < Number(list.m_height) &&
+          Number(list.m_height) < optionRange[1],
       );
       setFilteredItems([...filteredItems, ...addFilteredItems]);
     }

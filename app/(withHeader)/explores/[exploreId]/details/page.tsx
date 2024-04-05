@@ -139,10 +139,6 @@ export default function MountainDetail({
 
   const clickedMountain = clickedMountainData?.data.data;
 
-  // const clickedMountain = mountainList?.find(
-  //   (list: mountainDataProps) => list.X좌표 === exploreId,
-  // ); // 예시로 X좌표로 비교
-
   return (
     <>
       <Container>
