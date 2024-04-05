@@ -101,7 +101,7 @@ export default function ExploreFilterPanel() {
           <Collapse
             ghost={true}
             expandIconPosition="end"
-            defaultActiveKey={['1', '2']}
+            defaultActiveKey={['2']}
             style={{
               paddingBottom: '1.17rem',
               fontSize: '1.3rem',

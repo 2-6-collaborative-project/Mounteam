@@ -5,11 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import KakaoMap from '@/src/components/explores/KakaoMap';
 import Tab from '@/src/components/shared/Tab';
-import getMountainData from '@/src/components/explores/api/getMountainData';
-import mountainDataProps from '@/src/types/mountainDataProps';
 import { colors } from '@/app/styles/colors';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
-import { authInstance } from '@/src/lib/axiosInstance';
+import { authInstance, defaultInstance } from '@/src/lib/axiosInstance';
 
 const MainTitle = styled.h2`
   margin-top: 4.8rem;
@@ -63,13 +61,16 @@ const TeamTotalCount = styled.p`
   line-height: 2.5rem;
 `;
 
-const TeamListContainer = styled.div``;
+const TeamContainer = styled.div``;
 
-const TeamItem = styled.div`
+const TeamListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 2rem;
   row-gap: 3rem;
+`;
+
+const TeamItem = styled.div`
   cursor: pointer;
 `;
 
@@ -98,9 +99,9 @@ export default function TeamList({
   const router = useRouter();
   const exploreId = params.exploreId;
 
-  const { data: mountainList } = useQuery({
-    queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+  const { data: clickedMountainData } = useQuery({
+    queryKey: ['clickedMountainList'],
+    queryFn: () => defaultInstance.get(`/explores/${exploreId}`),
   });
 
   const { data: teamData } = useQuery({
@@ -108,43 +109,40 @@ export default function TeamList({
     queryFn: () => authInstance.get('/teams'),
   });
 
+  const clickedMountain = clickedMountainData?.data.data;
   const teamList = teamData?.data.data;
 
-  const clickedMountain = mountainList?.find(
-    (list: mountainDataProps) => list.X좌표 === exploreId,
-  );
-
   const mountainTeams = teamList?.filter(
-    (list: any) => list.mountain === clickedMountain?.명산_이름,
+    (list: any) => list.mountain === clickedMountain?.mountain,
   );
 
   return (
-    <>
-      <Container>
-        <Tab variant="explores" />
+    <Container>
+      <Tab variant="explores" />
 
-        <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
+      <MainTitle>{clickedMountain?.mountain}</MainTitle>
 
-        <MapContainer>
-          <KakaoMap
-            type="exploreSub"
-            mountainList={mountainList}
-            filteredItems={clickedMountain ? [clickedMountain] : []}
-          />
-        </MapContainer>
+      <MapContainer>
+        <KakaoMap
+          type="exploreSub"
+          mountainList={clickedMountain}
+          filteredItems={clickedMountain ? [clickedMountain] : []}
+        />
+      </MapContainer>
 
-        <CreateTeamContainer>
-          <SubTitle>원하는 모임이 없다면?</SubTitle>
-          <CreateTeam onClick={() => router.push('/teams/create')}>
-            내가 직접 모임 만들기
-          </CreateTeam>
-        </CreateTeamContainer>
+      <CreateTeamContainer>
+        <SubTitle>원하는 모임이 없다면?</SubTitle>
+        <CreateTeam onClick={() => router.push('/teams/create')}>
+          내가 직접 모임 만들기
+        </CreateTeam>
+      </CreateTeamContainer>
+
+      <TeamContainer>
+        <TeamTotalCount>
+          {clickedMountain?.mountain} 등산모임 : {mountainTeams?.length}개
+        </TeamTotalCount>
 
         <TeamListContainer>
-          <TeamTotalCount>
-            {clickedMountain?.명산_이름} 등산모임 : {mountainTeams?.length}개
-          </TeamTotalCount>
-
           {mountainTeams?.map((team: any) => (
             <TeamItem
               key={team.teamId}
@@ -154,7 +152,7 @@ export default function TeamList({
             </TeamItem>
           ))}
         </TeamListContainer>
-      </Container>
-    </>
+      </TeamContainer>
+    </Container>
   );
 }

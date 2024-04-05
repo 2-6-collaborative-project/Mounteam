@@ -1,12 +1,12 @@
 'use client';
 
-import getMountainData from '@/src/components/explores/api/getMountainData';
 import { useQuery } from '@tanstack/react-query';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import Tab from '@/src/components/shared/Tab';
 import styled from 'styled-components';
 import FeedPage from '@/src/components/feeds/FeedPage';
 import { feedMockData } from '@/src/components/feeds/mock';
+import { authInstance, defaultInstance } from '@/src/lib/axiosInstance';
 
 const Container = styled.div``;
 
@@ -26,24 +26,22 @@ export default function ExploreReviewList({
 }) {
   const exploreId = params.exploreId;
 
-  const { data: mountainList } = useQuery({
-    queryKey: ['mountainList1'],
-    queryFn: () => getMountainData(),
+  const { data: reviewData } = useQuery({
+    queryKey: ['reviewList'],
+    queryFn: () => authInstance.get(`/team-reviews/${exploreId}`),
   });
 
-  const clickedMountain = mountainList?.find(
-    (list: mountainDataProps) => list.X좌표 === exploreId,
-  );
+  const reviewList = reviewData?.data.data;
 
   return (
     <>
       <Container>
         <Tab variant="explores" />
 
-        <MainTitle>{clickedMountain?.명산_이름}</MainTitle>
+        <MainTitle>{reviewList?.mountain}</MainTitle>
 
         <ReviewListContainer>
-          <FeedPage feeds={feedMockData()} />
+          <FeedPage feedData={[reviewList]} />
         </ReviewListContainer>
       </Container>
     </>
