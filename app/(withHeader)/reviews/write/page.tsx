@@ -191,7 +191,7 @@ export default function ReviewWrite() {
             label="장소"
             style={{ width: '100%', marginBottom: '0', position: 'relative' }}
           >
-            <AutoSearchBar setSearchedMountain={setPlace} />
+            <AutoSearchBar type="create" setSearchedMountain={setPlace} />
             {place !== '' ? <Tag style={tagStyle}>{place}</Tag> : ''}
           </Form.Item>
           <Form.Item label="날짜" style={{ width: '100%', marginBottom: '0' }}>
