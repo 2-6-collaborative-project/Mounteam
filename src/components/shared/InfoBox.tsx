@@ -21,7 +21,6 @@ interface LikeComponentProps {
 }
 
 interface CommentComponentProps {
-  comments: string[];
   commentCnt: number;
 }
 
@@ -130,5 +129,6 @@ export const InfoBox: React.FC<InfoBoxProps> = ({
     />
     <CommentComponent comments={feed?.comments} commentCnt={feed?.commentCnt} />
     <BookmarkComponent isSaved={feed?.isSaved} $paddingleft={$paddingleft} />
+
   </InfoContainer>
 );

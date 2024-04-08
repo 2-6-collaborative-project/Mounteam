@@ -279,7 +279,7 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
   // });
 
   const addCommentMutation = useMutation({
-    mutationFn: () => postFeedComments(feedData.feedId, { content: comment }),
+    mutationFn: () => postFeedComments(feedData.reviewId, { content: comment }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comment'] });
       setComment('');
@@ -297,7 +297,7 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
     mutationFn: (feedId: number) => postLikes(feedId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['likeData', feedData.feedId],
+        queryKey: ['likeData', feedData.reviewId],
       });
     },
   });
@@ -306,7 +306,7 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
     mutationFn: (feedId: number) => deleteLikes(feedId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['likeData', feedData.feedId],
+        queryKey: ['likeData', feedData.reviewId],
       });
     },
   });
@@ -325,17 +325,17 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
 
   // 좋아요 상태를 토글하는 함수
   const toggleLike = async () => {
-    if (feedData.isLiked) {
-      await deleteLikeMutation.mutate(feedData.feedId);
+    if (feedData.liked) {
+      await deleteLikeMutation.mutate(feedData.reviewId);
     } else {
-      await postLikeMutation.mutate(feedData.feedId);
+      await postLikeMutation.mutate(feedData.reviewId);
     }
   };
 
   const content = (
     <PopoverContentBox>
-      <p onClick={() => handleEditClick(feedData.feedId)}>수정</p>
-      <p onClick={() => handleDeleteClick(feedData.feedId)}>삭제</p>
+      <p onClick={() => handleEditClick(feedData.reviewId)}>수정</p>
+      <p onClick={() => handleDeleteClick(feedData.reviewId)}>삭제</p>
     </PopoverContentBox>
   );
   const inputRef = useRef<HTMLInputElement>(null);
@@ -350,21 +350,29 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
     setTimeout(refetch, 70);
   };
 
-  // console.log(feedData);
+  console.log('feedData', feedData);
+
   return (
     <>
       <ContentsContainer>
         <ProfileCarouselContainer>
           <ProfileContainer>
             <ProfileWrapper>
-              <Avatars type="comment" img={feedData.author.profileImageUrl} />
+              <Avatars
+                type="comment"
+                img={feedData?.data.author.profileImageUrl}
+              />
               <HeadFont>
-                {<p style={{ fontWeight: 400 }}>Lv. {feedData.author.level}</p>}
-                {<p>{feedData.author.nickname}</p>}
+                {
+                  <p style={{ fontWeight: 400 }}>
+                    Lv. {feedData?.author.level}
+                  </p>
+                }
+                {<p>{feedData?.author.nickname}</p>}
               </HeadFont>
 
               <MeatBallFrame>
-                {feedData.createByMe && (
+                {feedData?.createByMe && (
                   <CustomPopover content={content}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
@@ -374,7 +382,7 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
           </ProfileContainer>
           <CarouselConatiner>
             <Carousel afterChange={onChange} autoplay>
-              {feedData.imageUrls.map((url, index) => (
+              {feedData?.imageUrls.map((url, index) => (
                 <CarouselWrapper key={index}>
                   <Image
                     width={'399'}
@@ -391,13 +399,13 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
         <InfoContainer>
           <InfoWrapper>
             <TagContainer>
-              {feedData.tags.map((tag, index) => (
+              {feedData?.tags.map((tag, index) => (
                 <TagWrapper key={index}>
                   <p>{tag}</p>
                 </TagWrapper>
               )) || <p>태그가 없습니다.</p>}
             </TagContainer>
-            {feedData.mainText ? (
+            {feedData?.mainText ? (
               <TextBox>
                 <p>{feedData?.mainText}</p>
               </TextBox>
@@ -430,9 +438,9 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
           </form>
           <Comment feedData={feedData} />
         </InfoContainer>
-        {isModalOpen && feedData.feedId !== null && (
+        {isModalOpen && feedData.reviewId !== null && (
           <FeedModify
-            feedId={feedData.feedId}
+            feedId={feedData.reviewId}
             content={feedData.mainText}
             modalOpenState={isModalOpen}
             setter={setIsModalOpen}

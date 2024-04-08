@@ -15,8 +15,12 @@ import FeedData from '@/src/types/feeds/FeedData';
 interface FeedImgProps {
   imageUrl?: string;
 }
+
+export interface Feeds {
+  feeds: FeedData[];
+}
 export interface FeedPageProps {
-  feedData: FeedData[];
+  feedData: Feeds[];
 }
 
 const FeedGrid = styled.div`
@@ -162,6 +166,7 @@ export default function FeedPage({ feedData }: FeedPageProps) {
       <p>삭제</p>
     </PopoverContentBox>
   );
+  console.log('1', feedData);
   return (
     <>
       <FeedGrid>

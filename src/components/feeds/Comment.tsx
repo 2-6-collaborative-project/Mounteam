@@ -66,6 +66,7 @@ interface CommentProps {
 }
 
 export default function Comment({ feedData }: CommentProps) {
+  console.log(feedData);
   const [nickname, setNickname] = useState('');
   const [profileImg, setProfileImg] = useState('');
 
@@ -97,7 +98,7 @@ export default function Comment({ feedData }: CommentProps) {
         <CommentBody>
           {feedData.comments?.map((comment, index) => (
             <div key={index}>
-              👦<p style={{ paddingLeft: '0.5rem' }}>{nickname}:</p>
+              👦 <p style={{ paddingLeft: '0.5rem' }}>{nickname}:</p>
               <p> {comment}</p>
             </div>
           ))}
