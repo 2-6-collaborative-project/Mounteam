@@ -72,7 +72,7 @@ const GuideMessage = styled.div`
 `;
 
 export default function TeamEditPage() {
-  const [detailsData, setDetailsData] = useState<TeamDetails>();
+  const [, setDetailsData] = useState<TeamDetails>();
   const [isValid, setIsValid] = useState(false);
 
   const params = useParams();
@@ -111,10 +111,6 @@ export default function TeamEditPage() {
   useEffect(() => {
     getDetailsData(teamId);
   }, [teamId]);
-
-  // useEffect(() => {
-  //   console.log(detailsData);
-  // }, [detailsData]);
 
   return (
     <Layout>
