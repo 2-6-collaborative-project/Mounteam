@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import KakaoMap from '@/src/components/explores/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
@@ -10,7 +10,7 @@ import Tab from '@/src/components/shared/Tab';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import getMountainList from '@/src/components/explores/api/getMountainList';
@@ -95,6 +95,51 @@ export default function ExplorePage() {
     queryKey: ['mountainList'],
     queryFn: () => getMountainList(0, 100),
   });
+
+  const {
+    data: mountainData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['mountainList', 'scroll'],
+    queryFn: ({ pageParam = 0 }) => getMountainList(0, 6, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => {
+      const currentDataCount = pages.reduce(
+        (total, page) => total + page.length,
+        0,
+      );
+      return currentDataCount;
+    },
+  });
+
+  const mountainScrollData = mountainData?.pages?.flat() ?? [];
+
+  const fetchNextCardList = () => {
+    if (!isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const bottomObserver = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (bottomObserver.current === null) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextCardList();
+        }
+      },
+      { threshold: 0 },
+    );
+
+    const currentBottomObserver = bottomObserver.current;
+    observer.observe(currentBottomObserver);
+
+    return () => observer.unobserve(currentBottomObserver);
+  }, [bottomObserver]);
 
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
@@ -192,7 +237,7 @@ export default function ExplorePage() {
                   />
                 ))
               ) : (
-                allMountainList?.map((list: mountainDataProps) => (
+                mountainScrollData?.map((list: mountainDataProps) => (
                   <MountainInfo
                     key={list.exploreId}
                     type="explore"
@@ -206,6 +251,7 @@ export default function ExplorePage() {
           </MountainList>
         </MountainListContainer>
       </SearchResultArea>
+      <div style={{ height: '0.1rem' }} ref={bottomObserver}></div>
     </Container>
   );
 }
