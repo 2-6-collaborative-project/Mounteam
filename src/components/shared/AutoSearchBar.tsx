@@ -8,6 +8,7 @@ import getMountainData from '@/src/components/explores/api/getMountainData';
 import { colors } from '@/app/styles/colors';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
+import getMountainList from '../explores/api/getMountainList';
 
 const SearchContainer = styled.div`
   padding: 0 0.8rem;
@@ -47,7 +48,7 @@ export default function AutoSearchBar({
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+    queryFn: () => getMountainList(0, 100),
   });
 
   const createQueryString = useCallback(
@@ -89,7 +90,7 @@ export default function AutoSearchBar({
   };
 
   const options = mountainList?.map((list: mountainDataProps) => ({
-    value: list.명산_이름,
+    value: list.mountain,
   }));
 
   const filteredOptions = options?.filter((option: HTMLInputElement) =>
@@ -99,7 +100,7 @@ export default function AutoSearchBar({
   useEffect(() => {
     if (type === 'search' && initKeyword && setSearchedMountain) {
       const searched = mountainList?.find(
-        (list: mountainDataProps) => list.명산_이름 === initKeyword,
+        (list: mountainDataProps) => list.mountain === initKeyword,
       );
       setSearchedMountain(searched);
     }

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import KakaoMap from '@/src/components/explores/KakaoMap';
 import MountainInfo from '@/src/components/shared/MountainInfo';
 import ExploreFilterPanel from '@/src/components/explores/ExploreFilterPanel';
-import getMountainData from '@/src/components/explores/api/getMountainData';
 import AutoSearchBar from '@/src/components/shared/AutoSearchBar';
 import Tab from '@/src/components/shared/Tab';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
@@ -14,7 +13,7 @@ import mountainDataProps from '@/src/types/mountainDataProps';
 import { useEffect, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
-import { defaultInstance } from '@/src/lib/axiosInstance';
+import getMountainList from '@/src/components/explores/api/getMountainList';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -94,20 +93,13 @@ const Container = styled.div`
 export default function ExplorePage() {
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+    queryFn: () => getMountainList(0, 100),
   });
 
-  // const { data: mountainData } = useQuery({
-  //   queryKey: ['mountainData'],
-  //   queryFn: () => defaultInstance.get('/explores'),
-  // });
-
-  // const mountainList = mountainData?.data.data;
-
-  // console.log("mountainList", mountainList)
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
   const { filteredItems, setFilteredItems } = useFilterMountainStore();
+
   const [allMountainList, setAllMountainList] = useState<mountainDataProps[]>(
     [],
   );
@@ -121,12 +113,12 @@ export default function ExplorePage() {
 
   const sortListByName = (list: mountainDataProps[]) => {
     setSortOrder('name');
-    return [...list].sort((a, b) => a.명산_이름.localeCompare(b.명산_이름));
+    return [...list].sort((a, b) => a.mountain.localeCompare(b.mountain));
   };
 
   const sortListByTeamNumber = (list: mountainDataProps[]) => {
     setSortOrder('teamNum');
-    return [...list].sort((a, b) => Number(a.명산_높이) - Number(b.명산_높이));
+    return [...list].sort((a, b) => b.teamCnt - a.teamCnt);
   };
 
   const handleSortByName = () => {
@@ -193,11 +185,19 @@ export default function ExplorePage() {
             {keyword === '' ? (
               filteredItems.length > 0 ? (
                 filteredItems.map((item) => (
-                  <MountainInfo key={item.X좌표} type="explore" list={item} />
+                  <MountainInfo
+                    key={item.exploreId}
+                    type="explore"
+                    list={item}
+                  />
                 ))
               ) : (
-                allMountainList?.map((list) => (
-                  <MountainInfo key={list.X좌표} type="explore" list={list} />
+                allMountainList?.map((list: mountainDataProps) => (
+                  <MountainInfo
+                    key={list.exploreId}
+                    type="explore"
+                    list={list}
+                  />
                 ))
               )
             ) : (
