@@ -1,9 +1,14 @@
 import { defaultInstance } from '@/src/lib/axiosInstance';
 
-const getMountainList = async (page: null | number, size: number) => {
+const getMountainList = async (
+  page: null | number,
+  size: number,
+  cursor?: number,
+) => {
   try {
     const response = await defaultInstance.get('/explores', {
       params: {
+        cursor,
         page,
         size,
         sort: '',
