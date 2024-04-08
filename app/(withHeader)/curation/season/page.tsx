@@ -69,17 +69,17 @@ const MountainInfoContainer = styled.div`
 `;
 
 interface MountainType {
-  X좌표: number;
-  Y좌표: number;
-  명산_높이: number;
-  명산_소재지: string;
-  명산_이름: string;
-  exploredId: number;
+  exploreId: number;
   mountain: string;
   imageUrls: string;
-  m_location: string;
   m_height: string;
+  m_location: string;
+  difficulty: string;
   teamCnt: number;
+  reveiwCnt: number;
+  hasNext: boolean;
+  xdata: string;
+  ydata: string;
 }
 
 export default function Season() {
@@ -131,7 +131,7 @@ export default function Season() {
           <MountainInfoContainer>
             {springMountains.map((mountain) => (
               <MountainInfo
-                key={mountain.exploredId}
+                key={mountain.exploreId}
                 type="curation"
                 list={mountain}
               />
@@ -143,7 +143,7 @@ export default function Season() {
           <MountainInfoContainer>
             {summerMountains.map((mountain) => (
               <MountainInfo
-                key={mountain.exploredId}
+                key={mountain.exploreId}
                 type="curation"
                 list={mountain}
               />
@@ -155,7 +155,7 @@ export default function Season() {
           <MountainInfoContainer>
             {autumnMountains.map((mountain) => (
               <MountainInfo
-                key={mountain.exploredId}
+                key={mountain.exploreId}
                 type="curation"
                 list={mountain}
               />
@@ -167,7 +167,7 @@ export default function Season() {
           <MountainInfoContainer>
             {winterMountains.map((mountain) => (
               <MountainInfo
-                key={mountain.exploredId}
+                key={mountain.exploreId}
                 type="curation"
                 list={mountain}
               />
