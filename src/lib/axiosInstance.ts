@@ -21,7 +21,6 @@ const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
   });
 
   instance.interceptors.request.use((config) => {
-
     const token = `${localStorage.getItem('accessToken')}`;
     // const token =
     //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMjAiLCJleHAiOjE3MTIyMzcwMTV9.iGoAQkUYagdpRwUjeXOYgkbBR81NZpswcJvFCPCwXBU';

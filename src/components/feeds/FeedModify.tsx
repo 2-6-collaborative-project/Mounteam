@@ -53,7 +53,7 @@ export default function FeedModify({
 
   const { data: detailData } = useQuery({
     queryKey: ['detailData'],
-    queryFn: () => getFeedSelect(feedId),
+    queryFn: () => getFeedSelect(null, feedId), // 타입오류 해결을 위해 임시로 null로 지정
   });
   console.log(content);
   console.log(contents);
