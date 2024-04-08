@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import localFont from 'next/font/local';
 import styled from 'styled-components';
+import { Modal } from 'antd';
 import Tab from '@/src/components/shared/Tab';
 import UserProfile from '@/src/components/teams/userProfile';
 import CustomButton from '@/src/components/shared/CustomButton';
@@ -11,7 +13,12 @@ import { authInstance } from '@/src/lib/axiosInstance';
 import { TEAMS_URL, USER_URL } from '@/src/utils/apiUrl';
 import TeamDetails from '@/src/types/teams/teamDetails';
 import { LoggedInUser } from '@/src/types/auth';
-import { Modal } from 'antd';
+
+const myFont = localFont({
+  src: '../../../styles/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+});
 
 const Container = styled.div`
   margin-top: 8rem;
@@ -149,38 +156,6 @@ export default function TeamDetailsPage() {
     }
   };
 
-  const checkApplyCondition = () => {
-    const teamCondition = {
-      gender: detailsData?.gender,
-      ageRange: detailsData?.ageRange,
-    };
-
-    const myCondition = {
-      gender: loggedInUserData?.gender,
-      ageRange: loggedInUserData?.ageRange,
-    };
-
-    console.log(detailsData, loggedInUserData);
-
-    // console.log(teamCondition, myCondition);
-
-    if (
-      teamCondition.gender !== 'all' &&
-      teamCondition.gender !== myCondition.gender
-    ) {
-      return false;
-    }
-
-    if (
-      myCondition.ageRange &&
-      !teamCondition.ageRange?.includes(myCondition.ageRange)
-    ) {
-      return false;
-    }
-
-    return true;
-  };
-
   const handleAgeRage = (ageRange: string[]) => {
     const ageMap: AgeMap = {
       teenager: 10,
@@ -273,6 +248,10 @@ export default function TeamDetailsPage() {
               </p>
             </div>
           ),
+          style: {
+            fontFamily: myFont.style.fontFamily,
+          },
+          okText: '확인',
           onOk() {},
         });
 
@@ -280,7 +259,6 @@ export default function TeamDetailsPage() {
       }
 
       if (res.data.statusCode !== 200) {
-        // alert(`${res.data.msg}`);
         Modal.error({
           title: `${res.data.msg}`,
         });
@@ -369,12 +347,6 @@ export default function TeamDetailsPage() {
             >
               모임 신청하기
             </CustomButton>
-            {/* {detailsData && (
-              <AlertModal
-                chatLink={detailsData?.chatLink}
-                chatPassword={detailsData?.chatPassword}
-              />
-            )} */}
           </ApplyButtonWrapper>
         </InfoSection>
       </Container>
