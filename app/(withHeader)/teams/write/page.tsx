@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Input, Form, Checkbox, Tag } from 'antd';
@@ -169,101 +169,90 @@ export default function TeamsWrite() {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <TabContainer>
-          <Tab variant="explores" />
-        </TabContainer>
-        <MainTitle>모임 후기 작성하기</MainTitle>
-        <ContentContainer>
-          <Form
-            layout="vertical"
-            style={{
-              width: '100%',
-              fontSize: '1.6rem',
-              fontWeight: '700',
-              lineHeight: '3.2rem',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '5rem',
-            }}
+      <TabContainer>
+        <Tab variant="explores" />
+      </TabContainer>
+      <MainTitle>모임 후기 작성하기</MainTitle>
+      <ContentContainer>
+        <Form
+          layout="vertical"
+          style={{
+            width: '100%',
+            fontSize: '1.6rem',
+            fontWeight: '700',
+            lineHeight: '3.2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '5rem',
+          }}
+        >
+          <Form.Item
+            label="장소"
+            style={{ width: '100%', marginBottom: '0', position: 'relative' }}
           >
-            <Form.Item
-              label="장소"
-              style={{ width: '100%', marginBottom: '0', position: 'relative' }}
-            >
-              <TeamsSearchBar teamsList={filteredList} />
-              {searchResult !== '' ? (
-                <Tag style={tagStyle}>{searchResult}</Tag>
-              ) : (
-                ''
-              )}
-            </Form.Item>
-            <Form.Item
-              label="내용"
-              style={{ width: '100%', marginBottom: '0' }}
-            >
-              <TextArea
-                rows={3}
-                placeholder="내용을 적어주세요"
-                style={{ width: '100%' }}
-                onChange={handleTextAreaChange}
-              />
-            </Form.Item>
-            <Form.Item
-              label="이미지 업로드"
-              style={{ width: '100%', marginBottom: '0' }}
-            >
-              <ImgUpload
-                maxItem={5}
-                fileList={fileList}
-                setFileList={setFileList}
-              />
-            </Form.Item>
-            <Form.Item
-              label="장소"
-              style={{ width: '100%', marginBottom: '0', position: 'relative' }}
-            >
-              <Input
-                placeholder={place}
-                variant="filled"
-                style={inputStyle}
-                disabled
-              ></Input>
-            </Form.Item>
-            <Form.Item
-              label="날짜"
-              style={{ width: '100%', marginBottom: '0' }}
-            >
-              <Input
-                placeholder={date}
-                variant="filled"
-                style={inputStyle}
-                disabled
-              ></Input>
-            </Form.Item>
-            <Form.Item
-              label="태그"
-              style={{ width: '100%', marginBottom: '0' }}
-            >
-              <Tags tags={tags} setTags={setTags} />
-            </Form.Item>
-          </Form>
-          <FlexContainer>
-            <Checkbox onChange={handleChecked}>
-              <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
-            </Checkbox>
-            <Buttons
-              width="100%"
-              height="6.6rem"
-              disabled={isButtonDisabled}
-              onClick={postTeamsReview}
-            >
-              인증하기
-            </Buttons>
-          </FlexContainer>
-        </ContentContainer>
-      </Suspense>
+            <TeamsSearchBar teamsList={filteredList} />
+            {searchResult !== '' ? (
+              <Tag style={tagStyle}>{searchResult}</Tag>
+            ) : (
+              ''
+            )}
+          </Form.Item>
+          <Form.Item label="내용" style={{ width: '100%', marginBottom: '0' }}>
+            <TextArea
+              rows={3}
+              placeholder="내용을 적어주세요"
+              style={{ width: '100%' }}
+              onChange={handleTextAreaChange}
+            />
+          </Form.Item>
+          <Form.Item
+            label="이미지 업로드"
+            style={{ width: '100%', marginBottom: '0' }}
+          >
+            <ImgUpload
+              maxItem={5}
+              fileList={fileList}
+              setFileList={setFileList}
+            />
+          </Form.Item>
+          <Form.Item
+            label="장소"
+            style={{ width: '100%', marginBottom: '0', position: 'relative' }}
+          >
+            <Input
+              placeholder={place}
+              variant="filled"
+              style={inputStyle}
+              disabled
+            ></Input>
+          </Form.Item>
+          <Form.Item label="날짜" style={{ width: '100%', marginBottom: '0' }}>
+            <Input
+              placeholder={date}
+              variant="filled"
+              style={inputStyle}
+              disabled
+            ></Input>
+          </Form.Item>
+          <Form.Item label="태그" style={{ width: '100%', marginBottom: '0' }}>
+            <Tags tags={tags} setTags={setTags} />
+          </Form.Item>
+        </Form>
+        <FlexContainer>
+          <Checkbox onChange={handleChecked}>
+            <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
+          </Checkbox>
+          <Buttons
+            width="100%"
+            height="6.6rem"
+            disabled={isButtonDisabled}
+            onClick={postTeamsReview}
+          >
+            인증하기
+          </Buttons>
+        </FlexContainer>
+      </ContentContainer>
     </>
   );
 }

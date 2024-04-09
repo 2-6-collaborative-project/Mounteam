@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
@@ -243,57 +243,55 @@ export default function Home() {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Body>
-          <Tab variant="main" />
-          <SearchBarContainer>
-            <AutoSearchBar type="search" />
-          </SearchBarContainer>
-          <CarouselSection />
+      <Body>
+        <Tab variant="main" />
+        <SearchBarContainer>
+          <AutoSearchBar type="search" />
+        </SearchBarContainer>
+        <CarouselSection />
 
-          <NavBar>
-            <NavButton href="/teams" imageSrc="/adventure.svg">
-              <p>전체 모임</p>
-            </NavButton>
-            <NavButton href="/teams" imageSrc="/mountains.svg">
-              <p>100대 명산</p>
-            </NavButton>
-            {/*추후 페이지 제작 후 링크연결 */}
-            <NavButton href="/" imageSrc="/map.svg">
-              <p>지도 보기</p>
-            </NavButton>
-            <NavButton href="/curation/season" imageSrc="/fan.svg">
-              <p>계절별 명산</p>
-            </NavButton>
-            {/*추후 페이지 제작 후 링크연결 */}
-            <NavButton href="/" imageSrc="/rainbow.svg">
-              <p>초심자 추천</p>
-            </NavButton>
-          </NavBar>
-          <Between>
-            <p>등산 같이가자</p>
-            <StyledLink href="/teams">
-              <p>전체보기</p>
-            </StyledLink>
-          </Between>
-          <TeamThumbnailContainer>
-            {teams.slice(0, numTeams).map((team) => (
-              <TeamThumbnail key={team.teamId} team={team} />
-            ))}
-          </TeamThumbnailContainer>
-          <Between>
-            <p>#등반후기</p>
-            <StyledLink href="/feeds">
-              <p>전체보기</p>
-            </StyledLink>
-          </Between>
-          <FeedThumbnailContainer>
-            {feeds.slice(0, numFeeds).map((feed) => (
-              <FeedThumbnail key={feed.id} feed={feed} />
-            ))}
-          </FeedThumbnailContainer>
-        </Body>
-      </Suspense>
+        <NavBar>
+          <NavButton href="/teams" imageSrc="/adventure.svg">
+            <p>전체 모임</p>
+          </NavButton>
+          <NavButton href="/teams" imageSrc="/mountains.svg">
+            <p>100대 명산</p>
+          </NavButton>
+          {/*추후 페이지 제작 후 링크연결 */}
+          <NavButton href="/" imageSrc="/map.svg">
+            <p>지도 보기</p>
+          </NavButton>
+          <NavButton href="/curation/season" imageSrc="/fan.svg">
+            <p>계절별 명산</p>
+          </NavButton>
+          {/*추후 페이지 제작 후 링크연결 */}
+          <NavButton href="/" imageSrc="/rainbow.svg">
+            <p>초심자 추천</p>
+          </NavButton>
+        </NavBar>
+        <Between>
+          <p>등산 같이가자</p>
+          <StyledLink href="/teams">
+            <p>전체보기</p>
+          </StyledLink>
+        </Between>
+        <TeamThumbnailContainer>
+          {teams.slice(0, numTeams).map((team) => (
+            <TeamThumbnail key={team.teamId} team={team} />
+          ))}
+        </TeamThumbnailContainer>
+        <Between>
+          <p>#등반후기</p>
+          <StyledLink href="/feeds">
+            <p>전체보기</p>
+          </StyledLink>
+        </Between>
+        <FeedThumbnailContainer>
+          {feeds.slice(0, numFeeds).map((feed) => (
+            <FeedThumbnail key={feed.id} feed={feed} />
+          ))}
+        </FeedThumbnailContainer>
+      </Body>
     </>
   );
 }
