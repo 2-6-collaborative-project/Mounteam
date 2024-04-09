@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Input, Form, DatePicker, Checkbox, ConfigProvider, Tag } from 'antd';
 import ko from 'antd/es/date-picker/locale/ko_KR';
@@ -107,50 +107,58 @@ export default function Certification() {
 
   return (
     <>
-      <TabContainer>
-        <Tab variant="explores" />
-      </TabContainer>
-      <ContentContainer>
-        <Form layout="vertical" style={formStyle}>
-          <Form.Item style={{ width: '100%', marginBottom: '0' }}>
-            <AutoSearchBar type="create" setSearchedMountain={setPlace} />
-          </Form.Item>
-          <Form.Item
-            label="이미지 업로드"
-            style={{ width: '100%', marginBottom: '0' }}
-          >
-            <ImgUpload
-              maxItem={1}
-              fileList={fileList}
-              setFileList={setFileList}
-            />
-          </Form.Item>
-          <Form.Item label="장소" style={{ width: '100%', marginBottom: '0' }}>
-            <Input
-              placeholder={place}
-              variant="filled"
-              style={inputStyle}
-              disabled
-            ></Input>
-          </Form.Item>
-          <Form.Item label="날짜" style={{ width: '100%', marginBottom: '0' }}>
-            <Input
-              placeholder={date}
-              variant="filled"
-              style={inputStyle}
-              disabled
-            ></Input>
-          </Form.Item>
-        </Form>
-        <FlexContainer>
-          <Checkbox onChange={handleChecked}>
-            <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
-          </Checkbox>
-          <Buttons width="100%" height="6.6rem" disabled={isButtonDisabled}>
-            인증하기
-          </Buttons>
-        </FlexContainer>
-      </ContentContainer>
+      <Suspense fallback={<div>Loading...</div>}>
+        <TabContainer>
+          <Tab variant="explores" />
+        </TabContainer>
+        <ContentContainer>
+          <Form layout="vertical" style={formStyle}>
+            <Form.Item style={{ width: '100%', marginBottom: '0' }}>
+              <AutoSearchBar type="create" setSearchedMountain={setPlace} />
+            </Form.Item>
+            <Form.Item
+              label="이미지 업로드"
+              style={{ width: '100%', marginBottom: '0' }}
+            >
+              <ImgUpload
+                maxItem={1}
+                fileList={fileList}
+                setFileList={setFileList}
+              />
+            </Form.Item>
+            <Form.Item
+              label="장소"
+              style={{ width: '100%', marginBottom: '0' }}
+            >
+              <Input
+                placeholder={place}
+                variant="filled"
+                style={inputStyle}
+                disabled
+              ></Input>
+            </Form.Item>
+            <Form.Item
+              label="날짜"
+              style={{ width: '100%', marginBottom: '0' }}
+            >
+              <Input
+                placeholder={date}
+                variant="filled"
+                style={inputStyle}
+                disabled
+              ></Input>
+            </Form.Item>
+          </Form>
+          <FlexContainer>
+            <Checkbox onChange={handleChecked}>
+              <CheckBoxText>위치정보, 날짜정보 사용에 동의합니다.</CheckBoxText>
+            </Checkbox>
+            <Buttons width="100%" height="6.6rem" disabled={isButtonDisabled}>
+              인증하기
+            </Buttons>
+          </FlexContainer>
+        </ContentContainer>
+      </Suspense>
     </>
   );
 }
