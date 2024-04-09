@@ -11,6 +11,7 @@ import Script from 'next/script';
 import QueryProvider from '@/app/QueryProvider/QueryProvider';
 import CheckValidAuth from '@/src/utils/CheckValidAuth';
 import Footer from '@/src/components/shared/Footer';
+import { Suspense } from 'react';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
@@ -60,7 +61,9 @@ export default function RootLayout({
                 <InnerLayout>
                   <GlobalStyle />
                   <CheckValidAuth />
-                  {children}
+                  <Suspense fallback={<div>Loading...</div>}>
+                    {children}
+                  </Suspense>
                 </InnerLayout>
                 <Footer />
               </StyledComponentsRegistry>
