@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Feed, feedMockData } from '@/src/components/feeds/mock';
 import FeedData from '@/src/types/feeds/FeedData';
 interface FeedSearchProps {
-  feedData?: FeedData[];
+  feedData?: FeedData[][];
 }
 
 const FeedConatiner = styled.div`
@@ -32,22 +32,29 @@ const FilteredInner = styled.div`
   align-items: center;
 `;
 
-export default function FeedSearch({ feedData }: FeedSearchProps) {
+export default function FeedSearch({ feedData = [] }: FeedSearchProps) {
   const [isSearching, setIsSearching] = useState(false); // 검색 상태
-  const [filteredFeeds, setFilteredFeeds] = useState<FeedData[]>([]); // 피드 저장
+  const [filteredFeeds, setFilteredFeeds] = useState<FeedData[][]>([]); // 피드 저장
+  // console.log('필터페이지 피드데이터', feedData);
 
   const handleSearch = (value: string) => {
     if (value.trim() === '') {
       setIsSearching(false);
-      setFilteredFeeds([]); // 여기 고쳐보기
+      setFilteredFeeds([]);
     } else {
+      const lowerCaseValue = value.toLowerCase();
+
       const filtered =
-        feedData?.filter((feed: FeedData) =>
-          feed.mainText.toLowerCase().includes(value.toLowerCase()),
+        feedData[0]?.filter((feed: FeedData) =>
+          feed.mainText.toLowerCase().includes(lowerCaseValue),
         ) ?? [];
-      // console.log(filtered);
+      // console.log('필터드', filtered);
+
+      const filteredMap = [];
+      filteredMap.push(filtered);
+
       setIsSearching(true);
-      setFilteredFeeds(filtered); // 여기 고쳐보기
+      setFilteredFeeds(filteredMap);
     }
   };
   // const [keyword, setKeyword] = useState("");

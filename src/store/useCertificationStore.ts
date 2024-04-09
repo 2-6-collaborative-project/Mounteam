@@ -5,7 +5,7 @@ interface useCertificationStore {
   fileList: UploadFile[];
   setFileList: (state: UploadFile[]) => void;
   place: string;
-  setPlace: (state: string) => void;
+  setPlace: any;
   date: string;
   setDate: (state: string) => void;
 }
