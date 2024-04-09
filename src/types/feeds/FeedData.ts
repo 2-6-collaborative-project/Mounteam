@@ -31,10 +31,11 @@ export interface Author {
 }
 
 export default interface FeedData {
+  filter(arg0: (feed: FeedData) => boolean): unknown;
   author: Author;
   reviewId: number;
   tags: string[];
-  mainText: string;
+  mainText: string | '';
   createdAt: string;
   imageUrls: `https://${string}`[];
   departureDay: string | null;
@@ -44,4 +45,6 @@ export default interface FeedData {
   commentCnt: number;
   liked: boolean;
   isSaved?: boolean;
+  comments: string[] | [];
+  type?: string;
 }
