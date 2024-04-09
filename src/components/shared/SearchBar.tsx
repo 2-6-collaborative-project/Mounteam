@@ -7,7 +7,7 @@ import { Input } from 'antd';
 
 interface SearchBarProps {
   placeholder: string;
-  onSearch: (value: string) => void;
+  onSearch: (value: string, feedDatas?: any) => void;
 }
 
 const SearchContainer = styled.div`

@@ -7,21 +7,19 @@ import FeedModify from '@/src/components/feeds/FeedModify';
 import { useState } from 'react';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { InfoBox } from '@/src/components/shared/InfoBox';
-import { useRouter } from 'next/navigation';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
-import Router from 'next/router';
 
 interface FeedImgProps {
   imageUrl?: string;
 }
 
 export interface Feeds {
-  feeds: FeedData[];
+  feeds: FeedData[][];
 }
 export interface FeedPageProps {
-  feedData: FeedData[];
+  feedData: FeedData[][];
 }
 
 const FeedGrid = styled.div`
@@ -151,10 +149,7 @@ const PopoverContentBox = styled.div`
 export default function FeedPage({ feedData }: FeedPageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { editFeedId, setEditFeedId } = useFeedIdStore();
-  console.log(feedData);
-  const router = useRouter();
-  // 수정 엔드포인트 => {`/feeds/${feedId}/edit`}
-  // 삭제 엔드포인트 => {`/feeds/${feedId}/delete`}
+  // console.log(feedData);
 
   const handleEditClick = (feedId: number) => {
     setEditFeedId(feedId);
@@ -167,7 +162,7 @@ export default function FeedPage({ feedData }: FeedPageProps) {
       <p>삭제</p>
     </PopoverContentBox>
   );
-  console.log('1', feedData);
+  // console.log('1', feedData);
   return (
     <>
       <FeedGrid>
@@ -186,7 +181,12 @@ export default function FeedPage({ feedData }: FeedPageProps) {
               </FeedHead>
 
               {Array.isArray(item.imageUrls) ? (
-                <Link href={`/feeds/${item.reviewId}`}>
+                <Link
+                  href={{
+                    pathname: `/feeds/${item.reviewId}`,
+                    query: { feedType: item.type },
+                  }}
+                >
                   <PictureBox>
                     <Image
                       src={item.imageUrls[0]}
@@ -207,7 +207,7 @@ export default function FeedPage({ feedData }: FeedPageProps) {
                     <Image
                       src={item.imageUrls}
                       alt="피드 이미지"
-                      layout="fill"
+                      fill
                       unoptimized={true}
                     />
                   </PictureBox>
