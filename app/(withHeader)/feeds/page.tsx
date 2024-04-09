@@ -6,6 +6,7 @@ import FeedSearch from '@/src/components/feeds/FeedSearch';
 import { getFeedData } from '@/src/components/feeds/api/FeedData';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import FeedData from '@/src/types/feeds/FeedData';
+import { Suspense } from 'react';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -54,13 +55,15 @@ export default function FeedHome() {
   }
   // console.log('@@@', feedData);
   return (
-    <FeedHomeLayer>
-      <TabContainer>
-        <Tab variant="feeds" />
-      </TabContainer>
-      <FeedFlex>
-        <FeedSearch feedData={feedData?.pages} />
-      </FeedFlex>
-    </FeedHomeLayer>
+    <Suspense fallback={<div>Loading...</div>}>
+      <FeedHomeLayer>
+        <TabContainer>
+          <Tab variant="feeds" />
+        </TabContainer>
+        <FeedFlex>
+          <FeedSearch feedData={feedData?.pages} />
+        </FeedFlex>
+      </FeedHomeLayer>
+    </Suspense>
   );
 }

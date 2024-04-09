@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { defaultInstance } from '@/src/lib/axiosInstance';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -113,68 +113,70 @@ export default function Season() {
 
   return (
     <div>
-      <Tab variant="main" />
-      <MainTitle>계절별 추천</MainTitle>
-      <ImageSection>
-        <Image
-          src="/season.jpg"
-          alt="메인 배경 이미지"
-          width={992}
-          height={436}
-          layout="responsive"
-          priority
-        />
-      </ImageSection>
-      <SeasonBar>
-        <SeasonSection>
-          <SeasonTitle>봄에 가기 좋은 산</SeasonTitle>
-          <MountainInfoContainer>
-            {springMountains.map((mountain) => (
-              <MountainInfo
-                key={mountain.exploreId}
-                type="curation"
-                list={mountain}
-              />
-            ))}
-          </MountainInfoContainer>
-        </SeasonSection>
-        <SeasonSection>
-          <SeasonTitle>여름에 가기 좋은 산</SeasonTitle>
-          <MountainInfoContainer>
-            {summerMountains.map((mountain) => (
-              <MountainInfo
-                key={mountain.exploreId}
-                type="curation"
-                list={mountain}
-              />
-            ))}
-          </MountainInfoContainer>
-        </SeasonSection>
-        <SeasonSection>
-          <SeasonTitle>가을에 가기 좋은 산</SeasonTitle>
-          <MountainInfoContainer>
-            {autumnMountains.map((mountain) => (
-              <MountainInfo
-                key={mountain.exploreId}
-                type="curation"
-                list={mountain}
-              />
-            ))}
-          </MountainInfoContainer>
-        </SeasonSection>
-        <SeasonSection>
-          <SeasonTitle>겨울에 가기 좋은 산</SeasonTitle>
-          <MountainInfoContainer>
-            {winterMountains.map((mountain) => (
-              <MountainInfo
-                key={mountain.exploreId}
-                type="curation"
-                list={mountain}
-              />
-            ))}
-          </MountainInfoContainer>
-        </SeasonSection>
-      </SeasonBar>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Tab variant="main" />
+        <MainTitle>계절별 추천</MainTitle>
+        <ImageSection>
+          <Image
+            src="/season.jpg"
+            alt="메인 배경 이미지"
+            width={992}
+            height={436}
+            layout="responsive"
+            priority
+          />
+        </ImageSection>
+        <SeasonBar>
+          <SeasonSection>
+            <SeasonTitle>봄에 가기 좋은 산</SeasonTitle>
+            <MountainInfoContainer>
+              {springMountains.map((mountain) => (
+                <MountainInfo
+                  key={mountain.exploreId}
+                  type="curation"
+                  list={mountain}
+                />
+              ))}
+            </MountainInfoContainer>
+          </SeasonSection>
+          <SeasonSection>
+            <SeasonTitle>여름에 가기 좋은 산</SeasonTitle>
+            <MountainInfoContainer>
+              {summerMountains.map((mountain) => (
+                <MountainInfo
+                  key={mountain.exploreId}
+                  type="curation"
+                  list={mountain}
+                />
+              ))}
+            </MountainInfoContainer>
+          </SeasonSection>
+          <SeasonSection>
+            <SeasonTitle>가을에 가기 좋은 산</SeasonTitle>
+            <MountainInfoContainer>
+              {autumnMountains.map((mountain) => (
+                <MountainInfo
+                  key={mountain.exploreId}
+                  type="curation"
+                  list={mountain}
+                />
+              ))}
+            </MountainInfoContainer>
+          </SeasonSection>
+          <SeasonSection>
+            <SeasonTitle>겨울에 가기 좋은 산</SeasonTitle>
+            <MountainInfoContainer>
+              {winterMountains.map((mountain) => (
+                <MountainInfo
+                  key={mountain.exploreId}
+                  type="curation"
+                  list={mountain}
+                />
+              ))}
+            </MountainInfoContainer>
+          </SeasonSection>
+        </SeasonBar>
+      </Suspense>
     </div>
   );
 }

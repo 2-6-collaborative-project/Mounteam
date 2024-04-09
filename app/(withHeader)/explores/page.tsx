@@ -10,7 +10,7 @@ import Tab from '@/src/components/shared/Tab';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import getMountainList from '@/src/components/explores/api/getMountainList';
@@ -192,66 +192,71 @@ export default function ExplorePage() {
   };
 
   return (
-    <Container>
-      <Tab variant="explores" />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Container>
+        <Tab variant="explores" />
 
-      <SearchMountainArea>
-        <MainTitle>대한민국 산 탐험하기</MainTitle>
-        <AutoSearchBar
-          type="search"
-          setSearchedMountain={setSearchedMountain}
-        />
-        <KakaoMap
-          type="exploreMain"
-          mountainList={mountainList}
-          filteredItems={filteredItems}
-        />
-      </SearchMountainArea>
+        <SearchMountainArea>
+          <MainTitle>대한민국 산 탐험하기</MainTitle>
+          <AutoSearchBar
+            type="search"
+            setSearchedMountain={setSearchedMountain}
+          />
+          <KakaoMap
+            type="exploreMain"
+            mountainList={mountainList}
+            filteredItems={filteredItems}
+          />
+        </SearchMountainArea>
 
-      <SearchResultArea>
-        <FilterContainer>
-          <ExploreFilterPanel />
-        </FilterContainer>
+        <SearchResultArea>
+          <FilterContainer>
+            <ExploreFilterPanel />
+          </FilterContainer>
 
-        <MountainListContainer>
-          <MountainSortHeader>
-            <SortItem $active={sortOrder === 'name'} onClick={handleSortByName}>
-              가나다순
-            </SortItem>
-            <p> | </p>
-            <SortItem
-              $active={sortOrder === 'teamNum'}
-              onClick={handleSortByTeamNumber}
-            >
-              인기순
-            </SortItem>
-          </MountainSortHeader>
-          <MountainList>
-            {keyword === '' ? (
-              filteredItems.length > 0 ? (
-                filteredItems.map((item) => (
-                  <MountainInfo
-                    key={item.exploreId}
-                    type="explore"
-                    list={item}
-                  />
-                ))
+          <MountainListContainer>
+            <MountainSortHeader>
+              <SortItem
+                $active={sortOrder === 'name'}
+                onClick={handleSortByName}
+              >
+                가나다순
+              </SortItem>
+              <p> | </p>
+              <SortItem
+                $active={sortOrder === 'teamNum'}
+                onClick={handleSortByTeamNumber}
+              >
+                인기순
+              </SortItem>
+            </MountainSortHeader>
+            <MountainList>
+              {keyword === '' ? (
+                filteredItems.length > 0 ? (
+                  filteredItems.map((item) => (
+                    <MountainInfo
+                      key={item.exploreId}
+                      type="explore"
+                      list={item}
+                    />
+                  ))
+                ) : (
+                  mountainScrollData?.map((list: mountainDataProps) => (
+                    <MountainInfo
+                      key={list.exploreId}
+                      type="explore"
+                      list={list}
+                    />
+                  ))
+                )
               ) : (
-                mountainScrollData?.map((list: mountainDataProps) => (
-                  <MountainInfo
-                    key={list.exploreId}
-                    type="explore"
-                    list={list}
-                  />
-                ))
-              )
-            ) : (
-              <MountainInfo type="explore" list={searchedMountain} />
-            )}
-          </MountainList>
-        </MountainListContainer>
-      </SearchResultArea>
-      <div style={{ height: '0.1rem' }} ref={bottomObserver}></div>
-    </Container>
+                <MountainInfo type="explore" list={searchedMountain} />
+              )}
+            </MountainList>
+          </MountainListContainer>
+        </SearchResultArea>
+        <div style={{ height: '0.1rem' }} ref={bottomObserver}></div>
+      </Container>
+    </Suspense>
   );
 }
