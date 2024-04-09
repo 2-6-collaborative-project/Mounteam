@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
@@ -162,45 +162,43 @@ export default function TeamsPage() {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Container>
-          <Tab variant="teams" />
-          <MainTitle>전체 등산 모임</MainTitle>
-          <SearchBarContainer>
-            <SearchBar
-              placeholder="함께 등산할 모임을 찾아보세요."
-              onSearch={handleSearch}
-            />
-          </SearchBarContainer>
-          <SearchResultArea>
-            <FilterContainer>
-              <TeamFilterPanel />
-            </FilterContainer>
-            <TeamListContainer>
-              <TeamListHeader>
-                <SortButton
-                  onClick={() => setSortOrder('title')}
-                  $active={sortOrder === 'title'}
-                >
-                  가나다순
-                </SortButton>
-                <p> | </p>
-                <SortButton
-                  onClick={() => setSortOrder('createdAt')}
-                  $active={sortOrder === 'createdAt'}
-                >
-                  최신순
-                </SortButton>
-              </TeamListHeader>
-              <TeamList>
-                {sortedTeams.map((team) => (
-                  <TeamThumbnail key={team.teamId} team={team} />
-                ))}
-              </TeamList>
-            </TeamListContainer>
-          </SearchResultArea>
-        </Container>
-      </Suspense>
+      <Container>
+        <Tab variant="teams" />
+        <MainTitle>전체 등산 모임</MainTitle>
+        <SearchBarContainer>
+          <SearchBar
+            placeholder="함께 등산할 모임을 찾아보세요."
+            onSearch={handleSearch}
+          />
+        </SearchBarContainer>
+        <SearchResultArea>
+          <FilterContainer>
+            <TeamFilterPanel />
+          </FilterContainer>
+          <TeamListContainer>
+            <TeamListHeader>
+              <SortButton
+                onClick={() => setSortOrder('title')}
+                $active={sortOrder === 'title'}
+              >
+                가나다순
+              </SortButton>
+              <p> | </p>
+              <SortButton
+                onClick={() => setSortOrder('createdAt')}
+                $active={sortOrder === 'createdAt'}
+              >
+                최신순
+              </SortButton>
+            </TeamListHeader>
+            <TeamList>
+              {sortedTeams.map((team) => (
+                <TeamThumbnail key={team.teamId} team={team} />
+              ))}
+            </TeamList>
+          </TeamListContainer>
+        </SearchResultArea>
+      </Container>
     </>
   );
 }

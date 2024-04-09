@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { getUserData } from '@/src/components/mypage/api/getUserData';
@@ -170,70 +170,68 @@ export default function Mypage() {
   console.log(myFeedData?.data.reviews);
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <TabContainer>
-          <Tab variant="feeds" />
-        </TabContainer>
-        <ContentsContainer>
-          <Profile
-            level={userData?.userLevel}
-            name={userData?.nickname}
-            img={userData?.profileImage}
-            description={userData?.introduction}
-            age={userData?.ageRange}
-            region={userData?.areaInterest}
-            refetch={refetchUserData}
-            clickShowAll={() => {}}
-          />
-          <FlexContainer>
-            <Selector>
-              <Text1
-                selector={selector}
-                onClick={() => {
-                  setSelector(1);
-                }}
-              >
-                피드
-              </Text1>
-              <Text2
-                selector={selector}
-                onClick={() => {
-                  setSelector(2);
-                }}
-              >
-                저장됨
-              </Text2>
-              <Text3
-                selector={selector}
-                onClick={() => {
-                  setSelector(3);
-                }}
-              >
-                모임
-              </Text3>
-            </Selector>
-            {selector === 1 ? (
-              myFeedData?.data?.reviews.length > 0 ? (
-                <>
-                  <MyFeeds myFeedData={myFeedData?.data.reviews} />
-                </>
-              ) : (
-                <NoText>아직 작성한 피드가 없습니다.</NoText>
-              )
-            ) : selector === 2 ? (
-              <NoText>저장된 피드가 없습니다.</NoText>
-            ) : (
+      <TabContainer>
+        <Tab variant="feeds" />
+      </TabContainer>
+      <ContentsContainer>
+        <Profile
+          level={userData?.userLevel}
+          name={userData?.nickname}
+          img={userData?.profileImage}
+          description={userData?.introduction}
+          age={userData?.ageRange}
+          region={userData?.areaInterest}
+          refetch={refetchUserData}
+          clickShowAll={() => {}}
+        />
+        <FlexContainer>
+          <Selector>
+            <Text1
+              selector={selector}
+              onClick={() => {
+                setSelector(1);
+              }}
+            >
+              피드
+            </Text1>
+            <Text2
+              selector={selector}
+              onClick={() => {
+                setSelector(2);
+              }}
+            >
+              저장됨
+            </Text2>
+            <Text3
+              selector={selector}
+              onClick={() => {
+                setSelector(3);
+              }}
+            >
+              모임
+            </Text3>
+          </Selector>
+          {selector === 1 ? (
+            myFeedData?.data?.reviews.length > 0 ? (
               <>
-                <MyTeamList
-                  data={myTeamsData?.data?.teams}
-                  refetch={refetchTeamsData}
-                />
+                <MyFeeds myFeedData={myFeedData?.data.reviews} />
               </>
-            )}
-          </FlexContainer>
-          <div ref={observerTarget} />
-        </ContentsContainer>
-      </Suspense>
+            ) : (
+              <NoText>아직 작성한 피드가 없습니다.</NoText>
+            )
+          ) : selector === 2 ? (
+            <NoText>저장된 피드가 없습니다.</NoText>
+          ) : (
+            <>
+              <MyTeamList
+                data={myTeamsData?.data?.teams}
+                refetch={refetchTeamsData}
+              />
+            </>
+          )}
+        </FlexContainer>
+        <div ref={observerTarget} />
+      </ContentsContainer>
     </>
   );
 }

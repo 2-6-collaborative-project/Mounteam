@@ -10,7 +10,7 @@ import Tab from '@/src/components/shared/Tab';
 import useSearchMountainStore from '@/src/store/useSearchMountainStore';
 import useFilterMountainStore from '@/src/store/useFilterMountainStore';
 import mountainDataProps from '@/src/types/mountainDataProps';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import getMountainList from '@/src/components/explores/api/getMountainList';
@@ -197,17 +197,15 @@ export default function ExplorePage() {
 
       <SearchMountainArea>
         <MainTitle>대한민국 산 탐험하기</MainTitle>
-        <Suspense fallback={<div>Loading...</div>}>
-          <AutoSearchBar
-            type="search"
-            setSearchedMountain={setSearchedMountain}
-          />
-          <KakaoMap
-            type="exploreMain"
-            mountainList={mountainList}
-            filteredItems={filteredItems}
-          />
-        </Suspense>
+        <AutoSearchBar
+          type="search"
+          setSearchedMountain={setSearchedMountain}
+        />
+        <KakaoMap
+          type="exploreMain"
+          mountainList={mountainList}
+          filteredItems={filteredItems}
+        />
       </SearchMountainArea>
 
       <SearchResultArea>
