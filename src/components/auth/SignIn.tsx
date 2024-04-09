@@ -69,7 +69,7 @@ const Container = styled.div`
 `;
 
 function SignInPage() {
-  const REDIRECT_URI = 'https://mounteam.vercel.app/oauth/kakao';
+  const REDIRECT_URI = 'https://mounteam.site/oauth/kakao';
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   return (
