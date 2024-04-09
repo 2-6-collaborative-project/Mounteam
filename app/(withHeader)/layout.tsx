@@ -8,7 +8,7 @@ import InnerLayout from '@/src/components/shared/InnerLayout';
 import { colors } from '@/app/styles/colors';
 import Header from '@/src/components/shared/Header';
 import Script from 'next/script';
-import QueryProvider from '@/app/queryProvider/QueryProvider';
+import QueryProvider from '@/app/QueryProvider/QueryProvider';
 import CheckValidAuth from '@/src/utils/CheckValidAuth';
 import Footer from '@/src/components/shared/Footer';
 
@@ -59,7 +59,7 @@ export default function RootLayout({
                 <Header />
                 <InnerLayout>
                   <GlobalStyle />
-                  {/* <CheckValidAuth /> */}
+                  <CheckValidAuth />
                   {children}
                 </InnerLayout>
                 <Footer />
