@@ -123,12 +123,11 @@ export const InfoBox: React.FC<InfoBoxProps> = ({
 }) => (
   <InfoContainer>
     <LikeComponent
-      isLiked={feed?.isLiked}
-      likesCount={feed?.likesCount}
+      isLiked={feed?.liked}
+      likesCount={feed?.likeCnt}
       toggleLike={toggleLike}
     />
-    <CommentComponent comments={feed?.comments} commentCnt={feed?.commentCnt} />
+    {/* <CommentComponent comments={feed?.comments} commentCnt={feed?.commentCnt} /> */}
     <BookmarkComponent isSaved={feed?.isSaved} $paddingleft={$paddingleft} />
-
   </InfoContainer>
 );
