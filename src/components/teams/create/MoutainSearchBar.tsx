@@ -3,7 +3,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { AutoComplete, Input } from 'antd';
-import getMountainData from '@/src/components/explores/api/getMountainData';
+import getMountainList from '@/src/components/explores/api/getMountainList';
 import TeamCreationForm from '@/src/types/teams/create/teamCreation';
 import mountainDataProps from '@/src/types/mountainDataProps';
 import typography from '@/app/styles/typography';
@@ -53,15 +53,15 @@ export default function MoutainSearchBar({
 
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
-    queryFn: () => getMountainData(),
+    queryFn: () => getMountainList(0, 100),
   });
 
   const options = mountainList?.map((list: mountainDataProps) => ({
-    value: list.명산_이름,
+    value: list.mountain,
   }));
 
   const filteredOptions = options?.filter((option: HTMLInputElement) =>
-    option.value.includes(searchInput),
+    option.value?.includes(searchInput),
   );
 
   const handleSearchChange = (value: string) => {
