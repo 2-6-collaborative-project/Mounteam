@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://www.mounteam.site/api';
+export const BASE_URL = 'https://api.mounteam.site/api';
 
 export const TEAMS_URL = '/teams';
 
