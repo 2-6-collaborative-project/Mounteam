@@ -161,7 +161,6 @@ export default function FeedPage({ feedData }: FeedPageProps) {
       <p>삭제</p>
     </PopoverContentBox>
   );
-  //console.log('1', feedData);
   return (
     <>
       <FeedGrid>
