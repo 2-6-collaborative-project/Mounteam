@@ -26,8 +26,8 @@ export interface Author {
   authorId: number;
   level: number;
   authorGender: string | null;
-  authorAgeRange: string;
-  areaInterest: string;
+  authorAgeRange: string | null;
+  areaInterest: string | null;
 }
 
 export default interface FeedData {

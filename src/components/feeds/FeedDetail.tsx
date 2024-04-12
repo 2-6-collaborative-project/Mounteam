@@ -4,7 +4,7 @@ import Image from 'next/image';
 import meatballs from '@/public/meatballs.svg';
 import Avatars from '@/src/components/shared/Avatar';
 import FeedModify from '@/src/components/feeds/FeedModify';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { Carousel } from 'antd';
 import { InfoBox } from '@/src/components/shared/InfoBox';
@@ -13,7 +13,6 @@ import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
 import {
   QueryObserverResult,
-  RefetchOptions,
   useMutation,
   useQuery,
   useQueryClient,
@@ -261,22 +260,13 @@ const TextWrapper = styled.div`
 
 interface FeedDetailProps {
   feedData: FeedData;
-  refetch: (
-    options?: RefetchOptions | undefined,
-  ) => Promise<QueryObserverResult<FeedData, Error>>;
 }
-export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
+export default function FeedDetail({ feedData }: FeedDetailProps) {
+  console.log(feedData);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [comment, setComment] = useState('');
   const queryClient = useQueryClient();
-
-  // const { data: feedDetailData } = useQuery({
-  //   queryKey: ['feedData'],
-  //   queryFn: () => {
-  //     getFeedComments(feedData.feedId);
-  //   },
-  // });
 
   const addCommentMutation = useMutation({
     mutationFn: () => postFeedComments(feedData.reviewId, { content: comment }),
@@ -344,12 +334,17 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
     if (inputRef.current) inputRef.current.focus();
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    addCommentMutation.mutate();
-    setTimeout(refetch, 70);
-  };
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      addCommentMutation.mutate();
+    },
+    [addCommentMutation],
+  );
 
+  const handleCommentChange = useCallback((e: any) => {
+    setComment(e.target.value);
+  }, []);
   return (
     <>
       <ContentsContainer>
@@ -425,8 +420,9 @@ export default function FeedDetail({ feedData, refetch }: FeedDetailProps) {
                   <input
                     placeholder="댓글을 작성해주세요"
                     value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    onChange={handleCommentChange}
                   />
+                  {/* (e) => setComment(e.target.value) */}
                 </TextWrapper>
               </CommentBarWrapper>
             </CommentBarContainer>

@@ -11,8 +11,6 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
     const response = await authInstance.get(url);
     // console.log(response.data.data);
     return response.data.data.reviews;
-
-    return response.data.data.reviews;
   } catch (e) {
     console.log(e);
   }
