@@ -1,16 +1,19 @@
 import { defaultInstance } from '@/src/lib/axiosInstance';
+import { EXPLORE_URL } from '@/src/utils/apiUrl';
 
 const getMountainList = async (
   page: null | number,
   size: number,
+  orderBy?: 'popular' | 'name',
   cursor?: number,
 ) => {
   try {
-    const response = await defaultInstance.get('/explores', {
+    const response = await defaultInstance.get(`${EXPLORE_URL}`, {
       params: {
-        cursor,
         page,
         size,
+        orderBy,
+        cursor,
         sort: '',
       },
     });
