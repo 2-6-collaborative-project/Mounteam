@@ -163,7 +163,7 @@ export default function TeamsPage() {
   return (
     <>
       <Container>
-        <Tab variant="teams" />
+        <Tab />
         <MainTitle>전체 등산 모임</MainTitle>
         <SearchBarContainer>
           <SearchBar

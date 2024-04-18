@@ -142,7 +142,7 @@ export default function MountainDetail({
   return (
     <>
       <Container>
-        <Tab variant="explores" />
+        <Tab />
         <MainTitle>{clickedMountain?.mountain}</MainTitle>
         <MapContainer>
           <KakaoMap

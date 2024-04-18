@@ -113,7 +113,7 @@ export default function Season() {
 
   return (
     <div>
-      <Tab variant="main" />
+      <Tab />
       <MainTitle>계절별 추천</MainTitle>
       <ImageSection>
         <Image

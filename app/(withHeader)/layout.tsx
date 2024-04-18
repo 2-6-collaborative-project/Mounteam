@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import StyledComponentsRegistry from '@/src/lib/registry';
@@ -11,12 +10,19 @@ import Script from 'next/script';
 import QueryProvider from '@/app/QueryProvider/QueryProvider';
 import CheckValidAuth from '@/src/utils/CheckValidAuth';
 import Footer from '@/src/components/shared/Footer';
+import type { Metadata } from 'next';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
 });
+
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 
 export const metadata: Metadata = {
   title: '마운팀',
@@ -27,12 +33,6 @@ export const metadata: Metadata = {
     //favicon.ico로 변경필요
   },
 };
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
 
 export default function RootLayout({
   children,

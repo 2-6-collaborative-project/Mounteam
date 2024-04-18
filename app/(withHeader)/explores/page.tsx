@@ -193,7 +193,7 @@ export default function ExplorePage() {
 
   return (
     <Container>
-      <Tab variant="explores" />
+      <Tab />
 
       <SearchMountainArea>
         <MainTitle>대한민국 산 탐험하기</MainTitle>

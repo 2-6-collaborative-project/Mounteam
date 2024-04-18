@@ -171,7 +171,7 @@ export default function Mypage() {
   return (
     <>
       <TabContainer>
-        <Tab variant="feeds" />
+        <Tab />
       </TabContainer>
       <ContentsContainer>
         <Profile
