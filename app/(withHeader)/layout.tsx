@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import StyledComponentsRegistry from '@/src/lib/registry';
@@ -10,7 +11,6 @@ import Script from 'next/script';
 import QueryProvider from '@/app/QueryProvider/QueryProvider';
 import CheckValidAuth from '@/src/utils/CheckValidAuth';
 import Footer from '@/src/components/shared/Footer';
-import type { Metadata } from 'next';
 
 const myFont = localFont({
   src: '../styles/PretendardVariable.woff2',
@@ -18,21 +18,17 @@ const myFont = localFont({
   weight: '45 920',
 });
 
+export const metadata: Metadata = {
+  title: '마운팀',
+  description:
+    '100대 명산 정보 제공, 등산 코스 추천과 함께 소셜 모임, 뱃지 시스템 등의 경험 공유를 제공하는 등산 커뮤니티 플랫폼',
+};
+
 declare global {
   interface Window {
     kakao: any;
   }
 }
-
-export const metadata: Metadata = {
-  title: '마운팀',
-  description:
-    '100대 명산 정보 제공, 등산 코스 추천과 함께 소셜 모임, 뱃지 시스템 등의 경험 공유를 제공하는 등산 커뮤니티 플랫폼',
-  icons: {
-    icon: '/favicon.jpg',
-    //favicon.ico로 변경필요
-  },
-};
 
 export default function RootLayout({
   children,
