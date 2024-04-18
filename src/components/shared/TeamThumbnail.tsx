@@ -39,7 +39,11 @@ const TeamBox = styled.div`
   }
 `;
 
-const ImageSection = styled.div`
+interface ImageSectionProps {
+  nameLength: number;
+}
+
+const ImageSection = styled.div<ImageSectionProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +52,7 @@ const ImageSection = styled.div`
   border-radius: 100%;
   background: ${colors.Primary[500]};
   color: ${colors.Grayscale[1]};
-  font-size: 1.6rem;
+  font-size: ${(props) => (props.nameLength > 4 ? '1.2rem' : '1.6rem')};
   line-height: 1.75rem;
 
   @media (max-width: 768px) {
@@ -60,7 +64,7 @@ const ImageSection = styled.div`
   @media (max-width: 480px) {
     width: 11rem;
     height: 11rem;
-    font-size: 2rem;
+    font-size: ${(props) => (props.nameLength > 4 ? '1.5rem' : '2rem')};
   }
 `;
 
@@ -232,7 +236,9 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
 
   return (
     <TeamBox onClick={handleClick}>
-      <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
+      <ImageSection nameLength={team.mountain.length} className={IBM.className}>
+        {team.mountain}
+      </ImageSection>
       <TeamCol>
         <TeamInfo>
           <Title>{truncateTitle(team.title)}</Title>
