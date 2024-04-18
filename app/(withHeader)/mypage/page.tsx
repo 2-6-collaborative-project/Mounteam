@@ -11,6 +11,7 @@ import Tab from '@/src/components/shared/Tab';
 import { getMyFeedData } from '@/src/components/mypage/api/getMyFeedData';
 import { getMyTeamData } from '@/src/components/mypage/api/getMyTeamsData';
 import { colors } from '@/app/styles/colors';
+import { useRouter } from 'next/navigation';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -85,10 +86,12 @@ interface StyledProps {
 }
 
 export default function Mypage() {
+  const [pageLoad, setPageLoad] = useState(false);
   const [selector, setSelector] = useState(1);
   const [myFeeds, setMyFeeds] = useState<any>([]);
   const [hasNext, setHasNext] = useState(true);
   const observerTarget = useRef(null);
+  const route = useRouter();
 
   const { data: userData, refetch: refetchUserData } = useQuery({
     queryKey: ['userData'],
@@ -108,7 +111,11 @@ export default function Mypage() {
   const refetchTeamsData = () => {
     refetchTeamData();
   };
-
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      setPageLoad(true);
+    }
+  }, []);
   // 처음 데이터 불러오기 그후 마지막 객체의 id따기=state만들기
   // 그이후부터는 트리거가 걸리면 커서에 data.feeds배열에 푸시해야함 | data.hasNext
   // 마지막 객체의 id값을넣어서 이전 데이터 배열에.push
@@ -170,68 +177,74 @@ export default function Mypage() {
   console.log(myFeedData?.data.reviews);
   return (
     <>
-      <TabContainer>
-        <Tab variant="feeds" />
-      </TabContainer>
-      <ContentsContainer>
-        <Profile
-          level={userData?.userLevel}
-          name={userData?.nickname}
-          img={userData?.profileImage}
-          description={userData?.introduction}
-          age={userData?.ageRange}
-          region={userData?.areaInterest}
-          refetch={refetchUserData}
-          clickShowAll={() => {}}
-        />
-        <FlexContainer>
-          <Selector>
-            <Text1
-              selector={selector}
-              onClick={() => {
-                setSelector(1);
-              }}
-            >
-              피드
-            </Text1>
-            <Text2
-              selector={selector}
-              onClick={() => {
-                setSelector(2);
-              }}
-            >
-              저장됨
-            </Text2>
-            <Text3
-              selector={selector}
-              onClick={() => {
-                setSelector(3);
-              }}
-            >
-              모임
-            </Text3>
-          </Selector>
-          {selector === 1 ? (
-            myFeedData?.data?.reviews.length > 0 ? (
-              <>
-                <MyFeeds myFeedData={myFeedData?.data.reviews} />
-              </>
-            ) : (
-              <NoText>아직 작성한 피드가 없습니다.</NoText>
-            )
-          ) : selector === 2 ? (
-            <NoText>저장된 피드가 없습니다.</NoText>
-          ) : (
-            <>
-              <MyTeamList
-                data={myTeamsData?.data?.teams}
-                refetch={refetchTeamsData}
-              />
-            </>
-          )}
-        </FlexContainer>
-        <div ref={observerTarget} />
-      </ContentsContainer>
+      {pageLoad ? (
+        <>
+          <TabContainer>
+            <Tab variant="feeds" />
+          </TabContainer>
+          <ContentsContainer>
+            <Profile
+              level={userData?.userLevel}
+              name={userData?.nickname}
+              img={userData?.profileImage}
+              description={userData?.introduction}
+              age={userData?.ageRange}
+              region={userData?.areaInterest}
+              refetch={refetchUserData}
+              clickShowAll={() => {}}
+            />
+            <FlexContainer>
+              <Selector>
+                <Text1
+                  selector={selector}
+                  onClick={() => {
+                    setSelector(1);
+                  }}
+                >
+                  피드
+                </Text1>
+                <Text2
+                  selector={selector}
+                  onClick={() => {
+                    setSelector(2);
+                  }}
+                >
+                  저장됨
+                </Text2>
+                <Text3
+                  selector={selector}
+                  onClick={() => {
+                    setSelector(3);
+                  }}
+                >
+                  모임
+                </Text3>
+              </Selector>
+              {selector === 1 ? (
+                myFeedData?.data?.reviews.length > 0 ? (
+                  <>
+                    <MyFeeds myFeedData={myFeedData?.data.reviews} />
+                  </>
+                ) : (
+                  <NoText>아직 작성한 피드가 없습니다.</NoText>
+                )
+              ) : selector === 2 ? (
+                <NoText>저장된 피드가 없습니다.</NoText>
+              ) : (
+                <>
+                  <MyTeamList
+                    data={myTeamsData?.data?.teams}
+                    refetch={refetchTeamsData}
+                  />
+                </>
+              )}
+            </FlexContainer>
+            <div ref={observerTarget} />
+          </ContentsContainer>
+        </>
+      ) : (
+        ''
+      )}
     </>
   );
 }
