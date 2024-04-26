@@ -3,12 +3,9 @@
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import FeedDetail from '@/src/components/feeds/FeedDetail';
-import { useParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import FeedData from '@/src/types/feeds/FeedData';
-import { getFeedSelect } from '@/src/components/feeds/api/FeedData';
-import { useState, useEffect, useCallback, memo } from 'react';
-import { useSearchParams } from 'next/navigation';
+import useFeedParams from '@/src/components/feeds/useFeedParams';
+import { useFeedDetailQuery } from '@/src/components/feeds/query/useFeedDetailQuery';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -21,35 +18,28 @@ const ContentWrapper = styled.div`
   align-items: center;
   gap: 10rem;
 `;
-const FeedDetailMemo = memo(FeedDetail);
 
 export default function Page() {
-  const [feedDetailData, setFeedDetailData] = useState<FeedData>();
+  // const [feedDetailData, setFeedDetailData] = useState<FeedData>();
+  const { feedId, feedType } = useFeedParams();
 
-  const routerParams = useParams();
-  const searchParams = useSearchParams();
+  // const getData = useCallback(async () => {
+  //   const data = await getFeedSelect(feedType, feedId);
+  //   console.log('처음 get', data);
+  //   setFeedDetailData(data);
+  // }, [feedId, feedType]);
 
-  const feedId = Array.isArray(routerParams.feedId)
-    ? Number(routerParams.feedId[0])
-    : Number(routerParams.feedId);
+  // useEffect(() => {
+  //   getData();
+  // }, [getData]);
 
-  const feedType = searchParams.get('feedType');
-  console.log(feedType);
-  const getData = useCallback(async () => {
-    const data = await getFeedSelect(feedType, feedId);
-    console.log('처음 get', data);
-    setFeedDetailData(data);
-  }, [feedId, feedType]);
+  // useEffect(() => {
+  //   console.log('해당 피드의 데이터:', feedDetailData);
+  // }, [feedDetailData]);
 
-  useEffect(() => {
-    getData();
-  }, [getData]);
-
-  useEffect(() => {
-    console.log('해당 피드의 데이터:', feedDetailData);
-  }, [feedDetailData]);
-
-  if (!feedDetailData) {
+  const feedDetailQuery = useFeedDetailQuery(feedType, feedId);
+  // console.log('page.tsx', feedDetailQuery);
+  if (feedDetailQuery.isLoading || feedDetailQuery.isPending) {
     return <div>Loading...</div>;
   }
 
@@ -59,7 +49,8 @@ export default function Page() {
         <Tab variant="feeds" />
       </TabContainer>
       <ContentWrapper>
-        <FeedDetailMemo feedData={feedDetailData} />
+        <FeedDetail />
+        {/* <FeedDetail feedData={feedDetailQuery.data} /> */}
       </ContentWrapper>
     </>
   );

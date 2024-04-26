@@ -35,7 +35,7 @@ const FilteredInner = styled.div`
 export default function FeedSearch({ feedData = [] }: FeedSearchProps) {
   const [isSearching, setIsSearching] = useState(false); // 검색 상태
   const [filteredFeeds, setFilteredFeeds] = useState<FeedData[][]>([]); // 피드 저장
-  // console.log('필터페이지 피드데이터', feedData);
+  console.log('필터페이지 피드데이터', feedData);
 
   const handleSearch = (value: string) => {
     if (value.trim() === '') {

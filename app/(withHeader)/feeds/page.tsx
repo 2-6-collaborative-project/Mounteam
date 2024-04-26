@@ -30,11 +30,6 @@ const FeedHomeInner = styled.div`
 `;
 
 export default function FeedHome() {
-  // const { data: feedData, isLoading } = useQuery<FeedData[]>({
-  //   queryKey: ['FeedData'],
-  //   queryFn: () => getFeedData(0, 9),
-  // });
-
   const {
     data: feedData,
     isPending,
@@ -43,16 +38,17 @@ export default function FeedHome() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['feed', 'list'],
     queryFn: ({ pageParam }) => getFeedData(0, 9),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.hasMore ? lastPageParam + 1 : undefined,
   });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  // console.log('@@@', feedData);
+
   return (
     <FeedHomeLayer>
       <TabContainer>

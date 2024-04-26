@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Link from 'next/link';
 import Image from 'next/image';
 import meatballs from '@/public/meatballs.svg';
 import Avatars from '@/src/components/shared/Avatar';
@@ -9,7 +8,6 @@ import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { Carousel } from 'antd';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
-import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
 import {
   QueryObserverResult,
@@ -23,10 +21,12 @@ import {
   getFeedComments,
   getFeedSelect,
   postFeedComments,
-  postFeedData,
   postLikes,
 } from './api/FeedData';
 import Comment from './Comment';
+import { useParams } from 'next/navigation';
+import useFeedParams from './useFeedParams';
+import { useFeedDetailQuery } from './query/useFeedDetailQuery';
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -74,14 +74,6 @@ const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 9px;
-`;
-
-const AvatarImage = styled.img`
-  padding: 0rem;
-  width: 4.8rem;
-  height: 4.8rem;
-  background-color: ${colors.Grayscale[6]};
-  object-fit: cover;
 `;
 
 const HeadFont = styled.div`
@@ -258,45 +250,33 @@ const TextWrapper = styled.div`
   }
 `;
 
-interface FeedDetailProps {
-  feedData: FeedData;
-}
-export default function FeedDetail({ feedData }: FeedDetailProps) {
-  console.log(feedData);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [comment, setComment] = useState('');
+export default function FeedDetail() {
   const queryClient = useQueryClient();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [comment, setComment] = useState('');
+
+  const { feedId, feedType } = useFeedParams();
+  const feedDetailQuery = useFeedDetailQuery(feedType, feedId);
+
   const addCommentMutation = useMutation({
-    mutationFn: () => postFeedComments(feedData.reviewId, { content: comment }),
+    mutationFn: () =>
+      postFeedComments(feedType!, feedId, {
+        content: comment,
+      }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comment'] });
+      queryClient.invalidateQueries({
+        queryKey: ['feed', 'detail', feedType, feedId],
+      });
       setComment('');
     },
   });
 
   const deleteFeedMutation = useMutation({
-    mutationFn: (feedId: number) => deleteFeedData(feedId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['feedData'] });
-    },
-  });
-
-  const postLikeMutation = useMutation({
-    mutationFn: (feedId: number) => postLikes(feedId),
+    mutationFn: (feedId: number) => deleteFeedData(feedType!, feedId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['likeData', feedData.reviewId],
-      });
-    },
-  });
-
-  const deleteLikeMutation = useMutation({
-    mutationFn: (feedId: number) => deleteLikes(feedId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['likeData', feedData.reviewId],
+        queryKey: ['feed', 'detail', feedType, feedId],
       });
     },
   });
@@ -313,19 +293,10 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
     setIsModalOpen(!isModalOpen);
   };
 
-  // 좋아요 상태를 토글하는 함수
-  const toggleLike = async () => {
-    if (feedData.liked) {
-      await deleteLikeMutation.mutate(feedData.reviewId);
-    } else {
-      await postLikeMutation.mutate(feedData.reviewId);
-    }
-  };
-
   const content = (
     <PopoverContentBox>
-      <p onClick={() => handleEditClick(feedData.reviewId)}>수정</p>
-      <p onClick={() => handleDeleteClick(feedData.reviewId)}>삭제</p>
+      <p onClick={() => handleEditClick(feedId)}>수정</p>
+      <p onClick={() => handleDeleteClick(feedId)}>삭제</p>
     </PopoverContentBox>
   );
   const inputRef = useRef<HTMLInputElement>(null);
@@ -345,24 +316,28 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
   const handleCommentChange = useCallback((e: any) => {
     setComment(e.target.value);
   }, []);
+
   return (
     <>
       <ContentsContainer>
         <ProfileCarouselContainer>
           <ProfileContainer>
             <ProfileWrapper>
-              <Avatars type="comment" img={feedData?.author.profileImageUrl} />
+              <Avatars
+                type="comment"
+                img={feedDetailQuery.data.author.profileImageUrl}
+              />
               <HeadFont>
                 {
                   <p style={{ fontWeight: 400 }}>
-                    Lv. {feedData?.author.level}
+                    Lv. {feedDetailQuery.data.author.level}
                   </p>
                 }
-                {<p>{feedData?.author.nickname}</p>}
+                {<p>{feedDetailQuery.data.author.nickname}</p>}
               </HeadFont>
 
               <MeatBallFrame>
-                {feedData?.createByMe && (
+                {feedDetailQuery.data.createByMe && (
                   <CustomPopover content={content}>
                     <Image src={meatballs} alt="미트볼" />
                   </CustomPopover>
@@ -372,49 +347,46 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
           </ProfileContainer>
           <CarouselConatiner>
             <Carousel afterChange={onChange} autoplay>
-              {feedData?.imageUrls.map((url, index) => (
-                <CarouselWrapper key={index}>
-                  <Image
-                    width={'399'}
-                    height={'399'}
-                    src={url}
-                    alt={`img-${index}`}
-                    objectFit="cover"
-                  />
-                </CarouselWrapper>
-              ))}
+              {feedDetailQuery.data.imageUrls.map(
+                (url: string, index: number) => (
+                  <CarouselWrapper key={index}>
+                    <Image
+                      width="399"
+                      height="399"
+                      src={url}
+                      alt={`img-${index}`}
+                    />
+                  </CarouselWrapper>
+                ),
+              )}
             </Carousel>
           </CarouselConatiner>
         </ProfileCarouselContainer>
         <InfoContainer>
           <InfoWrapper>
             <TagContainer>
-              {feedData?.tags.map((tag, index) => (
+              {feedDetailQuery.data.tags.map((tag: string[], index: number) => (
                 <TagWrapper key={index}>
                   <p>{tag}</p>
                 </TagWrapper>
               )) || <p>태그가 없습니다.</p>}
             </TagContainer>
-            {feedData?.mainText ? (
+            {feedDetailQuery.data.mainText ? (
               <TextBox>
-                <p>{feedData?.mainText}</p>
+                <p>{feedDetailQuery.data.mainText}</p>
               </TextBox>
             ) : (
               '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
             )}
 
-            <InfoBox
-              feed={feedData}
-              $paddingleft="0rem"
-              toggleLike={toggleLike}
-            />
+            <InfoBox feed={feedDetailQuery.data} $paddingleft="0rem" />
           </InfoWrapper>
           <form onSubmit={handleSubmit}>
             <CommentBarContainer onClick={handleClick}>
               <CommentBarWrapper>
                 <Avatars
                   type="comment"
-                  img={feedData?.author.profileImageUrl}
+                  img={feedDetailQuery.data.author.profileImageUrl}
                 />
                 <TextWrapper>
                   <input
@@ -422,17 +394,17 @@ export default function FeedDetail({ feedData }: FeedDetailProps) {
                     value={comment}
                     onChange={handleCommentChange}
                   />
-                  {/* (e) => setComment(e.target.value) */}
                 </TextWrapper>
               </CommentBarWrapper>
             </CommentBarContainer>
           </form>
-          <Comment feedData={feedData} />
+          <Comment feedData={feedDetailQuery.data} />
         </InfoContainer>
-        {isModalOpen && feedData.reviewId !== null && (
+        {isModalOpen && feedId !== null && (
           <FeedModify
-            feedId={feedData.reviewId}
-            content={feedData.mainText}
+            feedType={feedType!}
+            feedId={feedId}
+            content={feedDetailQuery.data.mainText}
             modalOpenState={isModalOpen}
             setter={setIsModalOpen}
           />

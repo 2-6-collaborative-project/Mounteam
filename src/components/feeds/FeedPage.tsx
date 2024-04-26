@@ -1,19 +1,15 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-import meatballs from '@/public/meatballs.svg';
 import Avatars from '@/src/components/shared/Avatar';
-import FeedModify from '@/src/components/feeds/FeedModify';
 import { useState } from 'react';
-import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
-
-interface FeedImgProps {
-  imageUrl?: string;
-}
+import { deleteLikes, postLikes } from './api/FeedData';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useFeedDetailQuery } from './query/useFeedDetailQuery';
 
 export interface Feeds {
   feeds: FeedData[][];
@@ -55,35 +51,10 @@ const HeadWrapper = styled.div`
   overflow: hidden;
 `;
 
-const FeedImg = styled.div<FeedImgProps>`
-  display: flex;
-  width: 3rem;
-  height: 3rem;
-  background-image: url(${(props) => props.imageUrl});
-  background-size: cover;
-`;
-
 const HeadFont = styled.div`
   color: ${colors.Grayscale[13]};
   font-weight: 600;
   font-size: 12px;
-`;
-
-const MeatBallFrame = styled.div`
-  display: flex;
-  position: absolute;
-  padding: 10px 0px 10px 10px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-
-  & img {
-    cursor: pointer;
-    position: relative;
-    margin-left: 28rem;
-    width: auto;
-    height: auto;
-  }
 `;
 
 const PictureBox = styled.div`
@@ -137,113 +108,80 @@ const TagWrapper = styled.div`
   }
 `;
 
-const PopoverContentBox = styled.div`
-  display: flex;
-  cursor: pointer;
-  width: 71px;
-  flex-direction: column;
-  align-items: center;
-`;
-
 // 후기 컴포넌트
 export default function FeedPage({ feedData }: FeedPageProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { editFeedId, setEditFeedId } = useFeedIdStore();
-
-  const handleEditClick = (feedId: number) => {
-    setEditFeedId(feedId);
-    setIsModalOpen(!isModalOpen);
-  };
-
-  const content = (feedId: number) => (
-    <PopoverContentBox>
-      <p onClick={() => handleEditClick(feedId)}>수정</p>
-      <p>삭제</p>
-    </PopoverContentBox>
-  );
   return (
     <>
       <FeedGrid>
-        {feedData.map((feed: any) =>
-          feed.map((item: any, index: any) => (
-            <div key={`${index}`}>
-              <FeedHead>
-                <HeadWrapper>
-                  <Avatars type="" img={item.author?.profileImageUrl} />
-                </HeadWrapper>
+        {feedData[0].map((item, index) => (
+          <div key={item.reviewId}>
+            <FeedHead>
+              <HeadWrapper>
+                <Avatars type="" img={item.author.profileImageUrl} />
+              </HeadWrapper>
 
-                <HeadFont>
-                  {<p style={{ fontWeight: 400 }}>Lv. {item.author?.level}</p>}
-                  {<p>{item.author?.nickname}</p>}
-                </HeadFont>
-              </FeedHead>
+              <HeadFont>
+                {<p style={{ fontWeight: 400 }}>Lv. {item.author.level}</p>}
+                {<p>{item.author.nickname}</p>}
+              </HeadFont>
+            </FeedHead>
 
-              {Array.isArray(item.imageUrls) ? (
-                <Link
-                  href={{
-                    pathname: `/feeds/${item.reviewId}`,
-                    query: { feedType: item.type },
-                  }}
-                >
-                  <PictureBox>
-                    <Image
-                      src={item.imageUrls[0]}
-                      alt="image"
-                      fill
-                      unoptimized={true}
-                    />
-                  </PictureBox>
-                </Link>
-              ) : (
-                <Link
-                  href={{
-                    pathname: `/feeds/${item.reviewId}`,
-                    query: { feedType: item.type },
-                  }}
-                >
-                  <PictureBox>
-                    <Image
-                      src={item.imageUrls}
-                      alt="피드 이미지"
-                      fill
-                      unoptimized={true}
-                    />
-                  </PictureBox>
-                </Link>
-              )}
+            {Array.isArray(item.imageUrls) ? (
+              <Link
+                href={{
+                  pathname: `/feeds/${item.reviewId}`,
+                  query: { feedType: item.type },
+                }}
+              >
+                <PictureBox>
+                  <Image
+                    src={item.imageUrls[0]}
+                    alt="image"
+                    fill
+                    unoptimized={true}
+                  />
+                </PictureBox>
+              </Link>
+            ) : (
+              <Link
+                href={{
+                  pathname: `/feeds/${item.reviewId}`,
+                  query: { feedType: item.type },
+                }}
+              >
+                <PictureBox>
+                  <Image
+                    src={item.imageUrls}
+                    alt="피드 이미지"
+                    fill
+                    unoptimized={true}
+                  />
+                </PictureBox>
+              </Link>
+            )}
 
-              <InfoBox feed={item} />
+            <InfoBox feed={item} />
+            {item.mainText ? (
+              <TextBox>
+                <p>{item.mainText}</p>
+              </TextBox>
+            ) : (
+              '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
+            )}
 
-              {item.mainText ? (
-                <TextBox>
-                  <p>{item.mainText}</p>
-                </TextBox>
-              ) : (
-                '게시글의 텍스트가 없을때 이 텍스트가 나옵니다.'
-              )}
-
-              {item.tags ? (
-                <TagBox>
-                  {item.tags.map((tag: any, index: number) => (
-                    <TagWrapper key={index}>
-                      <p>{tag}</p>
-                    </TagWrapper>
-                  ))}
-                </TagBox>
-              ) : (
-                ''
-              )}
-              {isModalOpen && editFeedId !== null && (
-                <FeedModify
-                  content={item.mainText}
-                  feedId={item.reviewId}
-                  modalOpenState={isModalOpen}
-                  setter={setIsModalOpen}
-                />
-              )}
-            </div>
-          )),
-        )}
+            {item.tags ? (
+              <TagBox>
+                {item.tags.map((tag: any, index: number) => (
+                  <TagWrapper key={index}>
+                    <p>{tag}</p>
+                  </TagWrapper>
+                ))}
+              </TagBox>
+            ) : (
+              ''
+            )}
+          </div>
+        ))}
         {feedData.length === 0 && <div>표시할 피드가 없습니다.</div>}
       </FeedGrid>
     </>

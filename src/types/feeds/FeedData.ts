@@ -46,5 +46,5 @@ export default interface FeedData {
   liked: boolean;
   isSaved?: boolean;
   comments: string[] | [];
-  type?: string;
+  type: string;
 }
