@@ -34,8 +34,8 @@ const HeadFont = styled.div`
 const PictureBox = styled.div`
   cursor: pointer;
   width: 100%;
-  height: 0; // 높이를 0으로 설정
-  padding-top: 100%; // 상단 패딩을 너비의 100%로 설정
+  height: 0;
+  padding-top: 100%;
   position: relative;
   overflow: hidden;
   background-color: ${colors.Grayscale[3]};
@@ -78,15 +78,14 @@ interface Author {
 interface Feed {
   author: Author;
   imageUrls?: string;
-  id: number;
+  reviewId: number;
 }
 
 export default function FeedThumbnail({ feed }: { feed: Feed }) {
   const router = useRouter();
 
-  // 이동 경로 판별 로직 수정 필요
   const handleClick = () => {
-    router.push(`/feeds/${feed.id}`);
+    router.push(`/feeds/${feed.reviewId}`);
   };
 
   return (
