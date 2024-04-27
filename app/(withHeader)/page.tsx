@@ -117,7 +117,7 @@ interface Author {
 interface Feed {
   author: Author;
   imageUrls?: string;
-  id: number;
+  reviewId: number;
 }
 
 export default function Home() {
@@ -154,7 +154,7 @@ export default function Home() {
               nickname: feed.author?.nickname,
             },
             imageUrls: feed.imageUrls,
-            id: feed.reviewId,
+            reviewId: feed.reviewId,
           }));
           setFeeds(feeds);
         } else {
@@ -164,58 +164,6 @@ export default function Home() {
         console.error('Failed to fetch feeds:', error);
       }
     };
-
-    // const fetchFeeds = async () => {
-    //   try {
-    //     const response = await defaultInstance.get('/feeds/main');
-    //     console.log(response); // 응답 구조 확인을 위한 콘솔 로그
-    //     if (
-    //       response.status === 200 &&
-    //       response.data &&
-    //       response.data.data &&
-    //       response.data.data.content
-    //     ) {
-    //       const feeds = response.data.data.content.map((feed: any) => ({
-    //         author: {
-    //           profileImageUrl: feed.author?.profileImageUrl,
-    //           level: feed.author?.level,
-    //           nickname: feed.author?.nickname,
-    //         },
-    //         imageUrls: feed.imageUrls,
-    //         id: feed.id,
-    //       }));
-    //       setFeeds(feeds);
-    //     } else {
-    //       console.error('Unexpected response structure:', response);
-    //     }
-    //   } catch (error) {
-    //     console.error('Failed to fetch feeds:', error);
-    //   }
-    // };
-
-    // const fetchFeeds = async () => {
-    //   try {
-    //     const response = await defaultInstance.get('/feeds/main');
-    //     if (response.status === 200 && response.data.data.content) {
-    //       const feeds = response.data.data.content.map((feed: any) => ({
-    //         author: {
-    //           profileImageUrl: feed.author.profileImageUrl,
-    //           level: feed.author.level,
-    //           nickname: feed.author.nickname,
-    //         },
-    //         imageUrl: feed.imageUrl,
-    //         id: feed.feedId,
-    //         createdByme: feed.createdByMe,
-    //       }));
-    //       console.log(feeds); // PR 업로드 전 삭제
-    //       setFeeds(feeds);
-    //     } else {
-    //       console.error('Unexpected response status or structure:', response);
-    //     }
-    //   } catch (error) {
-    //     console.error('Failed to fetch feeds:', error);
-    //   }
-    // };
 
     fetchTeams();
     fetchFeeds();
@@ -288,7 +236,7 @@ export default function Home() {
         </Between>
         <FeedThumbnailContainer>
           {feeds.slice(0, numFeeds).map((feed) => (
-            <FeedThumbnail key={feed.id} feed={feed} />
+            <FeedThumbnail key={feed.reviewId} feed={feed} />
           ))}
         </FeedThumbnailContainer>
       </Body>
