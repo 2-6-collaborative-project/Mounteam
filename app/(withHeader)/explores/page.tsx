@@ -14,6 +14,8 @@ import { useEffect, useRef, useState } from 'react';
 import { colors } from '@/app/styles/colors';
 import typography from '@/app/styles/typography';
 import getMountainList from '@/src/components/explores/api/getMountainList';
+import { defaultInstance } from '@/src/lib/axiosInstance';
+import { EXPLORE_URL } from '@/src/utils/apiUrl';
 
 const SearchMountainArea = styled.div``;
 const MainTitle = styled.h2`
@@ -93,30 +95,26 @@ const Container = styled.div`
 export default function ExplorePage() {
   const { data: mountainList } = useQuery({
     queryKey: ['mountainList'],
-    queryFn: () => getMountainList(0, 100),
+    queryFn: () => getMountainList(0, 100, 'name'),
   });
 
   const {
     data: mountainData,
     fetchNextPage,
-    hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ['mountainList', 'scroll'],
-    queryFn: ({ pageParam = 0 }) => getMountainList(0, 6, pageParam),
+    queryFn: ({ pageParam = 0 }) => getMountainList(0, 6, 'name', pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => {
-      const currentDataCount = pages.reduce(
-        (total, page) => total + page.length,
-        0,
-      );
-      return currentDataCount;
+    getNextPageParam: (lastPage) => {
+      const lastItemId = lastPage[lastPage.length - 1].exploreId;
+      return lastItemId + 1;
     },
   });
 
   const mountainScrollData = mountainData?.pages?.flat() ?? [];
 
-  const fetchNextCardList = () => {
+  const fetchNextMountainList = () => {
     if (!isFetchingNextPage) {
       fetchNextPage();
     }
@@ -129,7 +127,7 @@ export default function ExplorePage() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchNextCardList();
+          fetchNextMountainList();
         }
       },
       { threshold: 0 },
@@ -144,51 +142,23 @@ export default function ExplorePage() {
   const { keyword, searchedMountain, setSearchedMountain } =
     useSearchMountainStore();
   const { filteredItems, setFilteredItems } = useFilterMountainStore();
-
-  const [allMountainList, setAllMountainList] = useState<mountainDataProps[]>(
-    [],
-  );
   const [sortOrder, setSortOrder] = useState('name');
 
-  useEffect(() => {
-    if (mountainList) {
-      setAllMountainList(mountainList);
-    }
-  }, [mountainList]);
+  const handleSortMountain = async (e: any) => {
+    const res = await defaultInstance.get(`${EXPLORE_URL}`, {
+      params: {
+        page: 0,
+        size: 100,
+        orderBy: e.target.textContent === '가나다순' ? 'name' : 'popular',
+      },
+    });
 
-  const sortListByName = (list: mountainDataProps[]) => {
-    setSortOrder('name');
-    return [...list].sort((a, b) => a.mountain.localeCompare(b.mountain));
-  };
+    const sortedMountain = res.data.data;
+    setFilteredItems(sortedMountain);
 
-  const sortListByTeamNumber = (list: mountainDataProps[]) => {
-    setSortOrder('teamNum');
-    return [...list].sort((a, b) => b.teamCnt - a.teamCnt);
-  };
-
-  const handleSortByName = () => {
-    const sortedList = sortListByName(allMountainList);
-
-    setAllMountainList(sortedList);
-
-    if (filteredItems.length > 0) {
-      const sortedFilterList = sortListByName(filteredItems);
-
-      setFilteredItems(sortedFilterList);
-    }
-  };
-
-  // 추후 API 연동시에 모임 개수로 대체될 예정입니다.
-  const handleSortByTeamNumber = () => {
-    const sortedList = sortListByTeamNumber(allMountainList);
-
-    setAllMountainList(sortedList);
-
-    if (filteredItems.length > 0) {
-      const filteredSortedList = sortListByTeamNumber(filteredItems);
-
-      setFilteredItems(filteredSortedList);
-    }
+    e.target.textContent === '가나다순'
+      ? setSortOrder('name')
+      : setSortOrder('popular');
   };
 
   return (
@@ -215,13 +185,16 @@ export default function ExplorePage() {
 
         <MountainListContainer>
           <MountainSortHeader>
-            <SortItem $active={sortOrder === 'name'} onClick={handleSortByName}>
+            <SortItem
+              $active={sortOrder === 'name'}
+              onClick={handleSortMountain}
+            >
               가나다순
             </SortItem>
             <p> | </p>
             <SortItem
-              $active={sortOrder === 'teamNum'}
-              onClick={handleSortByTeamNumber}
+              $active={sortOrder === 'popular'}
+              onClick={handleSortMountain}
             >
               인기순
             </SortItem>
