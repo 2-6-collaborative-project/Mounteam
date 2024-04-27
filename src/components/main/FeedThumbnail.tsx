@@ -10,7 +10,6 @@ const FeedHead = styled.div`
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  width: 31.5rem;
   padding-bottom: 1.1rem;
 `;
 
