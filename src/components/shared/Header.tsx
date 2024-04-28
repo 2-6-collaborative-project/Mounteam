@@ -17,12 +17,6 @@ const HeaderBox = styled.div`
   max-width: 1200px;
   padding: 4rem 0rem 3.75rem 0rem;
   align-items: center;
-
-  @media (max-width: 768px) {
-  }
-
-  @media (max-width: 480px) {
-  }
 `;
 
 const LogoContainer = styled.div`

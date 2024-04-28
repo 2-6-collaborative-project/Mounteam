@@ -152,7 +152,7 @@ export default function ReviewWrite() {
   return (
     <>
       <TabContainer>
-        <Tab variant="explores" />
+        <Tab />
       </TabContainer>
       <MainTitle>등산 후기 작성하기</MainTitle>
       <ContentContainer>

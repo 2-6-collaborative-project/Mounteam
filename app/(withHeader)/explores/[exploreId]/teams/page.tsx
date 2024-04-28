@@ -118,7 +118,7 @@ export default function TeamList({
 
   return (
     <Container>
-      <Tab variant="explores" />
+      <Tab />
 
       <MainTitle>{clickedMountain?.mountain}</MainTitle>
 

@@ -108,7 +108,7 @@ export default function Certification() {
   return (
     <>
       <TabContainer>
-        <Tab variant="explores" />
+        <Tab />
       </TabContainer>
       <ContentContainer>
         <Form layout="vertical" style={formStyle}>

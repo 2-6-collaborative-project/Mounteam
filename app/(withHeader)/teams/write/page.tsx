@@ -170,7 +170,7 @@ export default function TeamsWrite() {
   return (
     <>
       <TabContainer>
-        <Tab variant="explores" />
+        <Tab />
       </TabContainer>
       <MainTitle>모임 후기 작성하기</MainTitle>
       <ContentContainer>

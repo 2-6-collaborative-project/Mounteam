@@ -164,7 +164,6 @@ export default function Home() {
         console.error('Failed to fetch feeds:', error);
       }
     };
-
     fetchTeams();
     fetchFeeds();
 
@@ -192,7 +191,7 @@ export default function Home() {
   return (
     <>
       <Body>
-        <Tab variant="main" />
+        <Tab />
         <SearchBarContainer>
           <AutoSearchBar type="search" />
         </SearchBarContainer>
