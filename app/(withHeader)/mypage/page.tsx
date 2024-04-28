@@ -180,7 +180,7 @@ export default function Mypage() {
       {pageLoad ? (
         <>
           <TabContainer>
-            <Tab variant="feeds" />
+            <Tab />
           </TabContainer>
           <ContentsContainer>
             <Profile
