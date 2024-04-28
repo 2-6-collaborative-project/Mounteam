@@ -117,7 +117,7 @@ interface Author {
 interface Feed {
   author: Author;
   imageUrls?: string;
-  id: number;
+  reviewId: number;
 }
 
 export default function Home() {
@@ -154,7 +154,7 @@ export default function Home() {
               nickname: feed.author?.nickname,
             },
             imageUrls: feed.imageUrls,
-            id: feed.reviewId,
+            reviewId: feed.reviewId,
           }));
           setFeeds(feeds);
         } else {
@@ -235,7 +235,7 @@ export default function Home() {
         </Between>
         <FeedThumbnailContainer>
           {feeds.slice(0, numFeeds).map((feed) => (
-            <FeedThumbnail key={feed.id} feed={feed} />
+            <FeedThumbnail key={feed.reviewId} feed={feed} />
           ))}
         </FeedThumbnailContainer>
       </Body>
