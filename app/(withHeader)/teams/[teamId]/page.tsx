@@ -278,7 +278,7 @@ export default function TeamDetailsPage() {
 
   return (
     <>
-      <Tab variant="explores" />
+      <Tab />
       <Container>
         <ContentsSection>
           <Title>{detailsData?.title}</Title>

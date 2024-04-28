@@ -36,7 +36,7 @@ export default function ExploreReviewList({
   return (
     <>
       <Container>
-        <Tab variant="explores" />
+        <Tab />
 
         <MainTitle>{reviewList?.mountain}</MainTitle>
 
