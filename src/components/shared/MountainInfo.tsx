@@ -92,7 +92,6 @@ export default function MountainInfo({
             <Image
               width={300}
               height={300}
-              objectFit="cover"
               src={list?.imageUrls}
               alt="산 이미지"
             />
