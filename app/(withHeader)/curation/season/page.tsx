@@ -65,13 +65,13 @@ const SeasonTitle = styled.div`
 const MountainInfoContainer = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
+  gap: 2.5rem;
 `;
 
 const MountainRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: 1rem;
 `;
 
 const ArrowButton = styled.button<{ disabled: boolean }>`
@@ -115,7 +115,7 @@ const fetchMountains = async (
 ) => {
   try {
     const response = await defaultInstance.get(
-      `/curation/${season}?page=${page}`,
+      `/curation/${season}?pageNumber=${page}&pageSize=3`,
     );
     if (response.status === 200) {
       setMountains(response.data.data.content);
@@ -123,9 +123,14 @@ const fetchMountains = async (
         page: response.data.data.pageable.pageNumber,
         totalPages: response.data.data.totalPages,
       });
+    } else {
+      console.error(`Failed to fetch mountains for ${season}, page: ${page}`);
     }
   } catch (error) {
-    console.error(`Failed to fetch mountains for ${season}`, error);
+    console.error(
+      `Error fetching mountains for ${season}, page: ${page}`,
+      error,
+    );
   }
 };
 
@@ -211,6 +216,7 @@ export default function Season() {
             />
           ))}
         </MountainInfoContainer>
+
         <ArrowButton
           onClick={() =>
             handleNext(season, setPageData, pageData, setMountains)
