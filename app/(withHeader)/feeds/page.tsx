@@ -52,7 +52,7 @@ export default function FeedHome() {
   return (
     <FeedHomeLayer>
       <TabContainer>
-        <Tab variant="feeds" />
+        <Tab />
       </TabContainer>
       <FeedFlex>
         <FeedSearch feedData={feedData?.pages} />

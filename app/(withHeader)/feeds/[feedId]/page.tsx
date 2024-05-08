@@ -46,7 +46,7 @@ export default function Page() {
   return (
     <>
       <TabContainer>
-        <Tab variant="feeds" />
+        <Tab />
       </TabContainer>
       <ContentWrapper>
         <FeedDetail />
