@@ -258,7 +258,7 @@ export default function FeedDetail() {
 
   const { feedId, feedType } = useFeedParams();
   const feedDetailQuery = useFeedDetailQuery(feedType, feedId);
-
+  console.log(feedDetailQuery);
   const addCommentMutation = useMutation({
     mutationFn: () =>
       postFeedComments(feedType!, feedId, {
