@@ -21,9 +21,9 @@ const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
   });
 
   instance.interceptors.request.use((config) => {
-    const token = `${localStorage.getItem('accessToken')}`;
-    // const token =
-    //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MzEiLCJleHAiOjE3MTUxNTczMjl9.Tr4RIzJ_OZzafvA-3wCTtBZAPTEzap1knj13BRmSsYM';
+    // const token = `${localStorage.getItem('accessToken')}`;
+    const token =
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MzEiLCJleHAiOjE3MTUyNTE3MDh9.23NHou0hWTwVh71Z4wQYd_8-NcWAQQtEGa0nnle6KMQ';
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

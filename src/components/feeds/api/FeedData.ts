@@ -14,7 +14,7 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
 
 // 피드 선택 조회
 export async function getFeedSelect(type: string | null, feedId: number) {
-  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}`;
 
   try {
     const response = await authInstance.get(url);
