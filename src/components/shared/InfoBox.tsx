@@ -7,20 +7,22 @@ import bookmark from '@/public/bookmark.svg';
 import fillBookmark from '@/public/fillBookmark.svg';
 import Image from 'next/image';
 import FeedData from '@/src/types/feeds/FeedData';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useFeedDetailQuery } from '../feeds/query/useFeedDetailQuery';
+import { deleteLikes, postLikes } from '../feeds/api/FeedData';
+import useFeedParams from '../feeds/useFeedParams';
 
 interface InfoBoxProps {
   feed: FeedData;
   $paddingleft?: string;
-  toggleLike?: () => void;
 }
 
-interface LikeComponentProps {
-  isLiked: boolean;
-  likesCount: number;
-  toggleLike?: () => void;
+interface LikeButtonProps {
+  feed: FeedData;
 }
 
 interface CommentComponentProps {
+  comments: string[];
   commentCnt: number;
 }
 
@@ -69,7 +71,7 @@ const BookmarkBox = styled.div<{ $paddingleft?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: ${({ $paddingleft }) => $paddingleft || '19rem'};
+  padding-left: ${({ $paddingleft }) => $paddingleft || 'rem'};
   gap: 7px;
 
   & img {
@@ -77,26 +79,61 @@ const BookmarkBox = styled.div<{ $paddingleft?: string }>`
   }
 `;
 
-const LikeComponent: React.FC<LikeComponentProps> = ({
-  isLiked,
-  likesCount,
-  toggleLike,
-}) => (
-  <LikeBox>
-    {isLiked ? (
-      <Image
-        src={fillHeart}
-        alt="좋아요 갯수 확인 아이콘"
-        onClick={toggleLike}
-      />
-    ) : (
-      <Image src={heart} alt="좋아요 갯수 확인 아이콘" onClick={toggleLike} />
-    )}
-    <p>{likesCount}</p>
-  </LikeBox>
-);
+const LikeButton: React.FC<LikeButtonProps> = ({
+  feed: { reviewId, type, liked, likeCnt },
+}) => {
+  const queryClient = useQueryClient();
 
-const CommentComponent: React.FC<CommentComponentProps> = ({ commentCnt }) => (
+  const postLikeMutation = useMutation({
+    mutationFn: (reviewId: number) => postLikes(reviewId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['feed', 'list'],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['feed', 'detail', type, reviewId],
+      });
+    },
+  });
+
+  const deleteLikeMutation = useMutation({
+    mutationFn: (reviewId: number) => deleteLikes(reviewId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['feed', 'list'],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['feed', 'detail', type, reviewId],
+      });
+    },
+  });
+
+  return (
+    <LikeBox>
+      {liked ? (
+        <Image
+          src={fillHeart}
+          alt="좋아요 갯수 확인 아이콘"
+          onClick={() => deleteLikeMutation.mutate(reviewId)}
+        />
+      ) : (
+        <Image
+          src={heart}
+          alt="좋아요 갯수 확인 아이콘"
+          onClick={() => postLikeMutation.mutate(reviewId)}
+        />
+      )}
+      <p>{likeCnt}</p>
+    </LikeBox>
+  );
+};
+
+const CommentComponent: React.FC<CommentComponentProps> = ({
+  comments,
+  commentCnt,
+}) => (
   <CommentBox>
     <Image src={message} alt="코멘트 갯수 확인 아이콘" />
     <p>{commentCnt}</p>
@@ -116,18 +153,12 @@ const BookmarkComponent: React.FC<BookmarkComponentProps> = ({
   </BookmarkBox>
 );
 
-export const InfoBox: React.FC<InfoBoxProps> = ({
-  feed,
-  $paddingleft,
-  toggleLike,
-}) => (
-  <InfoContainer>
-    <LikeComponent
-      isLiked={feed?.liked}
-      likesCount={feed?.likeCnt}
-      toggleLike={toggleLike}
-    />
-    {/* <CommentComponent comments={feed?.comments} commentCnt={feed?.commentCnt} /> */}
-    <BookmarkComponent isSaved={feed?.isSaved} $paddingleft={$paddingleft} />
-  </InfoContainer>
-);
+export const InfoBox: React.FC<InfoBoxProps> = ({ feed, $paddingleft }) => {
+  return (
+    <InfoContainer>
+      <LikeButton feed={feed} />
+      <CommentComponent comments={feed.comments} commentCnt={feed.commentCnt} />
+      <BookmarkComponent isSaved={feed.isSaved} $paddingleft={$paddingleft} />
+    </InfoContainer>
+  );
+};

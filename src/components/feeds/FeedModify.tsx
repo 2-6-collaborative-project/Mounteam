@@ -9,6 +9,7 @@ import { getFeedSelect, putFeedData } from './api/FeedData';
 import { useQuery } from '@tanstack/react-query';
 import useFeedEditStore from '@/src/store/useFeedEditStore';
 interface ModalProps {
+  feedType: string;
   feedId: number;
   content: string;
   modalOpenState: boolean;
@@ -43,6 +44,7 @@ const Label = styled.p`
 `;
 
 export default function FeedModify({
+  feedType,
   feedId,
   setter,
   modalOpenState,
@@ -53,10 +55,11 @@ export default function FeedModify({
 
   const { data: detailData } = useQuery({
     queryKey: ['detailData'],
-    queryFn: () => getFeedSelect(null, feedId), // 타입오류 해결을 위해 임시로 null로 지정
+    queryFn: () => getFeedSelect(feedType, feedId),
   });
-  console.log(content);
-  console.log(contents);
+  console.log(detailData);
+  // console.log(content);
+  // console.log(contents);
 
   useEffect(() => {
     if (detailData) {
@@ -71,7 +74,7 @@ export default function FeedModify({
         })),
       );
     }
-  }, [detailData]);
+  }, [detailData, setTags, setContents, setFileList]);
 
   const editFeedDetailData = () => {
     const feedDetailData = {
@@ -87,12 +90,11 @@ export default function FeedModify({
     fileList.map((item: any) => {
       formData.append('imageUrl', item.originFileObj);
     });
-    putFeedData(feedId, formData);
+    putFeedData(feedType, feedId, formData);
   };
 
-  const onOkFunc = async () => {
-    await editFeedDetailData();
-    window.location.reload();
+  const onOkFunc = () => {
+    editFeedDetailData();
     setter(false);
   };
 
@@ -124,7 +126,7 @@ export default function FeedModify({
           <Label>내용</Label>
           <TextArea
             onChange={(e) => setContents(e.target.value)}
-            defaultValue={contents}
+            defaultValue={content}
           />
         </Sector>
         <Sector>

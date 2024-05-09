@@ -1,8 +1,4 @@
 import { authInstance } from '@/src/lib/axiosInstance';
-import FeedData from '@/src/types/feeds/FeedData';
-
-const BASE_URL = 'https://www.mounteam.site/api/feeds';
-const BASE_URL1 = 'https://www.mounteam.site/api';
 
 // 피드 전체 조회
 export async function getFeedData(pageNumber = 0, pageSize = 9) {
@@ -10,8 +6,6 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
   try {
     const response = await authInstance.get(url);
     // console.log(response.data.data);
-    return response.data.data.reviews;
-
     return response.data.data.reviews;
   } catch (e) {
     console.log(e);
@@ -21,7 +15,7 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
 // 피드 선택 조회
 export async function getFeedSelect(type: string | null, feedId: number) {
   const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}`;
-  console.log(url);
+
   try {
     const response = await authInstance.get(url);
 
@@ -31,24 +25,16 @@ export async function getFeedSelect(type: string | null, feedId: number) {
   }
 }
 
-// 피드 작성
-export async function postFeedData(feedData: FeedData[]) {
-  const url = `${BASE_URL}`;
-  try {
-    const response = await authInstance.post(url, feedData);
-
-    return response.data;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 // 피드 수정
-export async function putFeedData(feedId: number, formData: FormData) {
-  const url = `${BASE_URL}/${feedId}`;
+export async function putFeedData(
+  type: string | null,
+  feedId: number,
+  formData: FormData,
+) {
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}}`;
   try {
     const response = await authInstance.put(url, formData);
-
+    console.log(response);
     return response.data;
   } catch (e) {
     console.log(e);
@@ -56,8 +42,8 @@ export async function putFeedData(feedId: number, formData: FormData) {
 }
 
 // 피드 삭제
-export async function deleteFeedData(feedId: number) {
-  const url = `${BASE_URL}/${feedId}`;
+export async function deleteFeedData(type: string, feedId: number) {
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}}`;
   try {
     const response = await authInstance.delete(url);
 
@@ -69,10 +55,11 @@ export async function deleteFeedData(feedId: number) {
 
 // 피드 덧글 작성
 export async function postFeedComments(
+  type: string,
   feedId: number,
   comment: { content: string },
 ) {
-  const url = `${BASE_URL}/${feedId}/comments`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}/comments`;
   try {
     const response = await authInstance.post(url, comment);
 
@@ -83,8 +70,8 @@ export async function postFeedComments(
 }
 
 // 피드 덧글 조회
-export async function getFeedComments(feedId: number) {
-  const url = `${BASE_URL}/${feedId}/comments`;
+export async function getFeedComments(type: string, feedId: number) {
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}/comments`;
   try {
     const response = await authInstance.get(url);
 
@@ -96,7 +83,7 @@ export async function getFeedComments(feedId: number) {
 
 // 피드 좋아요 누르기
 export async function postLikes(feedId: number) {
-  const url = `${BASE_URL}/${feedId}/likes`;
+  const url = `/reviews/${feedId}/likes`;
   try {
     const response = await authInstance.post(url);
 
@@ -108,7 +95,7 @@ export async function postLikes(feedId: number) {
 
 // 좋아요 삭제
 export async function deleteLikes(feedId: number) {
-  const url = `${BASE_URL}/${feedId}/likes`;
+  const url = `/reviews/${feedId}/likes`;
   try {
     const response = await authInstance.delete(url);
 
@@ -120,10 +107,9 @@ export async function deleteLikes(feedId: number) {
 
 // 유저 프로필
 export async function getUserProfile() {
-  const url = 'https://www.mounteam.site/api/user/profile';
+  const url = '/user/profile';
   try {
     const response = await authInstance.get(url);
-
     return response.data;
   } catch (e) {
     console.log(e);

@@ -90,21 +90,20 @@ export default function Comment({ feedData }: CommentProps) {
         <CommentHeader>
           <Avatars
             type="comment"
-            img={feedData.author.profileImageUrl}
-            name={feedData.author.nickname}
+            img={feedData?.author.profileImageUrl}
+            name={feedData?.author.nickname}
           />
           의 게시물 댓글
         </CommentHeader>
-        {/* 
-        타입 오류 수정을 위해 임시로 주석 처리
-        <CommentBody> 
-          {feedData.comments?.map((comment, index) => (
+
+        <CommentBody>
+          {feedData?.comments.map((comment, index) => (
             <div key={index}>
               👦 <p style={{ paddingLeft: '0.5rem' }}>{nickname}:</p>
               <p> {comment}</p>
             </div>
           ))}
-        </CommentBody> */}
+        </CommentBody>
       </CommentContainer>
     </>
   );

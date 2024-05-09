@@ -3,17 +3,9 @@
 import styled from 'styled-components';
 import Tab from '@/src/components/shared/Tab';
 import FeedDetail from '@/src/components/feeds/FeedDetail';
-import Comment from '@/src/components/feeds/Comment';
-import { useParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import FeedData from '@/src/types/feeds/FeedData';
-import {
-  getFeedData,
-  getFeedSelect,
-} from '@/src/components/feeds/api/FeedData';
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { usePathname, useSearchParams } from 'next/navigation';
+import useFeedParams from '@/src/components/feeds/useFeedParams';
+import { useFeedDetailQuery } from '@/src/components/feeds/query/useFeedDetailQuery';
 
 const TabContainer = styled.div`
   margin-bottom: 8rem;
@@ -28,71 +20,28 @@ const ContentWrapper = styled.div`
 `;
 
 export default function Page() {
-  const [pageType, setPageType] = useState<string>();
-  const [feedDetailData, setFeedDetailData] = useState<FeedData>();
+  // const [feedDetailData, setFeedDetailData] = useState<FeedData>();
+  const { feedId, feedType } = useFeedParams();
 
-  const routerParams = useParams();
-  const searchParams = useSearchParams();
-
-  const feedId = Array.isArray(routerParams.feedId)
-    ? Number(routerParams.feedId[0])
-    : Number(routerParams.feedId);
-
-  const feedType = searchParams.get('feedType');
-
-  // const {
-  //   data: feedDetailData,
-  //   refetch,
-  //   isLoading,
-  //   isSuccess,
-  // } = useQuery<FeedData>({
-  //   queryKey: ['FeedData', feedId],
-  //   queryFn: () => getFeedSelect(feedId),
-  // });
-  // const testFn = () => {
-  //   refetch();
-  // };
-
-  // const { data: feedData } = useQuery<FeedData>({
-  //   queryKey: ['FeedData'],
-  //   queryFn: () => getFeedData(0, 10),
-  // });
-
-  /* const data =getdata() const parsedType = data.data.reviews.filter((item)=>(item.reviewId === feedid))*/
-
-  const getData = useCallback(async () => {
-    const data = await getFeedSelect(feedType, feedId);
-    console.log('처음 get', data);
-    setFeedDetailData(data);
-  }, [feedId, feedType]);
-
-  useEffect(() => {
-    getData();
-  }, [getData]);
-
-  useEffect(() => {
-    console.log('해당 피드의 데이터:', feedDetailData);
-  }, [feedDetailData]);
+  // const getData = useCallback(async () => {
+  //   const data = await getFeedSelect(feedType, feedId);
+  //   console.log('처음 get', data);
+  //   setFeedDetailData(data);
+  // }, [feedId, feedType]);
 
   // useEffect(() => {
-  //   const filterdData = feedData?.filter(
-  //     (item: any) => item.reviewId === feedId,
-  //   );
-  //   const parsedType = filterdData?.type;
-  //   setPageType(parsedType);
   //   getData();
-  //   console.table({ parsedType: parsedType, feedId: feedId });
-  //   console.log('feedDetailData', feedDetailData);
-  //   console.log('feedDataMain', feedData);
-  // }, [feedData, pageType, feedDetailData]);
+  // }, [getData]);
 
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
+  // useEffect(() => {
+  //   console.log('해당 피드의 데이터:', feedDetailData);
+  // }, [feedDetailData]);
 
-  // if (!isSuccess) {
-  //   return <div>error</div>;
-  // }
+  const feedDetailQuery = useFeedDetailQuery(feedType, feedId);
+  // console.log('page.tsx', feedDetailQuery);
+  if (feedDetailQuery.isLoading || feedDetailQuery.isPending) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -100,7 +49,8 @@ export default function Page() {
         <Tab />
       </TabContainer>
       <ContentWrapper>
-        {/* <FeedDetail feedData={feedDetailData} /> */}
+        <FeedDetail />
+        {/* <FeedDetail feedData={feedDetailQuery.data} /> */}
       </ContentWrapper>
     </>
   );
