@@ -3,6 +3,8 @@ import { Collapse } from 'antd';
 import styled from 'styled-components';
 import AgeFilter from '@/src/components/teams/AgeFilter';
 import GenderFilter from '@/src/components/teams/GenderFilter';
+import RegionFilter from '../explores/RegionFilter';
+import DateFilter from '@/src/components/teams/DateFilter';
 import { colors } from '@/app/styles/colors';
 
 const FilterHeader = styled.div`
@@ -46,12 +48,13 @@ const CheckboxGroupContainer = styled.div`
     padding: 0 0 1rem 0 !important;
   }
 
-  .ant-collapse-item {
-    border-bottom: 1px solid ${colors.Grayscale[5]};
+  .ant-collapse-header-text {
+    font-weight: 700;
   }
 
-  .ant-collapse-item:nth-child(2) {
-    margin-top: 2.5rem;
+  .ant-collapse-item {
+    border-bottom: 1px solid ${colors.Grayscale[5]};
+    margin-top: 1.875rem;
   }
 
   .ant-collapse-content-box {
@@ -82,10 +85,17 @@ const CheckboxGroupContainer = styled.div`
 export default function TeamFilterPanel() {
   const [ageCheckedList, setAgeCheckedList] = useState<string[]>([]);
   const [genderCheckedList, setGenderCheckedList] = useState<string[]>([]);
+  const [regionCheckedList, setRegionCheckedList] = useState<string[]>([]);
+  const [selectedDateRange, setSelectedDateRange] = useState<[string, string]>([
+    '',
+    '',
+  ]);
 
   const handleCheckReset = () => {
     setAgeCheckedList([]);
     setGenderCheckedList([]);
+    setRegionCheckedList([]);
+    setSelectedDateRange(['', '']);
   };
 
   return (
@@ -103,10 +113,27 @@ export default function TeamFilterPanel() {
           <Collapse
             ghost={true}
             expandIconPosition="end"
-            defaultActiveKey={['1', '2']}
+            defaultActiveKey={['1', '2', '3', '4']}
             items={[
               {
                 key: '1',
+                label: '관심지역',
+                children: (
+                  <RegionFilter
+                    regionCheckedList={regionCheckedList}
+                    setRegionCheckedList={setRegionCheckedList}
+                  />
+                ),
+              },
+              {
+                key: '2',
+                label: '기간',
+                children: (
+                  <DateFilter handleDateChange={setSelectedDateRange} />
+                ),
+              },
+              {
+                key: '3',
                 label: '나이',
                 children: (
                   <AgeFilter
@@ -116,7 +143,7 @@ export default function TeamFilterPanel() {
                 ),
               },
               {
-                key: '2',
+                key: '4',
                 label: '성별',
                 children: (
                   <GenderFilter
