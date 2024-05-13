@@ -21,7 +21,13 @@ export default function DateFilter({ handleDateChange }: DateFilterProps) {
   const [dateRange, setDateRange] = useState<[string, string]>(['', '']);
 
   const onChangeDate = (_: any, dateString: [string, string]) => {
-    setDateRange(dateString);
+    const formattedDateRange = dateString.map((date) => {
+      return date
+        ? `${date.substring(0, 2) + 2000}-${date.substring(3, 5)}-${date.substring(6, 8)}`
+        : '';
+    }) as [string, string];
+
+    setDateRange(formattedDateRange);
   };
 
   useEffect(() => {
@@ -35,7 +41,6 @@ export default function DateFilter({ handleDateChange }: DateFilterProps) {
       <RangePicker
         onChange={onChangeDate}
         format="YY.MM.DD"
-        // 실제 입력받는 데이터는 "YYYY-MM-DD" 여야함
         placeholder={['시작 날짜', '종료 날짜']}
         style={{
           width: '100%',
