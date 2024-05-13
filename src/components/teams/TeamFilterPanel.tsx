@@ -83,19 +83,19 @@ const CheckboxGroupContainer = styled.div`
 `;
 
 export default function TeamFilterPanel() {
-  const [ageCheckedList, setAgeCheckedList] = useState<string[]>([]);
-  const [genderCheckedList, setGenderCheckedList] = useState<string[]>([]);
   const [regionCheckedList, setRegionCheckedList] = useState<string[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<[string, string]>([
     '',
     '',
   ]);
+  const [ageCheckedList, setAgeCheckedList] = useState<string[]>([]);
+  const [genderCheckedList, setGenderCheckedList] = useState<string[]>([]);
 
   const handleCheckReset = () => {
-    setAgeCheckedList([]);
-    setGenderCheckedList([]);
     setRegionCheckedList([]);
     setSelectedDateRange(['', '']);
+    setAgeCheckedList([]);
+    setGenderCheckedList([]);
   };
 
   return (
