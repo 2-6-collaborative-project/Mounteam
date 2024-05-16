@@ -116,6 +116,7 @@ export default function Mypage() {
       setPageLoad(true);
     }
   }, []);
+
   // 처음 데이터 불러오기 그후 마지막 객체의 id따기=state만들기
   // 그이후부터는 트리거가 걸리면 커서에 data.feeds배열에 푸시해야함 | data.hasNext
   // 마지막 객체의 id값을넣어서 이전 데이터 배열에.push
@@ -174,6 +175,7 @@ export default function Mypage() {
   //   };
   //   // 타겟에 변동이 생기면(마운트 되면) 이 부수효과 실행
   // }, [observerTarget, myFeeds]);
+
   console.log(myFeedData?.data.reviews);
   return (
     <>
