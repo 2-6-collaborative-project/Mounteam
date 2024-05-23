@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import Avatars from '@/src/components/shared/Avatar';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
@@ -16,6 +16,7 @@ export interface Feeds {
 }
 export interface FeedPageProps {
   feedData: FeedData[][];
+  observerTarget: React.RefObject<HTMLDivElement>;
 }
 
 const FeedGrid = styled.div`
@@ -109,11 +110,11 @@ const TagWrapper = styled.div`
 `;
 
 // 후기 컴포넌트
-export default function FeedPage({ feedData }: FeedPageProps) {
+export default function FeedPage({ feedData, observerTarget }: FeedPageProps) {
   return (
     <>
       <FeedGrid>
-        {feedData[0].map((item, index) => (
+        {feedData[0].map((item) => (
           <div key={item.reviewId}>
             <FeedHead>
               <HeadWrapper>
@@ -183,6 +184,8 @@ export default function FeedPage({ feedData }: FeedPageProps) {
           </div>
         ))}
         {feedData.length === 0 && <div>표시할 피드가 없습니다.</div>}
+
+        <div ref={observerTarget} />
       </FeedGrid>
     </>
   );

@@ -12,11 +12,11 @@ interface useFeedEditStore {
 
 const useFeedEditStore = create<useFeedEditStore>((set) => ({
   tags: [],
-  setTags: (state) => set({ tags: state }),
+  setTags: (state: string[]) => set({ tags: [...state] }),
   fileList: [],
-  setFileList: (state) => set({ fileList: state }),
+  setFileList: (state: UploadFile[]) => set({ fileList: [...state] }),
   contents: '',
-  setContents: (state) => set({ contents: state }),
+  setContents: (state: string) => set({ contents: state }),
 }));
 
 export default useFeedEditStore;

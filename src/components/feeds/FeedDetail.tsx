@@ -24,7 +24,7 @@ import {
   postLikes,
 } from './api/FeedData';
 import Comment from './Comment';
-import { useParams } from 'next/navigation';
+import { redirect, useParams, useRouter } from 'next/navigation';
 import useFeedParams from './useFeedParams';
 import { useFeedDetailQuery } from './query/useFeedDetailQuery';
 
@@ -252,6 +252,7 @@ const TextWrapper = styled.div`
 
 export default function FeedDetail() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comment, setComment] = useState('');
@@ -278,11 +279,16 @@ export default function FeedDetail() {
       queryClient.invalidateQueries({
         queryKey: ['feed', 'detail', feedType, feedId],
       });
+      alert('삭제가 완료되었습니다.');
+      router.push('/feeds');
     },
   });
 
   const handleDeleteClick = (feedId: number) => {
-    deleteFeedMutation.mutate(feedId);
+    const confirmDelete = window.confirm('정말 삭제하시겠습니까?');
+    if (confirmDelete) {
+      deleteFeedMutation.mutate(feedId);
+    }
   };
 
   const onChange = (currentSlide: number) => {
@@ -402,8 +408,8 @@ export default function FeedDetail() {
         </InfoContainer>
         {isModalOpen && feedId !== null && (
           <FeedModify
-            feedType={feedType!}
-            feedId={feedId}
+            // feedType={feedType!}
+            // feedId={feedId}
             content={feedDetailQuery.data.mainText}
             modalOpenState={isModalOpen}
             setter={setIsModalOpen}

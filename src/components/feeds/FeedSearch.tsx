@@ -7,6 +7,7 @@ import { Feed, feedMockData } from '@/src/components/feeds/mock';
 import FeedData from '@/src/types/feeds/FeedData';
 interface FeedSearchProps {
   feedData?: FeedData[][];
+  observerTarget: React.RefObject<HTMLDivElement>;
 }
 
 const FeedConatiner = styled.div`
@@ -32,7 +33,10 @@ const FilteredInner = styled.div`
   align-items: center;
 `;
 
-export default function FeedSearch({ feedData = [] }: FeedSearchProps) {
+export default function FeedSearch({
+  feedData = [],
+  observerTarget,
+}: FeedSearchProps) {
   const [isSearching, setIsSearching] = useState(false); // 검색 상태
   const [filteredFeeds, setFilteredFeeds] = useState<FeedData[][]>([]); // 피드 저장
   console.log('필터페이지 피드데이터', feedData);
@@ -66,7 +70,10 @@ export default function FeedSearch({ feedData = [] }: FeedSearchProps) {
       {/* chip이 들어갈 공간 */}
       {/* 피드가 들어갈 공간 */}
       <FilteredInner>
-        <FeedPage feedData={isSearching ? filteredFeeds : feedData || []} />
+        <FeedPage
+          feedData={isSearching ? filteredFeeds : feedData || []}
+          observerTarget={observerTarget}
+        />
       </FilteredInner>
     </FeedConatiner>
   );

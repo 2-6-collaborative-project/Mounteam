@@ -5,7 +5,7 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
   const url = `/feeds?pageNumber=${pageNumber}&pageSize=${pageSize}`;
   try {
     const response = await authInstance.get(url);
-    // console.log(response.data.data);
+    console.log(response.data.data);
     return response.data.data.reviews;
   } catch (e) {
     console.log(e);
@@ -31,7 +31,7 @@ export async function putFeedData(
   feedId: number,
   formData: FormData,
 ) {
-  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}}`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}`;
   try {
     const response = await authInstance.put(url, formData);
     console.log(response);
@@ -43,7 +43,7 @@ export async function putFeedData(
 
 // 피드 삭제
 export async function deleteFeedData(type: string, feedId: number) {
-  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}}`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}`;
   try {
     const response = await authInstance.delete(url);
 
