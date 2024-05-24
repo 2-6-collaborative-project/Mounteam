@@ -4,13 +4,14 @@ import { colors } from '@/app/styles/colors';
 import ImgUpload from '../review/write/ImgUpload';
 import TextArea from 'antd/es/input/TextArea';
 import Tags from '../review/write/Tag';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getFeedSelect, putFeedData } from './api/FeedData';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useFeedEditStore from '@/src/store/useFeedEditStore';
+import useFeedParams from './useFeedParams';
 interface ModalProps {
-  feedType: string;
-  feedId: number;
+  // feedType: string;
+  // feedId: number;
   content: string;
   modalOpenState: boolean;
   confirmFunc?: () => void;
@@ -44,17 +45,17 @@ const Label = styled.p`
 `;
 
 export default function FeedModify({
-  feedType,
-  feedId,
   setter,
   modalOpenState,
   content,
 }: ModalProps) {
+  const queryClient = useQueryClient();
+  const { feedId, feedType } = useFeedParams();
   const { tags, setTags, fileList, setFileList, contents, setContents } =
     useFeedEditStore();
 
   const { data: detailData } = useQuery({
-    queryKey: ['detailData'],
+    queryKey: ['feed', 'detail', feedType, feedId],
     queryFn: () => getFeedSelect(feedType, feedId),
   });
   console.log(detailData);
@@ -63,10 +64,11 @@ export default function FeedModify({
 
   useEffect(() => {
     if (detailData) {
-      setTags(detailData.tags);
-      setContents(detailData.contents);
+      const { tags, contents, imageUrls } = detailData;
+      setTags(tags);
+      setContents(contents);
       setFileList(
-        detailData.imageUrls.map((item: any, index: any) => ({
+        imageUrls.map((item: any, index: any) => ({
           uid: index,
           name: `image-${index}`,
           status: 'done',
@@ -76,21 +78,26 @@ export default function FeedModify({
     }
   }, [detailData, setTags, setContents, setFileList]);
 
-  const editFeedDetailData = () => {
+  const editFeedDetailData = async () => {
     const feedDetailData = {
-      content: contents,
+      mainText: contents,
+      mountain: detailData.mountain,
+      departureDay: detailData.departureDay || '',
       hashTags: tags,
     };
     const jsonFeedData = JSON.stringify(feedDetailData);
     const feedPutData = new Blob([jsonFeedData]);
     const formData = new FormData();
 
-    formData.append('feedUpdateRequest', feedPutData);
+    formData.append('reviewUpdateRequest', feedPutData);
 
     fileList.map((item: any) => {
       formData.append('imageUrl', item.originFileObj);
     });
-    putFeedData(feedType, feedId, formData);
+    await putFeedData(feedType, feedId, formData);
+    queryClient.invalidateQueries({
+      queryKey: ['feed', 'detail', feedType, feedId],
+    });
   };
 
   const onOkFunc = () => {
