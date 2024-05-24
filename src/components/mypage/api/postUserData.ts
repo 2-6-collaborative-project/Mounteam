@@ -1,7 +1,7 @@
 import { authInstance } from '@/src/lib/axiosInstance';
 
 export async function postUserData(formData: any) {
-  const BASE_URL = 'https://www.mounteam.site/api';
+  const BASE_URL = 'https://api.mounteam.site/api';
   const url = `${BASE_URL}/user/profile`;
 
   try {
