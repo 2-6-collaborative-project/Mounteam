@@ -1,20 +1,18 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import FeedPage from '@/src/components/feeds/FeedPage';
 import { SearchBar } from '@/src/components/shared/SearchBar';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Feed, feedMockData } from '@/src/components/feeds/mock';
 import FeedData from '@/src/types/feeds/FeedData';
 interface FeedSearchProps {
-  feedData?: FeedData[][];
-  observerTarget: React.RefObject<HTMLDivElement>;
+  feedData: FeedData[];
+  fetchNextPage: () => void;
 }
 
-const FeedConatiner = styled.div`
+const FeedContainer = styled.div`
   width: 100%;
   height: auto;
   margin: auto;
-  margin-bottom: 10rem;
 
   /* @media (max-width: 768px) {
     min-width: 6.4rem;
@@ -34,47 +32,27 @@ const FilteredInner = styled.div`
 `;
 
 export default function FeedSearch({
-  feedData = [],
-  observerTarget,
+  feedData,
+  fetchNextPage,
 }: FeedSearchProps) {
-  const [isSearching, setIsSearching] = useState(false); // 검색 상태
-  const [filteredFeeds, setFilteredFeeds] = useState<FeedData[][]>([]); // 피드 저장
-  console.log('필터페이지 피드데이터', feedData);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-  const handleSearch = (value: string) => {
-    if (value.trim() === '') {
-      setIsSearching(false);
-      setFilteredFeeds([]);
-    } else {
-      const lowerCaseValue = value.toLowerCase();
+  const filteredFeeds = useMemo(() => {
+    if (!searchKeyword.trim()) return feedData;
 
-      const filtered =
-        feedData[0]?.filter((feed: FeedData) =>
-          feed.mainText.toLowerCase().includes(lowerCaseValue),
-        ) ?? [];
-      // console.log('필터드', filtered);
+    return feedData.filter((feed: FeedData) =>
+      feed.mainText.toLowerCase().includes(searchKeyword.toLowerCase()),
+    );
+  }, [feedData, searchKeyword]);
 
-      const filteredMap = [];
-      filteredMap.push(filtered);
-
-      setIsSearching(true);
-      setFilteredFeeds(filteredMap);
-    }
-  };
-  // const [keyword, setKeyword] = useState("");
-  // const filteredFeed = feeds.filter((item)=> item.name.includes(keyword))
-  // Best => const filteredFeeds = useMemo(()=> feeds.filter(item)=>item.name.includes(keyword),[keyword, feeds]);
   return (
-    <FeedConatiner>
-      <SearchBar placeholder="" onSearch={handleSearch} />
+    <FeedContainer>
+      <SearchBar placeholder="" onSearch={setSearchKeyword} />
       {/* chip이 들어갈 공간 */}
       {/* 피드가 들어갈 공간 */}
       <FilteredInner>
-        <FeedPage
-          feedData={isSearching ? filteredFeeds : feedData || []}
-          observerTarget={observerTarget}
-        />
+        <FeedPage feedData={filteredFeeds} fetchNextPage={fetchNextPage} />
       </FilteredInner>
-    </FeedConatiner>
+    </FeedContainer>
   );
 }

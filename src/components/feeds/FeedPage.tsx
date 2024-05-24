@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import Avatars from '@/src/components/shared/Avatar';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
 import { useFeedIdStore } from '@/src/store/useFeedIdStore';
@@ -11,12 +11,9 @@ import { deleteLikes, postLikes } from './api/FeedData';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useFeedDetailQuery } from './query/useFeedDetailQuery';
 
-export interface Feeds {
-  feeds: FeedData[][];
-}
 export interface FeedPageProps {
-  feedData: FeedData[][];
-  observerTarget: React.RefObject<HTMLDivElement>;
+  feedData: FeedData[];
+  fetchNextPage: () => void;
 }
 
 const FeedGrid = styled.div`
@@ -109,12 +106,44 @@ const TagWrapper = styled.div`
   }
 `;
 
-// 후기 컴포넌트
-export default function FeedPage({ feedData, observerTarget }: FeedPageProps) {
+// 피드 페이지 컴포넌트 + 무한스크롤 트리거
+export default function FeedPage({ feedData, fetchNextPage }: FeedPageProps) {
+  const observer = useRef<IntersectionObserver>();
+
+  const handleLastElementTouched = useCallback(
+    (element: HTMLElement | null) => {
+      // 옵저버 API 설정하기
+      if (!observer.current) {
+        observer.current = new IntersectionObserver(
+          (entries) => {
+            // 루트 콘테이너와 교집합이 발생하면(화면 범위에 들어오면)
+            if (entries[0].isIntersecting) {
+              // 다음 페이지 불러오기
+              fetchNextPage(); // 불러오기함수넣어주기
+            }
+          },
+          // 1.0, 타겟 전체가 교집합이 됐을 때 작동
+          { threshold: 1 },
+        );
+      }
+
+      // 타겟이 마운트되서 ref 객체에 참조 객체가 생기면
+      if (element) {
+        // 타겟 관측 시작
+        observer.current.observe(element);
+      }
+
+      if (!element) {
+        observer.current?.disconnect();
+      }
+    },
+    [fetchNextPage],
+  ); // feed State 넣어주기
+
   return (
     <>
       <FeedGrid>
-        {feedData[0].map((item) => (
+        {feedData.map((item, index) => (
           <div key={item.reviewId}>
             <FeedHead>
               <HeadWrapper>
@@ -183,9 +212,9 @@ export default function FeedPage({ feedData, observerTarget }: FeedPageProps) {
             )}
           </div>
         ))}
-        {feedData.length === 0 && <div>표시할 피드가 없습니다.</div>}
 
-        <div ref={observerTarget} />
+        {feedData.length === 0 && <div>표시할 피드가 없습니다.</div>}
+        <div ref={handleLastElementTouched} />
       </FeedGrid>
     </>
   );

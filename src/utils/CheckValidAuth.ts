@@ -22,7 +22,6 @@ export default function CheckValidAuth() {
           return true;
         } else {
           const confirmResult = window.confirm('로그인 후 이용해 주세요.');
-
           if (confirmResult) return router.push('/signin');
         }
       } catch (e) {
