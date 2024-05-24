@@ -4,7 +4,6 @@ import Avatars from '@/src/components/shared/Avatar';
 import FeedData from '@/src/types/feeds/FeedData';
 import { useEffect, useState } from 'react';
 import { getUserProfile } from './api/FeedData';
-import Image from 'next/image';
 
 const CommentContainer = styled.div`
   display: flex;

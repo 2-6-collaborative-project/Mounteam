@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import FeedPage from '@/src/components/feeds/FeedPage';
 import { SearchBar } from '@/src/components/shared/SearchBar';
 import { useState, useMemo } from 'react';
-import { Feed, feedMockData } from '@/src/components/feeds/mock';
 import FeedData from '@/src/types/feeds/FeedData';
+
 interface FeedSearchProps {
   feedData: FeedData[];
   fetchNextPage: () => void;
@@ -48,8 +48,6 @@ export default function FeedSearch({
   return (
     <FeedContainer>
       <SearchBar placeholder="" onSearch={setSearchKeyword} />
-      {/* chip이 들어갈 공간 */}
-      {/* 피드가 들어갈 공간 */}
       <FilteredInner>
         <FeedPage feedData={filteredFeeds} fetchNextPage={fetchNextPage} />
       </FilteredInner>

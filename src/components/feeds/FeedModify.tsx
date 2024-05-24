@@ -4,9 +4,9 @@ import { colors } from '@/app/styles/colors';
 import ImgUpload from '../review/write/ImgUpload';
 import TextArea from 'antd/es/input/TextArea';
 import Tags from '../review/write/Tag';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getFeedSelect, putFeedData } from './api/FeedData';
-import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useFeedEditStore from '@/src/store/useFeedEditStore';
 import useFeedParams from './useFeedParams';
 interface ModalProps {
@@ -64,7 +64,7 @@ export default function FeedModify({
 
   useEffect(() => {
     if (detailData) {
-      const { tags, contents, imageUrls, mountain, departureDay } = detailData;
+      const { tags, contents, imageUrls } = detailData;
       setTags(tags);
       setContents(contents);
       setFileList(

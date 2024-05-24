@@ -8,23 +8,11 @@ import { CustomPopover } from '@/src/components/shared/CustomPopover';
 import { Carousel } from 'antd';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
-import FeedData from '@/src/types/feeds/FeedData';
-import {
-  QueryObserverResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-import {
-  deleteFeedData,
-  deleteLikes,
-  getFeedComments,
-  getFeedSelect,
-  postFeedComments,
-  postLikes,
-} from './api/FeedData';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteFeedData, postFeedComments } from './api/FeedData';
 import Comment from './Comment';
-import { redirect, useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import useFeedParams from './useFeedParams';
 import { useFeedDetailQuery } from './query/useFeedDetailQuery';
 
@@ -408,8 +396,6 @@ export default function FeedDetail() {
         </InfoContainer>
         {isModalOpen && feedId !== null && (
           <FeedModify
-            // feedType={feedType!}
-            // feedId={feedId}
             content={feedDetailQuery.data.mainText}
             modalOpenState={isModalOpen}
             setter={setIsModalOpen}

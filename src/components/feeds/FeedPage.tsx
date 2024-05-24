@@ -2,14 +2,10 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
 import Avatars from '@/src/components/shared/Avatar';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { InfoBox } from '@/src/components/shared/InfoBox';
 import { colors } from '@/app/styles/colors';
-import { useFeedIdStore } from '@/src/store/useFeedIdStore';
 import FeedData from '@/src/types/feeds/FeedData';
-import { deleteLikes, postLikes } from './api/FeedData';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useFeedDetailQuery } from './query/useFeedDetailQuery';
 
 export interface FeedPageProps {
   feedData: FeedData[];
