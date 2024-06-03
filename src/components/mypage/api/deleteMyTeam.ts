@@ -1,7 +1,7 @@
 import { authInstance } from '@/src/lib/axiosInstance';
 
 export async function deleteMyTeam(id: number) {
-  const BASE_URL = 'https://www.mounteam.site/api';
+  const BASE_URL = 'https://api.mounteam.site/api';
   const url = `${BASE_URL}/teams/${id}`;
 
   try {

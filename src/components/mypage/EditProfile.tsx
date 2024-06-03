@@ -149,8 +149,6 @@ export default function EditProfile({
     await handlePostData();
     refetch();
     setter(false);
-
-    // window.location.reload();
   };
 
   const onCancelFunc = () => {
