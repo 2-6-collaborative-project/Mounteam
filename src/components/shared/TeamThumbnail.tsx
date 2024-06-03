@@ -6,7 +6,7 @@ import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 import { IBM } from '@/app/styles/.fonts';
 
-interface TeamFeedType {
+interface Team {
   teamId: number;
   mountain: string;
   title: string;
@@ -50,6 +50,8 @@ const ImageSection = styled.div`
   color: ${colors.Grayscale[1]};
   font-size: 1.6rem;
   line-height: 1.75rem;
+  text-align: center;
+  white-space: pre-line;
 
   @media (max-width: 768px) {
     width: 7.5rem;
@@ -141,7 +143,17 @@ const TeamRange = styled.div`
   ${typography.Footnote14};
 `;
 
-export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
+const formatMountainName = (name: string) => {
+  const bracketIndex = name.indexOf('(');
+  if (bracketIndex !== -1) {
+    return `${name.substring(0, bracketIndex)}\n${name.substring(bracketIndex)}`;
+  } else if (name.length === 4) {
+    return `${name.substring(0, 2)}\n${name.substring(2)}`;
+  }
+  return name;
+};
+
+export default function TeamThumbnail({ team }: { team: Team }) {
   const router = useRouter();
 
   const handleClick = () => {
@@ -232,7 +244,9 @@ export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
 
   return (
     <TeamBox onClick={handleClick}>
-      <ImageSection className={IBM.className}>{team.mountain}</ImageSection>
+      <ImageSection className={IBM.className}>
+        {formatMountainName(team.mountain)}
+      </ImageSection>
       <TeamCol>
         <TeamInfo>
           <Title>{truncateTitle(team.title)}</Title>
