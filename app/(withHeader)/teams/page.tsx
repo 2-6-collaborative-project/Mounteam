@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
 import Tab from '@/src/components/shared/Tab';
 import TeamFilterPanel from '@/src/components/teams/TeamFilterPanel';
 import TeamThumbnail from '@/src/components/shared/TeamThumbnail';
@@ -107,55 +106,52 @@ interface Team {
   departureDay: string;
   ageRange: string[];
   gender: string;
-  createdAt: string;
-}
-
-interface TeamPage {
-  msg: string;
-  statusCode: number;
-  data: Team[];
+  createdDate: string;
 }
 
 export default function TeamsPage() {
+  const [teams, setTeams] = useState<Team[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortOrder, setSortOrder] = useState('createAt');
-
-  const {
-    data: teamData,
-    isLoading,
-    error,
-  } = useQuery<TeamPage>({
-    queryKey: ['teams', searchTerm, sortOrder],
-    queryFn: async () => {
-      const params = {
-        sort: sortOrder === 'title' ? 'title' : 'createAt',
-        size: 1000, // 매우 큰 값으로 설정하여 모든 데이터를 한 번에 가져오기
-      };
-      const response = await defaultInstance.get('/teams', { params });
-      console.log('API response:', response.data); // 디버깅용 로그 추가
-      return response.data;
-    },
-  });
-
-  const teams = useMemo(() => {
-    if (teamData && teamData.data) {
-      console.log('Teams:', teamData.data); // 디버깅용 로그 추가
-      return teamData.data;
-    }
-    return [];
-  }, [teamData]);
+  const [sortOrder, setSortOrder] = useState('createdAt');
 
   useEffect(() => {
-    console.log('Teams data in useEffect:', teams); // 추가 디버깅 로그
-  }, [teams]);
+    const fetchTeams = async () => {
+      try {
+        const response = await defaultInstance.get('/teams', {
+          params: {
+            size: 1000,
+          },
+        });
+        setTeams(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+    fetchTeams();
+  }, []);
 
-  if (error) {
-    return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
-  }
+  const sortedTeams = useMemo(() => {
+    const filteredTeams = teams.filter((team) =>
+      team.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+
+    const sorted = filteredTeams.sort((a, b) => {
+      if (sortOrder === 'title') {
+        return a.title.localeCompare(b.title);
+      } else {
+        return (
+          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+        );
+      }
+    });
+
+    return sorted;
+  }, [teams, searchTerm, sortOrder]);
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
 
   return (
     <Container>
@@ -164,7 +160,7 @@ export default function TeamsPage() {
       <SearchBarContainer>
         <SearchBar
           placeholder="함께 등산할 모임을 찾아보세요."
-          onSearch={(value) => setSearchTerm(value)}
+          onSearch={handleSearch}
         />
       </SearchBarContainer>
       <SearchResultArea>
@@ -181,15 +177,15 @@ export default function TeamsPage() {
             </SortButton>
             <p> | </p>
             <SortButton
-              onClick={() => setSortOrder('createAt')}
-              $active={sortOrder === 'createAt'}
+              onClick={() => setSortOrder('createdAt')}
+              $active={sortOrder === 'createdAt'}
             >
               최신순
             </SortButton>
           </TeamListHeader>
           <TeamList>
-            {teams.length > 0 ? (
-              teams.map((team: Team) => (
+            {sortedTeams.length > 0 ? (
+              sortedTeams.map((team) => (
                 <TeamThumbnail key={team.teamId} team={team} />
               ))
             ) : (
