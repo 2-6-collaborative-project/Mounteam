@@ -6,7 +6,7 @@ import typography from '@/app/styles/typography';
 import { colors } from '@/app/styles/colors';
 import { IBM } from '@/app/styles/.fonts';
 
-interface TeamFeedType {
+interface Team {
   teamId: number;
   mountain: string;
   title: string;
@@ -153,7 +153,7 @@ const formatMountainName = (name: string) => {
   return name;
 };
 
-export default function TeamThumbnail({ team }: { team: TeamFeedType }) {
+export default function TeamThumbnail({ team }: { team: Team }) {
   const router = useRouter();
 
   const handleClick = () => {
