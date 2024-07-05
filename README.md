@@ -59,14 +59,15 @@ https://github.com/2-6-collaborative-project/Mounteam/assets/148167964/a513d9e4-
 
 ### 메인 페이지
 
-https://github.com/2-6-collaborative-project/Mounteam/assets/148167964/0a8ddfad-eda8-44f4-af9a-1c36d4882b41
+https://github.com/2-6-collaborative-project/Mounteam/assets/148167964/6de3ca63-1055-4079-887a-c2e58a0c5cfb
 
 <br/>
 <br/>
 
 ### 계절별 추천 페이지
 
-https://github.com/2-6-collaborative-project/Mounteam/assets/148167964/6de3ca63-1055-4079-887a-c2e58a0c5cfb
+https://github.com/2-6-collaborative-project/Mounteam/assets/148167964/0a8ddfad-eda8-44f4-af9a-1c36d4882b41
+
 
 <br/>
 <br/>
