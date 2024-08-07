@@ -23,7 +23,7 @@ const axiosAuthApi = (baseURL: string, options?: AxiosRequestConfig) => {
   instance.interceptors.request.use((config) => {
     const token = `${localStorage.getItem('accessToken')}`;
     // const token =
-    //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MzEiLCJleHAiOjE3MTUxNTczMjl9.Tr4RIzJ_OZzafvA-3wCTtBZAPTEzap1knj13BRmSsYM';
+    //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ODYiLCJleHAiOjE3MjI2MTI4MTV9.G25BFrjdr954DqaBKOP39LAUcQ-3tW581cJtfpOjQWQ';
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

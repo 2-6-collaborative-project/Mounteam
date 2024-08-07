@@ -1,12 +1,29 @@
 import { authInstance } from '@/src/lib/axiosInstance';
 
-// 피드 전체 조회
+// 피드 전체 조회(리팩토링전)
+// export async function getFeedData(pageNumber = 0, pageSize = 9) {
+//   const url = `/feeds?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+//   try {
+//     const response = await authInstance.get(url);
+//     console.log(response.data.data);
+//     return response.data.data;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
+
+// 피드 전체 조회(리팩토링후)
 export async function getFeedData(pageNumber = 0, pageSize = 9) {
-  const url = `/feeds?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+  const url = `/feeds`;
   try {
-    const response = await authInstance.get(url);
-    // console.log(response.data.data);
-    return response.data.data.reviews;
+    const response = await authInstance.get(url, {
+      params: {
+        pageNumber,
+        pageSize,
+      },
+    });
+
+    return response.data.data;
   } catch (e) {
     console.log(e);
   }
@@ -14,7 +31,7 @@ export async function getFeedData(pageNumber = 0, pageSize = 9) {
 
 // 피드 선택 조회
 export async function getFeedSelect(type: string | null, feedId: number) {
-  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}`;
 
   try {
     const response = await authInstance.get(url);
@@ -31,7 +48,7 @@ export async function putFeedData(
   feedId: number,
   formData: FormData,
 ) {
-  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'teams/'}${feedId}}`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}`;
   try {
     const response = await authInstance.put(url, formData);
     console.log(response);
@@ -43,7 +60,7 @@ export async function putFeedData(
 
 // 피드 삭제
 export async function deleteFeedData(type: string, feedId: number) {
-  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}}`;
+  const url = `/${type === 'MREVIEW' ? 'reviews/' : 'team-reviews/'}${feedId}`;
   try {
     const response = await authInstance.delete(url);
 
