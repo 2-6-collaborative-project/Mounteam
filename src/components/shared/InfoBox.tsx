@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import heart from '@/public/heart.svg';
 import fillHeart from '@/public/fillHeart.svg';
@@ -8,9 +8,7 @@ import fillBookmark from '@/public/fillBookmark.svg';
 import Image from 'next/image';
 import FeedData from '@/src/types/feeds/FeedData';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useFeedDetailQuery } from '../feeds/query/useFeedDetailQuery';
 import { deleteLikes, postLikes } from '../feeds/api/FeedData';
-import useFeedParams from '../feeds/useFeedParams';
 
 interface InfoBoxProps {
   feed: FeedData;
@@ -83,9 +81,12 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   feed: { reviewId, type, liked, likeCnt },
 }) => {
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const postLikeMutation = useMutation({
     mutationFn: (reviewId: number) => postLikes(reviewId),
+    onMutate: () => setIsLoading(true),
+    onSettled: () => setIsLoading(false),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['feed', 'list'],
@@ -99,6 +100,8 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   const deleteLikeMutation = useMutation({
     mutationFn: (reviewId: number) => deleteLikes(reviewId),
+    onMutate: () => setIsLoading(true),
+    onSettled: () => setIsLoading(false),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['feed', 'list'],
@@ -112,7 +115,9 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   return (
     <LikeBox>
-      {liked ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : liked ? (
         <Image
           src={fillHeart}
           alt="좋아요 갯수 확인 아이콘"
@@ -130,10 +135,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
   );
 };
 
-const CommentComponent: React.FC<CommentComponentProps> = ({
-  comments,
-  commentCnt,
-}) => (
+const CommentComponent: React.FC<CommentComponentProps> = ({ commentCnt }) => (
   <CommentBox>
     <Image src={message} alt="코멘트 갯수 확인 아이콘" />
     <p>{commentCnt}</p>

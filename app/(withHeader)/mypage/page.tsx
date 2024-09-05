@@ -156,7 +156,7 @@ export default function Mypage() {
   //       // 루트 콘테이너와 교집합이 발생하면(화면 범위에 들어오면)
   //       if (entries[0].isIntersecting) {
   //         // 다음 페이지 불러오기
-  //         getNextFeedData(); //불러오기함수넣어주기
+  //         getNextFeedData(); // 불러오기함수넣어주기
   //       }
   //     },
   //     // 1.0, 타겟 전체가 교집합이 됐을 때 작동

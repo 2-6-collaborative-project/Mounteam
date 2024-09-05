@@ -37,7 +37,7 @@ export default interface FeedData {
   tags: string[];
   mainText: string | '';
   createdAt: string;
-  imageUrls: `https://${string}`[];
+  imageUrls: `https://${string}`[] | `https://${string}`;
   departureDay: string | null;
   mountain: string;
   createByMe: boolean;
