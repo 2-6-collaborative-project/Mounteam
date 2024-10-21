@@ -6,7 +6,7 @@
 > 코드잇 스프린트-프론트엔드 2기 PART3 - 7팀 <br/>
 > 개발기간: 2024. 2. 29 ~ 2024. 4. 8 <br/>
 
-- 배포 URL : https://part3-taskify.vercel.app
+- 배포 URL : 현재 배포 중단
 
 <br/>
 <br/>
